@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ============================ -->
+    <!-- Clickable->
+    <!- 点击的东西-->
+    <!-- ========================== -->
+    <eat-comment />
+
+    <style name="ClickableArea">
+        <item name="android:clickable">true</item>
+        <item name="android:stateListAnimator">@drawable/touch_raise</item>
+        <item name="android:foreground">?selectableItemBackground</item>
+    </style>
+
+    <!-- ============================ -->
+    <!-- 阴影样式  兼容5.0以下的版本-->
+    <!-- ========================== -->
+    <eat-comment />
+
+    <style name="ShadowWrapper">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="Shadow">
+        <item name="android:layout_height">6dp</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="Shadow.Above" parent="Shadow">
+        <item name="android:background">@drawable/shadow_above</item>
+    </style>
+
+    <style name="Shadow.Drop" parent="Shadow">
+        <item name="android:background">@drawable/shadow_drop</item>
+    </style>
+
+    <!-- ============================ -->
+    <!-- 图片按钮 -->
+    <!-- ========================== -->
+    <eat-comment />
+
+    <style name="ClickableImageView">
+        <item name="android:clickable">true</item>
+        <item name="android:background">?selectableItemBackground</item>
+    </style>
+
+    <style name="ClickableImageViewBorderless">
+        <item name="android:clickable">true</item>
+        <item name="android:background">?selectableItemBackgroundBorderless</item>
+    </style>
+
+    <!-- ============================ -->
+    <!-- 带分割线的Linear Layout -->
+    <!-- ========================== -->
+    <eat-comment />
+
+    <style name="DividedView">
+        <item name="android:dividerPadding">@dimen/general_content_space</item>
+        <item name="android:divider">@drawable/default_divider</item>
+        <item name="android:showDividers">middle</item>
+    </style>
+    <!-- ============================ -->
+    <!-- 卡片通用样式 -->
+    <!-- ========================== -->
+    <eat-comment />
+
+    <style name="DefaultCardView">
+        <!--<item name="android:layout_marginRight">@dimen/cardView_default_margin</item>-->
+        <!--<item name="android:layout_marginLeft">@dimen/cardView_default_margin</item>-->
+        <item name="cardPreventCornerOverlap">false</item>
+        <item name="cardUseCompatPadding">true</item>
+        <item name="cardElevation">@dimen/cardView_default_elevation</item>
+        <item name="cardCornerRadius">@dimen/cardView_default_corner_radius</item>
+        <item name="cardBackgroundColor">@color/white</item>
+        <item name="cardMaxElevation">@dimen/cardView_raised_elevation</item>
+    </style>
+
+    <style name="DefaultCardView.FullWidth" parent="DefaultCardView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="DefaultCardView.Clickable" parent="DefaultCardView">
+        <item name="android:clickable">true</item>
+        <item name="android:foreground">?selectableItemBackground</item>
+        <item name="android:stateListAnimator">@drawable/touch_raise</item>
+    </style>
+
+    <style name="DefaultCardView.Rect" parent="DefaultCardView">
+        <item name="cardCornerRadius">0dp</item>
+    </style>
+
+    <style name="AdaptiveRecyclerView" />
+    <!-- ============================ -->
+    <!-- FAB 通用样式 -->
+    <!-- ========================== -->
+    <eat-comment />
+
+
+    <style name="FAB">
+        <item name="android:id">@id/fab</item>
+        <item name="android:layout_margin">16dp</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="FAB.Large" parent="FAB">
+        <item name="android:layout_width">@dimen/fab_large</item>
+        <item name="android:layout_height">@dimen/fab_large</item>
+
+    </style>
+
+    <style name="FAB.Small" parent="FAB">
+        <item name="android:layout_width">@dimen/fab_small</item>
+        <item name="android:layout_height">@dimen/fab_small</item>
+
+    </style>
+
+
+
+</resources>

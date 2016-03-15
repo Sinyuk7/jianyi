@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="key_login_state">login_state</string>
+    <string name="key_login_times">login_times</string>
+    <string name="key_psw">password</string>
+    <string name="key_user_id">user_id</string>
+    <!--<string name="key_"></string>-->
+    <!--<string name="key_"></string>-->
+    <!--<string name="key_"></string>-->
+    <!--<string name="key_"></string>-->
+    <!--<string name="key_"></string>-->
+    <!--<string name="key_"></string>-->
+    <!--<string name="key_"></string>-->
+    <!--<string name="key_"></string>-->
+    <!--<string name="key_"></string>-->
+
+</resources>

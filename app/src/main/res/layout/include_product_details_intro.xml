@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/activity_horizontal_margin">
+
+    <!--描述-->
+
+
+    <TextView
+        android:id="@+id/title_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/general_content_space"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/general_content_space"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_toLeftOf="@+id/new_price_tv"
+        android:layout_toStartOf="@+id/new_price_tv"
+        android:textSize="@dimen/material_text_subhead"
+        android:textStyle="bold"
+        tools:text="@string/dummy_item_title" />
+
+    <TextView
+        android:id="@+id/pub_date_tv"
+        style="@style/SingleLineText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_tv"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/tiny_content_space"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/material_text_caption1"
+        tools:text="5天前" />
+
+    <TextView
+        android:id="@+id/new_price_tv"
+        style="@style/PriceNew"
+        android:layout_alignBaseline="@id/title_tv"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:textSize="@dimen/material_text_menu"
+        tools:text="¥75" />
+
+
+    <!-- sample xml -->
+    <com.sinyuk.jianyimaterial.widgets.ExpandableTextView
+        android:id="@+id/description_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pub_date_tv"
+        android:layout_marginTop="@dimen/tiny_content_space"
+        app:animDuration="100"
+        app:maxCollapsedLines="2">
+
+        <TextView
+            android:id="@id/expandable_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="@android:color/transparent"
+            android:textSize="@dimen/material_text_body1" />
+
+        <ImageButton
+            android:id="@id/expand_collapse"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="end|bottom"
+            android:layout_marginRight="@dimen/general_content_space"
+            android:background="@android:color/transparent"
+            android:padding="8dp" />
+    </com.sinyuk.jianyimaterial.widgets.ExpandableTextView>
+
+
+    <!---->
+
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/description_tv"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/general_content_space"
+        android:background="@color/grey_100" />
+</RelativeLayout>

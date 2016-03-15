@@ -1,0 +1,248 @@
+<resources>
+
+    <!-- ============================================== -->
+    <!--Title -->
+    <!--标题-->
+    <!-- ============================================== -->
+    <string name="app_name">简易</string>
+
+    <string name="activity_category">全部类别</string>
+    <string name="activity_product_details">商品详情</string>
+    <string name="action_about">关于</string>
+    <string name="activity_comments">评论</string>
+    <string name="activity_profile">用户资料</string>
+
+    <!-- ============================================== -->
+    <!--Action Bar Icon -->
+    <!--action bar 上的图标-->
+    <!-- ============================================== -->
+    <eat-comment />
+    <string name="action_search">搜索</string>
+    <string name="action_location">定位</string>
+    <string name="action_notification">通知</string>
+    <string name="action_settings">设置</string>
+    <string name="action_menu">菜单</string>
+
+    <!-- ============================================== -->
+    <!--Drawer Nav Menu Item -->
+    <!--侧滑菜单-->
+    <!-- ============================================== -->
+    <eat-comment />
+    <string name="navigation_drawer_open">打开抽屉</string>
+    <string name="navigation_drawer_close">关闭抽屉</string>
+    <string name="drawer_menu_home">首页</string>
+    <string name="drawer_menu_explode">专区</string>
+    <string name="drawer_menu_want">需求</string>
+    <string name="drawer_menu_category">易货分类</string>
+    <string name="drawer_menu_message">消息</string>
+    <string name="drawer_menu_account">我的简易</string>
+    <string name="drawer_menu_settings">设置</string>
+
+
+    <!-- ============================================== -->
+    <!--Shopping CategoryMenu -->
+    <!--二手分类 -->
+    <!-- ============================================== -->
+    <eat-comment />
+    <string name="category_wears">鞋服配饰</string>
+    <string name="category_personal_care">个人护理</string>
+    <string name="category_daily_supplies">生活用品</string>
+    <string name="category_outdoors">运动户外</string>
+    <string name="category_cases">旅行箱包</string>
+    <string name="category_devices">数码外设</string>
+    <string name="category_media">图书音像</string>
+    <string name="category_tickets">卡券转让</string>
+    <string name="category_food">食品专区</string>
+
+
+    <!-- ============================================== -->
+    <!--Homepage Top -->
+    <!--主页顶部的各种东西-->
+    <!-- ============================================== -->
+    <eat-comment />
+    <string name="hint_search">你在找什么?</string>
+    <string name="home_notice_board_content">最新活动</string>
+    <string name="top_broadcast">置顶需求</string>
+    <!-- ============================================== -->
+    <!--Homepage Nested Tab Titles -->
+    <!--主页三个页面标题-->
+    <!-- ============================================== -->
+    <eat-comment />
+
+
+    <!-- ============================================== -->
+    <!--Thrift List Item Footer -->
+    <!--列表项底部工具栏-->
+    <!-- ============================================== -->
+    <eat-comment />
+    <string name="thrift_list_item_footer_location">来自</string>
+    <string name="thrift_list_item_footer_overflow">更多</string>
+    <string name="thrift_list_item_footer_comment">评论</string>
+    <string name="thrift_list_item_footer_vote">赞</string>
+    <string name="thrift_list_item_footer_favorite">收藏</string>
+    <string name="thrift_list_item_header_level">等级</string>
+    <string name="shopping_category_all">全部类目</string>
+    <string name="dummy_thrift_description">[附专柜小票] 洗脸仪 乐天免税店5月12号韩国买的,只用过一次.</string>
+    <string name="action_back">返回上一级</string>
+    <string name="thrift_for_free_on_sale">0元抢易</string>
+    <string name="thrift_for_free_sold_out">已经抢完</string>
+    <string name="action_share">分享</string>
+    <string name="action_favorite">收藏</string>
+    <string name="action_buy">交易</string>
+
+    <string name="action_vote">赞</string>
+    <string name="has_voted">赞过了这件东西</string>
+    <string name="action_comment">评论</string>
+
+
+    <string name="thrift_list_item_button_buy_now">马上抢</string>
+
+    <!-- ============================================== -->
+    <!--Context Menu-->
+    <!--上下文菜单-->
+    <!-- ============================================== -->
+    <eat-comment />
+    <string name="context_menu_cancel">取消</string>
+    <string name="context_menu_report">举报</string>
+    <string name="context_menu_share">分享</string>
+
+
+    <string name="rmb_symbol">¥</string>
+
+
+    <!-- ============================================== -->
+    <!--Dummy content-->
+    <!--模拟用-->
+    <!-- ============================================== -->
+    <eat-comment />
+    <string name="action_read_more">更多</string>
+    <string name="dummy_user_location">浙江传媒学院</string>
+    <string name="user_name">Sinyuk</string>
+    <string name="today_new_arrivals_description">这里是介绍</string>
+    <string name="pubdate">今天12:30</string>
+    <string name="dummy_item_title">这里是标题</string>
+    <string name="dummy_comment">这里是评论</string>
+    <string name="dummy_post_remark">…什么话都没留下</string>
+    <string name="dummy_post_main_body">我说我要一台大大的飞机,但却得到一台旧旧录音机,为什么要听妈妈的话?长大后你就会开始懂了这段话,长大后我开始明白</string>
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vehicula sem a malesuada rhoncus. Pellentesque ut dolor a dui porttitor porta lacinia non libero. Nunc volutpat arcu quis quam convallis molestie. Etiam ac tristique sem, id commodo justo. Phasellus congue tincidunt lectus, at dignissim ligula maximus eu. Quisque interdum nunc eget tellus bibendum suscipit. Phasellus feugiat ultricies posuere. Nullam porta accumsan velit, ut rutrum massa fermentum eu. Nunc ac bibendum nunc. Mauris eu ultricies ipsum. Ut id dolor dui. Pellentesque dictum dui vel tempus maximus. Vivamus non nisi quis libero scelerisque pretium. Ut eu tristique justo. Sed pellentesque placerat quam, ut ultricies turpis feugiat a. Aliquam a volutpat risus.
+
+Praesent at lectus semper, suscipit elit in, facilisis massa. Phasellus sed vestibulum ante, a euismod sem. Interdum et malesuada fames ac ante ipsum primis in faucibus. Proin tincidunt orci augue, a porta odio lacinia eu. Nunc in congue risus. Maecenas commodo nibh ac enim fermentum, eu sagittis massa blandit. Vestibulum elementum massa nec dapibus mollis. Etiam porta, est sit amet aliquet porta, odio elit finibus risus, id rutrum purus mi non ipsum. Nulla viverra nec enim sed venenatis.
+
+Maecenas mattis, erat et viverra euismod, neque diam porttitor tellus, in fringilla metus est id augue. Nunc at metus cursus, porttitor nisi vitae, congue diam. Curabitur ligula massa, ullamcorper eget scelerisque vel, pharetra ac sapien. Ut auctor luctus ultricies. Nullam semper tortor ac elementum luctus. In et tempus ex. Praesent sodales, dolor id volutpat elementum, ligula enim euismod odio, maximus sodales magna neque nec neque. Curabitur pretium nisl neque, consequat aliquet dui tincidunt ac. Vivamus augue nunc, aliquet eu ex a, ultrices aliquam lorem. Duis nibh lectus, ultricies vel iaculis sit amet, imperdiet id sapien. Duis scelerisque sodales metus eu rutrum. Suspendisse posuere nisi ac magna consequat, eu vestibulum ipsum venenatis. Suspendisse auctor nisi nec leo venenatis tristique.
+
+Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Praesent vitae blandit sapien. Curabitur est sapien, lobortis sit amet facilisis vel, faucibus eu quam. Nam tempus libero at tellus tempor laoreet. Pellentesque quam lorem, tincidunt in molestie eget, dictum vel risus. Nunc gravida convallis mattis.
+    </string>
+
+    <!-- ============================================== -->
+    <!--Dialog -->
+    <!--对话框-->
+    <!-- ============================================== -->
+    <eat-comment />
+    <string name="confirm_exit">确定要退出吗</string>
+    <string name="pick_location">您所在的学校是</string>
+    <string name="action_sign_up">注册</string>
+    <string name="action_sign_in">登录</string>
+    <string name="hint_continue_with">第三方账号登录</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hint_input_authenticode">输入验证码</string>
+    <string name="hint_phone_number">输入手机号</string>
+    <string name="hint_get_authenticode">获取</string>
+    <string name="hint_input_password">密码</string>
+    <string name="hint_input_user_name">手机</string>
+    <string name="hint_register_success">注册成功</string>
+    <string name="hint_register_attempt">注册</string>
+    <string name="hint_set_password">设置密码(6位+)</string>
+    <string name="hint_set_phone_number">填写手机号</string>
+    <string name="action_help">帮助</string>
+    <string name="action_direct_message">私信</string>
+    <string name="transition_shots">transition_shot</string>
+    <string name="transition_title">transition_title</string>
+    <string name="transition_description">transition_decription</string>
+    <string name="transition_wrapper">transition_wrapper</string>
+    <string name="hint_set_avatar">点击设置头像</string>
+    <string name="activity_post_want">你的需求</string>
+    <string name="hint_post_want">你想要什么?</string>
+    <string name="action_post">发布</string>
+    <string name="hint_leave_contact_info">手机号</string>
+    <string name="hint_set_location">学校</string>
+    <string name="hint_set_user_alias">昵称</string>
+    <string name="hint_share_on_wechat">分享到微信</string>
+    <string name="hint_set_push">消息推送</string>
+    <string name="hint_set_push_caption">我们只会偶尔给你发点东西</string>
+    <string name="hint_set_account_caption">账号和密码设置</string>
+    <string name="hint_set_cache_caption">会有一些浏览过的图片缓存</string>
+    <string name="hint_set_cache">清除缓存</string>
+    <string name="hint_set_account">账号</string>
+    <string name="hint_set_contact_us_caption">有什么想对我们说的</string>
+    <string name="hint_set_contact_us">联系我们</string>
+    <string name="hint_set_about_caption">如果你想要联系我们</string>
+    <string name="hint_set_about">关于简易</string>
+    <string name="hint_never_show">不再显示</string>
+    <string name="hint_today_new">今日上新</string>
+    <string name="hint_daily_edition">每日推送</string>
+    <string name="action_save">保存</string>
+    <string name="unknown_user_name">未填写</string>
+    <string name="unknown_title">未填写</string>
+    <string name="unknown_date">不知道什么时候</string>
+    <string name="unknown_tel">未填写</string>
+    <string name="unknown_location">未填写</string>
+    <string name="unknown_yihuo_description">未填写</string>
+    <string name="activity_login">开始你的简易</string>
+    <string name="hint_share_yihuo">将它分享到</string>
+    <string name="hint_share_content">快来看!我在\"简易\"上发现了</string>
+    <string name="action_open_url_in_chrome">在浏览器中打开</string>
+    <string name="action_refresh">刷新</string>
+    <string name="action_copy_url">复制链接</string>
+    <string name="tag_order">排序</string>
+    <string name="tag_child_sort">分类</string>
+    <string name="tag_school">学校</string>
+    <string name="activity_category_page">易货分类</string>
+    <string name="hint_set_logout_caption">注销当前账号</string>
+    <string name="hint_set_logout">退出登录</string>
+    <string name="activity_explore">发现</string>
+    <string name="activity_needs">需求</string>
+    <string name="unknown_needs_description">TA什么都没说你敢信</string>
+    <string name="action_skip">跳过</string>
+    <string name="action_confirm">确认</string>
+    <string name="activity_register_settings">个人信息</string>
+    <string name="action_cancel">取消</string>
+    <string name="action_ok">确定</string>
+
+    <string name="permission_title_rationale">Permission needed</string>
+    <string name="permission_read_storage_rationale">Storage read permission is needed to pick files.</string>
+    <string name="permission_write_storage_rationale">Storage write permission is needed to save the image.</string>
+    <string name="hint_pick_pics">选择图片</string>
+    <string name="toast_cannot_retrieve_selected_image">选择的图片无法被检测到</string>
+    <string name="action_login">登录</string>
+    <string name="hint_forget_password">忘记密码</string>
+    <string name="hint_plz_login_first">请先登录</string>
+    <string name="hint_click_to_login">点击登录</string>
+    <string name="hint_his_yihuo">他的易货</string>
+    <string name="hint_his_needs">他的需求</string>
+    <string name="action_more_info">更多资料</string>
+    <string name="hint_left_nothing_here">…什么都没留下</string>
+    <string name="hint_post_something">还什么都没有</string>
+    <string name="activity_post">发布</string>
+    <string name="hint_post_feed">你想提供什么…</string>
+    <string name="hint_give_more_details">介绍</string>
+    <string name="hint_select_category">分类</string>
+    <string name="hint_select_new_price">转让价</string>
+    <string name="hint_want_price">心动价</string>
+    <string name="splash_for_beta">\t\tThis build is on the bleeding edge,it does need heavy tested,and it\'s subject to bugs.So all your feedback and
+        suggestions can be sent to \"sinyuk.7@gmail.com\". \n\t\t这只是一个测试版本,所以如果它出了问题,
+        你可以…多喝热水重启试试,出了问题记得反馈给我: \"80998062@qq.com\".
+      </string>
+    <string name="hint_contact_us_by">联系方式</string>
+    <string name="untable">未填写</string>
+    <string name="hint_nothing_here">…什么都还没有</string>
+    <string name="activity_error_occurred_explanation">…对不起 发生了未知的错误</string>
+    <string name="error_activity_close_app">重启程序</string>
+    <string name="activity_error_details">详细信息</string>
+    <string name="hint_select_location">学校</string>
+    <string name="activity_search">搜索结果</string>
+    <string name="hint_network_error">网络连接好像出了点问题</string>
+    <string name="hint_continue_with_wechat">微信用户</string>
+    <string name="activity_sign_in">登录</string>
+</resources>

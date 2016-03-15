@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+        <style name="DefaultCardView">
+                <item name="android:layout_marginRight">@dimen/cardView_default_margin</item>
+                <item name="android:layout_marginLeft">@dimen/cardView_default_margin</item>
+                <item name="cardPreventCornerOverlap">true</item>
+                <item name="cardElevation">@dimen/cardView_default_elevation</item>
+                <item name="cardCornerRadius">@dimen/cardView_default_corner_radius</item>
+                <item name="cardBackgroundColor">@color/white</item>
+                <item name="cardMaxElevation">@dimen/cardView_raised_elevation</item>
+        </style>
+</resources>

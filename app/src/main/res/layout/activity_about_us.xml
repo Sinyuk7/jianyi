@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.sinyuk.jianyimaterial.widgets.CircleRevealView
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:id="@+id/foreground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        tools:context=".activities.AboutPage">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginTop="120dp"
+            android:src="@drawable/ic_icon_64dp" />
+
+        <TextView
+            android:id="@+id/jianyi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/tiny_content_space"
+            android:text="@string/app_name"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="56dp"
+            android:gravity="center"
+            android:text="@string/hint_contact_us_by"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/email_tv"
+            style="@style/DefaultLinkTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:drawableLeft="@drawable/ic_heart_accent_24dp"
+            android:text="xxxxxx@gmail.com" />
+
+        <TextView
+            android:id="@+id/phone_tv"
+            style="@style/DefaultLinkTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:drawableLeft="@drawable/ic_call_white_24dp"
+            android:text="12345678910" />
+
+
+    </LinearLayout>
+
+
+</FrameLayout>

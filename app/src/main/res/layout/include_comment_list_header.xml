@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/grey_50"
+    android:paddingBottom="16dp"
+    android:paddingLeft="72dp"
+    android:paddingRight="72dp"
+    android:paddingTop="16dp">
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/view_count_tv"
+        style="@style/SingleLineText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:drawablePadding="@dimen/tiny_content_space"
+        android:drawableTop="@drawable/ic_visibility_grey600_24dp"
+        android:gravity="center"
+        android:text="3 看过"
+        android:textColor="@color/grey_600"
+        android:textSize="@dimen/material_text_menu"
+        android:textStyle="bold" />
+
+
+    <TextView
+        android:id="@+id/comment_count_tv"
+        style="@style/SingleLineText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:drawablePadding="@dimen/tiny_content_space"
+        android:drawableTop="@drawable/ic_message_text_grey600_24dp"
+        android:gravity="center"
+        android:text="12 评论"
+        android:textColor="@color/grey_600"
+        android:textSize="@dimen/material_text_menu"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/share_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:drawablePadding="@dimen/tiny_content_space"
+        android:drawableTop="@drawable/ic_share_grey600_24dp"
+        android:gravity="center"
+        android:text="分享"
+        android:textStyle="bold"
+        android:textSize="@dimen/material_text_menu"
+        android:textColor="@color/grey_600" />
+</RelativeLayout>

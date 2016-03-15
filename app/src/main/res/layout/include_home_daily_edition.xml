@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+        android:drawableLeft="@drawable/ic_grade_accent_24dp"
+        android:drawablePadding="@dimen/general_content_space"
+        android:gravity="center_vertical"
+        android:paddingTop="@dimen/general_content_space"
+        android:text="@string/hint_daily_edition"
+        android:textSize="@dimen/material_text_caption1" />
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        style="@style/DefaultCardView.Clickable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stateListAnimator="@drawable/touch_raise"
+        app:contentPaddingBottom="@dimen/general_content_space">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/shot_wrapper_fl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/grey_300">
+
+                <com.sinyuk.jianyimaterial.widgets.RatioImageView
+                    android:id="@+id/shot_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/backdrop_7"
+                    app:ratio="0.382" />
+
+                <com.sinyuk.jianyimaterial.widgets.LabelView
+                    android:id="@+id/label_rect"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="top|start"
+                    android:visibility="visible"
+                    app:lv_background_color="@color/colorAccent"
+                    app:lv_fill_triangle="true"
+                    app:lv_gravity="TOP_LEFT"
+                    app:lv_text="推荐"
+                    app:lv_text_all_caps="true"
+                    app:lv_text_size="@dimen/material_text_caption2" />
+
+            </FrameLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/tiny_content_space"
+                android:layout_marginLeft="@dimen/general_content_space"
+                android:layout_marginRight="@dimen/general_content_space"
+                android:layout_marginTop="@dimen/general_content_space"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/title_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="简易 beta v1.0"
+                    android:textSize="@dimen/material_text_body1" />
+
+                <TextView
+                    android:id="@+id/description_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/tiny_content_space"
+                    android:ellipsize="end"
+                    android:maxLines="3"
+                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                    android:textColor="@color/grey_600"
+                    android:textSize="@dimen/material_text_body2" />
+
+
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey_100" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/general_content_space"
+                android:layout_marginRight="@dimen/general_content_space"
+                android:layout_marginTop="@dimen/tiny_content_space"
+                android:orientation="horizontal">
+
+                <!--日期-->
+                <TextView
+                    android:id="@+id/pub_date_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/general_content_space"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/pubdate"
+                    android:textColor="@color/grey_600"
+                    android:textSize="@dimen/material_text_caption2" />
+
+                <TextView
+                    android:id="@+id/new_price_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="查看全文"
+                    android:textColor="@color/textColorLight"
+                    android:textSize="@dimen/material_text_caption2" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+</LinearLayout>

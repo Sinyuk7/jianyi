@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <com.sinyuk.jianyimaterial.widgets.RatioImageView
+            android:id="@+id/placeholder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <android.support.v4.widget.Space
+            android:id="@+id/anchor"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_alignBottom="@+id/placeholder"
+            tools:background="@color/themeRed" />
+
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/anchor"
+            android:overScrollMode="never" />
+
+
+        <View
+            android:id="@+id/scrim"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/anchor"
+            android:background="@color/black" />
+
+        <com.sinyuk.jianyimaterial.widgets.InkPageIndicator
+            android:id="@+id/page_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/placeholder"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:visibility="gone"
+            app:currentPageIndicatorColor="@color/colorAccent"
+            app:pageIndicatorColor="@color/white" />
+
+        <com.sinyuk.jianyimaterial.widgets.RoundCornerIndicator
+            android:id="@+id/page_indicator_compat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/placeholder"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:visibility="gone" />
+
+        <com.sinyuk.jianyimaterial.widgets.CheckableImageView
+            android:id="@+id/like_checkable_iv"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignBottom="@+id/placeholder"
+            android:layout_alignEnd="@+id/placeholder"
+            android:layout_alignRight="@+id/placeholder"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:src="@drawable/ic_heart_checkable_24dp" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            tools:background="@color/themeRed" />
+
+        <View
+            android:id="@+id/shadow"
+            style="@style/Shadow.Above"
+            android:layout_height="4dp"
+            android:layout_alignBottom="@+id/placeholder" />
+    </RelativeLayout>
+
+</merge>

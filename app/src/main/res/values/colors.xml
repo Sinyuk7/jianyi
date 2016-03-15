@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ================ -->
+    <!-- Theme Color -->
+    <!-- 主题颜色 全局 -->
+    <!-- ================ -->
+    <eat-comment />
+    <color name="colorPrimary">#01D8A9</color>
+    <color name="colorPrimary_50pct">#7f01d8a9</color>
+    <color name="colorPrimaryDark">#019B79</color>
+    <color name="colorPrimaryLight">#C8E6C9</color>
+    <color name="colorAccent">#25c4ec</color>
+    <color name="colorAccentDark">#25c4ec</color>
+    <color name="colorPrimaryDarkExtra">#005E49</color>
+
+    <color name="textColorDark">#333333</color>
+    <color name="textColorLight">#019B79</color>
+    <color name="controlNormal">#757575</color>
+    <color name="controlHighlight">#019B79</color>
+
+    <color name="themeRed">#F65306</color>
+    <color name="themeRedDark">#e14c05</color>
+    <color name="themeYellow">#faf73b</color>
+    <color name="themeGreen">#01D8A9</color>
+    <color name="themeBlue">#27D4FF</color>
+    <color name="themeLight_blue">#5BF8FF</color>
+    <color name="themeGray_blue">#0D8BFF</color>
+    <color name="themeError">#F46B00</color>
+
+    <color name="white">#ffffff</color>
+    <color name="grey_30_pct">#7fcccccc</color>
+    <color name="white_30_pct">#4dffffff</color>
+    <color name="black">#011413</color>
+    <color name="black_30_pct">#22000000</color>
+    <color name="black_50_pct">#7f000000</color>
+    <color name="transparent">#00ffffff</color>
+    <color name="window_background">#fff5f5f5</color>
+    <color name="scrim">#53060606</color>
+    <color name="backdrop_scrim">#6802ba92</color>
+
+
+    <color name="grey_900">#ff212121</color>
+    <color name="grey_850">#ff303030</color>
+    <color name="grey_800">#ff424242</color>
+
+    <color name="grey_600">#ff757575</color>
+    <color name="grey_300">#ffe0e0e0</color>
+    <color name="grey_200">#ffececec</color>
+    <color name="grey_100">#fff5f5f5</color>
+    <color name="grey_50">#fffafafa</color>
+
+
+    <color name="blue_grey_800">#ff37474f</color>
+    <color name="blue_grey_900">#ff263238</color>
+    <color name="blue_grey_950">#ff21272b</color>
+
+
+
+</resources>

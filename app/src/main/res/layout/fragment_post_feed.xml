@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/nested_scroll_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/gallery_wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_rect_white"
+            android:elevation="@dimen/widget_elevation_low"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/general_content_space"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/general_content_space">
+
+            <!--height = 96 + 32 -->
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="112dp"
+                android:overScrollMode="never" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/general_content_space"
+                android:paddingRight="@dimen/general_content_space"
+                android:paddingTop="@dimen/general_content_space">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="第一张图片会作为封面"
+                    android:textColor="@color/grey_600"
+                    android:textSize="@dimen/material_text_caption2" />
+
+                <TextView
+                    android:id="@+id/shot_count_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:text="0/3"
+                    android:textColor="@color/grey_600"
+                    android:textSize="@dimen/material_text_caption2" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/title_input_area"
+            style="@style/DefaultInputTextLayout.Margin"
+            android:layout_marginTop="@dimen/general_content_space">
+
+            <EditText
+                android:id="@+id/title_et"
+                style="@style/DefaultEditText.SingleLine"
+                android:hint="@string/hint_post_feed"
+                android:inputType="text" />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/details_input_area"
+            style="@style/DefaultInputTextLayout.Margin"
+            android:layout_marginTop="@dimen/general_content_space">
+
+            <EditText
+                android:id="@+id/details_et"
+                style="@style/DefaultEditText"
+                android:gravity="start"
+                android:hint="@string/hint_give_more_details"
+                android:inputType="text"
+                android:nestedScrollingEnabled="true"
+                android:maxHeight="56dp"
+                android:minHeight="56dp" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <!--<android.support.design.widget.TextInputLayout-->
+            <!--android:id="@+id/location_input_area"-->
+            <!--style="@style/DefaultInputTextLayout.Margin"-->
+            <!--android:layout_marginTop="@dimen/general_content_space">-->
+
+            <!--<EditText-->
+                <!--android:id="@+id/location_et"-->
+                <!--style="@style/DefaultEditText.SingleLine.ReadOnly"-->
+                <!--android:drawableLeft="@drawable/ic_location_on_accent_24dp"-->
+                <!--android:hint="@string/hint_select_location" />-->
+
+        <!--</android.support.design.widget.TextInputLayout>-->
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/category_input_area"
+            style="@style/DefaultInputTextLayout.Margin"
+            android:layout_marginTop="@dimen/general_content_space">
+
+            <EditText
+                android:id="@+id/category_et"
+                style="@style/DefaultEditText.SingleLine.ReadOnly"
+                android:drawableLeft="@drawable/ic_tag_accent_24dp"
+                android:hint="@string/hint_select_category"
+                android:inputType="text" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/new_price_input_area"
+            style="@style/DefaultInputTextLayout.Margin"
+            android:layout_marginTop="@dimen/general_content_space">
+
+            <EditText
+                android:id="@+id/new_price_et"
+                style="@style/DefaultEditText.SingleLine"
+                android:hint="@string/hint_select_new_price"
+                android:drawableLeft="@drawable/ic_discount_accent_24dp"
+                android:imeOptions="actionDone"
+                android:imeActionLabel="@string/action_post"
+                android:inputType="numberDecimal" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/post_btn"
+            style="@style/CustomBackgroundButton.Fill"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="56dp"
+            android:layout_marginRight="56dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/action_post" />
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

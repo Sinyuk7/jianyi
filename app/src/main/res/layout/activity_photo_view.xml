@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.sinyuk.jianyimaterial.activities.PhotoViewActivity">
+
+
+
+    <com.sinyuk.jianyimaterial.widgets.HackyViewPager
+        android:id="@+id/view_pager"
+        tools:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never" />
+
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_gravity="center"
+        android:indeterminate="true" />
+
+    <ImageView
+        android:id="@+id/back_iv"
+        style="@style/ClickableImageViewBorderless"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_gravity="start"
+        android:layout_marginTop="24dp"
+        android:contentDescription="@string/action_back"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:src="@drawable/ic_arrow_back_white_24dp"
+        android:tint="@color/white_30_pct" />
+
+    <ImageView
+        android:id="@+id/save_iv"
+        style="@style/ClickableImageViewBorderless"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_gravity="end|top"
+        android:layout_marginTop="24dp"
+        android:contentDescription="@string/action_save"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:src="@drawable/ic_file_download_white_24dp"
+        android:tint="@color/white_30_pct" />
+
+
+    <com.sinyuk.jianyimaterial.widgets.InkPageIndicator
+        android:id="@+id/page_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="72dp"
+        android:visibility="gone"
+        app:currentPageIndicatorColor="@color/colorAccent"
+        app:pageIndicatorColor="@color/white" />
+
+
+    <com.sinyuk.jianyimaterial.widgets.RoundCornerIndicator
+        android:id="@+id/page_indicator_compat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="72dp"
+        android:visibility="gone" />
+</FrameLayout>

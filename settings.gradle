@@ -1,0 +1,1 @@
+include ':app', ':volley', ':ucrop', ':daogenerator', ':library'

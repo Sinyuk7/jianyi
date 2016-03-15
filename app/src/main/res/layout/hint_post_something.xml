@@ -1,0 +1,20 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/hint_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:drawablePadding="@dimen/general_content_space"
+        android:drawableTop="@drawable/expression_96"
+        android:gravity="center"
+        android:paddingBottom="@dimen/general_content_space"
+        android:paddingTop="64dp"
+        android:text="@string/hint_post_something"
+        android:textSize="@dimen/material_text_menu"
+        android:textStyle="bold">
+
+    </TextView>
+</FrameLayout>

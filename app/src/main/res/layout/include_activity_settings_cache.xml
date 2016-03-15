@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Activity_Settings_Item"
+    android:clickable="true">
+
+    <TextView
+        style="@style/Activity_Settings_Hint"
+        android:text="@string/hint_set_cache_caption" />
+
+
+    <TextView
+        android:drawableLeft="@drawable/ic_cached_accent_24dp"
+        style="@style/Activity_Settings_IconTextView"
+        android:text="@string/hint_set_cache" />
+
+    <TextView
+        android:id="@+id/cache_size_tv"
+        style="@style/SingleLineText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|top"
+        android:textColor="@color/grey_600"
+        android:textSize="@dimen/material_text_menu"
+        android:textStyle="bold"
+        tools:text="36M" />
+</FrameLayout>

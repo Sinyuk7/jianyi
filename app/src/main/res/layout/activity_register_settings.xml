@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:background="@color/colorPrimary"
+        app:title="@string/activity_register_settings"
+        app:titleTextColor="@color/white" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="32dp"
+        android:paddingLeft="56dp"
+        android:paddingRight="56dp"
+        android:paddingTop="16dp">
+
+        <ViewSwitcher
+            android:id="@+id/view_switcher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="center_horizontal">
+
+            <com.sinyuk.jianyimaterial.widgets.MyCircleImageView
+                android:id="@+id/avatar_girl"
+                style="@style/Avatar"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:src="@drawable/girl" />
+
+            <com.sinyuk.jianyimaterial.widgets.MyCircleImageView
+                android:id="@+id/avatar_boy"
+                style="@style/Avatar"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:src="@drawable/boy" />
+        </ViewSwitcher>
+
+        <TextView
+            android:id="@+id/hint_set_avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/extra_tiny_content_space"
+            android:text="@string/hint_set_avatar"
+            android:textColor="@color/grey_600"
+            android:textSize="@dimen/material_text_caption2" />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/general_content_space"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:tint="@color/colorAccent">
+            >
+
+            <ImageView
+                android:id="@+id/female_flag"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_margin="@dimen/tiny_content_space"
+                android:src="@drawable/ic_gender_female_white_36dp"
+                android:tint="@color/colorAccent" />
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/gender_switcher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+
+            <ImageView
+                android:id="@+id/male_flag"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_margin="@dimen/tiny_content_space"
+                android:src="@drawable/ic_gender_male_white_36dp"
+                android:tint="@color/colorAccent" />
+        </LinearLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+            style="@style/DefaultInputTextLayout"
+            android:layout_marginTop="@dimen/tiny_content_space">
+
+            <EditText
+                android:id="@+id/user_alias_et"
+                style="@style/DefaultEditText.SingleLine"
+                android:hint="@string/hint_set_user_alias"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingStart="@dimen/activity_horizontal_margin" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            style="@style/DefaultInputTextLayout"
+            android:layout_marginTop="@dimen/tiny_content_space">
+
+            <EditText
+                android:id="@+id/location_et"
+                style="@style/DefaultEditText.ReadOnly"
+                android:hint="@string/hint_set_location"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingStart="@dimen/activity_horizontal_margin" />
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/confirm_btn"
+            style="@style/CustomBackgroundButton.Fill"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="@string/action_confirm" />
+    </LinearLayout>
+</LinearLayout>

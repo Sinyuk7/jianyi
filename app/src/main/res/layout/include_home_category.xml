@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/home_category"
+    style="@style/DefaultCardView.Rect"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/category_wears_tv"
+            style="@style/CategoryCaption.Small"
+            android:drawableTop="@drawable/ic_tshirt_crew_primary_24dp"
+            android:text="@string/category_wears" />
+
+        <TextView
+            android:id="@+id/category_personal_care_tv"
+
+            style="@style/CategoryCaption.Small"
+            android:drawableTop="@drawable/ic_face_unlock_primary_24dp"
+            android:text="@string/category_personal_care" />
+
+
+        <TextView
+            android:id="@+id/category_devices_tv"
+
+            style="@style/CategoryCaption.Small"
+            android:drawableTop="@drawable/ic_cellphone_android_primary_24dp"
+            android:text="@string/category_devices" />
+
+
+        <TextView
+            android:id="@+id/category_all_items_tv"
+            style="@style/CategoryCaption.Small"
+            android:drawableTop="@drawable/ic_view_list_primary_24dp"
+            android:text="@string/shopping_category_all" />
+
+
+    </LinearLayout>
+
+
+</android.support.v7.widget.CardView>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/hint_tv"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:drawablePadding="@dimen/general_content_space"
+    android:drawableTop="@drawable/expression_65"
+    android:gravity="center"
+    android:paddingBottom="@dimen/general_content_space"
+    android:paddingTop="64dp"
+    android:text="@string/hint_nothing_here"
+    android:textSize="@dimen/material_text_menu"
+    android:textStyle="bold">
+
+</TextView>

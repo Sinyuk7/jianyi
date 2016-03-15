@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator_layout"
+    style="@style/DefaultCoordinatorLayout"
+    tools:context=".activities.NeedsActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        style="@style/DefaultAppBarLayout">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/BaseToolbar"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:title="@string/activity_needs">
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+
+    <FrameLayout
+        android:id="@+id/list_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    </FrameLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        style="@style/FAB.Large"
+        android:src="@drawable/ic_add_white_48dp"
+        android:layout_gravity="bottom|end"
+        app:layout_behavior="com.sinyuk.jianyimaterial.ui.ScrollAwareFABBehavior" />
+
+</android.support.design.widget.CoordinatorLayout>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!--需求的标签-->
+    <ImageView
+        android:id="@+id/avatar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        tools:src="@drawable/expression_96" />
+
+
+    <TextView
+        android:id="@+id/user_name_tv"
+        style="@style/SingleLineText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/general_content_space"
+        android:layout_marginTop="@dimen/general_content_space"
+        android:layout_toRightOf="@+id/avatar"
+        android:textSize="@dimen/material_text_menu"
+        android:textStyle="bold"
+        tools:text="@string/user_name" />
+
+    <TextView
+        android:id="@+id/pub_date_tv"
+        style="@style/SingleLineText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/user_name_tv"
+        android:layout_marginLeft="@dimen/general_content_space"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/general_content_space"
+        android:layout_toRightOf="@+id/user_name_tv"
+        android:textColor="@color/grey_600"
+        android:textSize="@dimen/material_text_caption1"
+        tools:text="@string/pubdate" />
+
+    <TextView
+        android:id="@+id/price_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/user_name_tv"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:gravity="center_vertical"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/material_text_menu"
+        android:textStyle="bold"
+        tools:text="100" />
+
+
+    <!--需求正文-->
+    <TextView
+        android:id="@+id/main_body_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_name_tv"
+        android:layout_marginLeft="@dimen/general_content_space"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/general_content_space"
+        android:layout_toRightOf="@+id/avatar"
+        android:textSize="@dimen/material_text_body1"
+        tools:text="@string/dummy_post_main_body" />
+
+    <TextView
+        android:id="@+id/tel_tv"
+        style="@style/SingleLineText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/main_body_tv"
+        android:layout_marginLeft="@dimen/general_content_space"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/general_content_space"
+        android:layout_toRightOf="@+id/avatar"
+        android:drawableLeft="@drawable/ic_call_accent_18dp"
+        android:drawablePadding="@dimen/tiny_content_space"
+        android:drawableStart="@drawable/ic_call_accent_18dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/grey_600"
+        android:textSize="@dimen/material_text_caption1"
+        tools:text="15757161279" />
+    <!--学校-->
+    <TextView
+        android:id="@+id/location_iv"
+        style="@style/SingleLineText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tel_tv"
+        android:layout_marginBottom="@dimen/general_content_space"
+        android:layout_marginLeft="@dimen/general_content_space"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/extra_tiny_content_space"
+        android:layout_toRightOf="@+id/avatar"
+        android:drawableLeft="@drawable/ic_location_on_accent_18dp"
+        android:drawablePadding="@dimen/tiny_content_space"
+        android:drawableStart="@drawable/ic_location_on_accent_18dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/grey_600"
+        android:textSize="@dimen/material_text_caption1"
+        tools:text="@string/dummy_user_location" />
+
+</merge>
+

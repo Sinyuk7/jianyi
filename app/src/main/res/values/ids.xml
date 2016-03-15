@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="shots_cover_tag" type="id"/>
+    <item name="avatar_tag" type="id"/>
+    <item name="shot_tag" type="id"/>
+    <item name="user_name_tv" type="id"/>
+    <item type="id" name="expandable_text"/>
+    <item type="id" name="expand_collapse"/>
+</resources>

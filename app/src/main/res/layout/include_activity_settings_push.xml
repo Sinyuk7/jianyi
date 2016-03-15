@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Activity_Settings_Item">
+
+
+    <TextView
+        android:id="@+id/caption"
+        style="@style/Activity_Settings_Hint"
+        android:text="@string/hint_set_push_caption" />
+
+
+    <TextView
+        android:drawableLeft="@drawable/ic_message_text_accent_24dp"
+        android:id="@+id/hint"
+        style="@style/Activity_Settings_IconTextView"
+        android:text="@string/hint_set_push" />
+
+    <android.support.v7.widget.SwitchCompat
+        android:id="@+id/push_switch"
+        android:checked="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|top" />
+
+
+</FrameLayout>

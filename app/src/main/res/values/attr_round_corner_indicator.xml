@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RoundCornerIndicator">
+        <!-- width of indicators -->
+        <attr name="my_width" format="dimension"/>
+        <!-- height of indicators -->
+        <attr name="my_height" format="dimension"/>
+        <!-- the spacing between the indicator. -->
+        <attr name="my_gap" format="dimension"/>
+        <!-- cornerRadius of the indicator. -->
+        <attr name="my_cornerRadius" format="dimension"/>
+        <!-- width of the stroke used to draw the indicators. -->
+        <attr name="my_strokeWidth" format="dimension"/>
+        <!-- color of the indicator that represents the current page. -->
+        <attr name="my_selectColor" format="color"/>
+        <!-- color of the indicator that represents pages. -->
+        <attr name="my_unselectColor" format="color"/>
+        <!-- color of the stroke used to draw the indicators. -->
+        <attr name="my_strokeColor" format="color"/>
+        <!-- Whether or not the selected indicator snaps to the indicators. -->
+        <attr name="my_isSnap" format="boolean"/>
+    </declare-styleable>
+</resources>

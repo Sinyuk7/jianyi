@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="Clothing">
+        <item>男鞋</item>
+        <item>女鞋</item>
+        <item>男士服装</item>
+        <item>女士上装</item>
+        <item>女士下装</item>
+        <item>首饰</item>
+        <item>帽子</item>
+        <item>围巾</item>
+        <item>眼镜</item>
+        <item>手表</item>
+    </string-array>
+
+    <string-array name="Office">
+        <item>文具</item>
+        <item>乐器</item>
+        <item>玩具</item>
+        <item>办公</item>
+    </string-array>
+
+
+    <string-array name="Home">
+        <item>床上用品</item>
+        <item>家居电器</item>
+        <item>餐饮用品</item>
+        <item>医药用品</item>
+        <item>居家日用</item>
+        <item>整理收纳</item>
+    </string-array>
+
+    <string-array name="Makeup">
+        <item>美妆护肤</item>
+        <item>洗护清洁</item>
+        <item>香水</item>
+        <item>手足护理</item>
+    </string-array>
+
+
+    <string-array name="Sports">
+        <item>球拍</item>
+        <item>球类</item>
+        <item>健身器材</item>
+        <item>户外运动用品</item>
+    </string-array>
+
+
+    <string-array name="Bicycles">
+        <item>自行车</item>
+        <item>轮滑/滑板</item>
+        <item>电瓶车</item>
+    </string-array>
+
+
+    <string-array name="Electronics">
+        <item>手机</item>
+        <item>手机壳</item>
+        <item>电脑外设</item>
+        <item>影音电器</item>
+        <item>相机</item>
+        <item>其他</item>
+    </string-array>
+
+
+    <string-array name="Books">
+        <item>英语等级</item>
+        <item>考研公务员</item>
+        <item>文学图书</item>
+        <item>动漫图书</item>
+        <item>外语学习</item>
+        <item>音像资料</item>
+        <item>专业教材</item>
+        <item>报刊杂志</item>
+    </string-array>
+
+
+    <string-array name="Cards">
+        <item>水卡</item>
+        <item>优惠券/代金券</item>
+        <item>门票转让</item>
+        <item>会员卡转让</item>
+        <item>宽带转让</item>
+    </string-array>
+
+    <string-array name="Bags">
+        <item>双肩包</item>
+        <item>单肩包</item>
+        <item>钱包</item>
+        <item>行李箱</item>
+    </string-array>
+
+    <string-array name="Snacks">
+        <item>休闲零食</item>
+    </string-array>
+
+
+</resources>

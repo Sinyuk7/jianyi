@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view"
+    style="@style/DefaultCardView.Clickable"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:stateListAnimator="@drawable/touch_raise"
+    app:contentPaddingBottom="@dimen/general_content_space">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <com.sinyuk.jianyimaterial.widgets.RatioImageView
+            android:id="@+id/shot_iv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/backdrop_2" />
+
+        <com.sinyuk.jianyimaterial.widgets.LabelView
+            android:id="@+id/new_price_label_view"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            app:lv_background_color="@color/colorAccent"
+            app:lv_gravity="TOP_RIGHT"
+            app:lv_text_bold="true"
+            app:lv_text_size="@dimen/material_text_caption1" />
+
+
+        <TextView
+            android:id="@+id/details_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/shot_iv"
+            android:layout_marginLeft="@dimen/general_content_space"
+            android:layout_marginRight="@dimen/general_content_space"
+            android:layout_marginTop="@dimen/general_content_space"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textSize="@dimen/material_text_menu"
+            tools:text="@string/dummy_thrift_description" />
+
+
+        <TextView
+            android:id="@+id/location_tv"
+            style="@style/SingleLineText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/details_tv"
+            android:layout_marginLeft="@dimen/general_content_space"
+            android:layout_marginRight="@dimen/general_content_space"
+            android:layout_marginTop="@dimen/general_content_space"
+            android:gravity="center_vertical"
+            android:textColor="@color/grey_600"
+            android:textSize="@dimen/material_text_caption1"
+            tools:text="@string/dummy_user_location" />
+
+        <TextView
+            android:id="@+id/pub_date_tv"
+            style="@style/SingleLineText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/location_tv"
+            android:layout_marginLeft="@dimen/general_content_space"
+            android:layout_marginRight="@dimen/general_content_space"
+            android:layout_marginTop="@dimen/extra_tiny_content_space"
+            android:gravity="center_vertical"
+            android:textColor="@color/grey_600"
+            android:textSize="@dimen/material_text_caption2"
+            tools:text="@string/pubdate" />
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
+
+
+
+
+

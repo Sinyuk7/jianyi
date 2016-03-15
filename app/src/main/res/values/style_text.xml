@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TabTextAppearance" >
+        <item name="android:textSize">@dimen/material_text_subhead</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <!--可点击的文本-->
+    <style name="ClickableTextStyle">
+        <item name="android:clickable">true</item>
+        <item name="android:background">?selectableItemBackground</item>
+    </style>
+
+    <!--单行显示的文本-->
+    <style name="SingleLineText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <!--单行显示可点击的文本-->
+    <style name="ClickableSingleLineText" parent="ClickableTextStyle">
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+
+    <!--正文文字样式-->
+    <style name="BodyTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/material_text_body1</item>
+    </style>
+
+    <!--说明文字-->
+    <style name="CaptionTextStyle" parent="SingleLineText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/material_text_caption2</item>
+    </style>
+
+    <style name="ProfileText" parent="SingleLineText">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="expandedTitleText">
+        <item name="android:textColor">@color/transparent</item>
+        <item name="android:textSize">@dimen/material_text_menu</item>
+    </style>
+
+    <style name="collapsedTitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="collapsedTitleText.Primary" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="TagLayoutTitle">
+        <item name="android:layout_marginLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:drawablePadding">@dimen/activity_horizontal_margin</item>
+        <item name="android:textSize">@dimen/material_text_menu</item>
+    </style>
+
+    <style name="ArrowUpIndicatorText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/material_text_subhead</item>
+    </style>
+</resources>

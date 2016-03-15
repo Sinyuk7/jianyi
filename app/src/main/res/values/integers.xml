@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="sliding_menu_slide_in_duration">400</integer>
+    <integer name="sliding_menu_slide_out_duration">300</integer>
+</resources>
