@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.jakewharton.rxbinding.support.v7.widget.RxToolbar;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
@@ -62,18 +61,19 @@ public class LoginView extends BaseActivity implements ILoginView {
 
         // 输了密码才给登录 不过分吧?
         mCompositeSubscription.add(RxTextView.textChanges(passwordEt).map(s -> !TextUtils.isEmpty(s)).subscribe(this::toggleLoginButton));
-
+        // 监听软键盘
         mCompositeSubscription.add(RxTextView.editorActions(passwordEt)
                 .map(actionId -> actionId == EditorInfo.IME_ACTION_DONE)
                 .subscribe(done -> {
                     if (done) clickLoginBtn();
                 }));
 
-        mCompositeSubscription.add(RxToolbar.navigationClicks(toolbar).subscribe(this::onClickBackArrow));
+
     }
 
-    public void onClickBackArrow(Void v) {
-
+    @Override
+    protected boolean isNavAsBack() {
+        return true;
     }
 
     @Override

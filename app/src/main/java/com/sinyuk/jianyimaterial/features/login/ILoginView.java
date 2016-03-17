@@ -9,6 +9,4 @@ public interface ILoginView {
     void onLoginSucceed();
     void onLoginFailed(String message);
     void onNetworkError(String message);
-
-
 }

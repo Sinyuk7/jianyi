@@ -2,6 +2,11 @@ package com.sinyuk.jianyimaterial.mvp;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+
+import com.jakewharton.rxbinding.support.v7.widget.RxToolbar;
+import com.sinyuk.jianyimaterial.R;
 
 import butterknife.ButterKnife;
 import rx.subscriptions.CompositeSubscription;
@@ -32,8 +37,25 @@ public abstract class BaseActivity
         attachPresenter();
         ButterKnife.bind(this);
 
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        if (toolbar != null) {
+            // TODO: Set back arrow as default navigation button
+            if (isNavAsBack()) {
+                setSupportActionBar(toolbar);
+                toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+                mCompositeSubscription.add(RxToolbar.navigationClicks(toolbar).subscribe(this::onNavigationClick));
+            }
+        }
+
         onFinishInflate();
     }
+
+    public void onNavigationClick(Void v) {
+        finish();
+    }
+
+    protected abstract boolean isNavAsBack();
 
     protected abstract void onFinishInflate();
 
