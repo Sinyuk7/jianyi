@@ -27,16 +27,19 @@ public class LoginPresenterImpl extends BasePresenter<LoginView, UserModel>
 
     @Override
     public void onSucceed() {
+        loginView.hideProgress();
         loginView.onLoginSucceed();
     }
 
     @Override
     public void onError(VolleyError error) {
+        loginView.hideProgress();
         loginView.onNetworkError(VolleyErrorHelper.getMessage(error,loginView));
     }
 
     @Override
     public void onFailed(JResponse error) {
+        loginView.hideProgress();
         loginView.onLoginFailed(error.getData());
     }
 }

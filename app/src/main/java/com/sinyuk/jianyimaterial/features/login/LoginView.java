@@ -99,17 +99,17 @@ public class LoginView extends BaseActivity implements ILoginView {
 
     @Override
     public void onLoginSucceed() {
-        hideProgress();
+
     }
 
     @Override
     public void onLoginFailed(String message) {
-        hideProgress();
+
     }
 
     @Override
     public void onNetworkError(String message) {
-        hideProgress();
+
     }
 
     // 忘记密码

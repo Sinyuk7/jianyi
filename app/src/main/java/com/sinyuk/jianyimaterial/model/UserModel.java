@@ -99,6 +99,7 @@ public class UserModel implements BaseModel {
             String trans = gson.toJson(data);
             User userData = gson.fromJson(trans, User.class);
             if (userData != null) {
+                // TODO: 这里应该保存数据 然后保存成功在回调onSucceed();
                 mLoginCallback.onSucceed();
             } else {
                 JResponse error = gson.fromJson(response, JResponse.class);
@@ -126,8 +127,25 @@ public class UserModel implements BaseModel {
 
     }
 
-    void update(@NonNull String tel, @NonNull String password) {
+    void load(@NonNull String tel, @NonNull String password) {
 
+    }
+
+    Observable saveOrUpdate(User user){
+        return Observable.create(
+                new Observable.OnSubscribe<User>() {
+                    @Override
+                    public void call(Subscriber<? super User> sub) {
+                        sub.onNext(saveUser());
+                        sub.onCompleted();
+                    }
+                }
+        ).subscribeOn(Schedulers.io());
+    }
+
+    private User saveUser() {
+        // 保存用户 要么就数据库要么就prefs 别乱几把早的啦
+        return null;
     }
 
     /**

@@ -242,7 +242,7 @@ public class SignInActivity extends BaseActivity {
         }
     }
 
-
+// ok
     private void setupEditText() {
         /**
          * 只要有一个输入框获得焦点的时候 就把顶部的视图隐藏
@@ -258,6 +258,7 @@ public class SignInActivity extends BaseActivity {
 
     }
 
+    // ok
     private void toggleLoginButton(boolean hasInput) {
         loginButton.setEnabled(hasInput);
         loginButton.setClickable(hasInput);
@@ -268,7 +269,7 @@ public class SignInActivity extends BaseActivity {
         }
     }
 
-
+// ok
     private class PasswordWatcher implements TextWatcher {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
