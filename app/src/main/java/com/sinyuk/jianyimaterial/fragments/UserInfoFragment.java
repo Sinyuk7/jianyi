@@ -41,7 +41,7 @@ import com.sinyuk.jianyimaterial.glide.ColorFilterTransformation;
 import com.sinyuk.jianyimaterial.glide.CropCircleTransformation;
 import com.sinyuk.jianyimaterial.greendao.dao.DaoUtils;
 import com.sinyuk.jianyimaterial.greendao.dao.UserService;
-import com.sinyuk.jianyimaterial.model.User;
+import com.sinyuk.jianyimaterial.entity.User;
 import com.sinyuk.jianyimaterial.utils.DialogUtils;
 import com.sinyuk.jianyimaterial.utils.PreferencesUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;

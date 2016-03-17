@@ -51,7 +51,7 @@ import com.sinyuk.jianyimaterial.events.UserStateUpdateEvent;
 import com.sinyuk.jianyimaterial.fragments.dialogs.LocationSelectDialog;
 import com.sinyuk.jianyimaterial.greendao.dao.DaoUtils;
 import com.sinyuk.jianyimaterial.greendao.dao.UserService;
-import com.sinyuk.jianyimaterial.model.User;
+import com.sinyuk.jianyimaterial.entity.User;
 import com.sinyuk.jianyimaterial.utils.DialogUtils;
 import com.sinyuk.jianyimaterial.utils.FileUtils;
 import com.sinyuk.jianyimaterial.utils.LogUtils;

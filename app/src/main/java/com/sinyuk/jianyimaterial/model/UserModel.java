@@ -1,8 +1,7 @@
 package com.sinyuk.jianyimaterial.model;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.support.annotation.NonNull;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -12,52 +11,44 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sinyuk.jianyimaterial.R;
-import com.sinyuk.jianyimaterial.api.JLoginError;
+import com.sinyuk.jianyimaterial.api.JResponse;
 import com.sinyuk.jianyimaterial.api.JUser;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.application.Jianyi;
-import com.sinyuk.jianyimaterial.events.UserStateUpdateEvent;
-import com.sinyuk.jianyimaterial.events.XUserLoginEvent;
-import com.sinyuk.jianyimaterial.events.XUserUpdateEvent;
+import com.sinyuk.jianyimaterial.entity.User;
 import com.sinyuk.jianyimaterial.greendao.dao.DaoUtils;
 import com.sinyuk.jianyimaterial.greendao.dao.UserService;
-import com.sinyuk.jianyimaterial.utils.DialogUtils;
+import com.sinyuk.jianyimaterial.mvp.BaseModel;
 import com.sinyuk.jianyimaterial.utils.PreferencesUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
 import com.sinyuk.jianyimaterial.volley.FormDataRequest;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
 import java.util.HashMap;
 import java.util.Map;
 
+import rx.Observable;
+import rx.Subscriber;
+import rx.schedulers.Schedulers;
+
 /**
- * MVP重构
- * Created by Sinyuk on 16.3.8.
+ * Created by Sinyuk on 16.3.16.
  */
-
-@SuppressWarnings("unused")
-public class UserModel {
-    private volatile static UserModel instance = null;
-    public static final String LOGIN_REQUEST = "user_login";
-    public static final String UPDATE_REQUEST = "user_update";
+public class UserModel implements BaseModel {
+    public static final String LOGIN_REQUEST = "login";
+    public static final String UPDATE_REQUEST = "update";
 
 
+    private static UserModel instance;
     private final Context mContext;
     private final UserService userService;
     private User currentUser;
-    private ProgressDialog progressDialog;
-
+    private Gson gson;
 
     public UserModel(Context context) {
         this.mContext = context;
         userService = DaoUtils.getUserService();
-        currentUser = (User) userService.query(
-                PreferencesUtils.getString(mContext, StringUtils.getResString(mContext, R.string.key_user_id)));
-        EventBus.getDefault().register(this);
     }
+
 
     public static UserModel getInstance(Context context) {
         if (instance == null) {
@@ -70,79 +61,54 @@ public class UserModel {
         return instance;
     }
 
+    public boolean isLoggedIn() {
+        return PreferencesUtils.getBoolean(mContext, StringUtils.getResString(mContext, R.string.key_login_state));
+    }
+
     /**
-     * 获取当前的用户
+     * this may block UI thread
+     *
+     * @return current user if has logged in
      */
-    public User getCurrentUser() {
+    public Observable getCurrentUser() {
+        return Observable.create(
+                new Observable.OnSubscribe<User>() {
+                    @Override
+                    public void call(Subscriber<? super User> sub) {
+                        sub.onNext(queryCurrentUser());
+                        sub.onCompleted();
+                    }
+                }
+        ).subscribeOn(Schedulers.io());
+
+    }
+
+    private User queryCurrentUser() {
+        String uId = PreferencesUtils.getString(mContext, StringUtils.getResString(mContext, R.string.key_user_id));
+        currentUser = (User) userService.query(uId);
         return currentUser;
     }
 
-    /**
-     * @param user update  user info
-     */
-    public void setCurrentUser(User user) {
-        this.currentUser = user;
-        PreferencesUtils.putString(mContext, StringUtils.getResString(mContext, R.string.key_user_id), user.getId());
-        PreferencesUtils.putBoolean(mContext, StringUtils.getResString(mContext, R.string.key_login_state), true);
-        PreferencesUtils.putString(mContext, StringUtils.getResString(mContext, R.string.key_psw), user.getId());
 
-        // 发送
-        EventBus.getDefault().post(new UserStateUpdateEvent(true, user.getId()));
-    }
-
-    /**
-     * 异步的更新用户的信息
-     */
-    @Subscribe(threadMode = ThreadMode.ASYNC)
-    public void onEvent(XUserUpdateEvent event) {
-        this.currentUser = event.getUser();
-
-    }
-
-
-    @Subscribe(threadMode = ThreadMode.POSTING)
-    public void onUserLogin(XUserLoginEvent event) {
-        final String phoneNumber = event.getPhoneNumber();
-        final String password = event.getPassword();
-
-        progressDialog = DialogUtils.simpleProgressDialog(mContext, null, "正在登录", new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                Jianyi.getInstance().cancelPendingRequest(LOGIN_REQUEST);
+    public void login(@NonNull String tel, @NonNull String password, LoginCallback mLoginCallback) {
+        FormDataRequest jsonRequest = new FormDataRequest(Request.Method.POST, JianyiApi.login(), (Response.Listener<String>) str -> {
+            JsonParser parser = new JsonParser();
+            final JsonObject response = parser.parse(str).getAsJsonObject();
+            JUser jsonData = gson.fromJson(response, JUser.class);
+            JUser.Data data = jsonData.getData();
+            String trans = gson.toJson(data);
+            User userData = gson.fromJson(trans, User.class);
+            if (userData != null) {
+                mLoginCallback.onSucceed();
+            } else {
+                JResponse error = gson.fromJson(response, JResponse.class);
+                mLoginCallback.onFailed(error);
             }
-        });
-
-        progressDialog.show();
-
-        FormDataRequest jsonRequest = new FormDataRequest(Request.Method.POST, JianyiApi.login(), new Response.Listener<String>() {
-            @Override
-            public void onResponse(String str) {
-                final Gson gson = new Gson();
-                JsonParser parser = new JsonParser();
-                final JsonObject response = parser.parse(str).getAsJsonObject();
-                JUser jsonData = gson.fromJson(response, JUser.class);
-                // 转换成我的Model
-                JUser.Data data = jsonData.getData();
-                String trans = gson.toJson(data);
-                User userData = gson.fromJson(trans, User.class);
-                if (userData != null) {
-                    loginSucceed();
-                } else {
-                    JLoginError error = gson.fromJson(response, JLoginError.class);
-                    loginFailed(error);
-                    Jianyi.getInstance().cancelPendingRequest(LOGIN_REQUEST);
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                loginFailed(error);
-            }
-        }) {
+        }, (Response.ErrorListener) mLoginCallback::onError) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("tel", phoneNumber);
+                params.put("tel", tel);
                 params.put("password", password);
                 return params;
             }
@@ -152,14 +118,38 @@ public class UserModel {
     }
 
 
-    private void loginFailed(Object error) {
-        if (null != progressDialog)
-            progressDialog.cancel();
+    void register(@NonNull String tel, @NonNull String password) {
 
     }
 
-    // 保存用户信息
-    private void loginSucceed() {
+    void authenticate(@NonNull String tel) {
+
     }
 
+    void update(@NonNull String tel, @NonNull String password) {
+
+    }
+
+    /**
+     * load data from server
+     */
+    User load() {
+        return null;
+    }
+
+    /**
+     * pull data from database
+     */
+    User pull() {
+        return null;
+    }
+
+    public interface LoginCallback {
+
+        void onSucceed();
+
+        void onError(VolleyError error);
+
+        void onFailed(JResponse error);
+    }
 }

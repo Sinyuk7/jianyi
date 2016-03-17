@@ -37,7 +37,7 @@ import com.sinyuk.jianyimaterial.base.BaseActivity;
 import com.sinyuk.jianyimaterial.greendao.dao.DaoUtils;
 import com.sinyuk.jianyimaterial.greendao.dao.UserService;
 import com.sinyuk.jianyimaterial.managers.SnackBarFactory;
-import com.sinyuk.jianyimaterial.model.User;
+import com.sinyuk.jianyimaterial.entity.User;
 import com.sinyuk.jianyimaterial.ui.SimpleTextWatcher;
 import com.sinyuk.jianyimaterial.utils.DialogUtils;
 import com.sinyuk.jianyimaterial.utils.FormatUtils;

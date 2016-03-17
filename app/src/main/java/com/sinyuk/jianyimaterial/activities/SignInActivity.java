@@ -36,7 +36,7 @@ import com.sinyuk.jianyimaterial.base.BaseActivity;
 import com.sinyuk.jianyimaterial.greendao.dao.DaoUtils;
 import com.sinyuk.jianyimaterial.greendao.dao.UserService;
 import com.sinyuk.jianyimaterial.managers.SnackBarFactory;
-import com.sinyuk.jianyimaterial.model.User;
+import com.sinyuk.jianyimaterial.entity.User;
 import com.sinyuk.jianyimaterial.utils.DialogUtils;
 import com.sinyuk.jianyimaterial.utils.PreferencesUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
@@ -185,11 +185,11 @@ public class SignInActivity extends BaseActivity {
             }
         };
 
-        Jianyi.getInstance().addRequest(jsonRequest, User.LOGIN_REQUEST);
+        Jianyi.getInstance().addRequest(jsonRequest,"login");
     }
 
     private void loginFailed(Object error) {
-        Jianyi.getInstance().cancelPendingRequest(User.LOGIN_REQUEST);
+        Jianyi.getInstance().cancelPendingRequest("login");
         progressDialog.dismiss();
 
         if (error == null) {
@@ -227,7 +227,7 @@ public class SignInActivity extends BaseActivity {
             @Override
             public void onCancel(DialogInterface dialog) {
                 SnackBarFactory.loginFailed(mContext, coordinatorLayout, "登录中断").show();
-                Jianyi.getInstance().cancelPendingRequest(User.LOGIN_REQUEST);
+                Jianyi.getInstance().cancelPendingRequest("login");
             }
         });
     }
@@ -248,15 +248,12 @@ public class SignInActivity extends BaseActivity {
          * 只要有一个输入框获得焦点的时候 就把顶部的视图隐藏
          */
         passwordEt.addTextChangedListener(new PasswordWatcher());
-        passwordEt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                // TODO: 当按下 enter 键的时候 尝试登录
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    attemptLogin();
-                }
-                return false;
+        passwordEt.setOnEditorActionListener((v, actionId, event) -> {
+            // TODO: 当按下 enter 键的时候 尝试登录
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                attemptLogin();
             }
+            return false;
         });
 
     }

@@ -27,11 +27,8 @@ public class SnackBarFactory {
         Snackbar.SnackbarLayout layout = (Snackbar.SnackbarLayout) snackbar.getView();
         layout.setBackgroundColor(context.getResources().getColor(R.color.white));
         snackbar.setActionTextColor(context.getResources().getColor(R.color.colorAccent));
-        snackbar.setAction("现在登录", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                context.startActivityForResult(new Intent(context, SignInActivity.class), HomeActivity.REQUEST_USER_DATA);
-            }
+        snackbar.setAction("现在登录", v -> {
+            context.startActivityForResult(new Intent(context, SignInActivity.class), HomeActivity.REQUEST_USER_DATA);
         });
 
         return snackbar;
@@ -48,12 +45,7 @@ public class SnackBarFactory {
 
         layout.setBackgroundColor(context.getResources().getColor(R.color.white));
         snackbar.setActionTextColor(context.getResources().getColor(R.color.textColorDark));
-        snackbar.setAction("帮助", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        snackbar.setAction("帮助", v -> {});
         return snackbar;
     }
 
@@ -69,12 +61,7 @@ public class SnackBarFactory {
         snackbar.setActionTextColor(context.getResources().getColor(R.color.textColorDark));
 
 
-        snackbar.setAction("检查网络连接", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        snackbar.setAction("检查网络连接", v -> {});
         return snackbar;
     }
 
@@ -111,11 +98,8 @@ public class SnackBarFactory {
         Snackbar.SnackbarLayout layout = (Snackbar.SnackbarLayout) snackbar.getView();
         layout.setBackgroundColor(context.getResources().getColor(R.color.white));
         snackbar.setActionTextColor(context.getResources().getColor(R.color.colorAccent));
-        snackbar.setAction("获取帮助", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                context.startActivity(new Intent(context, WidgetDemo.class));
-            }
+        snackbar.setAction("获取帮助", v -> {
+            context.startActivity(new Intent(context, WidgetDemo.class));
         });
         return snackbar;
     }

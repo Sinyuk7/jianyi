@@ -51,7 +51,7 @@ import com.sinyuk.jianyimaterial.events.CategorySelectEvent;
 import com.sinyuk.jianyimaterial.fragments.dialogs.CategorySelectDialog;
 import com.sinyuk.jianyimaterial.greendao.dao.DaoUtils;
 import com.sinyuk.jianyimaterial.greendao.dao.UserService;
-import com.sinyuk.jianyimaterial.model.User;
+import com.sinyuk.jianyimaterial.entity.User;
 import com.sinyuk.jianyimaterial.utils.AnimUtils;
 import com.sinyuk.jianyimaterial.utils.DialogUtils;
 import com.sinyuk.jianyimaterial.utils.LogUtils;

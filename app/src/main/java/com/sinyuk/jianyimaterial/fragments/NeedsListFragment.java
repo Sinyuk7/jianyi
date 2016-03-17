@@ -15,7 +15,7 @@ import com.sinyuk.jianyimaterial.api.JNeeds;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.application.Jianyi;
 import com.sinyuk.jianyimaterial.base.SwipeRefreshFragment;
-import com.sinyuk.jianyimaterial.model.Needs;
+import com.sinyuk.jianyimaterial.entity.Needs;
 import com.sinyuk.jianyimaterial.volley.JsonRequest;
 import com.sinyuk.jianyimaterial.ui.OnLoadMoreListener;
 import com.sinyuk.jianyimaterial.widgets.MultiSwipeRefreshLayout;

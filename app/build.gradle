@@ -1,8 +1,9 @@
 apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '23.0.2'
+    buildToolsVersion "24.0.0 rc1"
 
     defaultConfig {
         applicationId "com.sinyuk.jianyimaterial"
@@ -18,6 +19,11 @@ android {
         }
     }
 
+
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
 
 dependencies {
@@ -40,4 +46,11 @@ dependencies {
     compile project(':ucrop')
     compile 'de.greenrobot:greendao:2.1.0'
     compile project(':library')
+    compile 'io.reactivex:rxjava:1.1.1'
+    compile 'io.reactivex:rxandroid:1.1.0'
+    compile 'com.jakewharton.rxbinding:rxbinding-recyclerview-v7:0.4.0'
+    compile 'com.jakewharton.rxbinding:rxbinding-appcompat-v7:0.4.0'
+    compile 'com.jakewharton.rxbinding:rxbinding-design:0.4.0'
+    compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
+//    compile 'com.squareup.leakcanary:leakcanary-android:1.4-beta1' // or 1.4-beta1
 }

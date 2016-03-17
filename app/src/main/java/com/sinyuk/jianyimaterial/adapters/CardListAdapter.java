@@ -24,12 +24,11 @@ import com.sinyuk.jianyimaterial.activities.ProductDetails;
 import com.sinyuk.jianyimaterial.activities.ProfileActivity;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.glide.CropCircleTransformation;
-import com.sinyuk.jianyimaterial.model.YihuoProfile;
+import com.sinyuk.jianyimaterial.entity.YihuoProfile;
 import com.sinyuk.jianyimaterial.utils.FormatUtils;
 import com.sinyuk.jianyimaterial.utils.FuzzyDateFormater;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
 import com.sinyuk.jianyimaterial.widgets.LabelView;
-import com.sinyuk.jianyimaterial.widgets.MyCircleImageView;
 import com.sinyuk.jianyimaterial.widgets.RatioImageView;
 import com.sinyuk.jianyimaterial.widgets.TextDrawable;
 

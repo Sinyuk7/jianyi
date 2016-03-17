@@ -103,11 +103,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        ButterKnife.unbind(this);
         if (isUsingEventBus()) {
             EventBus.getDefault().unregister(this);
         }
     }
+
 
     protected abstract void beforeSetContentView(Bundle savedInstanceState);
 

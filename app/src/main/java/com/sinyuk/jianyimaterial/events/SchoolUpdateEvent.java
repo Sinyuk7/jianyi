@@ -1,6 +1,6 @@
 package com.sinyuk.jianyimaterial.events;
 
-import com.sinyuk.jianyimaterial.model.School;
+import com.sinyuk.jianyimaterial.entity.School;
 
 import java.util.List;
 

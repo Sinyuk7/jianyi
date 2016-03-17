@@ -1,7 +1,7 @@
 package com.sinyuk.jianyimaterial.application;
 
 import android.app.Application;
-import android.os.Environment;
+import android.content.Context;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -9,10 +9,7 @@ import com.android.volley.toolbox.Volley;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.activities.HomeActivity;
 import com.sinyuk.jianyimaterial.greendao.dao.DaoCore;
-import com.sinyuk.jianyimaterial.utils.LogUtils;
 
-import java.io.File;
-import java.io.IOException;
 
 import cat.ereza.customactivityoncrash.CustomActivityOnCrash;
 
@@ -24,6 +21,7 @@ public class Jianyi extends Application {
     private static Jianyi mInstance;
     public static final String TAG = Jianyi.class.getName();
     public static String mAbsAppPath;
+//    private RefWatcher refWatcher;
 
     @Override
     public void onCreate() {
@@ -31,12 +29,16 @@ public class Jianyi extends Application {
         mInstance = this;
         mRequestQueue = Volley.newRequestQueue(getApplicationContext());
         DaoCore.init(this);
+//        refWatcher = LeakCanary.install(this);
         CustomActivityOnCrash.install(this);
         CustomActivityOnCrash.setRestartActivityClass(HomeActivity.class);
         CustomActivityOnCrash.setDefaultErrorActivityDrawable(R.drawable.turtle_lost404);
     }
 
-
+  /*  public static RefWatcher getRefWatcher(Context context) {
+        Jianyi application = (Jianyi) context.getApplicationContext();
+        return application.refWatcher;
+    }*/
 
     public static synchronized Jianyi getInstance() {
         return mInstance;

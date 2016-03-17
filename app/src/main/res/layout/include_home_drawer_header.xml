@@ -56,12 +56,12 @@
 
     <com.sinyuk.jianyimaterial.widgets.LabelView
         android:id="@+id/label_triangle"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_gravity="end|top"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_gravity="end|bottom"
         app:lv_background_color="@color/colorAccent"
         app:lv_fill_triangle="true"
-        app:lv_gravity="TOP_RIGHT"
+        app:lv_gravity="BOTTOM_RIGHT"
         app:lv_text="BETA"
-        app:lv_text_size="@dimen/material_text_caption1" />
+        app:lv_text_size="@dimen/material_text_menu" />
 </FrameLayout>

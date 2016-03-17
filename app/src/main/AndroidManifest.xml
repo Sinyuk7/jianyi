@@ -30,10 +30,6 @@
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
-            android:name=".activities.LoginActivity"
-            android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
-        <activity
             android:name=".activities.ProductDetails"
             android:theme="@style/Jianyi.TranspStatus"
             android:windowSoftInputMode="adjustPan|stateHidden" />
@@ -44,7 +40,8 @@
         <activity android:name=".activities.SettingsActivity" />
         <activity
             android:name=".activities.HomeActivity"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:theme="@style/Jianyi.TranspStatus">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -99,14 +96,18 @@
             android:authorities="com.sinyuk.jianyimaterial.utils.SuggestionProvider" />
 
         <activity android:name=".activities.WidgetDemo" />
+
+
         <activity
             android:name=".activities.SignUpActivity"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+
+
         <activity
             android:name=".activities.SignInActivity"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
+            android:windowSoftInputMode="adjustPan|stateHidden" />
     </application>
 
 </manifest>

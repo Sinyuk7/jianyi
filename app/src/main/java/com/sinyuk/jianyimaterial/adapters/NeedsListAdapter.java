@@ -23,13 +23,12 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.activities.ProfileActivity;
 import com.sinyuk.jianyimaterial.glide.CropCircleTransformation;
-import com.sinyuk.jianyimaterial.model.Needs;
+import com.sinyuk.jianyimaterial.entity.Needs;
 import com.sinyuk.jianyimaterial.utils.AnimUtils;
 import com.sinyuk.jianyimaterial.utils.FormatUtils;
 import com.sinyuk.jianyimaterial.utils.FuzzyDateFormater;
 import com.sinyuk.jianyimaterial.utils.ScreenUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
-import com.sinyuk.jianyimaterial.widgets.MyCircleImageView;
 import com.sinyuk.jianyimaterial.widgets.TextDrawable;
 
 import java.text.ParseException;

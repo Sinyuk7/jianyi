@@ -28,5 +28,4 @@
             app:menu="@menu/home_drawer_menu" />
     </LinearLayout>
 
-
 </android.support.v4.widget.DrawerLayout>

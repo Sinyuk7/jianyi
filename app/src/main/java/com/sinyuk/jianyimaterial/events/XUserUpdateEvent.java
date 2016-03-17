@@ -1,6 +1,6 @@
 package com.sinyuk.jianyimaterial.events;
 
-import com.sinyuk.jianyimaterial.model.User;
+import com.sinyuk.jianyimaterial.entity.User;
 
 /**
  * Created by Sinyuk on 16.3.8.

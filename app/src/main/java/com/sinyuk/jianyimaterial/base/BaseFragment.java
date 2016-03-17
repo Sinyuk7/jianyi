@@ -8,10 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sinyuk.jianyimaterial.application.Jianyi;
 import com.sinyuk.jianyimaterial.events.BaseEvent;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
 
 import butterknife.ButterKnife;
 
@@ -75,6 +76,8 @@ public abstract class BaseFragment extends Fragment {
         if (isUsingEventBus()) {
             EventBus.getDefault().unregister(this);
         }
+       /* RefWatcher refWatcher = Jianyi.getRefWatcher(mContext);
+        refWatcher.watch(this);*/
     }
 
     @Subscribe
@@ -86,7 +89,6 @@ public abstract class BaseFragment extends Fragment {
     protected abstract boolean isUsingEventBus();
 
     protected abstract void initViewsAndEvent();
-
 
 
 }
