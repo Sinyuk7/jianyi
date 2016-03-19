@@ -1,4 +1,4 @@
-package com.sinyuk.jianyimaterial.features.login;
+package com.sinyuk.jianyimaterial.feature.login;
 
 import android.support.annotation.NonNull;
 

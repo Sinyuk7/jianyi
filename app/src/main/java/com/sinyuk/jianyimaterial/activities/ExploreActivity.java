@@ -29,7 +29,6 @@ import com.sinyuk.jianyimaterial.managers.SnackBarFactory;
 import com.sinyuk.jianyimaterial.utils.AnimUtils;
 import com.sinyuk.jianyimaterial.utils.ImeUtils;
 import com.sinyuk.jianyimaterial.utils.PreferencesUtils;
-import com.sinyuk.jianyimaterial.utils.ScreenUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -143,7 +142,7 @@ public class ExploreActivity extends BaseActivity implements
     @OnClick(R.id.fab)
     public void onClick() {
         // 如果没有登录 请求登录
-        if (!PreferencesUtils.getBoolean(this, StringUtils.getResString(this, R.string.key_login_state))) {
+        if (!PreferencesUtils.getBoolean(this, StringUtils.getRes(this, R.string.key_login_state))) {
             fab.setClickable(false);
             ObjectAnimator nopeFab = AnimUtils.nope(fab).setDuration(AnimUtils.ANIMATION_TIME_SHORT);
             final float finalFabX = fab.getX();

@@ -11,7 +11,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sinyuk.jianyimaterial.R;
-import com.sinyuk.jianyimaterial.api.JResponse;
+import com.sinyuk.jianyimaterial.api.JLoginError;
 import com.sinyuk.jianyimaterial.api.JUser;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.application.Jianyi;
@@ -47,6 +47,7 @@ public class UserModel implements BaseModel {
     public UserModel(Context context) {
         this.mContext = context;
         userService = DaoUtils.getUserService();
+        gson = new Gson();
     }
 
 
@@ -62,7 +63,7 @@ public class UserModel implements BaseModel {
     }
 
     public boolean isLoggedIn() {
-        return PreferencesUtils.getBoolean(mContext, StringUtils.getResString(mContext, R.string.key_login_state));
+        return PreferencesUtils.getBoolean(mContext, StringUtils.getRes(mContext, R.string.key_login_state));
     }
 
     /**
@@ -84,7 +85,7 @@ public class UserModel implements BaseModel {
     }
 
     private User queryCurrentUser() {
-        String uId = PreferencesUtils.getString(mContext, StringUtils.getResString(mContext, R.string.key_user_id));
+        String uId = PreferencesUtils.getString(mContext, StringUtils.getRes(mContext, R.string.key_user_id));
         currentUser = (User) userService.query(uId);
         return currentUser;
     }
@@ -102,7 +103,7 @@ public class UserModel implements BaseModel {
                 // TODO: 这里应该保存数据 然后保存成功在回调onSucceed();
                 mLoginCallback.onSucceed();
             } else {
-                JResponse error = gson.fromJson(response, JResponse.class);
+                JLoginError error = gson.fromJson(response, JLoginError.class);
                 mLoginCallback.onFailed(error);
             }
         }, (Response.ErrorListener) mLoginCallback::onError) {
@@ -131,7 +132,7 @@ public class UserModel implements BaseModel {
 
     }
 
-    Observable saveOrUpdate(User user){
+    Observable saveOrUpdate(User user) {
         return Observable.create(
                 new Observable.OnSubscribe<User>() {
                     @Override
@@ -168,6 +169,9 @@ public class UserModel implements BaseModel {
 
         void onError(VolleyError error);
 
-        void onFailed(JResponse error);
+        void onFailed(JLoginError error);
+    }
+
+    public interface RegisterCallback {
     }
 }

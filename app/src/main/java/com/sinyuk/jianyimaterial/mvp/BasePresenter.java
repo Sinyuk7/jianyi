@@ -1,5 +1,8 @@
 package com.sinyuk.jianyimaterial.mvp;
 
+import android.support.annotation.CallSuper;
+import android.support.annotation.NonNull;
+
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
 /**
@@ -14,41 +17,28 @@ import java.lang.ref.WeakReference;
  * 如果你要实现自己的Presenter，最好继承这个类
  *
  * @param <V> View的接口的类型【你的Activity肯定会实现View的接口的】
- * @param <M> Model的接口的类型【Model一定会实现Model接口】
  */
 
-public abstract class BasePresenter<V, M extends BaseModel> {
+public abstract class BasePresenter<V> {
 
     protected Reference<V> mViewRef;
 
-    protected M mModel;
+    protected V mView;
 
-    public void attachView(V view) {
+    @CallSuper
+    public void attachView(@NonNull V view) {
         detachView();
-        mViewRef = new WeakReference<>(view);
-
+        this.mViewRef = new WeakReference<>(view);
+        this.mView = mViewRef.get();
     }
 
-    public V getView() {
-        return mViewRef != null ? mViewRef.get() : null;
-    }
-
-    public boolean isViewAttached() {
-        return mViewRef != null && mViewRef.get() != null;
-    }
-
-    public void detachView() {
-        if (mViewRef != null) {
+    public void detachView(){
+        if( mViewRef != null ){
+            mView=null;
             mViewRef.clear();
             mViewRef = null;
         }
     }
 
-    public void setModel(M model) {
-        mModel = model;
-    }
 
-    public M getModel() {
-        return mModel;
-    }
 }

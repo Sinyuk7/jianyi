@@ -237,9 +237,9 @@ public class SignUpActivity extends BaseActivity {
     }
 
     private void registerSucceed(String phoneNumber, String password) {
-        PreferencesUtils.putBoolean(mContext, StringUtils.getResString(mContext, R.string.key_login_state), true);
-        PreferencesUtils.putString(mContext, StringUtils.getResString(mContext, R.string.key_user_id), userData.getId());
-        PreferencesUtils.putString(mContext, StringUtils.getResString(mContext, R.string.key_psw), password);
+        PreferencesUtils.putBoolean(mContext, StringUtils.getRes(mContext, R.string.key_login_state), true);
+        PreferencesUtils.putString(mContext, StringUtils.getRes(mContext, R.string.key_user_id), userData.getId());
+        PreferencesUtils.putString(mContext, StringUtils.getRes(mContext, R.string.key_psw), password);
         UserService userService = DaoUtils.getUserService();
         userService.save(userData);
 

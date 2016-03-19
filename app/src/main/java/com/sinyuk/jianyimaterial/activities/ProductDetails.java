@@ -167,7 +167,7 @@ public class ProductDetails extends BaseActivity {
 
     @Override
     protected void beforeSetContentView(Bundle savedInstanceState) {
-        uId = PreferencesUtils.getString(this, StringUtils.getResString(this, R.string.key_user_id));
+        uId = PreferencesUtils.getString(this, StringUtils.getRes(this, R.string.key_user_id));
 
         getExtras(getIntent().getExtras());
 
@@ -247,45 +247,38 @@ public class ProductDetails extends BaseActivity {
     private void requestYihuoDetails(final String id) {
 
         JsonRequest jsonRequest = new JsonRequest
-                (Request.Method.GET, JianyiApi.yihuoDetails(id), null, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        // the response is already constructed as a JSONObject!
-                        final Gson gson = new Gson();
-                        // 接受最原始的JSON数据
-                        Show show = gson.fromJson(response.toString(), Show.class);
-                        // 转换成我的Model
-                        Show.Data jsonData = show.getData();
+                (Request.Method.GET, JianyiApi.yihuoDetails(id), null, response -> {
+                    // the response is already constructed as a JSONObject!
+                    final Gson gson = new Gson();
+                    // 接受最原始的JSON数据
+                    Show show = gson.fromJson(response.toString(), Show.class);
+                    // 转换成我的Model
+                    Show.Data jsonData = show.getData();
 
-                        String trans = gson.toJson(jsonData);
+                    String trans = gson.toJson(jsonData);
 
-                        detailsData = gson.fromJson(trans,
-                                YihuoDetails.class);
+                    detailsData = gson.fromJson(trans,
+                            YihuoDetails.class);
 
-                        if (!detailsData.getId().equals(id)) {
-                            Toast.makeText(ProductDetails.this, "哦哦 简易出了点问题", Toast.LENGTH_LONG).show();
-                        } else {
-                            LogUtils.simpleLog(ProductDetails.class, detailsData.toString());
-                            descriptionStr = detailsData.getDetail();
-                            shotsList = detailsData.getPics();
-                            longitudeStr = detailsData.getX();
-                            latitudeStr = detailsData.getY();
+                    if (!detailsData.getId().equals(id)) {
+                        Toast.makeText(ProductDetails.this, "哦哦 简易出了点问题", Toast.LENGTH_LONG).show();
+                    } else {
+                        LogUtils.simpleLog(ProductDetails.class, detailsData.toString());
+                        descriptionStr = detailsData.getDetail();
+                        shotsList = detailsData.getPics();
+                        longitudeStr = detailsData.getX();
+                        latitudeStr = detailsData.getY();
 
-                            resetViewPager();
+                        resetViewPager();
 
-                            resetTextArea();
+                        resetTextArea();
 
-                            setupLikeButton();
+                        setupLikeButton();
 
-                        }
                     }
-                }, new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // TODO: SnackBar提示一下 不过分吧
-                        LogUtils.simpleLog(ProductDetails.class, "加载错误啊啊啊啊啊");
-                    }
+                }, error -> {
+                    // TODO: SnackBar提示一下 不过分吧
+                    LogUtils.simpleLog(ProductDetails.class, "加载错误啊啊啊啊啊");
                 });
         Jianyi.getInstance().addRequest(jsonRequest, YihuoDetails.TAG);
     }
@@ -302,31 +295,31 @@ public class ProductDetails extends BaseActivity {
 
     private void initTextAreaWithoutNet() {
         // 初始化CollapseToolbar Title
-        collapsingToolbarLayout.setTitle(StringUtils.getSweetString(this,
+        collapsingToolbarLayout.setTitle(StringUtils.check(this,
                 titleStr, R.string.activity_product_details));
         // TODO: 初始化用户名
-        userNameTv.setText(StringUtils.getSweetString(this,
+        userNameTv.setText(StringUtils.check(this,
                 userNameStr, R.string.unknown_user_name));
 
         // TODO: 初始化标题
-        titleTv.setText(StringUtils.getSweetString(this,
+        titleTv.setText(StringUtils.check(this,
                 titleStr, R.string.unknown_title));
 
         // TODO: 获得准确时间
-        pubDateTv.setText(StringUtils.getSweetString(this,
+        pubDateTv.setText(StringUtils.check(this,
                 pubDateStr, R.string.unknown_date));
 
         // TODO: 初始化价格
-        newPriceTv.setText(StringUtils.getSweetString(this,
+        newPriceTv.setText(StringUtils.check(this,
                 FormatUtils.formatPrice(newPriceStr), R.string.unknown_date));
 
         // TODO: 加载电话
         if (telStr != null)
-            telStr = StringUtils.getSweetString(this,
+            telStr = StringUtils.check(this,
                     FormatUtils.formatPhoneNum(telStr), R.string.unknown_tel);
 
         // TODO: 初始化地址
-        locationTv.setText(StringUtils.getSweetString(this,
+        locationTv.setText(StringUtils.check(this,
                 locationStr, R.string.unknown_location));
 
 
@@ -374,10 +367,10 @@ public class ProductDetails extends BaseActivity {
     private void resetTextArea() {
         // TODO: 初始化描述
         if (descriptionTv != null)
-            descriptionTv.setText(StringUtils.getSweetString(this,
+            descriptionTv.setText(StringUtils.check(this,
                     descriptionStr, R.string.unknown_yihuo_description));
 
-//            descriptionTv.setText(StringUtils.getResString(this, R.string.lorem));
+//            descriptionTv.setText(StringUtils.getRes(this, R.string.lorem));
     }
 
     private void resetViewPager() {

@@ -1,4 +1,4 @@
-package com.sinyuk.jianyimaterial.features.login;
+package com.sinyuk.jianyimaterial.feature.login;
 
 /**
  * Created by Sinyuk on 16.3.16.

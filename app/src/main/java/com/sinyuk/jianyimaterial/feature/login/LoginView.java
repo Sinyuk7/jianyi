@@ -1,4 +1,4 @@
-package com.sinyuk.jianyimaterial.features.login;
+package com.sinyuk.jianyimaterial.feature.login;
 
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -15,7 +15,9 @@ import android.widget.TextView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
+import com.sinyuk.jianyimaterial.sweetalert.SweetAlertDialog;
 import com.sinyuk.jianyimaterial.utils.ImeUtils;
+import com.sinyuk.jianyimaterial.utils.StringUtils;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -50,10 +52,16 @@ public class LoginView extends BaseActivity implements ILoginView {
 
 
     private LoginPresenterImpl loginPresenter;
+    private SweetAlertDialog pDialog;
 
     @Override
     protected int getContentViewID() {
         return R.layout.activity_sign_in;
+    }
+
+    @Override
+    protected void beforeInflate() {
+
     }
 
     @Override
@@ -89,27 +97,45 @@ public class LoginView extends BaseActivity implements ILoginView {
 
     @Override
     public void showProgress() {
-
+        pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(getResources().getColor(R.color.colorAccent));
+        pDialog.setTitleText(StringUtils.getRes(this, R.string.login_hint_in_progress));
+        pDialog.setCancelable(false);
+        pDialog.show();
     }
 
     @Override
     public void hideProgress() {
-
+        pDialog.dismissWithAnimation();
     }
 
+    /**
+     * 錯誤信息的json轉換還是有很多問題的
+     * 所以這裡先不用message
+     */
     @Override
     public void onLoginSucceed() {
-
+        pDialog.setTitleText(StringUtils.getRes(this, R.string.login_hint_succeed))
+                .setConfirmText(StringUtils.getRes(this, R.string.action_confirm))
+                .setConfirmClickListener(null)
+                .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
     }
 
     @Override
     public void onLoginFailed(String message) {
-
+        pDialog.setTitleText(StringUtils.check(this,message,R.string.login_hint_failed))
+                .setConfirmText(StringUtils.getRes(this, R.string.action_confirm))
+                .setConfirmClickListener(null)
+                .changeAlertType(SweetAlertDialog.WARNING_TYPE);
     }
 
     @Override
     public void onNetworkError(String message) {
 
+        pDialog.setTitleText(StringUtils.check(this,message,R.string.hint_network_error))
+                .setConfirmText(StringUtils.getRes(this, R.string.action_confirm))
+                .setConfirmClickListener(null)
+                .changeAlertType(SweetAlertDialog.ERROR_TYPE);
     }
 
     // 忘记密码
@@ -129,11 +155,11 @@ public class LoginView extends BaseActivity implements ILoginView {
         String password = passwordEt.getText().toString();
         boolean cancel = false;
         if (TextUtils.isEmpty(userName)) {
-            userNameEt.setError("用户名不能为空");
+            userNameEt.setError(StringUtils.getRes(this,R.string.alert_null_username));
             cancel = true;
         }
         if (TextUtils.isEmpty(password)) {
-            passwordEt.setError("密码不能为空");
+            passwordEt.setError(StringUtils.getRes(this,R.string.alert_null_password));
             cancel = true;
         }
         if (!cancel) {

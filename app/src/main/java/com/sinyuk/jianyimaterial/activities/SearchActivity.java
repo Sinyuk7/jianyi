@@ -485,20 +485,20 @@ public class SearchActivity extends BaseActivity {
 
 
             // TODO: initialize title;
-            holder.detailsTv.setText(StringUtils.getSweetString(mContext, itemData.getName(), R.string.unknown_title));
+            holder.detailsTv.setText(StringUtils.check(mContext, itemData.getName(), R.string.unknown_title));
             // TODO: initialize newPrice;
 
-            holder.newPriceLabelView.setText(StringUtils.getSweetString(mContext, FormatUtils.formatPrice(itemData.getPrice()), R.string.untable));
+            holder.newPriceLabelView.setText(StringUtils.check(mContext, FormatUtils.formatPrice(itemData.getPrice()), R.string.untable));
 
             // TODO: initialize pubDate;
             try {
                 holder.pubDateTv.setText(FuzzyDateFormater.getParsedDate(mContext, itemData.getTime()));
             } catch (ParseException e) {
-                holder.pubDateTv.setText(StringUtils.getResString(mContext, R.string.unknown_date));
+                holder.pubDateTv.setText(StringUtils.getRes(mContext, R.string.unknown_date));
                 e.printStackTrace();
             }
             // TODO: initialize location;
-            holder.locationTv.setText(StringUtils.getSweetString(mContext, itemData.getSchoolname(), R.string.unknown_location));
+            holder.locationTv.setText(StringUtils.check(mContext, itemData.getSchoolname(), R.string.unknown_location));
 
             shotRequest.load(JianyiApi.JIANYI + itemData.getPic()).into(holder.shotIv);
 

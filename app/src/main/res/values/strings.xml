@@ -204,6 +204,10 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="activity_explore">发现</string>
     <string name="activity_needs">需求</string>
     <string name="unknown_needs_description">TA什么都没说你敢信</string>
+
+
+    <!--Actions -->
+    <eat-comment/>
     <string name="action_skip">跳过</string>
     <string name="action_confirm">确认</string>
     <string name="activity_register_settings">个人信息</string>
@@ -242,7 +246,20 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="activity_error_details">详细信息</string>
     <string name="hint_select_location">学校</string>
     <string name="activity_search">搜索结果</string>
-    <string name="hint_network_error">网络连接好像出了点问题</string>
+    <string name="hint_network_error">网络错误</string>
     <string name="hint_continue_with_wechat">微信用户</string>
     <string name="activity_sign_in">登录</string>
+
+    <!-- 登录   -->
+    <eat-comment />
+    <string name="login_hint_in_progress">正在登录</string>
+    <string name="login_hint_succeed">登录成功</string>
+    <string name="login_hint_failed">登录失败</string>
+
+    <!--错误提示-->
+    <eat-comment/>
+    <string name="alert_null_username">手机号不能为空</string>
+    <string name="alert_null_password">密码不能为空</string>
+
+
 </resources>

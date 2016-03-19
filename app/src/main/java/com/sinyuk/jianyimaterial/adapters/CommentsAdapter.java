@@ -116,7 +116,7 @@ public class CommentsAdapter extends ExtendedRecyclerViewAdapter<String, Comment
 
         holder.pubDateTv.setText(FuzzyDateFormater.getTimeAgo(mContext, new Date(System.currentTimeMillis() - 6000000 * new Random().nextInt(100))));
 
-        holder.contentTv.setText(StringUtils.getResString(mContext, R.string.lorem));
+        holder.contentTv.setText(StringUtils.getRes(mContext, R.string.lorem));
 
         holder.contentTv.setMaxLines(new Random().nextInt(5) + 1);
 

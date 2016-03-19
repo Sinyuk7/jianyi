@@ -64,8 +64,8 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
     public static final int CUSTOM_IMAGE_TYPE = 4;
     public static final int PROGRESS_TYPE = 5;
 
-    public static interface OnSweetClickListener {
-        public void onClick(SweetAlertDialog sweetAlertDialog);
+    public  interface OnSweetClickListener {
+         void onClick(SweetAlertDialog sweetAlertDialog);
     }
 
     public SweetAlertDialog(Context context) {
@@ -107,14 +107,11 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
             @Override
             public void onAnimationEnd(Animation animation) {
                 mDialogView.setVisibility(View.GONE);
-                mDialogView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (mCloseFromCancel) {
-                            SweetAlertDialog.super.cancel();
-                        } else {
-                            SweetAlertDialog.super.dismiss();
-                        }
+                mDialogView.post(() -> {
+                    if (mCloseFromCancel) {
+                        SweetAlertDialog.super.cancel();
+                    } else {
+                        SweetAlertDialog.super.dismiss();
                     }
                 });
             }
@@ -228,18 +225,10 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
         }
     }
 
-    public int getAlerType () {
-        return mAlertType;
-    }
-
     public void changeAlertType(int alertType) {
         changeAlertType(alertType, false);
     }
 
-
-    public String getTitleText () {
-        return mTitleText;
-    }
 
     public SweetAlertDialog setTitleText (String text) {
         mTitleText = text;
@@ -256,14 +245,6 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
             mCustomImage.setImageDrawable(mCustomImgDrawable);
         }
         return this;
-    }
-
-    public SweetAlertDialog setCustomImage (int resourceId) {
-        return setCustomImage(getContext().getResources().getDrawable(resourceId));
-    }
-
-    public String getContentText () {
-        return mContentText;
     }
 
     public SweetAlertDialog setContentText (String text) {

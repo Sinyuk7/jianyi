@@ -129,13 +129,13 @@ public class RegisterSettings extends BaseActivity {
 
     @Override
     protected void beforeSetContentView(Bundle savedInstanceState) {
-        String uId = PreferencesUtils.getString(mContext, StringUtils.getResString(mContext, R.string.key_user_id));
-        password = PreferencesUtils.getString(mContext, StringUtils.getResString(mContext, R.string.key_psw));
+        String uId = PreferencesUtils.getString(mContext, StringUtils.getRes(mContext, R.string.key_user_id));
+        password = PreferencesUtils.getString(mContext, StringUtils.getRes(mContext, R.string.key_psw));
         userService = DaoUtils.getUserService();
         currentUser = (User) userService.query(uId);
 
-        LogUtils.simpleLog(RegisterSettings.class,PreferencesUtils.getString(mContext, StringUtils.getResString(mContext, R.string.key_user_id)));
-        LogUtils.simpleLog(RegisterSettings.class,PreferencesUtils.getString(mContext, StringUtils.getResString(mContext, R.string.key_psw)));
+        LogUtils.simpleLog(RegisterSettings.class,PreferencesUtils.getString(mContext, StringUtils.getRes(mContext, R.string.key_user_id)));
+        LogUtils.simpleLog(RegisterSettings.class,PreferencesUtils.getString(mContext, StringUtils.getRes(mContext, R.string.key_psw)));
     }
 
 
@@ -615,7 +615,7 @@ public class RegisterSettings extends BaseActivity {
             progressDialog.dismiss();
         ToastUtils.toastFast(mContext, "上传成功");
         LogUtils.simpleLog(RegisterSettings.class,"post UserStateUpdateEvent");
-        EventBus.getDefault().post(new UserStateUpdateEvent(true, PreferencesUtils.getString(mContext, StringUtils.getResString(mContext, R.string.key_user_id))));
+        EventBus.getDefault().post(new UserStateUpdateEvent(true, PreferencesUtils.getString(mContext, StringUtils.getRes(mContext, R.string.key_user_id))));
         finish();
     }
 

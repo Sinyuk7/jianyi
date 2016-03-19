@@ -191,8 +191,8 @@ public class HomeActivity extends BaseActivity implements
         final TextView locationTv = (TextView) headerLayout.findViewById(R.id.location_tv);
 
         if (UserModel.getInstance(this).isLoggedIn()) {
-            mSubscription.add(UserModel.getInstance(this).getCurrentUser().
-                    subscribeOn(AndroidSchedulers.mainThread())
+            mSubscription.add(UserModel.getInstance(this).getCurrentUser()
+                    .subscribeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Subscriber<User>() {
                         @Override
                         public void onCompleted() {
@@ -206,7 +206,7 @@ public class HomeActivity extends BaseActivity implements
                             Glide.with(mContext).load(R.drawable.backdrop_2).into(backdropIv);
                             Glide.with(mContext).load(R.drawable.ic_avatar_placeholder).into(avatar);
 
-                            userNameTv.setText(StringUtils.getResString(mContext, R.string.hint_click_to_login));
+                            userNameTv.setText(StringUtils.getRes(mContext, R.string.hint_click_to_login));
                             locationTv.setText(null);
                         }
 
@@ -226,11 +226,11 @@ public class HomeActivity extends BaseActivity implements
                             }
 
                             userNameTv.setText(
-                                    StringUtils.getSweetString(mContext, user.getName(), R.string.unknown_user_name));
+                                    StringUtils.check(mContext, user.getName(), R.string.unknown_user_name));
 
                             final int index = Integer.parseInt(user.getSchool()) - 1;
                             if (index >= 0 && index < getResources().getStringArray(R.array.schools_sort).length)
-                                locationTv.setText(StringUtils.getSweetString(mContext, getResources().getStringArray(R.array.schools_sort)[index], R.string.untable));
+                                locationTv.setText(StringUtils.check(mContext, getResources().getStringArray(R.array.schools_sort)[index], R.string.untable));
 
                         }
                     }));
@@ -244,7 +244,7 @@ public class HomeActivity extends BaseActivity implements
             //  Logout State
             Glide.with(mContext).load(R.drawable.backdrop_2).into(backdropIv);
             Glide.with(mContext).load(R.drawable.ic_avatar_placeholder).into(avatar);
-            userNameTv.setText(StringUtils.getResString(mContext, R.string.hint_click_to_login));
+            userNameTv.setText(StringUtils.getRes(mContext, R.string.hint_click_to_login));
             locationTv.setText(null);
         }
 
@@ -293,7 +293,7 @@ public class HomeActivity extends BaseActivity implements
                 break;
 //                throw new RuntimeException("测试崩溃");
             case R.id.drawer_menu_account:
-                if (PreferencesUtils.getBoolean(this, StringUtils.getResString(this, R.string.key_login_state))) {
+                if (PreferencesUtils.getBoolean(this, StringUtils.getRes(this, R.string.key_login_state))) {
                     startActivityForResult(new Intent(HomeActivity.this, PersonalPage.class), REQUEST_CODE_PERSONAL_PAGE);
 
                 } else {
@@ -390,7 +390,7 @@ public class HomeActivity extends BaseActivity implements
     @OnClick(R.id.fab)
     void onFabClick(View v) {
 // 如果没有登录 请求登录
-        if (!PreferencesUtils.getBoolean(this, StringUtils.getResString(this, R.string.key_login_state))) {
+        if (!PreferencesUtils.getBoolean(this, StringUtils.getRes(this, R.string.key_login_state))) {
             fab.setClickable(false);
             ObjectAnimator nopeFab = AnimUtils.nope(fab).setDuration(AnimUtils.ANIMATION_TIME_SHORT);
             final float finalFabX = fab.getX();

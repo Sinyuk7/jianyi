@@ -14,7 +14,6 @@ import com.sinyuk.jianyimaterial.events.UserStateUpdateEvent;
 import com.sinyuk.jianyimaterial.fragments.BlankFragment;
 import com.sinyuk.jianyimaterial.fragments.UserInfoFragment;
 import com.sinyuk.jianyimaterial.fragments.UserLikesFragment;
-import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.PreferencesUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
 
@@ -121,7 +120,7 @@ public class PersonalPage extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        EventBus.getDefault().post(new UserStateUpdateEvent(true, PreferencesUtils.getString(this, StringUtils.getResString(this, R.string.key_user_id))));
+        EventBus.getDefault().post(new UserStateUpdateEvent(true, PreferencesUtils.getString(this, StringUtils.getRes(this, R.string.key_user_id))));
         finish();
     }
 }

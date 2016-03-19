@@ -108,6 +108,13 @@
             android:name=".activities.SignInActivity"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustPan|stateHidden" />
+
+        <!--MVP-->
+        <activity android:name=".feature.login.LoginView"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+
+        <!--MVP-->
     </application>
 
 </manifest>

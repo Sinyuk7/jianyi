@@ -113,20 +113,20 @@ public class CardListAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile, C
 
 
         // TODO: initialize username;
-        holder.userNameTv.setText(StringUtils.getSweetString(mContext, itemData.getUsername(), R.string.unknown_user_name));
+        holder.userNameTv.setText(StringUtils.check(mContext, itemData.getUsername(), R.string.unknown_user_name));
         // TODO: initialize title;
-        holder.titleTv.setText(StringUtils.getSweetString(mContext, itemData.getName(), R.string.unknown_title));
+        holder.titleTv.setText(StringUtils.check(mContext, itemData.getName(), R.string.unknown_title));
         // TODO: initialize newPrice;
         holder.newPriceLabelView.setText(FormatUtils.formatPrice(itemData.getPrice()));
         // TODO: initialize pubDate;
         try {
             holder.pubDateTv.setText(FuzzyDateFormater.getParsedDate(mContext, itemData.getTime()));
         } catch (ParseException e) {
-            holder.pubDateTv.setText(StringUtils.getResString(mContext, R.string.unknown_date));
+            holder.pubDateTv.setText(StringUtils.getRes(mContext, R.string.unknown_date));
             e.printStackTrace();
         }
         // TODO: initialize location;
-        holder.locationTv.setText(StringUtils.getSweetString(mContext, itemData.getSchoolname(), R.string.unknown_location));
+        holder.locationTv.setText(StringUtils.check(mContext, itemData.getSchoolname(), R.string.unknown_location));
 
 
         // use a TextDrawable as a placeholder

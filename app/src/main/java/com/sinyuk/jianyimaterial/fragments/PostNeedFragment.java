@@ -91,7 +91,7 @@ public class PostNeedFragment extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        final String uId = PreferencesUtils.getString(mContext, StringUtils.getResString(mContext, R.string.key_user_id));
+        final String uId = PreferencesUtils.getString(mContext, StringUtils.getRes(mContext, R.string.key_user_id));
         if (uId != null) {
             UserService userService = DaoUtils.getUserService();
             User currentUser = (User) userService.query(uId);
@@ -105,7 +105,7 @@ public class PostNeedFragment extends BaseFragment {
 
             tel = currentUser.getTel();
 
-            password = PreferencesUtils.getString(mContext, StringUtils.getResString(mContext, R.string.key_psw));
+            password = PreferencesUtils.getString(mContext, StringUtils.getRes(mContext, R.string.key_psw));
 
         }
     }
@@ -129,7 +129,7 @@ public class PostNeedFragment extends BaseFragment {
     }
 
     private void setupTel(String tel) {
-        contactInfoEt.setText(StringUtils.getSweetString(mContext, tel, R.string.unknown_tel));
+        contactInfoEt.setText(StringUtils.check(mContext, tel, R.string.unknown_tel));
     }
 
 //    private void setupLocation(int index) {

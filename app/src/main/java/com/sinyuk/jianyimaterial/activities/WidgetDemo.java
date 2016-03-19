@@ -26,6 +26,6 @@ public class WidgetDemo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_widget_demo);
         ButterKnife.bind(this);
-        descriptionTv.setText(StringUtils.getResString(this,R.string.lorem));
+        descriptionTv.setText(StringUtils.getRes(this,R.string.lorem));
     }
 }

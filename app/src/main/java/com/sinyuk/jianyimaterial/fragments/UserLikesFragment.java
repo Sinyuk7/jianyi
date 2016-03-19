@@ -94,7 +94,7 @@ public class UserLikesFragment extends BaseFragment {
     protected void initViewsAndEvent() {
         schoolArray = mContext.getResources().getStringArray(R.array.schools_sort);
         yihuoDetailsService = DaoUtils.getYihuoDetailsService();
-        String uId = PreferencesUtils.getString(mContext, StringUtils.getResString(mContext, R.string.key_user_id));
+        String uId = PreferencesUtils.getString(mContext, StringUtils.getRes(mContext, R.string.key_user_id));
         if (TextUtils.isEmpty(uId))
             return;
         likesList = yihuoDetailsService.queryAll();
@@ -158,10 +158,10 @@ public class UserLikesFragment extends BaseFragment {
         @Override
         public void onBindDataItemViewHolder(final LikeViewHolder holder, final int position) {
             final YihuoDetails itemData = getData().get(position);
-            holder.titleTv.setText(StringUtils.getSweetString(mContext, itemData.getName(), R.string.unknown_title));
-            holder.detailsTv.setText(StringUtils.getSweetString(mContext, itemData.getDetail(), R.string.unknown_yihuo_description));
+            holder.titleTv.setText(StringUtils.check(mContext, itemData.getName(), R.string.unknown_title));
+            holder.detailsTv.setText(StringUtils.check(mContext, itemData.getDetail(), R.string.unknown_yihuo_description));
 
-            holder.addDateTv.setText(StringUtils.getSweetString(mContext,
+            holder.addDateTv.setText(StringUtils.check(mContext,
                     FuzzyDateFormater.getTimeAgo(mContext, itemData.getDate()), R.string.unknown_date));
 
             holder.priceLabelView.setText(FormatUtils.formatPrice(itemData.getPrice()));

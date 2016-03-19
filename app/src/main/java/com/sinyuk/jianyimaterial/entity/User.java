@@ -16,6 +16,7 @@ import com.sinyuk.jianyimaterial.greendao.dao.YihuoDetailsDao;
  */
 public class User implements java.io.Serializable {
 
+
     private String id;
     private String status;
     private String name;
@@ -52,7 +53,7 @@ public class User implements java.io.Serializable {
 
     // KEEP FIELDS - put your custom fields here
     public static final String TAG = "User";
-
+    public static final String UPDATE_REQUEST = "update";
     // KEEP FIELDS END
 
     public User() {

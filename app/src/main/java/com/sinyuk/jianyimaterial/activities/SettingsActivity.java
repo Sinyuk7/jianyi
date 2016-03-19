@@ -176,10 +176,10 @@ public class SettingsActivity extends BaseActivity {
     }
 
     private void logout() {
-        PreferencesUtils.removeByKey(this, StringUtils.getResString(this, R.string.key_login_state));
-        PreferencesUtils.removeByKey(this, StringUtils.getResString(this, R.string.key_user_id));
-        PreferencesUtils.removeByKey(this, StringUtils.getResString(this, R.string.key_psw));
-        PreferencesUtils.removeByKey(this, StringUtils.getResString(this, R.string.key_login_times));
+        PreferencesUtils.removeByKey(this, StringUtils.getRes(this, R.string.key_login_state));
+        PreferencesUtils.removeByKey(this, StringUtils.getRes(this, R.string.key_user_id));
+        PreferencesUtils.removeByKey(this, StringUtils.getRes(this, R.string.key_psw));
+        PreferencesUtils.removeByKey(this, StringUtils.getRes(this, R.string.key_login_times));
 
         EventBus.getDefault().post(new UserStateUpdateEvent(false, null));
     }

@@ -123,7 +123,7 @@ public class UserInfoFragment extends UploadFragment {
     @Override
     protected void initViewsAndEvent() {
 
-        String uId = PreferencesUtils.getString(mContext, StringUtils.getResString(mContext, R.string.key_user_id));
+        String uId = PreferencesUtils.getString(mContext, StringUtils.getRes(mContext, R.string.key_user_id));
         userService = DaoUtils.getUserService();
         currentUser = (User) userService.query(uId);
         setDefault();
@@ -377,7 +377,7 @@ public class UserInfoFragment extends UploadFragment {
 
 
     private void startPostTask() {
-        final String password = PreferencesUtils.getString(mContext, StringUtils.getResString(mContext, R.string.key_psw));
+        final String password = PreferencesUtils.getString(mContext, StringUtils.getRes(mContext, R.string.key_psw));
 
         FormDataRequest jsonRequest = new FormDataRequest(Request.Method.POST, JianyiApi.updateUser(), new Response.Listener<String>() {
             @Override

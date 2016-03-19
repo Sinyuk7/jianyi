@@ -92,7 +92,7 @@ public class NeedsListAdapter extends ExtendedRecyclerViewAdapter<Needs, NeedsLi
         }
 
         holder.mainBodyTv.setText(
-                StringUtils.getSweetString(mContext, data.getDetail(), R.string.unknown_needs_description));
+                StringUtils.check(mContext, data.getDetail(), R.string.unknown_needs_description));
 
 
         if (TextUtils.isEmpty(data.getPrice())) {
@@ -104,26 +104,26 @@ public class NeedsListAdapter extends ExtendedRecyclerViewAdapter<Needs, NeedsLi
 
 
         holder.telTv.setText(
-                StringUtils.getSweetString(mContext,
+                StringUtils.check(mContext,
                         FormatUtils.formatPhoneNum(data.getTel()),
                         R.string.unknown_tel));
 
 
         try {
             holder.pubDateTv.setText(
-                    StringUtils.getSweetString(mContext, FuzzyDateFormater.getParsedDate(mContext, data.getTime()), R.string.unknown_date));
+                    StringUtils.check(mContext, FuzzyDateFormater.getParsedDate(mContext, data.getTime()), R.string.unknown_date));
         } catch (ParseException e) {
-            holder.pubDateTv.setText(StringUtils.getResString(mContext, R.string.unknown_date));
+            holder.pubDateTv.setText(StringUtils.getRes(mContext, R.string.unknown_date));
             e.printStackTrace();
         } catch (NullPointerException e) {
             e.printStackTrace();
-            holder.pubDateTv.setText(StringUtils.getResString(mContext, R.string.unknown_date));
+            holder.pubDateTv.setText(StringUtils.getRes(mContext, R.string.unknown_date));
         }
 
-        holder.userNameTv.setText(StringUtils.getSweetString(mContext, data.getUsername(), R.string.unknown_user_name));
+        holder.userNameTv.setText(StringUtils.check(mContext, data.getUsername(), R.string.unknown_user_name));
 
         holder.locationIv.setText(
-                StringUtils.getSweetString(mContext, data.getSchoolname(), R.string.unknown_location));
+                StringUtils.check(mContext, data.getSchoolname(), R.string.unknown_location));
 
 
         // a little tricky to deal with the scroll bug

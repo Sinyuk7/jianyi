@@ -29,6 +29,8 @@ public abstract class BaseActivity
 
         mCompositeSubscription = new CompositeSubscription();
 
+        beforeInflate();
+
         if (getContentViewID() != 0) {
             setContentView(getContentViewID());
         } else {
@@ -50,6 +52,8 @@ public abstract class BaseActivity
 
         onFinishInflate();
     }
+
+    protected abstract void beforeInflate();
 
     public void onNavigationClick(Void v) {
         finish();

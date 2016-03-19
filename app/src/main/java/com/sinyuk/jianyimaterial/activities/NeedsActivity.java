@@ -81,7 +81,7 @@ public class NeedsActivity extends BaseActivity {
     @OnClick(R.id.fab)
     void onFabClick(View v) {
             // 如果没有登录 请求登录
-        if (!PreferencesUtils.getBoolean(this, StringUtils.getResString(this, R.string.key_login_state))) {
+        if (!PreferencesUtils.getBoolean(this, StringUtils.getRes(this, R.string.key_login_state))) {
             fab.setClickable(false);
             ObjectAnimator nopeFab = AnimUtils.nope(fab).setDuration(AnimUtils.ANIMATION_TIME_SHORT);
             final float finalFabX = fab.getX();

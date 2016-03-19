@@ -113,11 +113,11 @@ public class ProfileActivity extends BaseActivity {
 
     private void setupTextArea() {
         userNameTv.setText(
-                StringUtils.getSweetString(this, userNameStr, R.string.unknown_user_name));
+                StringUtils.check(this, userNameStr, R.string.unknown_user_name));
         locationTv.setText(
-                StringUtils.getSweetString(this, locationStr, R.string.unknown_location));
+                StringUtils.check(this, locationStr, R.string.unknown_location));
         telTv.setText(
-                StringUtils.getSweetString(this, telStr, R.string.unknown_tel));
+                StringUtils.check(this, telStr, R.string.unknown_tel));
 
     }
 

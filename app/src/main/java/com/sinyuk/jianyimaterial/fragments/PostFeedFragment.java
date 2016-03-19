@@ -489,14 +489,14 @@ public class PostFeedFragment extends BaseFragment {
         }
 
         final UserService userService = DaoUtils.getUserService();
-        String uId = PreferencesUtils.getString(mContext, StringUtils.getResString(mContext, R.string.key_user_id));
+        String uId = PreferencesUtils.getString(mContext, StringUtils.getRes(mContext, R.string.key_user_id));
         final User user = (User) userService.query(uId);
 
         if (user == null) postFailed();
 
         final String tel = user.getTel();
 
-        final String password = PreferencesUtils.getString(mContext, StringUtils.getResString(mContext, R.string.key_psw));
+        final String password = PreferencesUtils.getString(mContext, StringUtils.getRes(mContext, R.string.key_psw));
         if (null == tel || null == password)
             postFailed();
 

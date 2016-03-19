@@ -13,7 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -218,7 +217,7 @@ public class SignInActivity extends BaseActivity {
         updatePrefs(userData.getId());
         // post event first  in case they clean up the prefs
         final String password = passwordEt.getText().toString();
-        PreferencesUtils.putString(mContext, StringUtils.getResString(mContext, R.string.key_psw), password);
+        PreferencesUtils.putString(mContext, StringUtils.getRes(mContext, R.string.key_psw), password);
 
     }
 
@@ -289,15 +288,15 @@ public class SignInActivity extends BaseActivity {
     private void updatePrefs(String currentUser) {
         // TODO: 登录状态 登录时间 登录密码 prefs
         // log in
-        final String lastUser = PreferencesUtils.getString(this, StringUtils.getResString(this, R.string.key_user_id));
+        final String lastUser = PreferencesUtils.getString(this, StringUtils.getRes(this, R.string.key_user_id));
         if (lastUser != null && !currentUser.equals(lastUser)) {
             PreferencesUtils.clearAll(this); // a new user has login  clean up the prefs
         }
 
-        PreferencesUtils.putString(this, StringUtils.getResString(this, R.string.key_user_id), currentUser);
-        PreferencesUtils.putBoolean(this, StringUtils.getResString(this, R.string.key_login_state), true);
-        int loginTimes = PreferencesUtils.getInt(this, StringUtils.getResString(this, R.string.key_login_times), 0) + 1;
-        PreferencesUtils.putInt(this, StringUtils.getResString(this, R.string.key_login_times), loginTimes);
+        PreferencesUtils.putString(this, StringUtils.getRes(this, R.string.key_user_id), currentUser);
+        PreferencesUtils.putBoolean(this, StringUtils.getRes(this, R.string.key_login_state), true);
+        int loginTimes = PreferencesUtils.getInt(this, StringUtils.getRes(this, R.string.key_login_times), 0) + 1;
+        PreferencesUtils.putInt(this, StringUtils.getRes(this, R.string.key_login_times), loginTimes);
 
     }
 

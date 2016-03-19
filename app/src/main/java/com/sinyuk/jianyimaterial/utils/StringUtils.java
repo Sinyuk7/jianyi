@@ -7,7 +7,7 @@ import android.text.TextUtils;
  * Created by Sinyuk on 16.2.9.
  */
 public class StringUtils {
-    public static String getResString(Context context, int id) {
+    public static String getRes(Context context, int id) {
         if (id <= 0)
             return "";
         return context.getResources().getString(id);
@@ -20,7 +20,7 @@ public class StringUtils {
      * @param but 那个是空的 只好用这个字符串
      * @return
      */
-    public static String getSweetString(Context context, String atFirst, int but) {
-        return TextUtils.isEmpty(atFirst) ? getResString(context, but) : atFirst;
+    public static String check(Context context, String atFirst, int but) {
+        return TextUtils.isEmpty(atFirst) ? getRes(context, but) : atFirst;
     }
 }

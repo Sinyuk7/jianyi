@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.activities.HomeActivity;
-import com.sinyuk.jianyimaterial.activities.SignInActivity;
 import com.sinyuk.jianyimaterial.activities.WidgetDemo;
+import com.sinyuk.jianyimaterial.feature.login.LoginView;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
 
 /**
@@ -23,12 +23,12 @@ public class SnackBarFactory {
     public static Snackbar requestLogin(final Activity context, View view) {
 
         Snackbar snackbar = Snackbar.make(view,
-                StringUtils.getResString(context, R.string.hint_plz_login_first), Snackbar.LENGTH_LONG);
+                StringUtils.getRes(context, R.string.hint_plz_login_first), Snackbar.LENGTH_LONG);
         Snackbar.SnackbarLayout layout = (Snackbar.SnackbarLayout) snackbar.getView();
         layout.setBackgroundColor(context.getResources().getColor(R.color.white));
         snackbar.setActionTextColor(context.getResources().getColor(R.color.colorAccent));
         snackbar.setAction("现在登录", v -> {
-            context.startActivityForResult(new Intent(context, SignInActivity.class), HomeActivity.REQUEST_USER_DATA);
+            context.startActivityForResult(new Intent(context, LoginView.class), HomeActivity.REQUEST_USER_DATA);
         });
 
         return snackbar;
