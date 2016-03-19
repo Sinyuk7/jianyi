@@ -225,7 +225,7 @@ public class SignUpActivity extends BaseActivity {
     private void registerFailed(VolleyError error) {
         if (null != progressDialog)
             progressDialog.dismiss();
-        ToastUtils.toastSlow(mContext, VolleyErrorHelper.getMessage(error, mContext));
+        ToastUtils.toastSlow(mContext, VolleyErrorHelper.getMessage(error));
     }
 
     private void registerFailed(String message) {

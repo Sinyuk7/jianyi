@@ -267,7 +267,7 @@ public class UserLikesFragment extends BaseFragment {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     // TODO: SnackBar提示一下 不过分吧
-                    SnackBarFactory.errorNoAction(mContext, getView(), VolleyErrorHelper.getMessage(error, mContext)).show();
+                    SnackBarFactory.errorNoAction(mContext, getView(), VolleyErrorHelper.getMessage(error)).show();
                 }
             });
             Jianyi.getInstance().addRequest(jsonRequest, User.TAG);

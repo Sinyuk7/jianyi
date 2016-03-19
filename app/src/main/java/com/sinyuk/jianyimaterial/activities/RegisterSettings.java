@@ -434,7 +434,7 @@ public class RegisterSettings extends BaseActivity {
     private void uploadFailed(VolleyError error) {
         if (null != uploadProgress)
             uploadProgress.dismiss();
-        ToastUtils.toastSlow(mContext, VolleyErrorHelper.getMessage(error, mContext));
+        ToastUtils.toastSlow(mContext, VolleyErrorHelper.getMessage(error));
     }
 
     ;
@@ -602,7 +602,7 @@ public class RegisterSettings extends BaseActivity {
 
     private void postFailed(VolleyError error) {
         if (error != null) {
-            ToastUtils.toastSlow(mContext, VolleyErrorHelper.getMessage(error, mContext));
+            ToastUtils.toastSlow(mContext, VolleyErrorHelper.getMessage(error));
         } else {
             ToastUtils.toastSlow(mContext, "上传失败");
         }

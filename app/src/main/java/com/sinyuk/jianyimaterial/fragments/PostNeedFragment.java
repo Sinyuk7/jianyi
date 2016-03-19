@@ -331,7 +331,7 @@ public class PostNeedFragment extends BaseFragment {
             LogUtils.simpleLog(PostFeedFragment.class, "error log ->" + ((JPostError) error).getError_msg());
 
         } else if (error instanceof VolleyError) {
-            SnackBarFactory.networkError(mContext, getView(), VolleyErrorHelper.getMessage(error, mContext)).show();
+            SnackBarFactory.networkError(mContext, getView(), VolleyErrorHelper.getMessage(error)).show();
         }
 
         // reset

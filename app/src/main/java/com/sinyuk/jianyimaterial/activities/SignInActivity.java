@@ -201,7 +201,7 @@ public class SignInActivity extends BaseActivity {
             }
 
         } else if (error instanceof VolleyError) {
-            SnackBarFactory.networkError(mContext, coordinatorLayout, VolleyErrorHelper.getMessage(error, mContext)).show();
+            SnackBarFactory.networkError(mContext, coordinatorLayout, VolleyErrorHelper.getMessage(error)).show();
         }
 
         // reset

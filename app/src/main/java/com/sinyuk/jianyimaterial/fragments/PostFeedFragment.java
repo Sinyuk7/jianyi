@@ -311,7 +311,7 @@ public class PostFeedFragment extends BaseFragment {
             public void onErrorResponse(VolleyError error) {
                 if (null != uploadProgress)
                     uploadProgress.dismiss();
-                ToastUtils.toastSlow(mContext, VolleyErrorHelper.getMessage(error, mContext));
+                ToastUtils.toastSlow(mContext, VolleyErrorHelper.getMessage(error));
             }
         }) {
             @Override
@@ -540,7 +540,7 @@ public class PostFeedFragment extends BaseFragment {
     }
 
     private void postFailed(VolleyError error) {
-        ToastUtils.toastSlow(mContext, VolleyErrorHelper.getMessage(error, mContext));
+        ToastUtils.toastSlow(mContext, VolleyErrorHelper.getMessage(error));
         LogUtils.simpleLog(PostFeedFragment.class, error.getMessage());
         if (null != progressDialog)
             progressDialog.dismiss();

@@ -176,7 +176,7 @@ public class HomeListFragment extends SwipeRefreshFragment {
 
 
     protected void refreshFailed(@Nullable VolleyError error) {
-        ToastUtils.toastSlow(mContext, VolleyErrorHelper.getMessage(error,mContext));
+        ToastUtils.toastSlow(mContext, VolleyErrorHelper.getMessage(error));
         setRequestDataRefresh(false);
     }
 
@@ -225,7 +225,7 @@ public class HomeListFragment extends SwipeRefreshFragment {
 
     protected void loadFailed(VolleyError error) {
         swipeRefreshLayout.setRefreshing(false);
-        ToastUtils.toastSlow(mContext, VolleyErrorHelper.getMessage(error,mContext));
+        ToastUtils.toastSlow(mContext, VolleyErrorHelper.getMessage(error));
     }
 
     protected void loadSucceed() {

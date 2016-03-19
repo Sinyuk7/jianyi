@@ -208,7 +208,7 @@ public class SortListFragment extends SwipeRefreshFragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         refreshFailed(error);
-                        ToastUtils.toastSlow(mContext, VolleyErrorHelper.getMessage(error, mContext));
+                        ToastUtils.toastSlow(mContext, VolleyErrorHelper.getMessage(error));
                     }
                 });
 

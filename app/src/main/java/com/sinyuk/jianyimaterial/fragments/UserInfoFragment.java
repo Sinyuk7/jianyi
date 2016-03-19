@@ -281,7 +281,7 @@ public class UserInfoFragment extends UploadFragment {
 
     @Override
     protected void uploadFailed(VolleyError error) {
-        ToastUtils.toastSlow(mContext, VolleyErrorHelper.getMessage(error, mContext));
+        ToastUtils.toastSlow(mContext, VolleyErrorHelper.getMessage(error));
     }
 
     // 修改了头像并成功上传
@@ -420,7 +420,7 @@ public class UserInfoFragment extends UploadFragment {
     private void postFailed(VolleyError error) {
         hasEdited = false;
         if (error != null) {
-            ToastUtils.toastSlow(mContext, VolleyErrorHelper.getMessage(error, mContext));
+            ToastUtils.toastSlow(mContext, VolleyErrorHelper.getMessage(error));
         } else {
             ToastUtils.toastSlow(mContext, "上传失败");
         }

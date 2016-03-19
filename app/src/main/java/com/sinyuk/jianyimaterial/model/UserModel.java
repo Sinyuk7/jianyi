@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -22,6 +21,7 @@ import com.sinyuk.jianyimaterial.mvp.BaseModel;
 import com.sinyuk.jianyimaterial.utils.PreferencesUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
 import com.sinyuk.jianyimaterial.volley.FormDataRequest;
+import com.sinyuk.jianyimaterial.volley.VolleyErrorHelper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -91,7 +91,7 @@ public class UserModel implements BaseModel {
     }
 
 
-    public void login(@NonNull String tel, @NonNull String password, LoginCallback mLoginCallback) {
+    public void login(@NonNull String tel, @NonNull String password, LoginCallback callback) {
         FormDataRequest jsonRequest = new FormDataRequest(Request.Method.POST, JianyiApi.login(), (Response.Listener<String>) str -> {
             JsonParser parser = new JsonParser();
             final JsonObject response = parser.parse(str).getAsJsonObject();
@@ -101,12 +101,14 @@ public class UserModel implements BaseModel {
             User userData = gson.fromJson(trans, User.class);
             if (userData != null) {
                 // TODO: 这里应该保存数据 然后保存成功在回调onSucceed();
-                mLoginCallback.onSucceed();
+                callback.onSucceed();
             } else {
                 JLoginError error = gson.fromJson(response, JLoginError.class);
-                mLoginCallback.onFailed(error);
+                callback.onFailed(error.getError_msg());
             }
-        }, (Response.ErrorListener) mLoginCallback::onError) {
+        }, (Response.ErrorListener) error -> {
+            callback.onError(VolleyErrorHelper.getMessage(error));
+        }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
@@ -167,9 +169,9 @@ public class UserModel implements BaseModel {
 
         void onSucceed();
 
-        void onError(VolleyError error);
+        void onError(String message);
 
-        void onFailed(JLoginError error);
+        void onFailed(String message);
     }
 
     public interface RegisterCallback {
