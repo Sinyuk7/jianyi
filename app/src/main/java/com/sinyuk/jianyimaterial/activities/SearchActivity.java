@@ -42,6 +42,7 @@ import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.application.Jianyi;
 import com.sinyuk.jianyimaterial.base.BaseActivity;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
+import com.sinyuk.jianyimaterial.feature.details.DetailsView;
 import com.sinyuk.jianyimaterial.ui.GridItemSpaceDecoration;
 import com.sinyuk.jianyimaterial.ui.OnLoadMoreListener;
 import com.sinyuk.jianyimaterial.utils.FormatUtils;
@@ -468,7 +469,7 @@ public class SearchActivity extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         holder.cardView.setClickable(false); // prevent fast double tap
-                        Intent intent = new Intent(mContext, ProductDetails.class);
+                        Intent intent = new Intent(mContext, DetailsView.class);
                         Bundle bundle = new Bundle();
                         bundle.putParcelable(YihuoProfile.TAG, finalItemData);
                         intent.putExtras(bundle);

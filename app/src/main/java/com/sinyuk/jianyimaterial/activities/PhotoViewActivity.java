@@ -33,6 +33,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.base.BaseActivity;
+import com.sinyuk.jianyimaterial.common.Constants;
 import com.sinyuk.jianyimaterial.utils.FileUtils;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;
 import com.sinyuk.jianyimaterial.widgets.HackyViewPager;
@@ -254,7 +255,7 @@ public class PhotoViewActivity extends BaseActivity {
     public void onBackPressed() {
         Intent result = new Intent();
         result.putExtra("selected_page_index", viewPager.getCurrentItem());
-        this.setResult(ProductDetails.REQUEST_PAGE_INDEX, result);
+        this.setResult(Constants.Request_Code_Page_Index, result);
         super.onBackPressed();
     }
 
@@ -262,19 +263,13 @@ public class PhotoViewActivity extends BaseActivity {
         return (viewPager != null);
     }
 
-    private void toggleViewPagerScrolling() {
-        if (isViewPagerActive()) {
-            viewPager.toggleLock();
-        }
-    }
 
 
     class PhotoViewAdapter extends PagerAdapter {
 
-        private Context mContext;
 
         public PhotoViewAdapter(Context context) {
-            this.mContext = context;
+
         }
 
         @Override

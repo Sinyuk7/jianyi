@@ -42,7 +42,7 @@
         <item name="contentScrim">@color/colorPrimary</item>
         <item name="titleEnabled">false</item>
         <item name="android:fitsSystemWindows">true</item>
-        <item name="layout_scrollFlags">scroll|exitUntilCollapsed|snap</item>
+        <item name="layout_scrollFlags">scroll|exitUntilCollapsed</item>
         <item name="android:id">@id/collapsing_toolbar_layout</item>
     </style>
 

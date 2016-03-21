@@ -72,14 +72,9 @@ public class UserModel implements BaseModel {
      * @return current user if has logged in
      */
     public Observable getCurrentUser() {
-        return Observable.create(
-                new Observable.OnSubscribe<User>() {
-                    @Override
-                    public void call(Subscriber<? super User> sub) {
-                        sub.onNext(queryCurrentUser());
-                        sub.onCompleted();
-                    }
-                }
+        return Observable.create((Observable.OnSubscribe<User>) subscriber -> {
+                    subscriber.onNext(queryCurrentUser());
+                    subscriber.onCompleted();}
         ).subscribeOn(Schedulers.io());
 
     }

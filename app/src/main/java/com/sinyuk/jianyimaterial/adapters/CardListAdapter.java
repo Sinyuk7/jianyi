@@ -20,9 +20,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.sinyuk.jianyimaterial.R;
-import com.sinyuk.jianyimaterial.activities.ProductDetails;
 import com.sinyuk.jianyimaterial.activities.ProfileActivity;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
+import com.sinyuk.jianyimaterial.feature.details.DetailsView;
 import com.sinyuk.jianyimaterial.glide.CropCircleTransformation;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
 import com.sinyuk.jianyimaterial.utils.FormatUtils;
@@ -90,27 +90,18 @@ public class CardListAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile, C
         // 直接在adapter里面操作吧
         if (holder.cardView != null) {
             final YihuoProfile finalItemData = itemData;
-            holder.cardView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    holder.cardView.setClickable(false); // prevent fast double tap
-                    Intent intent = new Intent(mContext, ProductDetails.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable(YihuoProfile.TAG, finalItemData);
+            holder.cardView.setOnClickListener(v -> {
+                holder.cardView.setClickable(false); // prevent fast double tap
+                Intent intent = new Intent(mContext, DetailsView.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(YihuoProfile.TAG, finalItemData);
 
-                    intent.putExtras(bundle);
-                    mContext.startActivity(intent);
+                intent.putExtras(bundle);
+                mContext.startActivity(intent);
 
-                    holder.cardView.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            holder.cardView.setClickable(true);
-                        }
-                    }, 300);
-                }
+                holder.cardView.postDelayed(() -> holder.cardView.setClickable(true), 300);
             });
         }
-
 
         // TODO: initialize username;
         holder.userNameTv.setText(StringUtils.check(mContext, itemData.getUsername(), R.string.unknown_user_name));
@@ -149,18 +140,15 @@ public class CardListAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile, C
 
         // TODO: initialize shot
         final YihuoProfile finalItemData1 = itemData;
-        holder.avatar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, ProfileActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("user_name", finalItemData1.getUsername());
-                bundle.putString("location", finalItemData1.getSchoolname());
-                bundle.putString("tel", finalItemData1.getTel());
-                bundle.putString("avatar", finalItemData1.getHeadImg());
-                intent.putExtras(bundle);
-                mContext.startActivity(intent);
-            }
+        holder.avatar.setOnClickListener(v -> {
+            Intent intent = new Intent(mContext, ProfileActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("user_name", finalItemData1.getUsername());
+            bundle.putString("location", finalItemData1.getSchoolname());
+            bundle.putString("tel", finalItemData1.getTel());
+            bundle.putString("avatar", finalItemData1.getHeadImg());
+            intent.putExtras(bundle);
+            mContext.startActivity(intent);
         });
 
         shotRequest.load(JianyiApi.shotUrl(itemData.getPic()))

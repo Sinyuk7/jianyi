@@ -1,12 +1,11 @@
 package com.sinyuk.jianyimaterial.feature.login;
 
+
+
 import android.support.annotation.NonNull;
 
-import com.android.volley.VolleyError;
-import com.sinyuk.jianyimaterial.api.JLoginError;
 import com.sinyuk.jianyimaterial.model.UserModel;
 import com.sinyuk.jianyimaterial.mvp.BasePresenter;
-import com.sinyuk.jianyimaterial.volley.VolleyErrorHelper;
 
 /**
  * Created by Sinyuk on 16.3.16.
@@ -27,12 +26,12 @@ public class LoginPresenterImpl extends BasePresenter<LoginView>
     }
 
     @Override
-    public void onError(VolleyError error) {
-        mView.onNetworkError(VolleyErrorHelper.getMessage(error,mView));
+    public void onError(String message) {
+        mView.onNetworkError(message);
     }
 
     @Override
-    public void onFailed(JLoginError error) {
-        mView.onLoginFailed(error.getError_msg());
+    public void onFailed(String message) {
+        mView.onLoginFailed(message);
     }
 }

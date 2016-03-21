@@ -12,7 +12,16 @@ public class ToastUtils {
         Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
     }
 
+    public static void toastFast(@NonNull Context context,@NonNull int resId) {
+        Toast.makeText(context,context.getString(resId),Toast.LENGTH_SHORT).show();
+    }
+
     public static void toastSlow(@NonNull Context context,@NonNull String message) {
         Toast.makeText(context,message,Toast.LENGTH_LONG).show();
+    }
+
+
+    public static void toastSlow(@NonNull Context context,@NonNull int resId) {
+        Toast.makeText(context,context.getString(resId),Toast.LENGTH_LONG).show();
     }
 }

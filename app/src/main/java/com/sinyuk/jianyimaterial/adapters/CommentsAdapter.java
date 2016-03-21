@@ -107,9 +107,9 @@ public class CommentsAdapter extends ExtendedRecyclerViewAdapter<String, Comment
     public void onBindDataItemViewHolder(CommentItemViewHolder holder, int position) {
         runEnterAnimation(holder.itemView, position);
         if (position % 2 == 0) {
-            holder.itemView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.white));
+            holder.itemView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.grey_100));
         } else {
-            holder.itemView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.grey_50));
+            holder.itemView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.grey_100));
         }
 
         holder.userNameTv.setText(mContext.getResources().getStringArray(R.array.user_names)[position]);

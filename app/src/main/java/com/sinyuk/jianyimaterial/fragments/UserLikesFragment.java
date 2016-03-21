@@ -27,12 +27,12 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.Gson;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.activities.PhotoViewActivity;
-import com.sinyuk.jianyimaterial.activities.ProductDetails;
 import com.sinyuk.jianyimaterial.adapters.ExtendedRecyclerViewAdapter;
 import com.sinyuk.jianyimaterial.api.JUser;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.application.Jianyi;
 import com.sinyuk.jianyimaterial.base.BaseFragment;
+import com.sinyuk.jianyimaterial.feature.details.DetailsView;
 import com.sinyuk.jianyimaterial.greendao.dao.DaoUtils;
 import com.sinyuk.jianyimaterial.greendao.dao.YihuoDetailsService;
 import com.sinyuk.jianyimaterial.managers.SnackBarFactory;
@@ -248,7 +248,7 @@ public class UserLikesFragment extends BaseFragment {
                         LogUtils.simpleLog(UserLikesFragment.class, dummyProfile.toString());
 
                         holder.cardView.setClickable(false); // prevent fast double tap
-                        Intent intent = new Intent(mContext, ProductDetails.class);
+                        Intent intent = new Intent(mContext, DetailsView.class);
                         Bundle bundle = new Bundle();
                         bundle.putParcelable(YihuoProfile.TAG, dummyProfile);
                         intent.putExtras(bundle);

@@ -260,6 +260,10 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <eat-comment/>
     <string name="alert_null_username">手机号不能为空</string>
     <string name="alert_null_password">密码不能为空</string>
+    <string name="empty" />
+    <string name="hint_failed_to_loading_shot">图片加载失败</string>
+    <string name="details_view_count">%1$s 看过</string>
+    <string name="details_username">﹂ %1$s</string>
 
 
 </resources>

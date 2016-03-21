@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.sinyuk.jianyimaterial">
+          package="com.sinyuk.jianyimaterial">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".application.Jianyi"
@@ -18,102 +18,103 @@
         android:theme="@style/Jianyi">
         <activity
             android:name=".activities.CategoryMenu"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"/>
         <activity
             android:name=".activities.CategoryPage"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"/>
         <activity
             android:name=".activities.ProfileActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"/>
         <activity
             android:name=".activities.PostActivity"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
-        <activity
-            android:name=".activities.ProductDetails"
-            android:theme="@style/Jianyi.TranspStatus"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity
             android:name=".activities.RegisterSettings"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
-        <activity android:name=".activities.SettingsActivity" />
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <activity android:name=".activities.SettingsActivity"/>
         <activity
             android:name=".activities.HomeActivity"
             android:launchMode="singleTop"
             android:theme="@style/Jianyi.TranspStatus">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".activities.PhotoViewActivity"
             android:launchMode="singleTop"
-            android:theme="@style/Jianyi.FullScreenBlack" />
+            android:theme="@style/Jianyi.FullScreenBlack"/>
         <activity
             android:name=".activities.WebViewActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"/>
         <activity
             android:name=".activities.ExploreActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"/>
         <activity
             android:name=".activities.NeedsActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"/>
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.PersonalPage"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity
             android:name=".activities.AboutPage"
             android:launchMode="singleTop"
-            android:theme="@style/Jianyi.Transparent" />
+            android:theme="@style/Jianyi.Transparent"/>
         <activity
             android:name=".activities.CustomErrorActivity"
             android:process=":error_activity">
             <intent-filter>
-                <action android:name="cat.ereza.customactivityoncrash.ERROR" />
+                <action android:name="cat.ereza.customactivityoncrash.ERROR"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".activities.SearchActivity"
             android:launchMode="singleTop">
             <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
+                <action android:name="android.intent.action.SEARCH"/>
             </intent-filter>
 
             <meta-data
                 android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
+                android:resource="@xml/searchable"/>
         </activity>
 
         <provider
             android:name=".utils.SuggestionProvider"
-            android:authorities="com.sinyuk.jianyimaterial.utils.SuggestionProvider" />
+            android:authorities="com.sinyuk.jianyimaterial.utils.SuggestionProvider"/>
 
-        <activity android:name=".activities.WidgetDemo" />
+        <activity android:name=".activities.WidgetDemo"/>
 
 
         <activity
             android:name=".activities.SignUpActivity"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
 
 
         <activity
             android:name=".activities.SignInActivity"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
 
         <!--MVP-->
-        <activity android:name=".feature.login.LoginView"
+        <activity
+            android:name=".feature.login.LoginView"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
-
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <activity
+            android:name=".feature.details.DetailsView"
+            android:launchMode="singleTop"
+            android:theme="@style/Jianyi.TranspStatus"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
         <!--MVP-->
     </application>
 

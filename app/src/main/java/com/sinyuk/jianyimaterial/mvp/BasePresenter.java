@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
+
+import rx.subscriptions.CompositeSubscription;
 /**
  * Created by Sinyuk on 16.3.16.
  */
@@ -25,19 +27,24 @@ public abstract class BasePresenter<V> {
 
     protected V mView;
 
+    protected CompositeSubscription mCompositeSubscription;
+
     @CallSuper
     public void attachView(@NonNull V view) {
         detachView();
         this.mViewRef = new WeakReference<>(view);
         this.mView = mViewRef.get();
+        this.mCompositeSubscription = new CompositeSubscription();
     }
 
-    public void detachView(){
-        if( mViewRef != null ){
-            mView=null;
+    public void detachView() {
+        if (mViewRef != null) {
+            mView = null;
             mViewRef.clear();
             mViewRef = null;
         }
+        if (mCompositeSubscription != null && !mCompositeSubscription.isUnsubscribed())
+            mCompositeSubscription.unsubscribe();
     }
 
 

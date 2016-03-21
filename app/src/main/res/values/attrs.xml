@@ -100,4 +100,21 @@
     <declare-styleable name="MultiSwipeRefreshLayout">
         <attr name="foreground" format="reference" />
     </declare-styleable>
+
+    <declare-styleable name="TrapezoidView">
+        <attr name="anchor" format="dimension"/>
+        <attr name="anchor_gravity" format="enum">
+            <enum name="top" value="0" />
+            <enum name="left" value="1" />
+            <enum name="bottom" value="2" />
+            <enum name="right" value="3" />
+        </attr>
+        <attr name="fill_color" format="color"/>
+        <attr name="triangle_height" format="dimension"/>
+        <attr name="angle_gravity" format="enum">
+            <enum name="none" value="-1"/>
+            <enum name="left" value="1" />
+            <enum name="right" value="3" />
+        </attr>
+    </declare-styleable>
 </resources>

@@ -113,6 +113,10 @@
     <dimen name="profile_backdrop_height">232dp</dimen>
 
 
+    <dimen name="details_trapezoid_margin">-32dp</dimen>
+    <dimen name="details_trapezoid_triangle_height">32dp</dimen>
+
+
     <!-- ============================================== -->
     <!--首页顶部广告牌 -->
     <!-- ============================================== -->

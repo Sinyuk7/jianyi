@@ -3,54 +3,42 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/toolbar_height"
-    android:paddingEnd="@dimen/tiny_content_space"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/tiny_content_space">
+    android:layout_height="48dp"
+    android:background="@color/white">
 
 
     <com.sinyuk.jianyimaterial.widgets.MyCircleImageView
         android:id="@+id/avatar"
         style="@style/Avatar"
+        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
         tools:src="@drawable/expression_65" />
 
     <TextView
         android:id="@+id/user_name_tv"
         style="@style/SingleLineText"
         android:layout_alignTop="@+id/avatar"
-        android:layout_marginLeft="30dp"
-        android:layout_marginStart="30dp"
-        android:layout_toRightOf="@+id/avatar"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_toLeftOf="@+id/avatar"
         android:textColor="@color/grey_600"
-        android:textSize="@dimen/material_text_menu"
         android:textStyle="bold"
-        tools:text="@string/user_name" />
+        android:textSize="@dimen/material_text_caption1"
+        tools:text="﹂ Sinyuk" />
 
 
     <TextView
-        android:id="@+id/location_tv"
+        android:id="@+id/pub_date_tv"
         style="@style/SingleLineText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/user_name_tv"
-        android:layout_marginLeft="30dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="@dimen/tiny_content_space"
-        android:layout_toRightOf="@+id/avatar"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="@dimen/extra_tiny_content_space"
+        android:layout_toLeftOf="@+id/avatar"
         android:textColor="@color/grey_600"
         android:textSize="@dimen/material_text_caption2"
-        tools:text="@string/dummy_user_location" />
-
-
-    <ImageView
-        android:id="@+id/phone_call_iv"
-        style="@style/ClickableImageViewBorderless"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_alignParentRight="true"
-        android:padding="@dimen/activity_horizontal_margin"
-        android:src="@drawable/ic_call_white_24dp"
-        android:tint="@color/colorAccent" />
-
+        tools:text="@string/pubdate" />
 </RelativeLayout>

@@ -51,7 +51,7 @@ public class LoginView extends BaseActivity implements ILoginView {
     CoordinatorLayout coordinatorLayout;
 
 
-    private LoginPresenterImpl loginPresenter;
+    private LoginPresenterImpl mPresenter;
     private SweetAlertDialog pDialog;
 
     @Override
@@ -86,13 +86,14 @@ public class LoginView extends BaseActivity implements ILoginView {
 
     @Override
     protected void attachPresenter() {
-        loginPresenter = new LoginPresenterImpl();
-        loginPresenter.attachView(this);
+        mPresenter = new LoginPresenterImpl();
+        mPresenter.attachView(this);
     }
 
     @Override
     protected void detachPresenter() {
-        loginPresenter.detachView();
+        mPresenter.detachView();
+        mPresenter = null;
     }
 
     @Override
@@ -123,7 +124,7 @@ public class LoginView extends BaseActivity implements ILoginView {
 
     @Override
     public void onLoginFailed(String message) {
-        pDialog.setTitleText(StringUtils.check(this,message,R.string.login_hint_failed))
+        pDialog.setTitleText(StringUtils.check(this, message, R.string.login_hint_failed))
                 .setConfirmText(StringUtils.getRes(this, R.string.action_confirm))
                 .setConfirmClickListener(null)
                 .changeAlertType(SweetAlertDialog.WARNING_TYPE);
@@ -132,7 +133,7 @@ public class LoginView extends BaseActivity implements ILoginView {
     @Override
     public void onNetworkError(String message) {
 
-        pDialog.setTitleText(StringUtils.check(this,message,R.string.hint_network_error))
+        pDialog.setTitleText(StringUtils.check(this, message, R.string.hint_network_error))
                 .setConfirmText(StringUtils.getRes(this, R.string.action_confirm))
                 .setConfirmClickListener(null)
                 .changeAlertType(SweetAlertDialog.ERROR_TYPE);
@@ -155,17 +156,17 @@ public class LoginView extends BaseActivity implements ILoginView {
         String password = passwordEt.getText().toString();
         boolean cancel = false;
         if (TextUtils.isEmpty(userName)) {
-            userNameEt.setError(StringUtils.getRes(this,R.string.alert_null_username));
+            userNameEt.setError(StringUtils.getRes(this, R.string.alert_null_username));
             cancel = true;
         }
         if (TextUtils.isEmpty(password)) {
-            passwordEt.setError(StringUtils.getRes(this,R.string.alert_null_password));
+            passwordEt.setError(StringUtils.getRes(this, R.string.alert_null_password));
             cancel = true;
         }
         if (!cancel) {
             ImeUtils.hideIme(coordinatorLayout);
             showProgress();
-            loginPresenter.attemptLogin(userName, password);
+            mPresenter.attemptLogin(userName, password);
 
         }
     }

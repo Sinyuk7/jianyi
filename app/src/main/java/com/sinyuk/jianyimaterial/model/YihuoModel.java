@@ -2,19 +2,30 @@ package com.sinyuk.jianyimaterial.model;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.android.volley.Request;
-import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.api.Show;
 import com.sinyuk.jianyimaterial.application.Jianyi;
+import com.sinyuk.jianyimaterial.common.Constants;
 import com.sinyuk.jianyimaterial.entity.YihuoDetails;
+import com.sinyuk.jianyimaterial.events.XRequestLoginEvent;
 import com.sinyuk.jianyimaterial.greendao.dao.DaoUtils;
 import com.sinyuk.jianyimaterial.greendao.dao.YihuoDetailsService;
 import com.sinyuk.jianyimaterial.mvp.BaseModel;
+import com.sinyuk.jianyimaterial.utils.PreferencesUtils;
 import com.sinyuk.jianyimaterial.volley.JsonRequest;
+import com.sinyuk.jianyimaterial.volley.VolleyErrorHelper;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.Date;
+
+import rx.Observable;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Sinyuk on 16.3.17.
@@ -26,7 +37,7 @@ public class YihuoModel implements BaseModel {
 
     private static YihuoModel instance;
     private final Context mContext;
-    private final YihuoDetailsService yihuoDetailsService;
+    private YihuoDetailsService yihuoDetailsService;
     private Gson gson;
 
     public YihuoModel(Context context) {
@@ -63,27 +74,59 @@ public class YihuoModel implements BaseModel {
                         if (data != null)
                             callback.onCompleted(data);
                     } catch (JsonParseException e) {
-                        callback.onParseError(e);
+                        callback.onParseError(e.getMessage());
                     }
 
-                }, callback::onNetworkError);
+                }, error -> callback.onVolleyError(VolleyErrorHelper.getMessage(error)));
         Jianyi.getInstance().addRequest(jsonRequest, SHOW_REQUEST);
     }
-    
-    public void addToLikes(){
-        
+
+    /**
+     * check whether this Yihuo has been added into Likes already
+     *
+     * @return
+     */
+    public Observable getLikeState(@NonNull String yihuoId) {
+        return Observable.create((Observable.OnSubscribe<Boolean>) subscriber -> {
+            subscriber.onNext(checkLikeState(yihuoId));
+            subscriber.onCompleted();
+        }).subscribeOn(Schedulers.io());
     }
-    
-    public void removeFromLikes(){
-        
+
+    private Boolean checkLikeState(String yihuoId) {
+        YihuoDetails data = (YihuoDetails) yihuoDetailsService.query(yihuoId);
+        return null != data;
+    }
+
+    public void addToLikes(@NonNull YihuoDetails detailsData, LikesCallback callback) {
+        String uId = PreferencesUtils.getString(mContext, Constants.Prefs_Uid);
+        if (TextUtils.isEmpty(uId)) {
+            EventBus.getDefault().post(new XRequestLoginEvent());
+        } else {
+            Date addedDate = new Date(System.currentTimeMillis()); //获取当前时间
+            detailsData.setDate(addedDate);
+            yihuoDetailsService.saveOrUpdate(detailsData);
+            callback.onAddToLikes();
+        }
+    }
+
+    public void removeFromLikes(@NonNull YihuoDetails detailsData, LikesCallback callback) {
+        yihuoDetailsService.deleteByKey(detailsData.getId());
+        callback.onRemoveFromLikes();
+    }
+
+    public interface LikesCallback {
+        void onAddToLikes();
+
+        void onRemoveFromLikes();
     }
 
     public interface RequestYihuoDetailsCallback {
 
-        void onNetworkError(VolleyError error);
+        void onVolleyError(String message);
 
         void onCompleted(YihuoDetails data);
 
-        void onParseError(JsonParseException error);
+        void onParseError(String message);
     }
 }

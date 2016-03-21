@@ -61,7 +61,7 @@ public class CommentsFragment extends BaseFragment {
 
         adapter.setData(new String[10]);
 
-        final View commentListHeader = View.inflate(mContext,R.layout.include_comment_list_header,null);
+        final View commentListHeader = View.inflate(mContext,R.layout.include_product_details_socials,null);
 
         adapter.setHeaderView(commentListHeader);
 

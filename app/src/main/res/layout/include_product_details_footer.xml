@@ -1,61 +1,49 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="bottom|end|center"
-    android:background="@color/transparent"
-    android:orientation="vertical"
-    app:layout_behavior=".ui.QuickHideBehavior">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end|center"
+                android:background="@color/white"
+                android:elevation="@dimen/cardView_raised_elevation"
+                app:layout_behavior=".ui.QuickHideBehavior">
 
-    <View
-        style="@style/Shadow.Above"
-        android:layout_height="2dp" />
+    <com.sinyuk.jianyimaterial.widgets.MyCircleImageView
+        android:id="@+id/fake_avatar"
+        style="@style/Avatar"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:src="@drawable/ic_avatar_placeholder"/>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/comment_input_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:paddingBottom="@dimen/general_content_space"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
-        android:paddingTop="@dimen/general_content_space">
+        android:gravity="bottom"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:paddingTop="8dp"
+        android:layout_toLeftOf="@+id/comment_btn"
+        android:layout_toRightOf="@+id/fake_avatar"
+        android:textColorHint="@color/grey_300">
 
-
-        <Button
-            android:id="@+id/comment_btn"
-            android:layout_width="0dp"
+        <EditText
+            android:id="@+id/comment_et"
+            style="@style/SingleLineText"
+            android:paddingTop="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/general_content_space"
-            android:layout_marginRight="@dimen/general_content_space"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_rect_outline_accent"
-            android:clickable="true"
-            android:foreground="?selectableItemBackground"
-            android:gravity="center"
-            android:minHeight="0dp"
-            android:padding="@dimen/general_content_space"
-            android:text="@string/action_comment"
-            android:textColor="@color/colorAccent"
-            android:textSize="@dimen/material_text_menu" />
+            android:hint="@string/action_comment"
+            android:textSize="@dimen/material_text_body1"/>
+    </android.support.design.widget.TextInputLayout>
 
 
-        <Button
-            android:id="@+id/contact_btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/general_content_space"
-            android:layout_marginStart="@dimen/general_content_space"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_rect_fill_accent"
-            android:clickable="true"
-            android:foreground="?selectableItemBackground"
-            android:gravity="center"
-            android:minHeight="0dp"
-            android:padding="8dp"
-            android:text="@string/action_direct_message"
-            android:textColor="@color/white"
-            android:textSize="@dimen/material_text_menu" />
-
-    </LinearLayout>
-</LinearLayout>
+    <com.sinyuk.jianyimaterial.widgets.CheckableImageView
+        android:id="@+id/comment_btn"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_alignParentRight="true"
+        android:padding="16dp"
+        android:src="@drawable/ic_message_text_grey600_24dp"
+        android:tint="@color/colorAccent"/>
+</RelativeLayout>

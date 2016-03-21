@@ -110,8 +110,7 @@ public class ProductDetails extends BaseActivity {
 
     @Bind(R.id.app_bar_layout)
     AppBarLayout appBarLayout;
-    @Bind(R.id.fragment_container)
-    FrameLayout fragmentContainer;
+
     @Bind(R.id.coordinator_layout)
     CoordinatorLayout coordinatorLayout;
     @Bind(R.id.pub_date_tv)
@@ -126,8 +125,7 @@ public class ProductDetails extends BaseActivity {
     @Bind(R.id.placeholder)
     RatioImageView placeholder;
     @Bind(R.id.anchor)
-    Space anchor;
-    @Bind(R.id.shadow)
+
     View shadow;
     @Bind(R.id.expandable_text)
     TextView expandableText;
@@ -135,8 +133,6 @@ public class ProductDetails extends BaseActivity {
     ImageButton expandCollapse;
     @Bind(R.id.comment_btn)
     Button commentBtn;
-    @Bind(R.id.contact_btn)
-    Button contactBtn;
 
     // Viewpager touch event
     private int oldX;
@@ -189,7 +185,7 @@ public class ProductDetails extends BaseActivity {
 
     @Override
     protected int getContentViewID() {
-        return R.layout.activity_product_details;
+        return 0;
     }
 
     @Override
@@ -216,7 +212,6 @@ public class ProductDetails extends BaseActivity {
     }
 
     private void loadComments() {
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, CommentsFragment.getInstance()).commit();
     }
 
     @Override
@@ -423,7 +418,7 @@ public class ProductDetails extends BaseActivity {
 
 
     // Dial Chat
-    @OnClick({R.id.phone_call_iv, R.id.avatar, R.id.comment_btn, R.id.contact_btn})
+    @OnClick({R.id.phone_call_iv, R.id.avatar, R.id.comment_btn})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.phone_call_iv:
@@ -447,8 +442,7 @@ public class ProductDetails extends BaseActivity {
                 CommentDialog commentDialog = new CommentDialog();
                 commentDialog.show(getSupportFragmentManager(), CommentDialog.TAG);
                 break;
-            case R.id.contact_btn:
-                break;
+
         }
     }
 
