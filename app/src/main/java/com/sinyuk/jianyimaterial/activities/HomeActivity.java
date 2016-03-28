@@ -97,7 +97,6 @@ public class HomeActivity extends BaseActivity implements
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
-
     private FragmentManager fragmentManager;
     private UserService userService;
     private long attemptExitTime = 0;
@@ -109,7 +108,6 @@ public class HomeActivity extends BaseActivity implements
     protected void beforeSetContentView(Bundle savedInstanceState) {
 
         mSubscription = new CompositeSubscription();
-
         userService = DaoUtils.getUserService();
 
     }

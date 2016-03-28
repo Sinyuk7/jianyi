@@ -14,4 +14,3 @@
         android:overScrollMode="never"/>
 
 </com.sinyuk.jianyimaterial.widgets.MultiSwipeRefreshLayout>
-

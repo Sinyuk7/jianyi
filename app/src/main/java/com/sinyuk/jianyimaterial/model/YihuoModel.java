@@ -7,11 +7,14 @@ import android.text.TextUtils;
 import com.android.volley.Request;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
+import com.google.gson.reflect.TypeToken;
+import com.sinyuk.jianyimaterial.api.Index;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.api.Show;
 import com.sinyuk.jianyimaterial.application.Jianyi;
 import com.sinyuk.jianyimaterial.common.Constants;
 import com.sinyuk.jianyimaterial.entity.YihuoDetails;
+import com.sinyuk.jianyimaterial.entity.YihuoProfile;
 import com.sinyuk.jianyimaterial.events.XRequestLoginEvent;
 import com.sinyuk.jianyimaterial.greendao.dao.DaoUtils;
 import com.sinyuk.jianyimaterial.greendao.dao.YihuoDetailsService;
@@ -23,6 +26,7 @@ import com.sinyuk.jianyimaterial.volley.VolleyErrorHelper;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.Date;
+import java.util.List;
 
 import rx.Observable;
 import rx.schedulers.Schedulers;
@@ -58,8 +62,28 @@ public class YihuoModel implements BaseModel {
         return instance;
     }
 
-    public void getBrief() {
+    public void getProfile(int pageIndex, RequestYihuoProfileCallback callback) {
+        JsonRequest jsonRequest = new JsonRequest
+                (Request.Method.GET, JianyiApi.yihuoAll(pageIndex), null, response -> {
+                    try {
+                        Index index = gson.fromJson(response.toString(), Index.class);
 
+                        List<Index.Data.Items> items = index.getData().getItems();
+
+                        String trans = gson.toJson(items);
+
+                        List<YihuoProfile> data = gson.fromJson(trans,
+                                new TypeToken<List<YihuoProfile>>() {
+                                }.getType());
+
+                        // do clear
+                        if (data != null)
+                            callback.onCompleted(data);
+                    } catch (JsonParseException e) {
+                        callback.onParseError(e.getMessage());
+                    }
+                }, error -> callback.onVolleyError(VolleyErrorHelper.getMessage(error)));
+        Jianyi.getInstance().addRequest(jsonRequest, INDEX_REQUEST);
     }
 
     public void getDetails(@NonNull String yihuoId, RequestYihuoDetailsCallback callback) {
@@ -126,6 +150,15 @@ public class YihuoModel implements BaseModel {
         void onVolleyError(String message);
 
         void onCompleted(YihuoDetails data);
+
+        void onParseError(String message);
+    }
+
+    public interface RequestYihuoProfileCallback {
+
+        void onVolleyError(String message);
+
+        void onCompleted(List<YihuoProfile> data);
 
         void onParseError(String message);
     }

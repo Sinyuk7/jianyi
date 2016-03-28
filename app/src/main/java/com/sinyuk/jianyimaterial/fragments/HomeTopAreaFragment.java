@@ -177,13 +177,7 @@ public class HomeTopAreaFragment extends BaseFragment {
             Collections.addAll(posterUrls, ads);
         }
 
-        billboard.setPages(
-                new CBViewHolderCreator<WebImageViewHolder>() {
-                    @Override
-                    public WebImageViewHolder createHolder() {
-                        return new WebImageViewHolder();
-                    }
-                }, posterUrls);
+        billboard.setPages(WebImageViewHolder::new, posterUrls);
         billboard.notifyDataSetChanged();
 
     }

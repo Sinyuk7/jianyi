@@ -14,7 +14,7 @@ import rx.subscriptions.CompositeSubscription;
 /**
  * Created by Sinyuk on 16.3.16.
  */
-public abstract class BaseActivity
+public abstract class BaseActivity<P extends  BasePresenter>
         extends AppCompatActivity {
 
     protected CompositeSubscription mCompositeSubscription;
