@@ -12,11 +12,13 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <com.sinyuk.jianyimaterial.widgets.RatioImageView
             android:id="@+id/shot_iv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
+            app:ratio="1.28"
             android:scaleType="centerCrop"
             tools:src="@drawable/backdrop_2" />
 
@@ -28,7 +30,6 @@
             android:layout_alignParentRight="true"
             app:lv_background_color="@color/colorAccent"
             app:lv_gravity="TOP_RIGHT"
-
             app:lv_text_bold="true"
             app:lv_text_size="@dimen/material_text_caption1" />
 
@@ -37,29 +38,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/shot_iv"
-            android:layout_marginBottom="@dimen/tiny_content_space"
             android:layout_marginLeft="@dimen/general_content_space"
             android:layout_marginRight="@dimen/general_content_space"
             android:layout_marginTop="@dimen/general_content_space"
             android:ellipsize="end"
-            android:maxLines="3"
-            android:textSize="@dimen/material_text_body1"
+            android:maxLines="1"
+            android:textSize="@dimen/material_text_body2"
             tools:text="@string/dummy_thrift_description" />
 
-        <View
+      <!--  <View
             android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@+id/title_tv"
-            android:background="@color/grey_100" />
+            android:background="@color/grey_100" />-->
 
 
         <ImageView
             android:id="@+id/avatar"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:layout_below="@+id/divider"
-            android:layout_marginLeft="@dimen/general_content_space"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/title_tv"
+            android:layout_marginRight="@dimen/general_content_space"
             android:layout_marginTop="@dimen/general_content_space"
             tools:src="@drawable/expression_65" />
 
@@ -69,32 +70,33 @@
             style="@style/SingleLineText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/divider"
-            android:layout_marginLeft="@dimen/general_content_space"
-            android:layout_marginTop="@dimen/general_content_space"
-            android:layout_toRightOf="@+id/avatar"
-            android:textSize="@dimen/material_text_caption1"
+            android:layout_alignTop="@+id/avatar"
+            android:layout_marginRight="@dimen/general_content_space"
+            android:layout_marginTop="@dimen/tiny_content_space"
+            android:layout_toLeftOf="@+id/avatar"
+            android:textColor="@color/grey_600"
+            android:textSize="@dimen/material_text_caption2"
             android:textStyle="bold"
             tools:text="@string/user_name" />
 
-        <TextView
-            android:id="@+id/pub_date_tv"
-            style="@style/SingleLineText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="@dimen/general_content_space"
-            android:layout_below="@id/divider"
-            android:layout_alignBaseline="@+id/user_name_tv"
-            android:textColor="@color/grey_600"
-            android:textSize="@dimen/material_text_caption2"
-            android:textStyle="italic"
-            tools:text="@string/pubdate" />
-
+        <!--     <TextView
+                 android:id="@+id/pub_date_tv"
+                 style="@style/SingleLineText"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_alignParentRight="true"
+                 android:layout_alignParentEnd="true"
+                 android:layout_marginRight="@dimen/general_content_space"
+                 android:layout_below="@id/divider"
+                 android:layout_alignBaseline="@+id/user_name_tv"
+                 android:textColor="@color/grey_600"
+                 android:textSize="@dimen/material_text_caption2"
+                 android:textStyle="italic"
+                 tools:text="@string/pubdate" />
+     -->
 
         <!--地点-->
-        <TextView
+        <!--<TextView
             android:layout_below="@+id/user_name_tv"
             android:id="@+id/location_tv"
             android:layout_marginLeft="@dimen/general_content_space"
@@ -106,8 +108,7 @@
             android:maxLines="1"
             android:textColor="@color/grey_600"
             android:textSize="@dimen/material_text_caption2"
-            tools:text="@string/dummy_user_location" />
-
+            tools:text="@string/dummy_user_location" />-->
 
 
     </RelativeLayout>

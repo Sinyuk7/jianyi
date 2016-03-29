@@ -19,7 +19,6 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.jakewharton.rxbinding.view.RxView;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.activities.ProfileActivity;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
@@ -42,6 +41,7 @@ import butterknife.ButterKnife;
  * Created by Sinyuk on 16.1.20.
  */
 public class CardListAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile, CardListAdapter.CardViewHolder> {
+
 
     private DrawableRequestBuilder<String> avatarRequest;
 
@@ -101,20 +101,21 @@ public class CardListAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile, C
         }
 
         // TODO: initialize username;
-        holder.userNameTv.setText(StringUtils.check(mContext, itemData.getUsername(), R.string.unknown_user_name));
+        holder.userNameTv.setText(String.format(StringUtils.getRes(mContext, R.string.details_username),
+                StringUtils.check(mContext, itemData.getUsername(), R.string.untable)));
         // TODO: initialize title;
         holder.titleTv.setText(StringUtils.check(mContext, itemData.getName(), R.string.unknown_title));
         // TODO: initialize newPrice;
         holder.newPriceLabelView.setText(FormatUtils.formatPrice(itemData.getPrice()));
         // TODO: initialize pubDate;
-        try {
+    /*    try {
             holder.pubDateTv.setText(FuzzyDateFormater.getParsedDate(mContext, itemData.getTime()));
         } catch (ParseException e) {
             holder.pubDateTv.setText(StringUtils.getRes(mContext, R.string.unknown_date));
             e.printStackTrace();
-        }
+        }*/
         // TODO: initialize location;
-        holder.locationTv.setText(StringUtils.check(mContext, itemData.getSchoolname(), R.string.unknown_location));
+//        holder.locationTv.setText(StringUtils.check(mContext, itemData.getSchoolname(), R.string.unknown_location));
 
 
         // use a TextDrawable as a placeholder
@@ -176,16 +177,10 @@ public class CardListAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile, C
         LabelView newPriceLabelView;
         @Bind(R.id.title_tv)
         TextView titleTv;
-        @Bind(R.id.divider)
-        View divider;
         @Bind(R.id.avatar)
         ImageView avatar;
         @Bind(R.id.user_name_tv)
         TextView userNameTv;
-        @Bind(R.id.pub_date_tv)
-        TextView pubDateTv;
-        @Bind(R.id.location_tv)
-        TextView locationTv;
         @Bind(R.id.card_view)
         CardView cardView;
 
