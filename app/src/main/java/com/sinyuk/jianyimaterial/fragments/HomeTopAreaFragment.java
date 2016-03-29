@@ -169,9 +169,9 @@ public class HomeTopAreaFragment extends BaseFragment {
         } else {
             // TODO: 模拟获取图片的 url 不知道能不能在这里用 Glide 啊
             final String[] ads = new String[]{
-                    "http://www.i-jianyi.com/img/ios/1.jpg",
-                    "http://www.i-jianyi.com/img/ios/2.jpg",
-                    "http://www.i-jianyi.com/img/ios/3.jpg",
+                    "http://wx.i-jianyi.com/img/ios/1.jpg",
+                    "http://wx.i-jianyi.com/img/ios/2.jpg",
+                    "http://wx.i-jianyi.com/img/ios/3.jpg",
             };
 
             Collections.addAll(posterUrls, ads);

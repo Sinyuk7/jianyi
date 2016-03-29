@@ -7,16 +7,16 @@ import android.support.annotation.Nullable;
  * Created by Sinyuk on 15.12.28.
  */
 public class JianyiApi {
-    public static final String JIANYI = "http://www.i-jianyi.com";
-    private static final String GOODS = "http://www.i-jianyi.com/port/goods";
-    private static final String NEEDS = "http://www.i-jianyi.com/port/needs";
-    private static final String SIGN = "http://www.i-jianyi.com/port/sign";
+    public static final String JIANYI = "http://wx.i-jianyi.com";
+    private static final String GOODS = "http://wx.i-jianyi.com/port/goods";
+    private static final String NEEDS = "http://wx.i-jianyi.com/port/needs";
+    private static final String SIGN = "http://wx.i-jianyi.com/port/sign";
     private static final String ORDER_DESC = "&order=time_desc";
     private static final String ORDER_ASC = "&order=time_asc";
-    private static final String SHOW_USER = "http://www.i-jianyi.com/port/user/show/";
-    private static final String IMAGE_UPLOAD = "http://www.i-jianyi.com/port/resource/imgUpload";
-    private static final String POST_FEED = "http://www.i-jianyi.com/port/goods/create";
-    private static final String SCHOOLS = "http://www.i-jianyi.com/port/school";
+    private static final String SHOW_USER = "http://wx.i-jianyi.com/port/user/show/";
+    private static final String IMAGE_UPLOAD = "http://wx.i-jianyi.com/port/resource/imgUpload";
+    private static final String POST_FEED = "http://wx.i-jianyi.com/port/goods/create";
+    private static final String SCHOOLS = "http://wx.i-jianyi.com/port/school";
 
     public static String yihuoAll(@Nullable int pageIndex) {
         return GOODS +
@@ -33,18 +33,18 @@ public class JianyiApi {
 
     // 大类
     public static String yihuoBySort(@Nullable int pageIndex, String parentSort) {
-        return "http://www.i-jianyi.com/port/goods/index" + "?page=" + pageIndex + "&title=" + parentSort;
+        return "http://wx.i-jianyi.com/port/goods/index" + "?page=" + pageIndex + "&title=" + parentSort;
     }
 
 
     public static String yihuoBySort(@Nullable int pageIndex, String parentSort, String subSort) {
-        return "http://www.i-jianyi.com/port/goods/index" +
+        return "http://wx.i-jianyi.com/port/goods/index" +
                 "?sort=" + subSort + "&page=" + pageIndex + "&title=" + parentSort;
     }
 
 
     public static String shotUrl(@Nullable String uri) {
-        return "http://www.i-jianyi.com" + uri;
+        return "http://wx.i-jianyi.com" + uri;
     }
 
     public static String yihuoDetails(String id) {
@@ -87,14 +87,14 @@ public class JianyiApi {
     }
 
     public static String updateUser() {
-        return "http://www.i-jianyi.com/port/user/update";
+        return "http://wx.i-jianyi.com/port/user/update";
     }
 
     public static String register() {
-        return "http://www.i-jianyi.com/port/sign/register";
+        return "http://wx.i-jianyi.com/port/sign/register";
     }
 
     public static String search(int pageIndex, String query) {
-        return "http://www.i-jianyi.com/port/goods/search?page=" + pageIndex + "&content=" + query;
+        return "http://wx.i-jianyi.com/port/goods/search?page=" + pageIndex + "&content=" + query;
     }
 }
