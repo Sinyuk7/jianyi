@@ -12,7 +12,6 @@
         android:id="@+id/billboard"
         android:layout_width="match_parent"
         android:layout_height="@dimen/home_billboard_height"
-        android:background="@color/colorPrimary"
         app:canLoop="true" />
 
     <include layout="@layout/include_home_category" />

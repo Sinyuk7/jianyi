@@ -73,7 +73,6 @@
         <item name="cardUseCompatPadding">true</item>
         <item name="cardElevation">@dimen/cardView_default_elevation</item>
         <item name="cardCornerRadius">@dimen/cardView_default_corner_radius</item>
-        <item name="cardBackgroundColor">@color/white</item>
         <item name="cardMaxElevation">@dimen/cardView_raised_elevation</item>
     </style>
 
