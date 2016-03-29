@@ -37,6 +37,8 @@ import rx.schedulers.Schedulers;
 public class YihuoModel implements BaseModel {
     public static final String SHOW_REQUEST = "show";
     public static final String INDEX_REQUEST = "index";
+    private static final String HEADLINE_REQUEST = "headline";
+    private static final String HEADLINE_INDEX = "123";
 
 
     private static YihuoModel instance;
@@ -44,7 +46,7 @@ public class YihuoModel implements BaseModel {
     private YihuoDetailsService yihuoDetailsService;
     private Gson gson;
 
-    public YihuoModel(Context context) {
+    private YihuoModel(Context context) {
         this.mContext = context;
         yihuoDetailsService = DaoUtils.getYihuoDetailsService();
         gson = new Gson();
@@ -62,7 +64,27 @@ public class YihuoModel implements BaseModel {
         return instance;
     }
 
-    public void getProfile(int pageIndex, RequestYihuoProfileCallback callback) {
+    public void getLatestHeadline(RequestHeadlineCallback callback) {
+        JsonRequest jsonRequest = new JsonRequest
+                (Request.Method.GET, JianyiApi.yihuoDetails(HEADLINE_INDEX), null, response -> {
+                    try {
+                        Show show = gson.fromJson(response.toString(), Show.class);
+                        Show.Data jsonData = show.getData();
+                        String trans = gson.toJson(jsonData);
+                        YihuoDetails data = gson.fromJson(trans,
+                                YihuoDetails.class);
+                        if (data != null)
+                            callback.onCompleted(data);
+                    } catch (JsonParseException e) {
+                        callback.onParseError(e.getMessage());
+                    }
+
+                }, error -> callback.onVolleyError(VolleyErrorHelper.getMessage(error)));
+        Jianyi.getInstance().addRequest(jsonRequest, HEADLINE_REQUEST);
+    }
+
+
+    public void getProfile(int pageIndex, RequestYihuoProfileCallback callback, boolean isRefresh) {
         JsonRequest jsonRequest = new JsonRequest
                 (Request.Method.GET, JianyiApi.yihuoAll(pageIndex), null, response -> {
                     try {
@@ -78,7 +100,7 @@ public class YihuoModel implements BaseModel {
 
                         // do clear
                         if (data != null)
-                            callback.onCompleted(data);
+                            callback.onCompleted(data,isRefresh);
                     } catch (JsonParseException e) {
                         callback.onParseError(e.getMessage());
                     }
@@ -145,6 +167,15 @@ public class YihuoModel implements BaseModel {
         void onRemoveFromLikes();
     }
 
+    public interface RequestHeadlineCallback {
+
+        void onVolleyError(String message);
+
+        void onCompleted(YihuoDetails data);
+
+        void onParseError(String message);
+    }
+
     public interface RequestYihuoDetailsCallback {
 
         void onVolleyError(String message);
@@ -158,7 +189,7 @@ public class YihuoModel implements BaseModel {
 
         void onVolleyError(String message);
 
-        void onCompleted(List<YihuoProfile> data);
+        void onCompleted(List<YihuoProfile> data, boolean isRefresh);
 
         void onParseError(String message);
     }

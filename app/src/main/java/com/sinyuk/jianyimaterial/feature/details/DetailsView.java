@@ -66,7 +66,7 @@ import cimi.com.easeinterpolator.EaseSineInInterpolator;
 /**
  * Created by Sinyuk on 16.3.19.
  */
-public class DetailsView extends BaseActivity implements IDetailsView {
+public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements IDetailsView {
 
     public static final String YihuoProfile = "YihuoProfile";
     @Bind(R.id.placeholder)
@@ -122,8 +122,6 @@ public class DetailsView extends BaseActivity implements IDetailsView {
     @Bind(R.id.coordinator_layout)
     CoordinatorLayout coordinatorLayout;
 
-
-    private DetailsPresenterImpl mPresenter;
     private YihuoProfile profileData;
 
     private List<YihuoDetails.Pics> shotsList = new ArrayList<>();
@@ -143,6 +141,11 @@ public class DetailsView extends BaseActivity implements IDetailsView {
         profileData = getIntent().getExtras().getParcelable(YihuoProfile);
 
 
+    }
+
+    @Override
+    protected DetailsPresenterImpl createPresenter() {
+        return new DetailsPresenterImpl();
     }
 
 
@@ -284,17 +287,6 @@ public class DetailsView extends BaseActivity implements IDetailsView {
         return R.layout.activity_details;
     }
 
-    @Override
-    protected void attachPresenter() {
-        mPresenter = new DetailsPresenterImpl();
-        mPresenter.attachView(this);
-    }
-
-    @Override
-    protected void detachPresenter() {
-        mPresenter.detachView();
-        mPresenter = null;
-    }
 
     @Override
     public void setupLikeButton(boolean isAdded) {

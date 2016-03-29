@@ -1,5 +1,6 @@
 package com.sinyuk.jianyimaterial.mvp;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,14 +15,17 @@ import rx.subscriptions.CompositeSubscription;
  * Created by Sinyuk on 16.3.27.
  * Base fragment for mvp architecture
  */
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
+    protected P mPresenter;
 
     protected CompositeSubscription mCompositeSubscription;
 
     protected static String TAG = "";
+    protected Context mContext;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
         TAG = this.getClass().getSimpleName();
@@ -30,6 +34,12 @@ public abstract class BaseFragment extends Fragment {
 
         beforeInflate();
 
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
     }
 
     @Nullable
@@ -52,7 +62,12 @@ public abstract class BaseFragment extends Fragment {
 
     protected abstract int getContentViewID();
 
-    protected abstract void attachPresenter();
+    void attachPresenter() {
+        mPresenter = createPresenter();
+        mPresenter.attachView(this);
+    }
+
+    protected abstract P createPresenter();
 
     @Override
     public void onDestroy() {
@@ -63,5 +78,8 @@ public abstract class BaseFragment extends Fragment {
             mCompositeSubscription.unsubscribe();
     }
 
-    protected abstract void detachPresenter();
+    void detachPresenter() {
+        mPresenter.detachView();
+        mPresenter = null;
+    }
 }

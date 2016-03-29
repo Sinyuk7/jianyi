@@ -98,6 +98,7 @@ public class HomeListFragment extends SwipeRefreshFragment {
     }
 
     private void setupRecyclerView() {
+
         adapter = new CardListAdapter(mContext);
 
         recyclerView.setAdapter(adapter);

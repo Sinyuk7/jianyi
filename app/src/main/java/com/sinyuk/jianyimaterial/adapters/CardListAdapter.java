@@ -19,12 +19,13 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.jakewharton.rxbinding.view.RxView;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.activities.ProfileActivity;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
+import com.sinyuk.jianyimaterial.entity.YihuoProfile;
 import com.sinyuk.jianyimaterial.feature.details.DetailsView;
 import com.sinyuk.jianyimaterial.glide.CropCircleTransformation;
-import com.sinyuk.jianyimaterial.entity.YihuoProfile;
 import com.sinyuk.jianyimaterial.utils.FormatUtils;
 import com.sinyuk.jianyimaterial.utils.FuzzyDateFormater;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
@@ -41,7 +42,6 @@ import butterknife.ButterKnife;
  * Created by Sinyuk on 16.1.20.
  */
 public class CardListAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile, CardListAdapter.CardViewHolder> {
-
 
     private DrawableRequestBuilder<String> avatarRequest;
 
@@ -87,7 +87,6 @@ public class CardListAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile, C
         if (itemData == null)
             return;
         // TODO: initialize cardView
-        // 直接在adapter里面操作吧
         if (holder.cardView != null) {
             final YihuoProfile finalItemData = itemData;
             holder.cardView.setOnClickListener(v -> {
@@ -95,10 +94,8 @@ public class CardListAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile, C
                 Intent intent = new Intent(mContext, DetailsView.class);
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(YihuoProfile.TAG, finalItemData);
-
                 intent.putExtras(bundle);
                 mContext.startActivity(intent);
-
                 holder.cardView.postDelayed(() -> holder.cardView.setClickable(true), 300);
             });
         }
@@ -130,7 +127,8 @@ public class CardListAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile, C
         }
         TextDrawable textDrawable = TextDrawable.builder()
                 .buildRound(firstLetter + "", mContext.getResources().getColor(R.color.grey_300));
-        // TODO: initialize avatar
+
+        // initialize avatar
         avatarRequest.load(itemData.getHeadImg())
                 .placeholder(textDrawable)
                 .error(textDrawable)
@@ -138,9 +136,10 @@ public class CardListAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile, C
         holder.avatar.setTag(R.id.avatar_tag, position + "_24dp");
 
 
-        // TODO: initialize shot
+        // initialize shot
         final YihuoProfile finalItemData1 = itemData;
-        holder.avatar.setOnClickListener(v -> {
+
+        holder.avatar.setOnClickListener(avatar -> {
             Intent intent = new Intent(mContext, ProfileActivity.class);
             Bundle bundle = new Bundle();
             bundle.putString("user_name", finalItemData1.getUsername());

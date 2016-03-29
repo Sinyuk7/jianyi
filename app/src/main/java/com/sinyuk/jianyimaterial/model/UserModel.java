@@ -44,7 +44,7 @@ public class UserModel implements BaseModel {
     private User currentUser;
     private Gson gson;
 
-    public UserModel(Context context) {
+    private UserModel(Context context) {
         this.mContext = context;
         userService = DaoUtils.getUserService();
         gson = new Gson();

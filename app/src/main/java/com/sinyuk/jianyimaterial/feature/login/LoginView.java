@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
+import com.sinyuk.jianyimaterial.mvp.BasePresenter;
 import com.sinyuk.jianyimaterial.sweetalert.SweetAlertDialog;
 import com.sinyuk.jianyimaterial.utils.ImeUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
@@ -25,7 +26,7 @@ import butterknife.OnClick;
 /**
  * Created by Sinyuk on 16.3.16.
  */
-public class LoginView extends BaseActivity implements ILoginView {
+public class LoginView extends BaseActivity<LoginPresenterImpl> implements ILoginView {
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -50,8 +51,6 @@ public class LoginView extends BaseActivity implements ILoginView {
     @Bind(R.id.coordinator_layout)
     CoordinatorLayout coordinatorLayout;
 
-
-    private LoginPresenterImpl mPresenter;
     private SweetAlertDialog pDialog;
 
     @Override
@@ -62,6 +61,11 @@ public class LoginView extends BaseActivity implements ILoginView {
     @Override
     protected void beforeInflate() {
 
+    }
+
+    @Override
+    protected LoginPresenterImpl createPresenter() {
+        return new LoginPresenterImpl();
     }
 
     @Override
@@ -84,17 +88,6 @@ public class LoginView extends BaseActivity implements ILoginView {
         return true;
     }
 
-    @Override
-    protected void attachPresenter() {
-        mPresenter = new LoginPresenterImpl();
-        mPresenter.attachView(this);
-    }
-
-    @Override
-    protected void detachPresenter() {
-        mPresenter.detachView();
-        mPresenter = null;
-    }
 
     @Override
     public void showProgress() {

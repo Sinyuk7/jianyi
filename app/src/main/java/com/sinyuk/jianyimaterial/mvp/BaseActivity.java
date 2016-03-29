@@ -1,9 +1,9 @@
 package com.sinyuk.jianyimaterial.mvp;
 
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import com.jakewharton.rxbinding.support.v7.widget.RxToolbar;
 import com.sinyuk.jianyimaterial.R;
@@ -14,8 +14,10 @@ import rx.subscriptions.CompositeSubscription;
 /**
  * Created by Sinyuk on 16.3.16.
  */
-public abstract class BaseActivity<P extends  BasePresenter>
+public abstract class BaseActivity<P extends BasePresenter>
         extends AppCompatActivity {
+
+    protected P mPresenter;
 
     protected CompositeSubscription mCompositeSubscription;
 
@@ -37,6 +39,7 @@ public abstract class BaseActivity<P extends  BasePresenter>
             throw new IllegalArgumentException(TAG + " -> contentView can not been set");
         }
         attachPresenter();
+
         ButterKnife.bind(this);
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -55,6 +58,8 @@ public abstract class BaseActivity<P extends  BasePresenter>
 
     protected abstract void beforeInflate();
 
+    protected abstract P createPresenter();
+
     public void onNavigationClick(Void v) {
         finish();
     }
@@ -65,7 +70,13 @@ public abstract class BaseActivity<P extends  BasePresenter>
 
     protected abstract int getContentViewID();
 
-    protected abstract void attachPresenter();
+    @CallSuper
+    void attachPresenter() {
+        mPresenter = createPresenter();
+        mPresenter.attachView(this);
+    }
+
+
 
     @Override
     protected void onDestroy() {
@@ -76,5 +87,9 @@ public abstract class BaseActivity<P extends  BasePresenter>
             mCompositeSubscription.unsubscribe();
     }
 
-    protected abstract void detachPresenter();
+    @CallSuper
+    void detachPresenter() {
+        mPresenter.detachView();
+        mPresenter = null;
+    }
 }

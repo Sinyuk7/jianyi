@@ -181,7 +181,7 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="hint_set_about">关于简易</string>
     <string name="hint_never_show">不再显示</string>
     <string name="hint_today_new">今日上新</string>
-    <string name="hint_daily_edition">每日推送</string>
+    <string name="hint_daily_edition">在你附近</string>
     <string name="action_save">保存</string>
     <string name="unknown_user_name">未填写</string>
     <string name="unknown_title">未填写</string>
