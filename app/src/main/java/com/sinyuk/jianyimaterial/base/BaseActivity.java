@@ -1,11 +1,8 @@
 package com.sinyuk.jianyimaterial.base;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,7 +12,6 @@ import android.view.View;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.events.BaseEvent;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -71,7 +67,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             // TODO: Set back arrow as default navigation button
             if (isNavAsBack()) {
                 setSupportActionBar(toolbar);
-                toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+                toolbar.setNavigationIcon(R.drawable.ic_arrow_back_primary_24dp);
                 toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

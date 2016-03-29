@@ -11,7 +11,7 @@
 
     <item
         android:id="@+id/action_refresh"
-        android:icon="@drawable/ic_search_white_24dp"
+        android:icon="@drawable/ic_search_primary_24dp"
         android:title="@string/action_refresh"
         app:showAsAction="never|withText" />
 

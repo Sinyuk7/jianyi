@@ -6,6 +6,7 @@
     <!-- ================ -->
     <eat-comment />
     <color name="colorPrimary">#01D8A9</color>
+    <!--<color name="colorPrimary">#FFFFFF</color>-->
     <color name="colorPrimary_50pct">#7f01d8a9</color>
     <color name="colorPrimaryDark">#019B79</color>
     <color name="colorPrimaryLight">#C8E6C9</color>

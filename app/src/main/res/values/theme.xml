@@ -29,6 +29,17 @@
         <item name="android:textColor">@color/grey_600</item>
     </style>
 
+    <style name="MyActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:actionOverflowButtonStyle">@style/MyOverflowButtonStyle</item>
+        <item name="android:actionOverflowMenuStyle">@style/MyOverflowButtonStyle</item>
+    </style>
+
+    <style name="MyOverflowButtonStyle" parent="Base.Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:tint">@color/colorPrimary</item>
+        <item name="android:color">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
     <style name="activityAnimation" parent="@android:style/Animation">
         <item name="android:activityOpenEnterAnimation">@anim/slide_right_in</item>
         <item name="android:activityOpenExitAnimation">@anim/slide_left_out</item>

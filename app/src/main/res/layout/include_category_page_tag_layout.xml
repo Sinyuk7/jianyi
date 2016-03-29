@@ -76,7 +76,7 @@
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:padding="16dp"
-            android:src="@drawable/ic_arrow_back_white_24dp" />
+            android:src="@drawable/ic_arrow_back_primary_24dp" />
 
         <TextView
             style="@style/SingleLineText"

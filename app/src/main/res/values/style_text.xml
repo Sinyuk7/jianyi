@@ -50,11 +50,11 @@
     </style>
 
     <style name="collapsedTitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
     <style name="collapsedTitleText.Primary" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="TagLayoutTitle">

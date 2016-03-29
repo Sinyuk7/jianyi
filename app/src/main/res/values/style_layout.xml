@@ -27,7 +27,7 @@
 
     <!--Appbar Layout -->
     <style name="DefaultAppBarLayout">
-        <item name="elevation">0dp</item>
+        <!--<item name="elevation">0dp</item>-->
         <item name="android:fitsSystemWindows">true</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -39,7 +39,7 @@
     <style name="DefaultCollapsingToolbarLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="contentScrim">@color/colorPrimary</item>
+        <item name="contentScrim">@color/white</item>
         <item name="titleEnabled">false</item>
         <item name="android:fitsSystemWindows">true</item>
         <item name="layout_scrollFlags">scroll|exitUntilCollapsed</item>

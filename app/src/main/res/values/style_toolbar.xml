@@ -6,16 +6,16 @@
     <eat-comment />
 
     <style name="BaseToolbar">
-        <item name="titleTextColor">@color/white</item>
+        <item name="titleTextColor">@color/colorPrimary</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/toolbar_height</item>
-        <item name="android:background">@color/colorPrimary</item>
-        <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+        <item name="android:background">@color/white</item>
+        <item name="theme">@style/MyActionBar</item>
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
     </style>
 
     <style name="BaseToolbar.Home" parent="BaseToolbar">
-        <item name="navigationIcon">@drawable/ic_menu_white_24dp</item>
+        <item name="navigationIcon">@drawable/ic_menu_primary_24dp</item>
         <item name="navigationContentDescription">@string/action_menu</item>
         <item name="android:background">@color/transparent</item>
         <item name="layout_collapseMode">pin</item>
@@ -25,7 +25,7 @@
 
     <style name="BaseToolbar.Comments" parent="BaseToolbar">
         <item name="title">@string/activity_comments</item>
-        <item name="navigationIcon">@drawable/ic_arrow_back_white_24dp</item>
+        <item name="navigationIcon">@drawable/ic_arrow_back_primary_24dp</item>
         <item name="navigationContentDescription">@string/action_back</item>
         <item name="layout_scrollFlags">scroll|enterAlways|snap</item>
     </style>
