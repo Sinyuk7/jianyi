@@ -15,6 +15,7 @@ import com.sinyuk.jianyimaterial.api.JUser;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.application.Jianyi;
 import com.sinyuk.jianyimaterial.entity.User;
+import com.sinyuk.jianyimaterial.events.UserStateUpdateEvent;
 import com.sinyuk.jianyimaterial.greendao.dao.DaoUtils;
 import com.sinyuk.jianyimaterial.greendao.dao.UserService;
 import com.sinyuk.jianyimaterial.mvp.BaseModel;
@@ -22,6 +23,8 @@ import com.sinyuk.jianyimaterial.utils.PreferencesUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
 import com.sinyuk.jianyimaterial.volley.FormDataRequest;
 import com.sinyuk.jianyimaterial.volley.VolleyErrorHelper;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -71,18 +74,11 @@ public class UserModel implements BaseModel {
      *
      * @return current user if has logged in
      */
-    public Observable getCurrentUser() {
-        return Observable.create((Observable.OnSubscribe<User>) subscriber -> {
-                    subscriber.onNext(queryCurrentUser());
-                    subscriber.onCompleted();}
-        ).subscribeOn(Schedulers.io());
-
-    }
-
-    private User queryCurrentUser() {
+    public User getCurrentUser() {
         String uId = PreferencesUtils.getString(mContext, StringUtils.getRes(mContext, R.string.key_user_id));
         currentUser = (User) userService.query(uId);
         return currentUser;
+
     }
 
 
@@ -96,14 +92,13 @@ public class UserModel implements BaseModel {
             User userData = gson.fromJson(trans, User.class);
             if (userData != null) {
                 // TODO: 这里应该保存数据 然后保存成功在回调onSucceed();
+                registerSucceed(userData, password);
                 callback.onSucceed();
             } else {
                 JLoginError error = gson.fromJson(response, JLoginError.class);
                 callback.onFailed(error.getError_msg());
             }
-        }, (Response.ErrorListener) error -> {
-            callback.onError(VolleyErrorHelper.getMessage(error));
-        }) {
+        }, (Response.ErrorListener) error -> callback.onError(VolleyErrorHelper.getMessage(error))) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
@@ -114,6 +109,25 @@ public class UserModel implements BaseModel {
         };
 
         Jianyi.getInstance().addRequest(jsonRequest, LOGIN_REQUEST);
+    }
+
+    private void registerSucceed(User userData, String password) {
+        userService.saveOrUpdate(userData);
+
+//        EventBus.getDefault().post(new LoginEvent(true, userData.getId()));
+        if (null != currentUser) {
+            if (!userData.getId().equals(currentUser.getId()))
+                PreferencesUtils.clearAll(mContext); // a new user has login  clean up the prefs
+        }
+
+        PreferencesUtils.putString(mContext, StringUtils.getRes(mContext, R.string.key_user_id), userData.getId());
+        PreferencesUtils.putBoolean(mContext, StringUtils.getRes(mContext, R.string.key_login_state), true);
+        int loginTimes = PreferencesUtils.getInt(mContext, StringUtils.getRes(mContext, R.string.key_login_times), 0) + 1;
+        PreferencesUtils.putInt(mContext, StringUtils.getRes(mContext, R.string.key_login_times), loginTimes);
+        // post event first  in case they clean up the prefs
+        PreferencesUtils.putString(mContext, StringUtils.getRes(mContext, R.string.key_psw), password);
+
+        EventBus.getDefault().post(new UserStateUpdateEvent(true, userData.getId()));
     }
 
 

@@ -189,51 +189,34 @@ public class HomeActivity extends BaseActivity implements
         final TextView locationTv = (TextView) headerLayout.findViewById(R.id.location_tv);
 
         if (UserModel.getInstance(this).isLoggedIn()) {
-            mSubscription.add(UserModel.getInstance(this).getCurrentUser()
-                    .subscribeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<User>() {
-                        @Override
-                        public void onCompleted() {
+            if (UserModel.getInstance(this).getCurrentUser() == null) {
+                ToastUtils.toastSlow(mContext, "登陆失败");
 
-                        }
+                Glide.with(mContext).load(R.drawable.backdrop_2).into(backdropIv);
+                Glide.with(mContext).load(R.drawable.ic_avatar_placeholder).into(avatar);
 
-                        @Override
-                        public void onError(Throwable e) {
-                            ToastUtils.toastSlow(mContext, e.getMessage());
+                userNameTv.setText(StringUtils.getRes(mContext, R.string.hint_click_to_login));
+                locationTv.setText(null);
+            } else {
+                final User user = UserModel.getInstance(this).getCurrentUser();
+                DrawableRequestBuilder<String> requestBuilder;
+                requestBuilder = Glide.with(mContext).fromString().diskCacheStrategy(DiskCacheStrategy.RESULT);
+                requestBuilder.load(user.getHeading()).bitmapTransform(new CropCircleTransformation(mContext)).crossFade()
+                        .thumbnail(0.2f).error(R.drawable.ic_avatar_placeholder).priority(Priority.IMMEDIATE).into(avatar);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                    requestBuilder.load(user.getHeading()).bitmapTransform(new BlurTransformation(mContext))
+                            .crossFade().priority(Priority.HIGH).error(R.drawable.backdrop_2).thumbnail(0.5f).into(backdropIv);
+                } else {
+                    requestBuilder.load(user.getHeading()).bitmapTransform(new ColorFilterTransformation(mContext, getResources().getColor(R.color.colorPrimary_50pct)))
+                            .crossFade().priority(Priority.HIGH).error(R.drawable.backdrop_2).thumbnail(0.5f).into(backdropIv);
+                }
+                userNameTv.setText(
+                        StringUtils.check(mContext, user.getName(), R.string.unknown_user_name));
+                final int index = Integer.parseInt(user.getSchool()) - 1;
+                if (index >= 0 && index < getResources().getStringArray(R.array.schools_sort).length)
+                    locationTv.setText(StringUtils.check(mContext, getResources().getStringArray(R.array.schools_sort)[index], R.string.untable));
 
-                            Glide.with(mContext).load(R.drawable.backdrop_2).into(backdropIv);
-                            Glide.with(mContext).load(R.drawable.ic_avatar_placeholder).into(avatar);
-
-                            userNameTv.setText(StringUtils.getRes(mContext, R.string.hint_click_to_login));
-                            locationTv.setText(null);
-                        }
-
-                        @Override
-                        public void onNext(User user) {
-                            DrawableRequestBuilder<String> requestBuilder;
-                            requestBuilder = Glide.with(mContext).fromString().diskCacheStrategy(DiskCacheStrategy.RESULT);
-
-                            requestBuilder.load(user.getHeading()).bitmapTransform(new CropCircleTransformation(mContext)).crossFade()
-                                    .thumbnail(0.2f).error(R.drawable.ic_avatar_placeholder).priority(Priority.IMMEDIATE).into(avatar);
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                                requestBuilder.load(user.getHeading()).bitmapTransform(new BlurTransformation(mContext))
-                                        .crossFade().priority(Priority.HIGH).error(R.drawable.backdrop_2).thumbnail(0.5f).into(backdropIv);
-                            } else {
-                                requestBuilder.load(user.getHeading()).bitmapTransform(new ColorFilterTransformation(mContext, getResources().getColor(R.color.colorPrimary_50pct)))
-                                        .crossFade().priority(Priority.HIGH).error(R.drawable.backdrop_2).thumbnail(0.5f).into(backdropIv);
-                            }
-
-                            userNameTv.setText(
-                                    StringUtils.check(mContext, user.getName(), R.string.unknown_user_name));
-
-                            final int index = Integer.parseInt(user.getSchool()) - 1;
-                            if (index >= 0 && index < getResources().getStringArray(R.array.schools_sort).length)
-                                locationTv.setText(StringUtils.check(mContext, getResources().getStringArray(R.array.schools_sort)[index], R.string.untable));
-
-                        }
-                    }));
-
-
+            }
             /**
              * TODO: 设置学校 这个要动态更新啊
              */
