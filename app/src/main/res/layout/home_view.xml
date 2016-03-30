@@ -1,7 +1,8 @@
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.design.widget.CoordinatorLayout
     android:id="@+id/coordinator_layout"
     style="@style/DefaultCoordinatorLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
@@ -17,8 +18,10 @@
             app:title="@string/app_name"
             app:titleEnabled="true">
 
-            <LinearLayout android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fitsSystemWindows="true"
                 android:orientation="vertical"
                 app:layout_collapseMode="pin">
 
@@ -26,14 +29,15 @@
                     android:id="@+id/billboard"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/home_billboard_height"
-                    app:canLoop="true" />
+                    android:fitsSystemWindows="true"
+                    app:canLoop="true"/>
 
-                <include layout="@layout/include_home_category" />
+                <include layout="@layout/include_home_category"/>
             </LinearLayout>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
-                style="@style/BaseToolbar.Home" />
+                style="@style/BaseToolbar.Home"/>
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
@@ -49,7 +53,7 @@
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:overScrollMode="never" />
+            android:overScrollMode="never"/>
 
     </com.sinyuk.jianyimaterial.widgets.MultiSwipeRefreshLayout>
 
@@ -58,6 +62,6 @@
         style="@style/FAB.Large"
         android:layout_gravity="bottom|end"
         android:src="@drawable/ic_add_white_48dp"
-        app:layout_behavior="com.sinyuk.jianyimaterial.ui.ScrollAwareFABBehavior" />
+        app:layout_behavior="com.sinyuk.jianyimaterial.ui.ScrollAwareFABBehavior"/>
 </android.support.design.widget.CoordinatorLayout>
 
