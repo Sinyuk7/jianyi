@@ -51,8 +51,7 @@ public class HomeView extends com.sinyuk.jianyimaterial.mvp.BaseFragment<HomePre
     private TextView mReadMore;
 
     public static HomeView getInstance() {
-        if (null == sInstance)
-            sInstance = new HomeView();
+        if (null == sInstance) { sInstance = new HomeView(); }
         return sInstance;
     }
 
@@ -190,8 +189,9 @@ public class HomeView extends com.sinyuk.jianyimaterial.mvp.BaseFragment<HomePre
 
     @Override
     public void showList(List<YihuoProfile> newPage, boolean isRefresh) {
-        if (isRefresh && !mYihuoProfileList.isEmpty())
+        if (mYihuoProfileList != null && !mYihuoProfileList.isEmpty() && isRefresh) {
             mYihuoProfileList.clear();
+        }
         mYihuoProfileList.addAll(newPage);
         mAdapter.setData(mYihuoProfileList);
         mAdapter.notifyDataSetChanged();
