@@ -16,12 +16,10 @@ import rx.subscriptions.CompositeSubscription;
 /**
  * Created by Sinyuk on 16.3.30.
  */
-public abstract class BaseDrawerView<P extends BasePresenter>  extends MenuFragment{
-    protected P mPresenter;
-
-    protected CompositeSubscription mCompositeSubscription;
-
+public abstract class BaseDrawerView<P extends BasePresenter> extends MenuFragment {
     protected static String TAG = "";
+    protected P mPresenter;
+    protected CompositeSubscription mCompositeSubscription;
     protected Context mContext;
 
     @Override
@@ -46,7 +44,7 @@ public abstract class BaseDrawerView<P extends BasePresenter>  extends MenuFragm
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View mView = inflater.inflate(getContentViewID(), container);
+        final View mView = inflater.inflate(getContentViewID(), container, false);
         return setupReveal(mView);
     }
 
