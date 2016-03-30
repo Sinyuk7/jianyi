@@ -5,9 +5,5 @@ import com.sinyuk.jianyimaterial.mvp.BasePresenter;
 /**
  * Created by Sinyuk on 16.3.30.
  */
-public class EntryPresenterImpl extends BasePresenter<EntryView> implements IEntryPresenter{
-    @Override
-    public void toPostView() {
-
-    }
+public class EntryPresenterImpl extends BasePresenter<EntryView> implements IEntryPresenter {
 }

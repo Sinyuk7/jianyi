@@ -1,6 +1,5 @@
 package com.sinyuk.jianyimaterial.feature.entry;
 
-import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.FragmentManager;
 import android.widget.FrameLayout;
@@ -9,10 +8,10 @@ import com.mxn.soul.flowingdrawer_core.FlowingView;
 import com.mxn.soul.flowingdrawer_core.LeftDrawerLayout;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.feature.drawer.DrawerView;
+import com.sinyuk.jianyimaterial.feature.home.HomeView;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by Sinyuk on 16.3.30.
@@ -44,10 +43,12 @@ public class EntryView extends BaseActivity<EntryPresenterImpl> implements IEntr
 
     @Override
     protected void onFinishInflate() {
-/*        FragmentManager fm = getSupportFragmentManager();
-            fm.beginTransaction().add(R.id.container_menu, DrawerView.getInstance()).commit();
+        FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction().add(R.id.container_menu, DrawerView.getInstance()).commit();
         mLeftDrawerLayout.setFluidView(mFlowingView);
-        mLeftDrawerLayout.setMenuFragment();*/
+        mLeftDrawerLayout.setMenuFragment(DrawerView.getInstance());
+
+        fm.beginTransaction().add(R.id.home_view, HomeView.getInstance()).commit();
     }
 
     @Override
@@ -55,13 +56,4 @@ public class EntryView extends BaseActivity<EntryPresenterImpl> implements IEntr
         return R.layout.entry_view;
     }
 
-    @Override
-    public void toLoginView() {
-
-    }
-
-    @Override
-    public void toPostView() {
-
-    }
 }
