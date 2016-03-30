@@ -25,9 +25,9 @@ public class DetailsPresenterImpl extends BasePresenter<DetailsView> implements 
 
     @Override
     public void getLikesState(@NonNull String yihuoId) {
-        YihuoModel.getInstance(mView).getLikeState(yihuoId).subscribeOn(AndroidSchedulers.mainThread()).subscribe(isAdded -> {
+      /*  YihuoModel.getInstance(mView).getLikeState(yihuoId).subscribeOn(AndroidSchedulers.mainThread()).subscribe(isAdded -> {
             mView.setupLikeButton((Boolean) isAdded);
-        });
+        });*/
     }
 
     @Override
