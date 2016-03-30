@@ -16,7 +16,7 @@ import rx.subscriptions.CompositeSubscription;
 /**
  * Created by Sinyuk on 16.3.30.
  */
-public abstract class BaseDrawerView<P extends BasePresenter> extends MenuFragment {
+public abstract class MyMenuFragment<P extends BasePresenter> extends MenuFragment {
     protected static String TAG = "";
     protected P mPresenter;
     protected CompositeSubscription mCompositeSubscription;
