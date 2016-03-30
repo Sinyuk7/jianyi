@@ -23,6 +23,7 @@ import com.sinyuk.jianyimaterial.utils.NetWorkUtils;
 import com.sinyuk.jianyimaterial.widgets.LabelView;
 import com.sinyuk.jianyimaterial.widgets.MultiSwipeRefreshLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -42,7 +43,7 @@ public class HomeView extends com.sinyuk.jianyimaterial.mvp.BaseFragment<HomePre
     private CardListAdapter mAdapter;
     private View mListHeader;
     private int mPageIndex = 1;
-    private List<YihuoProfile> mYihuoProfileList;
+    private List<YihuoProfile> mYihuoProfileList = new ArrayList<>();
     private ImageView mShotIv;
     private LabelView mLabelView;
     private TextView mTitleTv;
@@ -140,7 +141,7 @@ public class HomeView extends com.sinyuk.jianyimaterial.mvp.BaseFragment<HomePre
                         if (NetWorkUtils.isNetworkConnection(mContext)) {
                             refresh();
                         } else {
-                            hintVolleyError("你的网络好像出了点问题");
+                            onVolleyError("你的网络好像出了点问题");
                             setRequestDataRefresh(false);
                         }
                     }
@@ -161,7 +162,6 @@ public class HomeView extends com.sinyuk.jianyimaterial.mvp.BaseFragment<HomePre
             }, 600);
         } else {
             mSwipeRefreshLayout.setRefreshing(true);
-
         }
     }
 
@@ -179,27 +179,26 @@ public class HomeView extends com.sinyuk.jianyimaterial.mvp.BaseFragment<HomePre
 
     @Override
     public void refresh() {
-        mPresenter.loadData(1, true);
+        mPresenter.loadData(1);
     }
 
     @Override
     public void loadData(int pageIndex) {
-        mPresenter.loadData(pageIndex, false);
+        mPresenter.loadData(pageIndex);
     }
+
+    @Override
+    public void onDataLoaded() {
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
+
 
     @Override
     public void showList(List<YihuoProfile> newPage, boolean isRefresh) {
-        if (mYihuoProfileList != null && !mYihuoProfileList.isEmpty() && isRefresh) {
-            mYihuoProfileList.clear();
-        }
+        if (!mYihuoProfileList.isEmpty() && isRefresh) { mYihuoProfileList.clear(); }
         mYihuoProfileList.addAll(newPage);
         mAdapter.setData(mYihuoProfileList);
         mAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void hintRequestLogin() {
-        // TODO: snack bar fab shake it off
     }
 
     @Override
@@ -213,13 +212,13 @@ public class HomeView extends com.sinyuk.jianyimaterial.mvp.BaseFragment<HomePre
     }
 
     @Override
-    public void hintVolleyError(@NonNull String message) {
-
+    public void onVolleyError(@NonNull String message) {
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
-    public void hintParseError(@NonNull String message) {
-
+    public void onParseError(@NonNull String message) {
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override

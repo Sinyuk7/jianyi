@@ -11,7 +11,7 @@ public interface IHomePresenter {
 
     void toHeaderHistory();
 
-    void loadData(int pageIndex,boolean isRefresh);
+    void loadData(int pageIndex);
 
     void toPostView();
 }

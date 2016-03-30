@@ -19,13 +19,13 @@ public interface IHomeView {
 
     void loadData(int pageIndex);
 
+    void onDataLoaded();
+
     void showList(List<YihuoProfile> newPage,boolean isRefresh);
 
-    void hintRequestLogin();
+    void onVolleyError(@NonNull String message);
 
-    void hintVolleyError(@NonNull String message);
-
-    void hintParseError(@NonNull String message);
+    void onParseError(@NonNull String message);
 
     void toPostView();
 

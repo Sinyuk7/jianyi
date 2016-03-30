@@ -28,8 +28,8 @@ public class HomePresenterImpl extends BasePresenter<HomeView> implements IHomeP
     }
 
     @Override
-    public void loadData(int pageIndex, boolean isRefresh) {
-        YihuoModel.getInstance(mView.getContext()).getProfile(pageIndex, this, isRefresh);
+    public void loadData(int pageIndex) {
+        YihuoModel.getInstance(mView.getContext()).getProfile(pageIndex, this);
     }
 
     @Override
@@ -37,22 +37,23 @@ public class HomePresenterImpl extends BasePresenter<HomeView> implements IHomeP
         if (UserModel.getInstance(mView.getContext()).isLoggedIn()){
             mView.toPostView();
         }else {
-            mView.hintRequestLogin();
+            mView.toLoginView();
         }
     }
 
     @Override
     public void onVolleyError(String message) {
-        mView.hintVolleyError(message);
+        mView.onVolleyError(message);
     }
 
     @Override
     public void onCompleted(List<YihuoProfile> data, boolean isRefresh) {
         mView.showList(data, isRefresh);
+        mView.onDataLoaded();
     }
 
     @Override
     public void onParseError(String message) {
-        mView.hintParseError(message);
+        mView.onParseError(message);
     }
 }

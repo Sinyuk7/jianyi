@@ -73,8 +73,7 @@ public class YihuoModel implements BaseModel {
                         String trans = gson.toJson(jsonData);
                         YihuoDetails data = gson.fromJson(trans,
                                 YihuoDetails.class);
-                        if (data != null)
-                            callback.onCompleted(data);
+                        if (data != null) { callback.onCompleted(data); }
                     } catch (JsonParseException e) {
                         callback.onParseError(e.getMessage());
                     }
@@ -84,7 +83,8 @@ public class YihuoModel implements BaseModel {
     }
 
 
-    public void getProfile(int pageIndex, RequestYihuoProfileCallback callback, boolean isRefresh) {
+    public void getProfile(int pageIndex, RequestYihuoProfileCallback callback) {
+        boolean isRefresh = pageIndex == 1;
         JsonRequest jsonRequest = new JsonRequest
                 (Request.Method.GET, JianyiApi.yihuoAll(pageIndex), null, response -> {
                     try {
@@ -99,8 +99,7 @@ public class YihuoModel implements BaseModel {
                                 }.getType());
 
                         // do clear
-                        if (data != null)
-                            callback.onCompleted(data,isRefresh);
+                        if (data != null) { callback.onCompleted(data, isRefresh); }
                     } catch (JsonParseException e) {
                         callback.onParseError(e.getMessage());
                     }
@@ -117,8 +116,7 @@ public class YihuoModel implements BaseModel {
                         String trans = gson.toJson(jsonData);
                         YihuoDetails data = gson.fromJson(trans,
                                 YihuoDetails.class);
-                        if (data != null)
-                            callback.onCompleted(data);
+                        if (data != null) { callback.onCompleted(data); }
                     } catch (JsonParseException e) {
                         callback.onParseError(e.getMessage());
                     }
