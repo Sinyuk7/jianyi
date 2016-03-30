@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/drawer_menu_1"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/drawer_menu_category"
+            android:icon="@drawable/ic_tag_multiple_grey600_24dp"
+            android:title="@string/drawer_menu_category" />
+
+        <item
+            android:id="@+id/drawer_menu_want"
+            android:icon="@drawable/ic_receipt_grey600_24dp"
+            android:title="@string/drawer_menu_want" />
+    </group>
+
+    <group
+        android:id="@+id/drawer_menu_3"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/drawer_menu_message"
+            android:icon="@drawable/ic_message_text_grey600_24dp"
+            android:title="@string/drawer_menu_message" />
+        <item
+            android:id="@+id/drawer_menu_account"
+            android:icon="@drawable/ic_account_grey600_24dp"
+            android:title="@string/drawer_menu_account" />
+
+    </group>
+    <group
+        android:id="@+id/drawer_menu_4"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/drawer_menu_settings"
+            android:icon="@drawable/ic_settings_grey600_24dp"
+            android:title="@string/drawer_menu_settings" />
+    </group>
+
+
+</menu>

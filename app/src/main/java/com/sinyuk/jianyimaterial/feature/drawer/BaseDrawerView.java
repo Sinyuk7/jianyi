@@ -49,7 +49,7 @@ public abstract class BaseDrawerView<P extends BasePresenter>  extends MenuFragm
         final View mView = inflater.inflate(getContentViewID(), container);
         return setupReveal(mView);
     }
-    
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
