@@ -41,7 +41,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="contentScrim">@color/white</item>
-        <item name="statusBarScrim">@color/colorPrimaryLight</item>
+        <item name="statusBarScrim">@color/colorPrimaryDark</item>
         <item name="titleEnabled">false</item>
         <item name="android:fitsSystemWindows">true</item>
         <item name="layout_scrollFlags">scroll|exitUntilCollapsed</item>
