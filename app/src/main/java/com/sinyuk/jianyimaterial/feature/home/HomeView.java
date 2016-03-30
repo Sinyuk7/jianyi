@@ -31,7 +31,7 @@ import butterknife.Bind;
  * Created by Sinyuk on 16.3.27.
  */
 public class HomeView extends com.sinyuk.jianyimaterial.mvp.BaseFragment<HomePresenterImpl> implements IHomeView {
-    public static HomeView instance;
+    private static HomeView sInstance;
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
     @Bind(R.id.recycler_view)
@@ -40,7 +40,6 @@ public class HomeView extends com.sinyuk.jianyimaterial.mvp.BaseFragment<HomePre
     MultiSwipeRefreshLayout mSwipeRefreshLayout;
     private boolean mIsRequestDataRefresh;
     private CardListAdapter mAdapter;
-
     private View mListHeader;
     private int mPageIndex = 1;
     private List<YihuoProfile> mYihuoProfileList;
@@ -50,8 +49,6 @@ public class HomeView extends com.sinyuk.jianyimaterial.mvp.BaseFragment<HomePre
     private TextView mDescriptionTv;
     private TextView mPubDataTv;
     private TextView mReadMore;
-
-    private static HomeView sInstance;
 
     public static HomeView getInstance() {
         if (null == sInstance)
@@ -222,6 +219,16 @@ public class HomeView extends com.sinyuk.jianyimaterial.mvp.BaseFragment<HomePre
 
     @Override
     public void hintParseError(@NonNull String message) {
+
+    }
+
+    @Override
+    public void toPostView() {
+
+    }
+
+    @Override
+    public void toLoginView() {
 
     }
 }

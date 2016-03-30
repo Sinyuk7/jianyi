@@ -26,4 +26,8 @@ public interface IHomeView {
     void hintVolleyError(@NonNull String message);
 
     void hintParseError(@NonNull String message);
+
+    void toPostView();
+
+    void toLoginView();
 }
