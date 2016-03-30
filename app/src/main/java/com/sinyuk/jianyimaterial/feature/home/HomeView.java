@@ -1,6 +1,5 @@
 package com.sinyuk.jianyimaterial.feature.home;
 
-import android.content.Context;
 import android.os.Build;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
@@ -15,12 +14,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.jakewharton.rxbinding.view.RxView;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.adapters.CardListAdapter;
-import com.sinyuk.jianyimaterial.base.BaseActivity;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
-import com.sinyuk.jianyimaterial.mvp.BaseFragment;
 import com.sinyuk.jianyimaterial.ui.HeaderItemSpaceDecoration;
 import com.sinyuk.jianyimaterial.ui.OnLoadMoreListener;
 import com.sinyuk.jianyimaterial.utils.NetWorkUtils;
@@ -35,14 +31,13 @@ import butterknife.Bind;
  * Created by Sinyuk on 16.3.27.
  */
 public class HomeView extends com.sinyuk.jianyimaterial.mvp.BaseFragment<HomePresenterImpl> implements IHomeView {
+    public static HomeView instance;
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
     @Bind(R.id.recycler_view)
     RecyclerView recyclerView;
     @Bind(R.id.swipe_refresh_layout)
     MultiSwipeRefreshLayout swipeRefreshLayout;
-
-    public static HomeView instance;
     private boolean mIsRequestDataRefresh;
     private CardListAdapter adapter;
 
@@ -196,11 +191,6 @@ public class HomeView extends com.sinyuk.jianyimaterial.mvp.BaseFragment<HomePre
         yihuoProfileList.addAll(newPage);
         adapter.setData(yihuoProfileList);
         adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void toPostView() {
-        // TODO : go to post view
     }
 
     @Override
