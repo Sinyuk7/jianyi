@@ -36,8 +36,7 @@
         <activity android:name=".activities.SettingsActivity"/>
         <activity
             android:name=".activities.HomeActivity"
-            android:launchMode="singleTop"
-            android:theme="@style/Jianyi.TranspStatus">
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
