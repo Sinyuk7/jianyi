@@ -48,12 +48,21 @@ public class EntryView extends BaseActivity<EntryPresenterImpl> implements IEntr
         mLeftDrawerLayout.setFluidView(mFlowingView);
         mLeftDrawerLayout.setMenuFragment(DrawerView.getInstance());
 
-        fm.beginTransaction().add(R.id.home_view, HomeView.getInstance()).commit();
+//        fm.beginTransaction().add(R.id.home_view, HomeView.getInstance()).commit();
     }
 
     @Override
     protected int getContentViewID() {
         return R.layout.entry_view;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mLeftDrawerLayout.isShownMenu()) {
+            mLeftDrawerLayout.closeDrawer();
+        } else {
+            super.onBackPressed();
+        }
     }
 
 }

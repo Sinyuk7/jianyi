@@ -6,7 +6,7 @@ import com.sinyuk.jianyimaterial.R;
 /**
  * Created by Sinyuk on 16.3.30.
  */
-public class DrawerView extends BaseDrawerView<DrawerPresenterImpl> implements IDrawerView {
+public class DrawerView extends MyMenuFragment<DrawerPresenterImpl> implements IDrawerView {
     private static DrawerView sInstance;
 
     public static DrawerView getInstance() {
