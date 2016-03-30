@@ -15,7 +15,7 @@
         android:layout_height="48dp"
         android:layout_centerHorizontal="true"
         android:scaleType="centerInside"
-        android:tint="@color/colorAccent"
+        android:tint="@color/colorPrimaryDark"
         tools:src="@drawable/expression_65" />
 
     <TextView
