@@ -316,7 +316,7 @@ public class PostFeedFragment extends BaseFragment {
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                return createBasicAuthHeader("15757161281", "aaa");
+                return createBasicAuthHeader(JianyiApi.BASIC_AUTHOR_ACCOUNT, JianyiApi.BASIC_AUTHOR_PASSWORD);
             }
 
             Map<String, String> createBasicAuthHeader(String username, String password) {

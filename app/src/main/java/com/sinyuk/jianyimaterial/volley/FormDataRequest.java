@@ -5,6 +5,7 @@ import android.util.Base64;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
+import com.sinyuk.jianyimaterial.api.JianyiApi;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +37,7 @@ public class FormDataRequest extends StringRequest {
 
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
-        return createBasicAuthHeader("15757161281", "aaa");
+        return createBasicAuthHeader(JianyiApi.BASIC_AUTHOR_ACCOUNT, JianyiApi.BASIC_AUTHOR_PASSWORD);
     }
 
     Map<String, String> createBasicAuthHeader(String username, String password) {

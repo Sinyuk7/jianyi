@@ -17,6 +17,8 @@ public class JianyiApi {
     private static final String IMAGE_UPLOAD = JIANYI + "/port/resource/imgUpload";
     private static final String POST_FEED = JIANYI + "/port/goods/create";
     private static final String SCHOOLS = JIANYI + "/port/school";
+    public static final String BASIC_AUTHOR_ACCOUNT  = "1202072324" ;
+    public static final String BASIC_AUTHOR_PASSWORD  = "1202072322" ;
 
     public static String yihuoAll(@Nullable int pageIndex) {
         return GOODS +

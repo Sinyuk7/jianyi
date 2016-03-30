@@ -9,6 +9,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.google.gson.Gson;
+import com.sinyuk.jianyimaterial.api.JianyiApi;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
@@ -68,7 +69,7 @@ public class GsonRequest<T> extends Request<T> {
 
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
-        return createBasicAuthHeader("15757161281", "aaa");
+        return createBasicAuthHeader(JianyiApi.BASIC_AUTHOR_ACCOUNT, JianyiApi.BASIC_AUTHOR_PASSWORD);
     }
 
     Map<String, String> createBasicAuthHeader(String username, String password) {

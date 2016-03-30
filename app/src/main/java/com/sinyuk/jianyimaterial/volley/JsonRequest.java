@@ -5,6 +5,7 @@ import android.util.Base64;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.sinyuk.jianyimaterial.api.JianyiApi;
 
 import org.json.JSONObject;
 
@@ -34,7 +35,7 @@ public class JsonRequest extends JsonObjectRequest {
 
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
-        return createBasicAuthHeader("15757161281", "aaa");
+        return createBasicAuthHeader(JianyiApi.BASIC_AUTHOR_ACCOUNT, JianyiApi.BASIC_AUTHOR_PASSWORD);
     }
 
     Map<String, String> createBasicAuthHeader(String username, String password) {
