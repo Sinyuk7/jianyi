@@ -1,4 +1,4 @@
-package com.sinyuk.jianyimaterial.feature.homelist;
+package com.sinyuk.jianyimaterial.feature.home;
 
 import android.support.annotation.NonNull;
 
@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Sinyuk on 16.3.27.
  */
-public interface IHomeListView {
+public interface IHomeView {
 
     void loadListHeader();
 
@@ -20,6 +20,10 @@ public interface IHomeListView {
     void loadData(int pageIndex);
 
     void showList(List<YihuoProfile> newPage,boolean isRefresh);
+
+    void toPostView();
+
+    void hintRequestLogin();
 
     void hintVolleyError(@NonNull String message);
 

@@ -1,6 +1,7 @@
-package com.sinyuk.jianyimaterial.feature.homelist;
+package com.sinyuk.jianyimaterial.feature.home;
 
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
+import com.sinyuk.jianyimaterial.model.UserModel;
 import com.sinyuk.jianyimaterial.model.YihuoModel;
 import com.sinyuk.jianyimaterial.mvp.BasePresenter;
 
@@ -9,8 +10,13 @@ import java.util.List;
 /**
  * Created by Sinyuk on 16.3.29.
  */
-public class HomeListPresenterImpl extends BasePresenter<HomeListView> implements IHomeListPresenter,
+public class HomePresenterImpl extends BasePresenter<HomeView> implements IHomePresenter,
         YihuoModel.RequestYihuoProfileCallback {
+    @Override
+    public void loadBanner() {
+
+    }
+
     @Override
     public void loadListHeader() {
 
@@ -23,7 +29,16 @@ public class HomeListPresenterImpl extends BasePresenter<HomeListView> implement
 
     @Override
     public void loadData(int pageIndex, boolean isRefresh) {
-        YihuoModel.getInstance(mView.getContext()).getProfile(pageIndex, this, isRefresh);
+        YihuoModel.getInstance(mView).getProfile(pageIndex, this, isRefresh);
+    }
+
+    @Override
+    public void toPostView() {
+        if (UserModel.getInstance(mView).isLoggedIn()){
+            mView.toPostView();
+        }else {
+            mView.hintRequestLogin();
+        }
     }
 
     @Override

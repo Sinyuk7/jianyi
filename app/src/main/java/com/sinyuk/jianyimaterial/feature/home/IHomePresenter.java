@@ -1,13 +1,17 @@
-package com.sinyuk.jianyimaterial.feature.homelist;
+package com.sinyuk.jianyimaterial.feature.home;
 
 /**
  * Created by Sinyuk on 16.3.27.
  */
-public interface IHomeListPresenter {
+public interface IHomePresenter {
+
+    void loadBanner();
 
     void loadListHeader();
 
     void toHeaderHistory();
 
     void loadData(int pageIndex,boolean isRefresh);
+
+    void toPostView();
 }

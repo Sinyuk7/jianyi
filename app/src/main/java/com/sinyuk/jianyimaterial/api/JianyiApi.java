@@ -8,15 +8,15 @@ import android.support.annotation.Nullable;
  */
 public class JianyiApi {
     public static final String JIANYI = "http://wx.i-jianyi.com";
-    private static final String GOODS = "http://wx.i-jianyi.com/port/goods";
-    private static final String NEEDS = "http://wx.i-jianyi.com/port/needs";
-    private static final String SIGN = "http://wx.i-jianyi.com/port/sign";
+    private static final String GOODS = JIANYI + "/port/goods";
+    private static final String NEEDS = JIANYI + "/port/needs";
+    private static final String SIGN = JIANYI + "/port/sign";
     private static final String ORDER_DESC = "&order=time_desc";
     private static final String ORDER_ASC = "&order=time_asc";
-    private static final String SHOW_USER = "http://wx.i-jianyi.com/port/user/show/";
-    private static final String IMAGE_UPLOAD = "http://wx.i-jianyi.com/port/resource/imgUpload";
-    private static final String POST_FEED = "http://wx.i-jianyi.com/port/goods/create";
-    private static final String SCHOOLS = "http://wx.i-jianyi.com/port/school";
+    private static final String SHOW_USER = JIANYI + "/port/user/show/";
+    private static final String IMAGE_UPLOAD = JIANYI + "/port/resource/imgUpload";
+    private static final String POST_FEED = JIANYI + "/port/goods/create";
+    private static final String SCHOOLS = JIANYI + "/port/school";
 
     public static String yihuoAll(@Nullable int pageIndex) {
         return GOODS +
@@ -87,14 +87,14 @@ public class JianyiApi {
     }
 
     public static String updateUser() {
-        return "http://wx.i-jianyi.com/port/user/update";
+        return JIANYI + "/port/user/update";
     }
 
     public static String register() {
-        return "http://wx.i-jianyi.com/port/sign/register";
+        return JIANYI + "/port/sign/register";
     }
 
     public static String search(int pageIndex, String query) {
-        return "http://wx.i-jianyi.com/port/goods/search?page=" + pageIndex + "&content=" + query;
+        return JIANYI + "/port/goods/search?page=" + pageIndex + "&content=" + query;
     }
 }

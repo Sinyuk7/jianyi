@@ -1,0 +1,63 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinator_layout"
+    style="@style/DefaultCoordinatorLayout"
+    android:fitsSystemWindows="true">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        style="@style/DefaultAppBarLayout">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar_layout"
+            style="@style/DefaultCollapsingToolbarLayout"
+            app:collapsedTitleTextAppearance="@style/collapsedTitleText"
+            app:expandedTitleMarginBottom="@dimen/activity_horizontal_margin"
+            app:expandedTitleTextAppearance="@style/expandedTitleText"
+            app:title="@string/app_name"
+            app:titleEnabled="true">
+
+            <LinearLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_collapseMode="pin">
+
+                <com.bigkoo.convenientbanner.ConvenientBanner
+                    android:id="@+id/billboard"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/home_billboard_height"
+                    app:canLoop="true" />
+
+                <include layout="@layout/include_home_category" />
+            </LinearLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                style="@style/BaseToolbar.Home" />
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <com.sinyuk.jianyimaterial.widgets.MultiSwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never" />
+
+    </com.sinyuk.jianyimaterial.widgets.MultiSwipeRefreshLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        style="@style/FAB.Large"
+        android:layout_gravity="bottom|end"
+        android:src="@drawable/ic_add_white_48dp"
+        app:layout_behavior="com.sinyuk.jianyimaterial.ui.ScrollAwareFABBehavior" />
+</android.support.design.widget.CoordinatorLayout>
+
