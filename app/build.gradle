@@ -52,5 +52,7 @@ dependencies {
     compile 'com.jakewharton.rxbinding:rxbinding-appcompat-v7:0.4.0'
     compile 'com.jakewharton.rxbinding:rxbinding-design:0.4.0'
     compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
+    compile 'com.mxn.soul:flowingdrawer-core:1.2.2'
+    compile 'com.nineoldandroids:library:2.4.0'
 //    compile 'com.squareup.leakcanary:leakcanary-android:1.4-beta1' // or 1.4-beta1
 }

@@ -28,7 +28,7 @@
             android:layout_height="56dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            app:lv_background_color="@color/colorAccent"
+            app:lv_background_color="@color/colorPrimary"
             app:lv_gravity="TOP_RIGHT"
             app:lv_text_bold="true"
             app:lv_text_size="@dimen/material_text_caption1" />

@@ -29,12 +29,12 @@ public class HomePresenterImpl extends BasePresenter<HomeView> implements IHomeP
 
     @Override
     public void loadData(int pageIndex, boolean isRefresh) {
-        YihuoModel.getInstance(mView).getProfile(pageIndex, this, isRefresh);
+        YihuoModel.getInstance(mView.getContext()).getProfile(pageIndex, this, isRefresh);
     }
 
     @Override
     public void toPostView() {
-        if (UserModel.getInstance(mView).isLoggedIn()){
+        if (UserModel.getInstance(mView.getContext()).isLoggedIn()){
             mView.toPostView();
         }else {
             mView.hintRequestLogin();

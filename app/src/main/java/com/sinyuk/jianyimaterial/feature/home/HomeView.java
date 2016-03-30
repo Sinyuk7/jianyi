@@ -34,7 +34,7 @@ import butterknife.Bind;
 /**
  * Created by Sinyuk on 16.3.27.
  */
-public class HomeView extends com.sinyuk.jianyimaterial.mvp.BaseActivity<HomePresenterImpl> implements IHomeView {
+public class HomeView extends com.sinyuk.jianyimaterial.mvp.BaseFragment<HomePresenterImpl> implements IHomeView {
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
     @Bind(R.id.recycler_view)
@@ -100,21 +100,21 @@ public class HomeView extends com.sinyuk.jianyimaterial.mvp.BaseActivity<HomePre
     }
 
     private void setupRecyclerView() {
-        adapter = new CardListAdapter(this);
+        adapter = new CardListAdapter(mContext);
         recyclerView.setAdapter(adapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            recyclerView.addItemDecoration(new HeaderItemSpaceDecoration(2, R.dimen.general_content_space, true, this));
+            recyclerView.addItemDecoration(new HeaderItemSpaceDecoration(2, R.dimen.general_content_space, true, mContext));
         } else {
-            recyclerView.addItemDecoration(new HeaderItemSpaceDecoration(2, R.dimen.tiny_content_space, true, this));
+            recyclerView.addItemDecoration(new HeaderItemSpaceDecoration(2, R.dimen.tiny_content_space, true, mContext));
         }
 
         final StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, OrientationHelper.VERTICAL);
 
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
 
-        headView = LayoutInflater.from(this).inflate(R.layout.include_home_daily_edition, recyclerView, false);
+        headView = LayoutInflater.from(mContext).inflate(R.layout.include_home_daily_edition, recyclerView, false);
 //
         adapter.setHeaderViewFullSpan(headView);
 
@@ -139,7 +139,7 @@ public class HomeView extends com.sinyuk.jianyimaterial.mvp.BaseActivity<HomePre
                     public void onRefresh() {
                         mIsRequestDataRefresh = true;
                         setRequestDataRefresh(true);
-                        if (NetWorkUtils.isNetworkConnection(HomeView.this)) {
+                        if (NetWorkUtils.isNetworkConnection(mContext)) {
                             refresh();
                         } else {
                             hintVolleyError("你的网络好像出了点问题");
@@ -169,7 +169,7 @@ public class HomeView extends com.sinyuk.jianyimaterial.mvp.BaseActivity<HomePre
 
     @Override
     protected int getContentViewID() {
-        return R.layout.fragment_list;
+        return R.layout.home_view;
     }
 
 
@@ -178,10 +178,6 @@ public class HomeView extends com.sinyuk.jianyimaterial.mvp.BaseActivity<HomePre
         return new HomePresenterImpl();
     }
 
-    @Override
-    protected boolean isNavAsBack() {
-        return false;
-    }
 
     @Override
     public void refresh() {
