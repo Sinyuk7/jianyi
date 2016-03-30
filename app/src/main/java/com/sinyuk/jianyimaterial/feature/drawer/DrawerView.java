@@ -1,11 +1,21 @@
 package com.sinyuk.jianyimaterial.feature.drawer;
 
+import android.os.Bundle;
+
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
+import com.sinyuk.jianyimaterial.mvp.BaseFragment;
 
 /**
  * Created by Sinyuk on 16.3.30.
  */
-public class DrawerView extends BaseActivity<DrawerPresenterImpl>{
+public class DrawerView extends BaseDrawerView<DrawerPresenterImpl> implements IDrawerView{
+    private static DrawerView sInstance;
+
+    public static DrawerView getInstance() {
+        if(null == sInstance)
+            sInstance = new DrawerView();
+        return sInstance;
+    }
     @Override
     protected void beforeInflate() {
 
@@ -16,10 +26,6 @@ public class DrawerView extends BaseActivity<DrawerPresenterImpl>{
         return null;
     }
 
-    @Override
-    protected boolean isNavAsBack() {
-        return false;
-    }
 
     @Override
     protected void onFinishInflate() {

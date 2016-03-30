@@ -21,8 +21,6 @@ public interface IHomeView {
 
     void showList(List<YihuoProfile> newPage,boolean isRefresh);
 
-    void toPostView();
-
     void hintRequestLogin();
 
     void hintVolleyError(@NonNull String message);
