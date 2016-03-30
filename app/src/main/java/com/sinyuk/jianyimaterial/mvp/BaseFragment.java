@@ -16,11 +16,9 @@ import rx.subscriptions.CompositeSubscription;
  * Base fragment for mvp architecture
  */
 public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
-    protected P mPresenter;
-
-    protected CompositeSubscription mCompositeSubscription;
-
     protected static String TAG = "";
+    protected P mPresenter;
+    protected CompositeSubscription mCompositeSubscription;
     protected Context mContext;
 
     @Override
@@ -45,7 +43,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(getContentViewID(), container);
+        return inflater.inflate(getContentViewID(), container, false);
     }
 
     @Override
