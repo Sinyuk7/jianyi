@@ -10,8 +10,6 @@ import com.sinyuk.jianyimaterial.mvp.BasePresenter;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import rx.android.schedulers.AndroidSchedulers;
-
 /**
  * Created by Sinyuk on 16.3.19.
  */

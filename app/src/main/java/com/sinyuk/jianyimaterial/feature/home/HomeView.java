@@ -1,5 +1,6 @@
 package com.sinyuk.jianyimaterial.feature.home;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mxn.soul.flowingdrawer_core.LeftDrawerLayout;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.adapters.CardListAdapter;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
@@ -50,10 +52,17 @@ public class HomeView extends com.sinyuk.jianyimaterial.mvp.BaseFragment<HomePre
     private TextView mDescriptionTv;
     private TextView mPubDataTv;
     private TextView mReadMore;
+    private LeftDrawerLayout mLeftDrawerLayout;
 
     public static HomeView getInstance() {
         if (null == sInstance) { sInstance = new HomeView(); }
         return sInstance;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mLeftDrawerLayout = (LeftDrawerLayout) getActivity().findViewById(R.id.left_drawer_layout);
     }
 
     @Override
@@ -63,25 +72,27 @@ public class HomeView extends com.sinyuk.jianyimaterial.mvp.BaseFragment<HomePre
 
     @Override
     protected void onFinishInflate() {
-        setDoubleTapListener(mToolbar);
+        setupToolbar();
         setupSwipeRefreshLayout();
         setupRecyclerView();
         setupListHeader();
     }
 
-    private void setDoubleTapListener(Toolbar mToolbar) {
+    private void setupToolbar() {
+        mToolbar.setNavigationOnClickListener(v -> toggleDrawerView());
         final long[] mHits = new long[2];
         mToolbar.setOnClickListener(v -> {
             System.arraycopy(mHits, 1, mHits, 0, mHits.length - 1);
             mHits[mHits.length - 1] = SystemClock.uptimeMillis();
             if (mHits[0] >= (SystemClock.uptimeMillis() - 500)) {
-                fastToTop();
+                mRecyclerView.smoothScrollToPosition(0);
             }
         });
     }
 
-    private void fastToTop() {
-        mRecyclerView.smoothScrollToPosition(0);
+    private void toggleDrawerView() {
+        if (null == mLeftDrawerLayout) { return; }
+        mLeftDrawerLayout.toggle();
     }
 
     private void setupListHeader() {
