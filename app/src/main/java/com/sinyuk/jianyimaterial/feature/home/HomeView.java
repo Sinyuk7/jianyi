@@ -35,22 +35,29 @@ public class HomeView extends com.sinyuk.jianyimaterial.mvp.BaseFragment<HomePre
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
     @Bind(R.id.recycler_view)
-    RecyclerView recyclerView;
+    RecyclerView mRecyclerView;
     @Bind(R.id.swipe_refresh_layout)
-    MultiSwipeRefreshLayout swipeRefreshLayout;
+    MultiSwipeRefreshLayout mSwipeRefreshLayout;
     private boolean mIsRequestDataRefresh;
-    private CardListAdapter adapter;
+    private CardListAdapter mAdapter;
 
-    private View headView;
-    private int pageIndex = 1;
-    private List<YihuoProfile> yihuoProfileList;
-    private ImageView shotIv;
-    private LabelView labelView;
-    private TextView titleTv;
-    private TextView descriptionTv;
-    private TextView pubDataTv;
-    private TextView readMore;
+    private View mListHeader;
+    private int mPageIndex = 1;
+    private List<YihuoProfile> mYihuoProfileList;
+    private ImageView mShotIv;
+    private LabelView mLabelView;
+    private TextView mTitleTv;
+    private TextView mDescriptionTv;
+    private TextView mPubDataTv;
+    private TextView mReadMore;
 
+    private static HomeView sInstance;
+
+    public static HomeView getInstance() {
+        if (null == sInstance)
+            sInstance = new HomeView();
+        return sInstance;
+    }
 
     @Override
     protected void beforeInflate() {
@@ -77,17 +84,17 @@ public class HomeView extends com.sinyuk.jianyimaterial.mvp.BaseFragment<HomePre
     }
 
     private void fastToTop() {
-        recyclerView.smoothScrollToPosition(0);
+        mRecyclerView.smoothScrollToPosition(0);
     }
 
     private void setupListHeader() {
-        shotIv = (ImageView) headView.findViewById(R.id.shot_iv);
-        labelView = (LabelView) headView.findViewById(R.id.label_rect);
-        titleTv = (TextView) headView.findViewById(R.id.title_tv);
-        descriptionTv = (TextView) headView.findViewById(R.id.description_tv);
-        pubDataTv = (TextView) headView.findViewById(R.id.pub_date_tv);
-        readMore = (TextView) headView.findViewById(R.id.read_more);
-        readMore.setOnClickListener(v -> toHeaderDetails());
+        mShotIv = (ImageView) mListHeader.findViewById(R.id.shot_iv);
+        mLabelView = (LabelView) mListHeader.findViewById(R.id.label_rect);
+        mTitleTv = (TextView) mListHeader.findViewById(R.id.title_tv);
+        mDescriptionTv = (TextView) mListHeader.findViewById(R.id.description_tv);
+        mPubDataTv = (TextView) mListHeader.findViewById(R.id.pub_date_tv);
+        mReadMore = (TextView) mListHeader.findViewById(R.id.read_more);
+        mReadMore.setOnClickListener(v -> toHeaderDetails());
     }
 
     private void toHeaderDetails() {
@@ -95,40 +102,40 @@ public class HomeView extends com.sinyuk.jianyimaterial.mvp.BaseFragment<HomePre
     }
 
     private void setupRecyclerView() {
-        adapter = new CardListAdapter(mContext);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        mAdapter = new CardListAdapter(mContext);
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            recyclerView.addItemDecoration(new HeaderItemSpaceDecoration(2, R.dimen.general_content_space, true, mContext));
+            mRecyclerView.addItemDecoration(new HeaderItemSpaceDecoration(2, R.dimen.general_content_space, true, mContext));
         } else {
-            recyclerView.addItemDecoration(new HeaderItemSpaceDecoration(2, R.dimen.tiny_content_space, true, mContext));
+            mRecyclerView.addItemDecoration(new HeaderItemSpaceDecoration(2, R.dimen.tiny_content_space, true, mContext));
         }
 
         final StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, OrientationHelper.VERTICAL);
 
-        recyclerView.setLayoutManager(staggeredGridLayoutManager);
+        mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
 
-        headView = LayoutInflater.from(mContext).inflate(R.layout.include_home_daily_edition, recyclerView, false);
+        mListHeader = LayoutInflater.from(mContext).inflate(R.layout.include_home_daily_edition, mRecyclerView, false);
 //
-        adapter.setHeaderViewFullSpan(headView);
+        mAdapter.setHeaderViewFullSpan(mListHeader);
 
-        recyclerView.addOnScrollListener(new OnLoadMoreListener(staggeredGridLayoutManager, swipeRefreshLayout) {
+        mRecyclerView.addOnScrollListener(new OnLoadMoreListener(staggeredGridLayoutManager, mSwipeRefreshLayout) {
             @Override
             public void onLoadMore() {
-                pageIndex++;
-                loadData(pageIndex);
+                mPageIndex++;
+                loadData(mPageIndex);
             }
         });
     }
 
     private void setupSwipeRefreshLayout() {
-        swipeRefreshLayout.setColorSchemeResources(
+        mSwipeRefreshLayout.setColorSchemeResources(
                 R.color.colorAccent,
                 R.color.themeRed,
                 R.color.themeGreen);
         // do not use lambda!!
-        swipeRefreshLayout.setOnRefreshListener(
+        mSwipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
@@ -145,19 +152,19 @@ public class HomeView extends com.sinyuk.jianyimaterial.mvp.BaseFragment<HomePre
     }
 
     private void setRequestDataRefresh(boolean requestDataRefresh) {
-        if (swipeRefreshLayout == null) {
+        if (mSwipeRefreshLayout == null) {
             return;
         }
         if (!requestDataRefresh) {
             mIsRequestDataRefresh = false;
             // TODO: 防止刷新消失太快，让刷新有点存在感
-            swipeRefreshLayout.postDelayed(() -> {
-                if (swipeRefreshLayout != null) {
-                    swipeRefreshLayout.setRefreshing(false);
+            mSwipeRefreshLayout.postDelayed(() -> {
+                if (mSwipeRefreshLayout != null) {
+                    mSwipeRefreshLayout.setRefreshing(false);
                 }
             }, 600);
         } else {
-            swipeRefreshLayout.setRefreshing(true);
+            mSwipeRefreshLayout.setRefreshing(true);
 
         }
     }
@@ -186,11 +193,11 @@ public class HomeView extends com.sinyuk.jianyimaterial.mvp.BaseFragment<HomePre
 
     @Override
     public void showList(List<YihuoProfile> newPage, boolean isRefresh) {
-        if (isRefresh && !yihuoProfileList.isEmpty())
-            yihuoProfileList.clear();
-        yihuoProfileList.addAll(newPage);
-        adapter.setData(yihuoProfileList);
-        adapter.notifyDataSetChanged();
+        if (isRefresh && !mYihuoProfileList.isEmpty())
+            mYihuoProfileList.clear();
+        mYihuoProfileList.addAll(newPage);
+        mAdapter.setData(mYihuoProfileList);
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
