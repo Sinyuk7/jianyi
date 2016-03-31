@@ -5,12 +5,15 @@ import android.content.Context;
 import com.android.volley.Request;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
+import com.google.gson.reflect.TypeToken;
 import com.sinyuk.jianyimaterial.api.JBanner;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.application.Jianyi;
 import com.sinyuk.jianyimaterial.entity.Banner;
 import com.sinyuk.jianyimaterial.volley.JsonRequest;
 import com.sinyuk.jianyimaterial.volley.VolleyErrorHelper;
+
+import java.util.List;
 
 /**
  * Created by Sinyuk on 16.3.31.
@@ -45,9 +48,10 @@ public class BannerModel {
                         JBanner jBanner = mGson.fromJson(response.toString(), JBanner.class);
                         JBanner.Data data = jBanner.getData();
                         String trans = mGson.toJson(data);
-                        Banner banner = mGson.fromJson(trans, Banner.class);
-                        // do clear
-                        if (banner != null) { callback.onCompleted(banner); }
+                        List<Banner> banners = mGson.fromJson(trans,
+                                new TypeToken<List<Banner>>() {
+                                }.getType());
+                        if (banners != null) { callback.onCompleted(banners); }
                     } catch (JsonParseException e) {
                         callback.onParseError(e.getMessage());
                     }
@@ -57,7 +61,7 @@ public class BannerModel {
 
     public interface RequestBannerCallback {
 
-        void onCompleted(Banner banner);
+        void onCompleted(List<Banner> banner);
 
         void onParseError(String message);
 
