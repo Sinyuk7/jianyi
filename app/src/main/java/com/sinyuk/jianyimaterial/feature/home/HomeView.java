@@ -41,7 +41,6 @@ import com.sinyuk.jianyimaterial.mvp.BaseFragment;
 import com.sinyuk.jianyimaterial.ui.HeaderItemSpaceDecoration;
 import com.sinyuk.jianyimaterial.ui.OnLoadMoreListener;
 import com.sinyuk.jianyimaterial.ui.trans.AccordionTransformer;
-import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.NetWorkUtils;
 import com.sinyuk.jianyimaterial.utils.ScreenUtils;
 import com.sinyuk.jianyimaterial.widgets.LabelView;
@@ -56,7 +55,8 @@ import rx.Observable;
 /**
  * Created by Sinyuk on 16.3.27.
  */
-public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeView {
+public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeView,
+        AppBarLayout.OnOffsetChangedListener {
     public static final float BANNER_ASPECT_RATIO = 243 / 720.f;
     private static final long BANNER_SWITCH_INTERVAL = 3000;
     private static HomeView sInstance;
@@ -99,7 +99,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     private TextView mPubDataTv;
     private TextView mReadMore;
     private LeftDrawerLayout mLeftDrawerLayout;
-    private List<Banner> bannerItemList;
+    private List<Banner> mBannerItemList;
 
     public static HomeView getInstance() {
         if (null == sInstance) { sInstance = new HomeView(); }
@@ -120,6 +120,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     @Override
     protected void onFinishInflate() {
         setupToolbar();
+        mAppBarLayout.addOnOffsetChangedListener(this);
         setupBanner();
         setupSwipeRefreshLayout();
         setupRecyclerView();
@@ -160,7 +161,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
 
     private void onBannerShotClick(int position) {
         Observable.just(position)
-                .map(bannerItemList::get)
+                .map(mBannerItemList::get)
                 .map(Banner::getLink)
                 .doOnError(throwable -> {})
                 .map(Uri::parse)
@@ -269,7 +270,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
 
     @Override
     public void showBanner(List<Banner> data) {
-        bannerItemList = data;
+        mBannerItemList = data;
         mBannerView.setPages(BannerItemViewHolder::new, getPicUrls(data));
         mBannerView.notifyDataSetChanged();
     }
@@ -346,6 +347,17 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     public void onPause() {
         super.onPause();
         mBannerView.stopTurning();
+    }
+
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+        if (verticalOffset == 0) {
+            mBannerView.startTurning(BANNER_SWITCH_INTERVAL);
+            mSwipeRefreshLayout.setEnabled(true);
+        } else {
+            mBannerView.stopTurning();
+            mSwipeRefreshLayout.setEnabled(false);
+        }
     }
 
     public class BannerItemViewHolder implements Holder<String> {
