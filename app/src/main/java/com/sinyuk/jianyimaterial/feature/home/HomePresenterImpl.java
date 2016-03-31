@@ -1,6 +1,8 @@
 package com.sinyuk.jianyimaterial.feature.home;
 
+import com.sinyuk.jianyimaterial.entity.Banner;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
+import com.sinyuk.jianyimaterial.model.BannerModel;
 import com.sinyuk.jianyimaterial.model.UserModel;
 import com.sinyuk.jianyimaterial.model.YihuoModel;
 import com.sinyuk.jianyimaterial.mvp.BasePresenter;
@@ -10,11 +12,13 @@ import java.util.List;
 /**
  * Created by Sinyuk on 16.3.29.
  */
-public class HomePresenterImpl extends BasePresenter<HomeView> implements IHomePresenter,
-        YihuoModel.RequestYihuoProfileCallback {
+public class HomePresenterImpl extends BasePresenter<HomeView> implements
+        IHomePresenter,
+        YihuoModel.RequestYihuoProfileCallback,
+        BannerModel.RequestBannerCallback {
     @Override
     public void loadBanner() {
-
+        BannerModel.getInstance(mView.getContext()).getBanner(this);
     }
 
     @Override
@@ -34,9 +38,9 @@ public class HomePresenterImpl extends BasePresenter<HomeView> implements IHomeP
 
     @Override
     public void toPostView() {
-        if (UserModel.getInstance(mView.getContext()).isLoggedIn()){
+        if (UserModel.getInstance(mView.getContext()).isLoggedIn()) {
             mView.toPostView();
-        }else {
+        } else {
             mView.toLoginView();
         }
     }
@@ -50,6 +54,11 @@ public class HomePresenterImpl extends BasePresenter<HomeView> implements IHomeP
     public void onCompleted(List<YihuoProfile> data, boolean isRefresh) {
         mView.showList(data, isRefresh);
         mView.onDataLoaded();
+    }
+
+    @Override
+    public void onCompleted(List<Banner> data) {
+        mView.showBanner(data);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.sinyuk.jianyimaterial.feature.home;
 
 import android.support.annotation.NonNull;
 
+import com.sinyuk.jianyimaterial.entity.Banner;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
 
 import java.util.List;
@@ -10,6 +11,8 @@ import java.util.List;
  * Created by Sinyuk on 16.3.27.
  */
 public interface IHomeView {
+
+    void showBanner(List<Banner> bannerList);
 
     void loadListHeader();
 

@@ -1,10 +1,17 @@
 package com.sinyuk.jianyimaterial.feature.home;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
@@ -12,16 +19,31 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bigkoo.convenientbanner.ConvenientBanner;
+import com.bigkoo.convenientbanner.holder.Holder;
+import com.bumptech.glide.DrawableRequestBuilder;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.mxn.soul.flowingdrawer_core.LeftDrawerLayout;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.adapters.CardListAdapter;
+import com.sinyuk.jianyimaterial.api.JianyiApi;
+import com.sinyuk.jianyimaterial.entity.Banner;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
+import com.sinyuk.jianyimaterial.mvp.BaseFragment;
 import com.sinyuk.jianyimaterial.ui.HeaderItemSpaceDecoration;
 import com.sinyuk.jianyimaterial.ui.OnLoadMoreListener;
+import com.sinyuk.jianyimaterial.ui.trans.AccordionTransformer;
+import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.NetWorkUtils;
+import com.sinyuk.jianyimaterial.utils.ScreenUtils;
 import com.sinyuk.jianyimaterial.widgets.LabelView;
 import com.sinyuk.jianyimaterial.widgets.MultiSwipeRefreshLayout;
 
@@ -29,11 +51,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import rx.Observable;
 
 /**
  * Created by Sinyuk on 16.3.27.
  */
-public class HomeView extends com.sinyuk.jianyimaterial.mvp.BaseFragment<HomePresenterImpl> implements IHomeView {
+public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeView {
+    public static final float BANNER_ASPECT_RATIO = 243 / 720.f;
+    private static final long BANNER_SWITCH_INTERVAL = 3000;
     private static HomeView sInstance;
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -41,6 +66,27 @@ public class HomeView extends com.sinyuk.jianyimaterial.mvp.BaseFragment<HomePre
     RecyclerView mRecyclerView;
     @Bind(R.id.swipe_refresh_layout)
     MultiSwipeRefreshLayout mSwipeRefreshLayout;
+    @Bind(R.id.banner_view)
+    ConvenientBanner mBannerView;
+    @Bind(R.id.category_wears_tv)
+    TextView mCategoryWearsTv;
+    @Bind(R.id.category_personal_care_tv)
+    TextView mCategoryPersonalCareTv;
+    @Bind(R.id.category_devices_tv)
+    TextView mCategoryDevicesTv;
+    @Bind(R.id.category_all_items_tv)
+    TextView mCategoryAllItemsTv;
+    @Bind(R.id.home_category)
+    CardView mHomeCategory;
+    @Bind(R.id.collapsing_toolbar_layout)
+    CollapsingToolbarLayout mCollapsingToolbarLayout;
+    @Bind(R.id.app_bar_layout)
+    AppBarLayout mAppBarLayout;
+    @Bind(R.id.fab)
+    FloatingActionButton mFab;
+    @Bind(R.id.coordinator_layout)
+    CoordinatorLayout mCoordinatorLayout;
+
     private boolean mIsRequestDataRefresh;
     private CardListAdapter mAdapter;
     private View mListHeader;
@@ -53,6 +99,7 @@ public class HomeView extends com.sinyuk.jianyimaterial.mvp.BaseFragment<HomePre
     private TextView mPubDataTv;
     private TextView mReadMore;
     private LeftDrawerLayout mLeftDrawerLayout;
+    private List<Banner> bannerItemList;
 
     public static HomeView getInstance() {
         if (null == sInstance) { sInstance = new HomeView(); }
@@ -73,9 +120,11 @@ public class HomeView extends com.sinyuk.jianyimaterial.mvp.BaseFragment<HomePre
     @Override
     protected void onFinishInflate() {
         setupToolbar();
+        setupBanner();
         setupSwipeRefreshLayout();
         setupRecyclerView();
         setupListHeader();
+        mPresenter.loadBanner();
     }
 
     private void setupToolbar() {
@@ -88,6 +137,36 @@ public class HomeView extends com.sinyuk.jianyimaterial.mvp.BaseFragment<HomePre
                 mRecyclerView.smoothScrollToPosition(0);
             }
         });
+    }
+
+    private void setupBanner() {
+        final ViewTreeObserver observer = mBannerView.getViewTreeObserver();
+        observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                mBannerView.getViewTreeObserver().removeOnPreDrawListener(this);
+                final LinearLayout.LayoutParams lps = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                lps.height = (int) (ScreenUtils.getScreenWidth(mContext) * BANNER_ASPECT_RATIO);
+                mBannerView.setLayoutParams(lps);
+                return false;
+            }
+        });
+
+        mBannerView.setPageTransformer(new AccordionTransformer());
+
+        mBannerView.setOnItemClickListener(this::onBannerShotClick);
+
+    }
+
+    private void onBannerShotClick(int position) {
+        Observable.just(position)
+                .map(bannerItemList::get)
+                .map(Banner::getLink)
+                .doOnError(throwable -> {})
+                .map(Uri::parse)
+                .doOnError(throwable -> {})
+                .map(uri -> new Intent(Intent.ACTION_VIEW, uri))
+                .subscribe(this::startActivity);
     }
 
     private void toggleDrawerView() {
@@ -189,6 +268,21 @@ public class HomeView extends com.sinyuk.jianyimaterial.mvp.BaseFragment<HomePre
 
 
     @Override
+    public void showBanner(List<Banner> data) {
+        bannerItemList = data;
+        mBannerView.setPages(BannerItemViewHolder::new, getPicUrls(data));
+        mBannerView.notifyDataSetChanged();
+    }
+
+    private List<String> getPicUrls(List<Banner> data) {
+        return Observable.from(data)
+                .take(3)
+                .map(Banner::getSrc)
+                .map(src -> JianyiApi.JIANYI + src)
+                .toList().toBlocking().single();
+    }
+
+    @Override
     public void refresh() {
         mPresenter.loadData(1);
     }
@@ -198,11 +292,11 @@ public class HomeView extends com.sinyuk.jianyimaterial.mvp.BaseFragment<HomePre
         mPresenter.loadData(pageIndex);
     }
 
+
     @Override
     public void onDataLoaded() {
         mSwipeRefreshLayout.setRefreshing(false);
     }
-
 
     @Override
     public void showList(List<YihuoProfile> newPage, boolean isRefresh) {
@@ -240,5 +334,41 @@ public class HomeView extends com.sinyuk.jianyimaterial.mvp.BaseFragment<HomePre
     @Override
     public void toLoginView() {
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mBannerView.startTurning(BANNER_SWITCH_INTERVAL);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mBannerView.stopTurning();
+    }
+
+    public class BannerItemViewHolder implements Holder<String> {
+        private ImageView imageView;
+
+        @Override
+        public View createView(Context context) {
+            imageView = new ImageView(context);
+            LinearLayout.LayoutParams lps = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            imageView.setLayoutParams(lps);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            return imageView;
+        }
+
+        @Override
+        public void UpdateUI(Context context, int position, String url) {
+            DrawableRequestBuilder<String> displayRequest = Glide.with(mContext).fromString()
+                    .error(mContext.getResources().getDrawable(R.drawable.image_placeholder_grey300))
+                    .placeholder(mContext.getResources().getDrawable(R.drawable.image_placeholder_grey300))
+                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                    .priority(Priority.IMMEDIATE);
+
+            displayRequest.load(url).into(imageView);
+        }
     }
 }
