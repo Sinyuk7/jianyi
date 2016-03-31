@@ -17,8 +17,8 @@ public class JianyiApi {
     private static final String IMAGE_UPLOAD = JIANYI + "/port/resource/imgUpload";
     private static final String POST_FEED = JIANYI + "/port/goods/create";
     private static final String SCHOOLS = JIANYI + "/port/school";
-    public static final String BASIC_AUTHOR_ACCOUNT  = "1202072324" ;
-    public static final String BASIC_AUTHOR_PASSWORD  = "1202072322" ;
+    public static final String BASIC_AUTHOR_ACCOUNT = "1202072324";
+    public static final String BASIC_AUTHOR_PASSWORD = "1202072322";
 
     public static String yihuoAll(@Nullable int pageIndex) {
         return GOODS +
@@ -27,9 +27,10 @@ public class JianyiApi {
     }
 
     public static String yihuoAll(@Nullable int pageIndex, boolean reverse) {
-        if (reverse)
+        if (reverse) {
             return GOODS +
                     "?title=all&sort=all" + "&page=" + pageIndex + ORDER_ASC;
+        }
         return yihuoAll(pageIndex);
     }
 
@@ -76,7 +77,6 @@ public class JianyiApi {
     }
 
     public static String uploadImage() {
-
         return IMAGE_UPLOAD;
     }
 
@@ -98,5 +98,9 @@ public class JianyiApi {
 
     public static String search(int pageIndex, String query) {
         return JIANYI + "/port/goods/search?page=" + pageIndex + "&content=" + query;
+    }
+
+    public static String bannerByIndex(int index) {
+        return JIANYI + "/port/img/" + index;
     }
 }
