@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
-import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.holder.Holder;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.bumptech.glide.DrawableRequestBuilder;
@@ -52,7 +51,7 @@ public class HomeTopAreaFragment extends BaseFragment {
     private static final long BILLBOARD_SWITCH_SPEED = 5000;
 
     private static HomeTopAreaFragment instance;
-    @Bind(R.id.billboard)
+    @Bind(R.id.banner_view)
     ConvenientBanner billboard;
 
     @Bind(R.id.home_category)
