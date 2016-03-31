@@ -37,6 +37,7 @@ import com.sinyuk.jianyimaterial.adapters.CardListAdapter;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.entity.Banner;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
+import com.sinyuk.jianyimaterial.feature.login.LoginView;
 import com.sinyuk.jianyimaterial.mvp.BaseFragment;
 import com.sinyuk.jianyimaterial.ui.HeaderItemSpaceDecoration;
 import com.sinyuk.jianyimaterial.ui.OnLoadMoreListener;
@@ -171,8 +172,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     }
 
     private void toggleDrawerView() {
-        if (null == mLeftDrawerLayout) { return; }
-        mLeftDrawerLayout.toggle();
+        if (null != mLeftDrawerLayout) { mLeftDrawerLayout.toggle(); }
     }
 
     private void setupListHeader() {
@@ -271,17 +271,15 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     @Override
     public void showBanner(List<Banner> data) {
         mBannerItemList = data;
-        mBannerView.setPages(BannerItemViewHolder::new, getPicUrls(data));
+        mBannerView.setPages(BannerItemViewHolder::new,
+                Observable.from(data)
+                        .take(3)
+                        .map(Banner::getSrc)
+                        .map(src -> JianyiApi.JIANYI + src)
+                        .toList().toBlocking().single());
         mBannerView.notifyDataSetChanged();
     }
 
-    private List<String> getPicUrls(List<Banner> data) {
-        return Observable.from(data)
-                .take(3)
-                .map(Banner::getSrc)
-                .map(src -> JianyiApi.JIANYI + src)
-                .toList().toBlocking().single();
-    }
 
     @Override
     public void refresh() {
@@ -318,9 +316,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     }
 
     @Override
-    public void onVolleyError(@NonNull String message) {
-        mSwipeRefreshLayout.setRefreshing(false);
-    }
+    public void onVolleyError(@NonNull String message) {mSwipeRefreshLayout.setRefreshing(false);}
 
     @Override
     public void onParseError(@NonNull String message) {
@@ -334,7 +330,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
 
     @Override
     public void toLoginView() {
-
+        startActivity(new Intent(getContext(), LoginView.class));
     }
 
     @Override
