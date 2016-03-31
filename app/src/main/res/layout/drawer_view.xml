@@ -1,22 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+
+
+<LinearLayout
     android:id="@+id/navigation_view"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/status_bar_height">
 
     <RelativeLayout
         android:id="@+id/header_layout"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:background="@color/colorPrimary">
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:src="@drawable/ic_avatar_placeholder"/>
+
+        <TextView
+            android:id="@+id/user_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/avatar"
+            android:layout_marginLeft="@dimen/general_content_space"
+            android:layout_toRightOf="@+id/avatar"
+            android:text="未登录"
+            android:textColor="@color/grey_600"
+            android:textSize="@dimen/material_text_menu"/>
 
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <View style="@style/DrawerMenuDivider"/>
+
+    <TextView
+        android:id="@+id/drawer_menu_category"
+        style="@style/DrawerMenuText"
+        android:drawableLeft="@drawable/ic_tag_multiple_grey600_24dp"
+        android:text="@string/drawer_menu_category"/>
+
+    <TextView
+        android:id="@+id/drawer_menu_explore"
+        style="@style/DrawerMenuText"
+        android:drawableLeft="@drawable/ic_compass_grey600_24dp"
+        android:text="@string/drawer_menu_explode"/>
+
+    <TextView
+        android:id="@+id/drawer_menu_want"
+        style="@style/DrawerMenuText"
+        android:drawableLeft="@drawable/ic_receipt_grey600_24dp"
+        android:text="@string/drawer_menu_want"/>
+
+    <TextView
+        android:id="@+id/drawer_menu_message"
+        style="@style/DrawerMenuText"
+        android:drawableLeft="@drawable/ic_message_text_grey600_24dp"
+        android:drawableRight="@drawable/ic_icon_24dp"
+        android:text="@string/drawer_menu_message"/>
+
+    <TextView
+        android:id="@+id/drawer_menu_account"
+        style="@style/DrawerMenuText"
+        android:drawableLeft="@drawable/ic_account_grey600_24dp"
+        android:text="@string/drawer_menu_account"/>
+
+    <View style="@style/DrawerMenuDivider"/>
+
+    <TextView
+        android:id="@+id/drawer_menu_settings"
+        style="@style/DrawerMenuText"
+        android:drawableLeft="@drawable/ic_settings_grey600_24dp"
+        android:text="@string/drawer_menu_settings"/>
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/header_layout"
-        android:overScrollMode="never"/>
-</RelativeLayout>
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.sinyuk.jianyimaterial.widgets.LabelView
+            android:id="@+id/version_label_view"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="bottom|start"
+            app:lv_background_color="@color/colorAccent"
+            app:lv_fill_triangle="true"
+            app:lv_gravity="BOTTOM_LEFT"
+            app:lv_text="beta"
+            app:lv_text_bold="true"
+            app:lv_text_color="@color/white"
+            app:lv_text_size="@dimen/material_text_caption1"
+            />
+    </FrameLayout>
+</LinearLayout>

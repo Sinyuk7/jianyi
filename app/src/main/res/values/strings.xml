@@ -33,9 +33,9 @@
     <string name="drawer_menu_home">首页</string>
     <string name="drawer_menu_explode">专区</string>
     <string name="drawer_menu_want">需求</string>
-    <string name="drawer_menu_category">易货分类</string>
+    <string name="drawer_menu_category">分类</string>
     <string name="drawer_menu_message">消息</string>
-    <string name="drawer_menu_account">我的简易</string>
+    <string name="drawer_menu_account">账户</string>
     <string name="drawer_menu_settings">设置</string>
 
 
@@ -264,6 +264,7 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="hint_failed_to_loading_shot">图片加载失败</string>
     <string name="details_view_count">%1$s 看过</string>
     <string name="details_username">﹂ %1$s</string>
+    <string name="drawer_menu_login">登录</string>
 
 
 </resources>

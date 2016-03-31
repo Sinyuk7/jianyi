@@ -16,7 +16,7 @@
 
     <!--menu-->
     <RelativeLayout
-        android:layout_width="300dp"
+        android:layout_width="280dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:clipChildren="false">
@@ -31,9 +31,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
-            android:layout_marginRight="50dp"
-            android:paddingRight="10dp"
-            />
+            android:paddingRight="16dp"
+            android:layout_marginRight="32dp"/>
     </RelativeLayout>
 
 </com.mxn.soul.flowingdrawer_core.LeftDrawerLayout>
