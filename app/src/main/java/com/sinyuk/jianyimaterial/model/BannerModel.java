@@ -10,8 +10,8 @@ import com.sinyuk.jianyimaterial.api.JBanner;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.application.Jianyi;
 import com.sinyuk.jianyimaterial.entity.Banner;
+import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.volley.JsonRequest;
-import com.sinyuk.jianyimaterial.volley.VolleyErrorHelper;
 
 import java.util.List;
 
@@ -41,30 +41,29 @@ public class BannerModel {
         return sInstance;
     }
 
-    public void getBannerByIndex(int index, RequestBannerCallback callback) {
+    public void getBanner(RequestBannerCallback callback) {
         JsonRequest jsonRequest = new JsonRequest
-                (Request.Method.GET, JianyiApi.bannerByIndex(index), null, response -> {
+                (Request.Method.GET, JianyiApi.banners(), null, response -> {
                     try {
                         JBanner jBanner = mGson.fromJson(response.toString(), JBanner.class);
-                        JBanner.Data data = jBanner.getData();
-                        String trans = mGson.toJson(data);
+                        LogUtils.simpleLog(BannerModel.class, response.toString());
+                        List<JBanner.Data> dataList = jBanner.getData();
+                        String trans = mGson.toJson(dataList);
                         List<Banner> banners = mGson.fromJson(trans,
                                 new TypeToken<List<Banner>>() {
                                 }.getType());
-                        if (banners != null) { callback.onCompleted(banners); }
+                        if (banners != null) { callback.onCompleted(banners);
+                            LogUtils.simpleLog(BannerModel.class, banners.toString());
+                        }
                     } catch (JsonParseException e) {
-                        callback.onParseError(e.getMessage());
+                        e.printStackTrace();
+                        LogUtils.simpleLog(BannerModel.class, e.getMessage());
                     }
-                }, error -> callback.onVolleyError(VolleyErrorHelper.getMessage(error)));
+                }, Throwable::printStackTrace);
         Jianyi.getInstance().addRequest(jsonRequest, BANNER_REQUEST);
     }
 
     public interface RequestBannerCallback {
-
         void onCompleted(List<Banner> banner);
-
-        void onParseError(String message);
-
-        void onVolleyError(String message);
     }
 }

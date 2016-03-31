@@ -1,38 +1,42 @@
 package com.sinyuk.jianyimaterial.api;
 
+import java.util.List;
+
 /**
  * Created by Sinyuk on 16.3.31.
  */
 public class JBanner {
+
+
     /**
      * status : 1
-     * data : {"id":"3","src":"/img/ios/3.jpg","type":"1","del":"0","link":"www.baidu.com"}
+     * data : [{"id":"1","src":"/img/ios/1.jpg","type":"1","del":"0","link":"www.baidu.com"},{"id":"2","src":"/img/ios/2.jpg","type":"1","del":"0","link":"www.baiud.com"},{"id":"3","src":"/img/ios/3.jpg","type":"1","del":"0","link":"www.baidu.com"},{"id":"4","src":"/img/ios/4.jpg","type":"2","del":"0","link":"www.baidu.com"},{"id":"5","src":"/img/ios/4.jpg","type":"2","del":"0","link":"www.baidu.com"},{"id":"6","src":"/img/ios/4.jpg","type":"2","del":"0","link":"www.baidu.com"},{"id":"7","src":"/img/ios/4.jpg","type":"2","del":"0","link":"www.baiud.com"}]
      * code : 2001
      */
 
     private int status;
+    private int code;
     /**
-     * id : 3
-     * src : /img/ios/3.jpg
+     * id : 1
+     * src : /img/ios/1.jpg
      * type : 1
      * del : 0
      * link : www.baidu.com
      */
 
-    private Data data;
-    private int code;
+    private List<Data> data;
 
     public int getStatus() { return status;}
 
     public void setStatus(int status) { this.status = status;}
 
-    public Data getData() { return data;}
-
-    public void setData(Data data) { this.data = data;}
-
     public int getCode() { return code;}
 
     public void setCode(int code) { this.code = code;}
+
+    public List<Data> getData() { return data;}
+
+    public void setData(List<Data> data) { this.data = data;}
 
     public static class Data {
         private String id;
@@ -61,5 +65,4 @@ public class JBanner {
 
         public void setLink(String link) { this.link = link;}
     }
-
 }
