@@ -6,4 +6,13 @@ import com.sinyuk.jianyimaterial.mvp.BasePresenter;
  * Created by Sinyuk on 16.3.30.
  */
 public class DrawerPresenterImpl extends BasePresenter implements IDrawerPresenter{
+    @Override
+    public boolean configLoginState() {
+        return false;
+    }
+
+    @Override
+    public void loadUserInfo() {
+
+    }
 }

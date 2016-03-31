@@ -1,6 +1,7 @@
 package com.sinyuk.jianyimaterial.feature.drawer;
 
 import com.sinyuk.jianyimaterial.R;
+import com.sinyuk.jianyimaterial.entity.User;
 
 
 /**
@@ -34,5 +35,35 @@ public class DrawerView extends MyMenuFragment<DrawerPresenterImpl> implements I
     @Override
     protected int getContentViewID() {
         return R.layout.drawer_view;
+    }
+
+    @Override
+    public void onLoginStateUpdate(boolean hasLogged) {
+
+    }
+
+    @Override
+    public void showLoginHeader() {
+
+    }
+
+    @Override
+    public void showLoggedHeader(User data) {
+
+    }
+
+    @Override
+    public void showMessageBadge() {
+
+    }
+
+    @Override
+    public void toPersonalView() {
+
+    }
+
+    @Override
+    public void toLoginView() {
+
     }
 }
