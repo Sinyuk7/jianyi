@@ -4,7 +4,6 @@
 <LinearLayout
     android:id="@+id/navigation_view"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -58,6 +57,8 @@
         android:drawableLeft="@drawable/ic_receipt_grey600_24dp"
         android:text="@string/drawer_menu_want"/>
 
+    <View style="@style/DrawerMenuDivider"/>
+
     <TextView
         android:id="@+id/drawer_menu_message"
         style="@style/DrawerMenuText"
@@ -78,24 +79,4 @@
         style="@style/DrawerMenuText"
         android:drawableLeft="@drawable/ic_settings_grey600_24dp"
         android:text="@string/drawer_menu_settings"/>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <com.sinyuk.jianyimaterial.widgets.LabelView
-            android:id="@+id/version_label_view"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="bottom|start"
-            app:lv_background_color="@color/colorAccent"
-            app:lv_fill_triangle="true"
-            app:lv_gravity="BOTTOM_LEFT"
-            app:lv_text="beta"
-            app:lv_text_bold="true"
-            app:lv_text_color="@color/white"
-            app:lv_text_size="@dimen/material_text_caption1"
-            />
-    </FrameLayout>
 </LinearLayout>
