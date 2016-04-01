@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.ButterKnife;
 import rx.subscriptions.CompositeSubscription;
 
@@ -28,11 +30,15 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
 
         TAG = this.getClass().getSimpleName();
 
+        if (isUseEventBus()) { EventBus.getDefault().register(this); }
+
         mCompositeSubscription = new CompositeSubscription();
 
         beforeInflate();
 
     }
+
+    protected abstract boolean isUseEventBus();
 
     @Override
     public void onAttach(Context context) {
@@ -72,8 +78,8 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
         super.onDestroy();
         detachPresenter();
         ButterKnife.unbind(this);
-        if (!mCompositeSubscription.isUnsubscribed())
-            mCompositeSubscription.unsubscribe();
+        if (!mCompositeSubscription.isUnsubscribed()) { mCompositeSubscription.unsubscribe(); }
+        if (isUseEventBus()) { EventBus.getDefault().unregister(this); }
     }
 
     void detachPresenter() {
