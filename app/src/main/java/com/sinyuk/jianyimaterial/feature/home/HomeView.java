@@ -40,8 +40,8 @@ import com.sinyuk.jianyimaterial.activities.PostActivity;
 import com.sinyuk.jianyimaterial.adapters.CardListAdapter;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.entity.Banner;
+import com.sinyuk.jianyimaterial.entity.YihuoDetails;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
-import com.sinyuk.jianyimaterial.feature.login.LoginView;
 import com.sinyuk.jianyimaterial.managers.SnackBarFactory;
 import com.sinyuk.jianyimaterial.mvp.BaseFragment;
 import com.sinyuk.jianyimaterial.ui.HeaderItemSpaceDecoration;
@@ -49,11 +49,13 @@ import com.sinyuk.jianyimaterial.ui.OnLoadMoreListener;
 import com.sinyuk.jianyimaterial.ui.trans.AccordionTransformer;
 import com.sinyuk.jianyimaterial.utils.AnimUtils;
 import com.sinyuk.jianyimaterial.utils.AnimatorLayerListener;
+import com.sinyuk.jianyimaterial.utils.FuzzyDateFormater;
 import com.sinyuk.jianyimaterial.utils.NetWorkUtils;
 import com.sinyuk.jianyimaterial.utils.ScreenUtils;
 import com.sinyuk.jianyimaterial.widgets.LabelView;
 import com.sinyuk.jianyimaterial.widgets.MultiSwipeRefreshLayout;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,12 +103,6 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     private View mListHeader;
     private int mPageIndex = 1;
     private List<YihuoProfile> mYihuoProfileList = new ArrayList<>();
-    private ImageView mShotIv;
-    private LabelView mLabelView;
-    private TextView mTitleTv;
-    private TextView mDescriptionTv;
-    private TextView mPubDataTv;
-    private TextView mReadMore;
     private LeftDrawerLayout mLeftDrawerLayout;
     private List<Banner> mBannerItemList;
 
@@ -137,7 +133,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
         setupBanner();
         setupSwipeRefreshLayout();
         setupRecyclerView();
-        setupListHeader();
+        mPresenter.loadListHeader();
         mPresenter.loadBanner();
     }
 
@@ -185,20 +181,6 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
 
     private void toggleDrawerView() {
         if (null != mLeftDrawerLayout) { mLeftDrawerLayout.toggle(); }
-    }
-
-    private void setupListHeader() {
-        mShotIv = (ImageView) mListHeader.findViewById(R.id.shot_iv);
-        mLabelView = (LabelView) mListHeader.findViewById(R.id.label_rect);
-        mTitleTv = (TextView) mListHeader.findViewById(R.id.title_tv);
-        mDescriptionTv = (TextView) mListHeader.findViewById(R.id.description_tv);
-        mPubDataTv = (TextView) mListHeader.findViewById(R.id.pub_date_tv);
-        mReadMore = (TextView) mListHeader.findViewById(R.id.read_more);
-        mReadMore.setOnClickListener(v -> toHeaderDetails());
-    }
-
-    private void toHeaderDetails() {
-        // TODO:
     }
 
     private void setupRecyclerView() {
@@ -273,7 +255,6 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
         return R.layout.home_view;
     }
 
-
     @Override
     protected HomePresenterImpl createPresenter() {
         return new HomePresenterImpl();
@@ -298,16 +279,17 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
         mPresenter.loadData(1);
     }
 
+
     @Override
     public void loadData(int pageIndex) {
         mPresenter.loadData(pageIndex);
     }
 
-
     @Override
     public void onDataLoaded() {
         mSwipeRefreshLayout.setRefreshing(false);
     }
+
 
     @Override
     public void showList(List<YihuoProfile> newPage, boolean isRefresh) {
@@ -318,13 +300,33 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     }
 
     @Override
-    public void loadListHeader() {
-        mPresenter.loadListHeader();
+    public void showListHeader(YihuoDetails data) {
+        final ImageView mShotIv = (ImageView) mListHeader.findViewById(R.id.shot_iv);
+        final LabelView mLabelView = (LabelView) mListHeader.findViewById(R.id.label_rect);
+        final TextView mTitleTv = (TextView) mListHeader.findViewById(R.id.title_tv);
+        final TextView mDescriptionTv = (TextView) mListHeader.findViewById(R.id.description_tv);
+        final TextView mPubDataTv = (TextView) mListHeader.findViewById(R.id.pub_date_tv);
+        final TextView mReadMore = (TextView) mListHeader.findViewById(R.id.read_more);
+        mReadMore.setOnClickListener(v -> toHeaderDetails());
+
+        Glide.with(mContext).fromString().load(data.getPic())
+                .error(mContext.getResources().getDrawable(R.drawable.image_placeholder_grey300))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .priority(Priority.IMMEDIATE)
+                .thumbnail(0.2f).into(mShotIv);
+
+        mTitleTv.setText(data.getName());
+        mDescriptionTv.setText(data.getDetail());
+        try {
+            mPubDataTv.setText(FuzzyDateFormater.getParsedDate(mContext, data.getTime()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        mLabelView.setText(data.getSort());
     }
 
-    @Override
-    public void showListHeader(YihuoProfile data) {
-
+    private void toHeaderDetails() {
+        // TODO:
     }
 
     @Override

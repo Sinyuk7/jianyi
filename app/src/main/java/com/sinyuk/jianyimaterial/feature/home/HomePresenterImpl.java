@@ -1,6 +1,7 @@
 package com.sinyuk.jianyimaterial.feature.home;
 
 import com.sinyuk.jianyimaterial.entity.Banner;
+import com.sinyuk.jianyimaterial.entity.YihuoDetails;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
 import com.sinyuk.jianyimaterial.model.BannerModel;
 import com.sinyuk.jianyimaterial.model.UserModel;
@@ -15,7 +16,7 @@ import java.util.List;
 public class HomePresenterImpl extends BasePresenter<HomeView> implements
         IHomePresenter,
         YihuoModel.RequestYihuoProfileCallback,
-        BannerModel.RequestBannerCallback {
+        BannerModel.RequestBannerCallback, YihuoModel.RequestHeadlineCallback {
     @Override
     public void loadBanner() {
         BannerModel.getInstance(mView.getContext()).getBanner(this);
@@ -23,7 +24,7 @@ public class HomePresenterImpl extends BasePresenter<HomeView> implements
 
     @Override
     public void loadListHeader() {
-
+        YihuoModel.getInstance(mView.getContext()).loadLatestHeadline(this);
     }
 
     @Override
@@ -48,6 +49,11 @@ public class HomePresenterImpl extends BasePresenter<HomeView> implements
     @Override
     public void onVolleyError(String message) {
         mView.onVolleyError(message);
+    }
+
+    @Override
+    public void onCompleted(YihuoDetails data) {
+        mView.showListHeader(data);
     }
 
     @Override

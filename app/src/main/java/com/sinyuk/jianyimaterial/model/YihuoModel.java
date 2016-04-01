@@ -38,7 +38,7 @@ public class YihuoModel implements BaseModel {
     public static final String SHOW_REQUEST = "show";
     public static final String INDEX_REQUEST = "index";
     private static final String HEADLINE_REQUEST = "headline";
-    private static final String HEADLINE_INDEX = "123";
+    private static final String HEADLINE_INDEX = "1";
 
 
     private static YihuoModel instance;
@@ -64,7 +64,7 @@ public class YihuoModel implements BaseModel {
         return instance;
     }
 
-    public void getLatestHeadline(RequestHeadlineCallback callback) {
+    public void loadLatestHeadline(RequestHeadlineCallback callback) {
         JsonRequest jsonRequest = new JsonRequest
                 (Request.Method.GET, JianyiApi.yihuoDetails(HEADLINE_INDEX), null, response -> {
                     try {

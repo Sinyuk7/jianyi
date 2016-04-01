@@ -27,7 +27,7 @@
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/backdrop_7"
-                app:ratio="0.618" />
+                app:ratio="0.418" />
 
             <com.sinyuk.jianyimaterial.widgets.LabelView
                 android:id="@+id/label_rect"
