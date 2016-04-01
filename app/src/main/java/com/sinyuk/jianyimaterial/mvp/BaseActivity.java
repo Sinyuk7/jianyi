@@ -8,6 +8,9 @@ import android.support.v7.widget.Toolbar;
 import com.jakewharton.rxbinding.support.v7.widget.RxToolbar;
 import com.sinyuk.jianyimaterial.R;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import butterknife.ButterKnife;
 import rx.subscriptions.CompositeSubscription;
 
@@ -17,11 +20,9 @@ import rx.subscriptions.CompositeSubscription;
 public abstract class BaseActivity<P extends BasePresenter>
         extends AppCompatActivity {
 
-    protected P mPresenter;
-
-    protected CompositeSubscription mCompositeSubscription;
-
     protected static String TAG = "";
+    protected P mPresenter;
+    protected CompositeSubscription mCompositeSubscription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,10 @@ public abstract class BaseActivity<P extends BasePresenter>
         TAG = this.getClass().getSimpleName();
 
         mCompositeSubscription = new CompositeSubscription();
+
+        if (isUseEventBus()) {
+            EventBus.getDefault().register(this);
+        }
 
         beforeInflate();
 
@@ -56,6 +61,8 @@ public abstract class BaseActivity<P extends BasePresenter>
         onFinishInflate();
     }
 
+    protected abstract boolean isUseEventBus();
+
     protected abstract void beforeInflate();
 
     protected abstract P createPresenter();
@@ -76,15 +83,16 @@ public abstract class BaseActivity<P extends BasePresenter>
         mPresenter.attachView(this);
     }
 
-
+    @Subscribe
+    public void onEvent() {}
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         detachPresenter();
         ButterKnife.unbind(this);
-        if (!mCompositeSubscription.isUnsubscribed())
-            mCompositeSubscription.unsubscribe();
+        if (!mCompositeSubscription.isUnsubscribed()) { mCompositeSubscription.unsubscribe(); }
+        if (isUseEventBus()) { EventBus.getDefault().unregister(this); }
     }
 
     @CallSuper
