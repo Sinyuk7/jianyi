@@ -8,4 +8,6 @@ public interface IDrawerPresenter {
     boolean configLoginState();
 
     void loadUserInfo();
+
+    void onUserInfoClick();
 }

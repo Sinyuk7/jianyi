@@ -6,11 +6,9 @@ import com.sinyuk.jianyimaterial.entity.User;
  * Created by Sinyuk on 16.3.30.
  */
 public interface IDrawerView {
-    void onLoginStateUpdate(boolean hasLogged);
+    void showNotLoginState();
 
-    void showLoginHeader();
-
-    void showLoggedHeader(User data);
+    void showLoggedState(User data);
 
     void showMessageBadge();
 
