@@ -4,6 +4,7 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
@@ -40,14 +41,20 @@ public abstract class BasePresenter<V> {
         EventBus.getDefault().register(this);
     }
 
+    @Subscribe
+    private void onEvent() {
+        
+    }
+
     public void detachView() {
         if (mViewRef != null) {
             mView = null;
             mViewRef.clear();
             mViewRef = null;
         }
-        if (mCompositeSubscription != null && !mCompositeSubscription.isUnsubscribed())
+        if (mCompositeSubscription != null && !mCompositeSubscription.isUnsubscribed()) {
             mCompositeSubscription.unsubscribe();
+        }
         EventBus.getDefault().unregister(this);
     }
 
