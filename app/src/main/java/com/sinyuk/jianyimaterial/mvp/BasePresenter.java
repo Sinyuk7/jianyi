@@ -3,6 +3,8 @@ package com.sinyuk.jianyimaterial.mvp;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
 
@@ -35,6 +37,7 @@ public abstract class BasePresenter<V> {
         this.mViewRef = new WeakReference<>(view);
         this.mView = mViewRef.get();
         this.mCompositeSubscription = new CompositeSubscription();
+        EventBus.getDefault().register(this);
     }
 
     public void detachView() {
@@ -45,6 +48,7 @@ public abstract class BasePresenter<V> {
         }
         if (mCompositeSubscription != null && !mCompositeSubscription.isUnsubscribed())
             mCompositeSubscription.unsubscribe();
+        EventBus.getDefault().unregister(this);
     }
 
 
