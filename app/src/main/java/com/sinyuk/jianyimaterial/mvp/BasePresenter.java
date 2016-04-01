@@ -38,13 +38,8 @@ public abstract class BasePresenter<V> {
         this.mViewRef = new WeakReference<>(view);
         this.mView = mViewRef.get();
         this.mCompositeSubscription = new CompositeSubscription();
-        EventBus.getDefault().register(this);
     }
 
-    @Subscribe
-    private void onEvent() {
-        
-    }
 
     public void detachView() {
         if (mViewRef != null) {
@@ -55,7 +50,6 @@ public abstract class BasePresenter<V> {
         if (mCompositeSubscription != null && !mCompositeSubscription.isUnsubscribed()) {
             mCompositeSubscription.unsubscribe();
         }
-        EventBus.getDefault().unregister(this);
     }
 
 

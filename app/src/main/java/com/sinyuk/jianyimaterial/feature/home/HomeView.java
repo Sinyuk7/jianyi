@@ -48,6 +48,8 @@ import com.sinyuk.jianyimaterial.utils.ScreenUtils;
 import com.sinyuk.jianyimaterial.widgets.LabelView;
 import com.sinyuk.jianyimaterial.widgets.MultiSwipeRefreshLayout;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -117,7 +119,6 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
 
     @Override
     protected void beforeInflate() {
-
     }
 
     @Override
@@ -326,7 +327,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     }
 
     @OnClick(R.id.fab)
-    private void onClickFab() {
+    public void onClickFab() {
         mPresenter.attemptToPostView();
     }
 
@@ -352,6 +353,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
         super.onPause();
         mBannerView.stopTurning();
     }
+
 
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
