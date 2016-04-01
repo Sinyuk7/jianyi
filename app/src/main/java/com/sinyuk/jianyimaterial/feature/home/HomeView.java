@@ -34,6 +34,7 @@ import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.jakewharton.rxbinding.view.RxView;
 import com.mxn.soul.flowingdrawer_core.LeftDrawerLayout;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.activities.PostActivity;
@@ -306,8 +307,6 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
         final TextView mTitleTv = (TextView) mListHeader.findViewById(R.id.title_tv);
         final TextView mDescriptionTv = (TextView) mListHeader.findViewById(R.id.description_tv);
         final TextView mPubDataTv = (TextView) mListHeader.findViewById(R.id.pub_date_tv);
-        final TextView mReadMore = (TextView) mListHeader.findViewById(R.id.read_more);
-        mReadMore.setOnClickListener(v -> toHeaderDetails());
 
         Glide.with(mContext).fromString().load(data.getPic())
                 .error(mContext.getResources().getDrawable(R.drawable.image_placeholder_grey300))
@@ -323,11 +322,12 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
             e.printStackTrace();
         }
         mLabelView.setText(data.getSort());
-    }
 
-    private void toHeaderDetails() {
-        // TODO:
+        mCompositeSubscription.add(RxView.clicks(mShotIv).subscribe(aVoid -> {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(data.getTitle())));
+        }));
     }
+    
 
     @Override
     public void onVolleyError(@NonNull String message) {mSwipeRefreshLayout.setRefreshing(false);}
