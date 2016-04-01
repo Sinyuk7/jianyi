@@ -27,6 +27,11 @@ public class EntryView extends BaseActivity<EntryPresenterImpl> implements IEntr
     LeftDrawerLayout mLeftDrawerLayout;
 
     @Override
+    protected boolean isUseEventBus() {
+        return false;
+    }
+
+    @Override
     protected void beforeInflate() {
 
     }

@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import com.mxn.soul.flowingdrawer_core.MenuFragment;
 import com.sinyuk.jianyimaterial.mvp.BasePresenter;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import butterknife.ButterKnife;
 import rx.subscriptions.CompositeSubscription;
 
@@ -30,6 +33,8 @@ public abstract class MyMenuFragment<P extends BasePresenter> extends MenuFragme
         TAG = this.getClass().getSimpleName();
 
         mCompositeSubscription = new CompositeSubscription();
+
+        EventBus.getDefault().register(this);
 
         beforeInflate();
 
@@ -57,6 +62,9 @@ public abstract class MyMenuFragment<P extends BasePresenter> extends MenuFragme
         onFinishInflate();
     }
 
+    @Subscribe
+    public void onEvent() {}
+
     protected abstract void beforeInflate();
 
     protected abstract int getContentViewID();
@@ -75,8 +83,8 @@ public abstract class MyMenuFragment<P extends BasePresenter> extends MenuFragme
         super.onDestroy();
         detachPresenter();
         ButterKnife.unbind(this);
-        if (!mCompositeSubscription.isUnsubscribed())
-            mCompositeSubscription.unsubscribe();
+        if (!mCompositeSubscription.isUnsubscribed()) { mCompositeSubscription.unsubscribe(); }
+        EventBus.getDefault().unregister(this);
     }
 
     void detachPresenter() {

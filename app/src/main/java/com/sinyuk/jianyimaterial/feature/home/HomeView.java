@@ -112,6 +112,11 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     }
 
     @Override
+    protected boolean isUseEventBus() {
+        return false;
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mLeftDrawerLayout = (LeftDrawerLayout) getActivity().findViewById(R.id.left_drawer_layout);

@@ -60,6 +60,11 @@ public class LoginView extends BaseActivity<LoginPresenterImpl> implements ILogi
     }
 
     @Override
+    protected boolean isUseEventBus() {
+        return false;
+    }
+
+    @Override
     protected void beforeInflate() {
 
     }

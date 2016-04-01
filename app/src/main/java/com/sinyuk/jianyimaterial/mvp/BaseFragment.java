@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.ButterKnife;
 import rx.subscriptions.CompositeSubscription;
@@ -37,6 +38,9 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
         beforeInflate();
 
     }
+
+    @Subscribe
+    public void onEvent() {}
 
     protected abstract boolean isUseEventBus();
 
