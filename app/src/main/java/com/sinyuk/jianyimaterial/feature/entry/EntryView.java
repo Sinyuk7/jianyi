@@ -9,6 +9,7 @@ import com.mxn.soul.flowingdrawer_core.LeftDrawerLayout;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.feature.drawer.DrawerView;
 import com.sinyuk.jianyimaterial.feature.home.HomeView;
+import com.sinyuk.jianyimaterial.managers.SnackBarFactory;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 
 import butterknife.Bind;
@@ -25,6 +26,7 @@ public class EntryView extends BaseActivity<EntryPresenterImpl> implements IEntr
     FrameLayout mContainerMenu;
     @Bind(R.id.left_drawer_layout)
     LeftDrawerLayout mLeftDrawerLayout;
+    private long attemptExitTime;
 
     @Override
     protected boolean isUseEventBus() {
@@ -66,8 +68,17 @@ public class EntryView extends BaseActivity<EntryPresenterImpl> implements IEntr
         if (mLeftDrawerLayout.isShownMenu()) {
             mLeftDrawerLayout.closeDrawer();
         } else {
-            super.onBackPressed();
+            if (confirmExit()) { finish(); }
         }
+    }
+
+    private boolean confirmExit() {
+        if ((System.currentTimeMillis() - attemptExitTime) > 1000) {
+            SnackBarFactory.succeedNoAction(this, mHomeView, "再按一次退出").show();
+            attemptExitTime = System.currentTimeMillis();
+            return false;
+        }
+        return true;
     }
 
 }
