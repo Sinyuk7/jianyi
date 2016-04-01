@@ -33,6 +33,7 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.mxn.soul.flowingdrawer_core.LeftDrawerLayout;
 import com.sinyuk.jianyimaterial.R;
+import com.sinyuk.jianyimaterial.activities.PostActivity;
 import com.sinyuk.jianyimaterial.adapters.CardListAdapter;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.entity.Banner;
@@ -51,6 +52,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 import rx.Observable;
 
 /**
@@ -323,13 +325,19 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
         mSwipeRefreshLayout.setRefreshing(false);
     }
 
+    @OnClick(R.id.fab)
+    private void onClickFab() {
+        mPresenter.attemptToPostView();
+    }
+
     @Override
     public void toPostView() {
-
+        startActivity(new Intent(getContext(), PostActivity.class));
     }
 
     @Override
     public void toLoginView() {
+        // 动画
         startActivity(new Intent(getContext(), LoginView.class));
     }
 

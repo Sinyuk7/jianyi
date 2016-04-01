@@ -13,5 +13,5 @@ public interface IHomePresenter {
 
     void loadData(int pageIndex);
 
-    void toPostView();
+    void attemptToPostView();
 }
