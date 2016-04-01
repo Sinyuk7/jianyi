@@ -1,5 +1,6 @@
 package com.sinyuk.jianyimaterial.feature.login;
 
+import android.content.Intent;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TextInputLayout;
@@ -14,14 +15,11 @@ import android.widget.TextView;
 
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.sinyuk.jianyimaterial.R;
-import com.sinyuk.jianyimaterial.events.UserStateUpdateEvent;
+import com.sinyuk.jianyimaterial.feature.register.RegisterView;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
-import com.sinyuk.jianyimaterial.mvp.BasePresenter;
 import com.sinyuk.jianyimaterial.sweetalert.SweetAlertDialog;
 import com.sinyuk.jianyimaterial.utils.ImeUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
-
-import org.greenrobot.eventbus.EventBus;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -80,7 +78,7 @@ public class LoginView extends BaseActivity<LoginPresenterImpl> implements ILogi
         mCompositeSubscription.add(RxTextView.editorActions(passwordEt)
                 .map(actionId -> actionId == EditorInfo.IME_ACTION_DONE)
                 .subscribe(done -> {
-                    if (done) clickLoginBtn();
+                    if (done) { clickLoginBtn(); }
                 }));
 
 
@@ -114,7 +112,10 @@ public class LoginView extends BaseActivity<LoginPresenterImpl> implements ILogi
     public void onLoginSucceed() {
         pDialog.setTitleText(StringUtils.getRes(this, R.string.login_hint_succeed))
                 .setConfirmText(StringUtils.getRes(this, R.string.action_confirm))
-                .setConfirmClickListener(null)
+                .setConfirmClickListener(sweetAlertDialog -> {
+                    sweetAlertDialog.dismiss();
+                    finish();
+                })
                 .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
     }
 
@@ -128,7 +129,6 @@ public class LoginView extends BaseActivity<LoginPresenterImpl> implements ILogi
 
     @Override
     public void onNetworkError(String message) {
-
         pDialog.setTitleText(StringUtils.check(this, message, R.string.hint_network_error))
                 .setConfirmText(StringUtils.getRes(this, R.string.action_confirm))
                 .setConfirmClickListener(null)
@@ -138,7 +138,9 @@ public class LoginView extends BaseActivity<LoginPresenterImpl> implements ILogi
     // 忘记密码
     @OnClick(R.id.forget_psw_tv)
     public void clickForgetPsw(View view) {
-
+        Intent toRegisterView = new Intent(LoginView.this, RegisterView.class);
+        toRegisterView.putExtra(RegisterView.USER_INTENT, RegisterView.FORGET_PASSWORD);
+        startActivity(toRegisterView);
     }
 
     // 登录按钮
@@ -170,7 +172,9 @@ public class LoginView extends BaseActivity<LoginPresenterImpl> implements ILogi
     // 微信登录
     @OnClick(R.id.access_wechat)
     public void clickContinueWithWechat() {
-
+        Intent toRegisterView = new Intent(LoginView.this, RegisterView.class);
+        toRegisterView.putExtra(RegisterView.USER_INTENT, RegisterView.FORGET_PASSWORD);
+        startActivity(toRegisterView);
     }
 
     private void toggleLoginButton(boolean hasInput) {
