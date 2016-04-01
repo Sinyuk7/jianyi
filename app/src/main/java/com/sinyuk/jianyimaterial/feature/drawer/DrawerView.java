@@ -15,6 +15,7 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.mxn.soul.flowingdrawer_core.LeftDrawerLayout;
 import com.sinyuk.jianyimaterial.R;
+import com.sinyuk.jianyimaterial.activities.SettingsActivity;
 import com.sinyuk.jianyimaterial.entity.User;
 import com.sinyuk.jianyimaterial.events.XLoginEvent;
 import com.sinyuk.jianyimaterial.events.XLogoutEvent;
@@ -87,9 +88,9 @@ public class DrawerView extends MyMenuFragment<DrawerPresenterImpl> implements I
 
     @Override
     protected void onFinishInflate() {
-        if (mPresenter.configLoginState()){
+        if (mPresenter.configLoginState()) {
             showLoggedState(mPresenter.loadUserInfo());
-        }else {
+        } else {
             showNotLoginState();
         }
     }
@@ -188,6 +189,8 @@ public class DrawerView extends MyMenuFragment<DrawerPresenterImpl> implements I
                 case R.id.drawer_menu_account:
                     break;
                 case R.id.drawer_menu_settings:
+                    startActivity(new Intent(getContext(), SettingsActivity.class));
+                    getActivity().overridePendingTransition(0,0);
                     break;
             }
         }, DRAWER_CLOSE_DURATION);

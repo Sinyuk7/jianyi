@@ -3,7 +3,8 @@ package com.sinyuk.jianyimaterial.feature.login;
 
 import android.support.annotation.NonNull;
 
-import com.sinyuk.jianyimaterial.events.XLoginStateUpdateEvent;
+import com.sinyuk.jianyimaterial.events.XLoginEvent;
+import com.sinyuk.jianyimaterial.events.XLogoutEvent;
 import com.sinyuk.jianyimaterial.model.UserModel;
 import com.sinyuk.jianyimaterial.mvp.BasePresenter;
 
@@ -24,7 +25,7 @@ public class LoginPresenterImpl extends BasePresenter<LoginView>
     @Override
     public void onSucceed() {
         mView.onLoginSucceed();
-        EventBus.getDefault().post(new XLoginStateUpdateEvent(true));
+        EventBus.getDefault().post(new XLoginEvent());
     }
 
     @Override

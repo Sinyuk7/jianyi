@@ -133,6 +133,11 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
     private BitmapRequestBuilder<String, Bitmap> shotRequest;
     private ShotsAdapter viewPagerAdapter;
 
+    @Override
+    protected boolean isUseEventBus() {
+        return false;
+    }
+
     /**
      * Receive the yihuo profile data passed by the previous activity
      */
