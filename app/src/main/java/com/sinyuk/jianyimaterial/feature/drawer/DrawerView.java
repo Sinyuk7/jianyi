@@ -100,12 +100,12 @@ public class DrawerView extends MyMenuFragment<DrawerPresenterImpl> implements I
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    private void onLogin(XLogoutEvent event) {
+    public void onLogin(XLogoutEvent event) {
         showLoggedState(mPresenter.loadUserInfo());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    private void onLogout(XLoginEvent event) {
+    public void onLogout(XLoginEvent event) {
         showNotLoginState();
     }
 
