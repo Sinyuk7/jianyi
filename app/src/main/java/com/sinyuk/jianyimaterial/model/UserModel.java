@@ -15,7 +15,6 @@ import com.sinyuk.jianyimaterial.api.JUser;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.application.Jianyi;
 import com.sinyuk.jianyimaterial.entity.User;
-import com.sinyuk.jianyimaterial.events.UserStateUpdateEvent;
 import com.sinyuk.jianyimaterial.greendao.dao.DaoUtils;
 import com.sinyuk.jianyimaterial.greendao.dao.UserService;
 import com.sinyuk.jianyimaterial.mvp.BaseModel;
@@ -23,8 +22,6 @@ import com.sinyuk.jianyimaterial.utils.PreferencesUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
 import com.sinyuk.jianyimaterial.volley.FormDataRequest;
 import com.sinyuk.jianyimaterial.volley.VolleyErrorHelper;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -113,11 +110,10 @@ public class UserModel implements BaseModel {
 
     private void registerSucceed(User userData, String password) {
         userService.saveOrUpdate(userData);
-
-//        EventBus.getDefault().post(new LoginEvent(true, userData.getId()));
         if (null != currentUser) {
-            if (!userData.getId().equals(currentUser.getId()))
+            if (!userData.getId().equals(currentUser.getId())) {
                 PreferencesUtils.clearAll(mContext); // a new user has login  clean up the prefs
+            }
         }
 
         PreferencesUtils.putString(mContext, StringUtils.getRes(mContext, R.string.key_user_id), userData.getId());
@@ -126,8 +122,6 @@ public class UserModel implements BaseModel {
         PreferencesUtils.putInt(mContext, StringUtils.getRes(mContext, R.string.key_login_times), loginTimes);
         // post event first  in case they clean up the prefs
         PreferencesUtils.putString(mContext, StringUtils.getRes(mContext, R.string.key_psw), password);
-
-        EventBus.getDefault().post(new UserStateUpdateEvent(true, userData.getId()));
     }
 
 
