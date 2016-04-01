@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.base.BaseActivity;
 import com.sinyuk.jianyimaterial.events.UserStateUpdateEvent;
+import com.sinyuk.jianyimaterial.events.XLogoutEvent;
 import com.sinyuk.jianyimaterial.managers.CacheManager;
 import com.sinyuk.jianyimaterial.utils.PreferencesUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
@@ -181,25 +182,17 @@ public class SettingsActivity extends BaseActivity {
         PreferencesUtils.removeByKey(this, StringUtils.getRes(this, R.string.key_psw));
         PreferencesUtils.removeByKey(this, StringUtils.getRes(this, R.string.key_login_times));
 
-        EventBus.getDefault().post(new UserStateUpdateEvent(false, null));
+        EventBus.getDefault().post(new XLogoutEvent());
     }
 
     private void attemptClearCache() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogTheme);
         builder.setCancelable(true)
-                .setMessage("你真的要清除缓存吗,这会耗费流量来重新加载内容哦(∩_∩)")
+                .setMessage("你真的要清除缓存吗,这会耗费流量来重新加载内容哦")
                 .setNegativeButton("取消", null)
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        CacheManager.clearAllCache(SettingsActivity.this);
-                        cacheSizeTv.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                updateCacheSize();
-                            }
-                        }, 200);
-                    }
+                .setPositiveButton("确定", (dialog, which) -> {
+                    CacheManager.clearAllCache(SettingsActivity.this);
+                    cacheSizeTv.postDelayed(this::updateCacheSize, 200);
                 });
         AlertDialog alertDialog = builder.show();
     }

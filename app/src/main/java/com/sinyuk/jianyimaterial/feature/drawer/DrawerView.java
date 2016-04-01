@@ -37,7 +37,7 @@ import butterknife.OnClick;
  * Created by Sinyuk on 16.3.30.
  */
 public class DrawerView extends MyMenuFragment<DrawerPresenterImpl> implements IDrawerView {
-    private static final long DRAWER_CLOSE_DURATION = 400;
+    private static final long DRAWER_CLOSE_DURATION = 300;
     private static DrawerView sInstance;
     @Bind(R.id.avatar)
     ImageView mAvatar;
@@ -149,9 +149,7 @@ public class DrawerView extends MyMenuFragment<DrawerPresenterImpl> implements I
     @Override
     public void toPersonalView() {
         mLeftDrawerLayout.closeDrawer();
-        mLeftDrawerLayout.postDelayed(() -> {
-            startActivity(new Intent(getContext(), LoginView.class));
-        }, DRAWER_CLOSE_DURATION);
+        mLeftDrawerLayout.postDelayed(() -> startActivity(new Intent(getContext(), LoginView.class)), DRAWER_CLOSE_DURATION);
     }
 
     @Override

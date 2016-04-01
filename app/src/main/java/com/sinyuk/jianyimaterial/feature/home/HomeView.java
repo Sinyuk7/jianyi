@@ -343,7 +343,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
 
     @Override
     public void toLoginView() {
-        // 动画
+        // shake the fab
         startActivity(new Intent(getContext(), LoginView.class));
     }
 

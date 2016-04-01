@@ -71,8 +71,6 @@
         android:drawableLeft="@drawable/ic_receipt_grey600_24dp"
         android:text="@string/drawer_menu_want"/>
 
-    <View style="@style/DrawerMenuDivider"/>
-
     <TextView
         android:id="@+id/drawer_menu_message"
         style="@style/DrawerMenuText"
