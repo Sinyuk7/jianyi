@@ -85,7 +85,7 @@ public class SignInActivity extends BaseActivity {
 
     @Override
     protected int getContentViewID() {
-        return R.layout.activity_sign_in;
+        return R.layout.login_view;
     }
 
     @Override
