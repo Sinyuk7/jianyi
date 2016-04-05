@@ -22,7 +22,9 @@
         <item name="layout_collapseMode">pin</item>
     </style>
 
-
+    <style name="BaseToolbar.Explore" parent="BaseToolbar">
+        <item name="layout_scrollFlags">scroll|enterAlways|snap</item>
+    </style>
 
     <style name="BaseToolbar.Comments" parent="BaseToolbar">
         <item name="title">@string/activity_comments</item>
