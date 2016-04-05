@@ -27,17 +27,11 @@
         style="@style/Widget.Design.BottomSheet.Modal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="0dp"
         app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
         tools:background="@color/colorAccent">
 
         <include layout="@layout/explore_view_flow_layout"/>
     </android.support.v4.widget.NestedScrollView>
-
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        style="@style/FAB.Large"
-        android:layout_gravity="bottom|end"
-        android:src="@drawable/ic_sort_white_24dp"
-        app:layout_behavior="com.sinyuk.jianyimaterial.ui.ScrollAwareFABBehavior"/>
 </android.support.design.widget.CoordinatorLayout>

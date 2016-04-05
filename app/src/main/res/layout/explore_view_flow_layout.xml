@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              xmlns:tools="http://schemas.android.com/tools"
-              tools:background="@color/grey_600"
-              android:orientation="vertical">
+              android:orientation="vertical"
+              android:paddingBottom="@dimen/activity_horizontal_margin"
+              tools:background="@color/grey_600">
 
     <TextView
         style="@style/TagLayoutTitle"
