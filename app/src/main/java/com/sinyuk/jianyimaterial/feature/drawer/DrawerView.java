@@ -19,6 +19,7 @@ import com.sinyuk.jianyimaterial.activities.SettingsActivity;
 import com.sinyuk.jianyimaterial.entity.User;
 import com.sinyuk.jianyimaterial.events.XLoginEvent;
 import com.sinyuk.jianyimaterial.events.XLogoutEvent;
+import com.sinyuk.jianyimaterial.feature.explore.ExploreView;
 import com.sinyuk.jianyimaterial.feature.login.LoginView;
 import com.sinyuk.jianyimaterial.glide.BlurTransformation;
 import com.sinyuk.jianyimaterial.glide.ColorFilterTransformation;
@@ -177,6 +178,8 @@ public class DrawerView extends MyMenuFragment<DrawerPresenterImpl> implements I
         mLeftDrawerLayout.postDelayed(() -> {
             switch (sSelected) {
                 case R.id.drawer_menu_category:
+                    startActivity(new Intent(getContext(), ExploreView.class));
+                    getActivity().overridePendingTransition(0, 0);
                     break;
                 case R.id.drawer_menu_explore:
                     break;
@@ -188,7 +191,7 @@ public class DrawerView extends MyMenuFragment<DrawerPresenterImpl> implements I
                     break;
                 case R.id.drawer_menu_settings:
                     startActivity(new Intent(getContext(), SettingsActivity.class));
-                    getActivity().overridePendingTransition(0,0);
+                    getActivity().overridePendingTransition(0, 0);
                     break;
             }
         }, DRAWER_CLOSE_DURATION);

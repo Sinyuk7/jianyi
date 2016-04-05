@@ -121,6 +121,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name=".feature.explore.ExploreView"
+            android:launchMode="singleTop"
+            />
         <!--MVP-->
     </application>
 
