@@ -15,6 +15,7 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.mxn.soul.flowingdrawer_core.LeftDrawerLayout;
 import com.sinyuk.jianyimaterial.R;
+import com.sinyuk.jianyimaterial.activities.CategoryMenu;
 import com.sinyuk.jianyimaterial.activities.SettingsActivity;
 import com.sinyuk.jianyimaterial.entity.User;
 import com.sinyuk.jianyimaterial.events.XLoginEvent;
@@ -184,6 +185,8 @@ public class DrawerView extends MyMenuFragment<DrawerPresenterImpl> implements I
                 case R.id.drawer_menu_explore:
                     break;
                 case R.id.drawer_menu_want:
+                    startActivity(new Intent(getContext(), CategoryMenu.class));
+                    getActivity().overridePendingTransition(0, 0);
                     break;
                 case R.id.drawer_menu_message:
                     break;

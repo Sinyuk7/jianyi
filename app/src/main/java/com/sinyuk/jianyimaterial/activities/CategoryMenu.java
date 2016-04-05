@@ -15,6 +15,7 @@ import android.view.View;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.adapters.CategoryMenuAdapter;
 import com.sinyuk.jianyimaterial.base.BaseActivity;
+import com.sinyuk.jianyimaterial.feature.explore.ExploreView;
 import com.sinyuk.jianyimaterial.utils.ImeUtils;
 
 import butterknife.Bind;
@@ -70,9 +71,9 @@ public class CategoryMenu extends BaseActivity implements CategoryMenuAdapter.On
     @Override
     public void onCategoryMenuItemClick(View view, int position) {
         Intent intent = new Intent();
-        intent.setClass(this, CategoryPage.class);
+        intent.setClass(this, ExploreView.class);
 
-        intent.putExtra("parent_sort_index", position);
+        intent.putExtra(ExploreView.PARENT_SORT, position);
         startActivity(intent);
 
     }
@@ -90,12 +91,10 @@ public class CategoryMenu extends BaseActivity implements CategoryMenuAdapter.On
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                if (searchView != null) {
-                    // 得到输入管理对象
-                    ImeUtils.hideIme(searchView);
-                    searchView.setIconified(true);
-                    searchView.clearFocus();
-                }
+                // 得到输入管理对象
+                ImeUtils.hideIme(searchView);
+                searchView.setIconified(true);
+                searchView.clearFocus();
                 return false;
             }
 

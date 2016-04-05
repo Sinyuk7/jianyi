@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.events.XSelectionUpdateEvent;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
+import com.sinyuk.jianyimaterial.utils.StringUtils;
 import com.sinyuk.jianyimaterial.widgets.flowlayout.FlowLayout;
 import com.sinyuk.jianyimaterial.widgets.flowlayout.TagAdapter;
 import com.sinyuk.jianyimaterial.widgets.flowlayout.TagFlowLayout;
@@ -39,7 +40,7 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
             R.array.Bags,
             R.array.Snacks,
     };
-    private static final String PARENT_SORT = "title";
+    public static final String PARENT_SORT = "title";
     private final String[] sOrderArray = new String[]{
             "时间↓",
             "时间↑",
@@ -62,7 +63,7 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
     NestedScrollView mBottomSheet;
     @Bind(R.id.coordinator_layout)
     CoordinatorLayout mCoordinatorLayout;
-    private int mParentSortIndex = 0;
+    private int mParentSortIndex;
     private String mTitle;
     private String[] mSchoolArray;
     private String[] mChildSortArray;
@@ -83,20 +84,13 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
     @Override
     protected void beforeInflate() {
         if (null != getIntent()) { configParentSort(getIntent().getExtras()); }
-
         mSchoolArray = getResources().getStringArray(R.array.schools_sort);
-
-
     }
 
     private void configParentSort(Bundle extras) {
-     /*   mParentSort = extras.getString(PARENT_SORT);
-        if (TextUtils.isEmpty(mParentSort)) {
-            mTitle = "易货分类";
-            mParentSort = "最近上新";
-        } else {
-            mTitle = mParentSort;
-        }*/
+        if (null == extras) { return; }
+        mParentSortIndex = extras.getInt(PARENT_SORT, 0);
+        mTitle = StringUtils.check(this, getResources().getStringArray(R.array.category_menu_items)[mParentSortIndex], R.string.activity_category_page);
         mChildSortArray = getResources().getStringArray(PARENT_SORT_LIST[mParentSortIndex]);
     }
 
@@ -107,7 +101,7 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
 
     @Override
     protected boolean isNavAsBack() {
-        return false;
+        return true;
     }
 
     @Override
@@ -125,7 +119,7 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
 
 
     private void setupToolbarTitle() {
-
+        if (null != getSupportActionBar()) { getSupportActionBar().setTitle(mTitle); }
     }
 
     private void initFragment() {
@@ -138,11 +132,7 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 // React to state change
-                if (newState == BottomSheetBehavior.STATE_EXPANDED) {
-                    mToolbar.setNavigationIcon(R.drawable.ic_close_circle_outline_accent_24dp);
-                }
                 if (newState == BottomSheetBehavior.STATE_HIDDEN) {
-                    mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_primary_24dp);
                     if (mNewChildSortPosition == mOldChildSortPosition &&
                             mNewOrderPosition == mOldOrderPosition &&
                             mNewSchoolPosition == mOldSchoolPosition) { return; }
@@ -229,14 +219,5 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
             return false;
         });
 
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (mBottomSheetBehavior.getState() != BottomSheetBehavior.STATE_HIDDEN) {
-            mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        } else {
-            super.onBackPressed();
-        }
     }
 }
