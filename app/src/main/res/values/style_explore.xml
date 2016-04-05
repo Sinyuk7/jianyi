@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TagLayoutButton" parent="ClickableImageViewBorderless">
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:scaleType">centerInside</item>
+    </style>
+
+    <style name="TagLayoutTitle">
+        <item name="android:layout_marginLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:drawablePadding">12dp</item>
+        <item name="android:textSize">@dimen/material_text_menu</item>
+    </style>
+</resources>

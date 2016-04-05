@@ -57,17 +57,6 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="TagLayoutTitle">
-        <item name="android:layout_marginLeft">@dimen/activity_horizontal_margin</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">56dp</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:drawablePadding">@dimen/activity_horizontal_margin</item>
-        <item name="android:textSize">@dimen/material_text_menu</item>
-    </style>
-
     <style name="ArrowUpIndicatorText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

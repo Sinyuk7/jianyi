@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:paddingBottom="@dimen/general_content_space"
+              tools:background="@color/grey_600">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/confirm_btn"
+            android:layout_marginRight="4dp"
+            style="@style/TagLayoutButton"
+            android:src="@drawable/ic_check_primary_24dp"/>
+
+        <ImageView
+            android:id="@+id/cancel_btn"
+            style="@style/TagLayoutButton"
+            android:layout_marginRight="4dp"
+            android:src="@drawable/ic_close_circle_outline_accent_24dp"/>
+    </LinearLayout>
+
+    <TextView
+        style="@style/TagLayoutTitle"
+        android:drawableLeft="@drawable/ic_school_white_24dp"
+        android:drawableStart="@drawable/ic_school_white_24dp"
+        android:text="@string/tag_school"/>
+
+    <com.sinyuk.jianyimaterial.widgets.flowlayout.TagFlowLayout
+        android:id="@+id/school_tags"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        app:max_select="1">
+
+    </com.sinyuk.jianyimaterial.widgets.flowlayout.TagFlowLayout>
+
+
+    <TextView
+        style="@style/TagLayoutTitle"
+        android:drawableLeft="@drawable/ic_sort_white_24dp"
+        android:drawableStart="@drawable/ic_sort_white_24dp"
+        android:text="@string/tag_order"/>
+
+    <com.sinyuk.jianyimaterial.widgets.flowlayout.TagFlowLayout
+        android:id="@+id/order_tags"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        app:max_select="1">
+
+    </com.sinyuk.jianyimaterial.widgets.flowlayout.TagFlowLayout>
+
+    <TextView
+        style="@style/TagLayoutTitle"
+        android:drawableLeft="@drawable/ic_dashboard_white_24dp"
+        android:drawableStart="@drawable/ic_dashboard_white_24dp"
+        android:text="@string/tag_child_sort"/>
+
+    <com.sinyuk.jianyimaterial.widgets.flowlayout.TagFlowLayout
+        android:id="@+id/child_sort_tags"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        app:max_select="1">
+    </com.sinyuk.jianyimaterial.widgets.flowlayout.TagFlowLayout>
+</LinearLayout>
