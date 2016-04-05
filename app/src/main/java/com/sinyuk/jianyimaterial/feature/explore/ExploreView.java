@@ -12,10 +12,13 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.sinyuk.jianyimaterial.R;
+import com.sinyuk.jianyimaterial.events.XSelectionUpdateEvent;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 import com.sinyuk.jianyimaterial.widgets.flowlayout.FlowLayout;
 import com.sinyuk.jianyimaterial.widgets.flowlayout.TagAdapter;
 import com.sinyuk.jianyimaterial.widgets.flowlayout.TagFlowLayout;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.Bind;
 
@@ -64,6 +67,13 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
     private String[] mSchoolArray;
     private String[] mChildSortArray;
     private BottomSheetBehavior<NestedScrollView> mBottomSheetBehavior;
+    private int mOldSchoolPosition;
+    private int mOldOrderPosition;
+    private int mOldChildSortPosition;
+
+    private int mNewSchoolPosition;
+    private int mNewOrderPosition;
+    private int mNewChildSortPosition;
 
     @Override
     protected boolean isUseEventBus() {
@@ -119,11 +129,26 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
     }
 
     private void initFragment() {
+
+    }
+
+    private void setupBottomSheet() {
         mBottomSheetBehavior = BottomSheetBehavior.from(mBottomSheet);
         mBottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 // React to state change
+                if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                    mToolbar.setNavigationIcon(R.drawable.ic_close_circle_outline_accent_24dp);
+                }
+                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                    mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_primary_24dp);
+                    if (mNewChildSortPosition == mOldChildSortPosition &&
+                            mNewOrderPosition == mOldOrderPosition &&
+                            mNewSchoolPosition == mOldSchoolPosition) { return; }
+                    EventBus.getDefault().post(new XSelectionUpdateEvent(mNewSchoolPosition,
+                            mNewOrderPosition, mNewChildSortPosition));
+                }
             }
 
             @Override
@@ -131,10 +156,6 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
                 // React to dragging events
             }
         });
-    }
-
-    private void setupBottomSheet() {
-
     }
 
     private void setupFlowLayout() {
@@ -190,18 +211,21 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
 
         // selected listener
         mSchoolTags.setOnTagClickListener((view, position, parent) -> {
-           mSchoolPostion = position;
+            mOldSchoolPosition = mNewSchoolPosition;
+            mNewSchoolPosition = position;
             return false;
         });
 
 
         mOrderTags.setOnTagClickListener((view, position, parent) -> {
-            mOrderPostion = position;
+            mOldSchoolPosition = mNewSchoolPosition;
+            mNewOrderPosition = position;
             return false;
         });
 
         mChildSortTags.setOnTagClickListener((view, position, parent) -> {
-           mChildSortPosition = position;
+            mOldChildSortPosition = mNewSchoolPosition;
+            mNewChildSortPosition = position;
             return false;
         });
 
