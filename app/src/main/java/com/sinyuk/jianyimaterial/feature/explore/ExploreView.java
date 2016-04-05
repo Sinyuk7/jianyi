@@ -220,4 +220,16 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
         });
 
     }
+
+    private void confirm() {
+        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+    }
+
+    private void cancel() {
+        // reset
+        mNewChildSortPosition = mOldChildSortPosition;
+        mNewSchoolPosition = mOldSchoolPosition;
+        mNewOrderPosition = mOldOrderPosition;
+        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+    }
 }
