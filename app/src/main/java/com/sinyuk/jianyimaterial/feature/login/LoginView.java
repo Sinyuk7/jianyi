@@ -6,7 +6,6 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -23,6 +22,7 @@ import com.sinyuk.jianyimaterial.utils.StringUtils;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import rx.Observable;
 
 /**
  * Created by Sinyuk on 16.3.16.
@@ -76,16 +76,29 @@ public class LoginView extends BaseActivity<LoginPresenterImpl> implements ILogi
 
     @Override
     protected void onFinishInflate() {
-
-        // 输了密码才给登录 不过分吧?
-        mCompositeSubscription.add(RxTextView.textChanges(passwordEt).map(s -> !TextUtils.isEmpty(s)).subscribe(this::toggleLoginButton));
-        // 监听软键盘
         mCompositeSubscription.add(RxTextView.editorActions(passwordEt)
                 .map(actionId -> actionId == EditorInfo.IME_ACTION_DONE)
                 .subscribe(done -> {
                     if (done) { clickLoginBtn(); }
                 }));
 
+        Observable<CharSequence> passwordObservable = RxTextView.textChanges(passwordEt).skip(5);
+        Observable<CharSequence> phoneNumObservable = RxTextView.textChanges(userNameEt).skip(10);
+
+        mCompositeSubscription.add(Observable.combineLatest(passwordObservable, phoneNumObservable, (password, phoneNum) -> {
+            if (phoneNum.length() != 11) {
+                userNameEt.setError("你确定?");
+                return false;
+            }
+            if (password.length() < 6) {
+                passwordEt.setError("你确定?");
+                return false;
+            }
+            return true;
+        }).subscribe(LoginView.this::toggleLoginButton));
+
+        loginBtn.setEnabled(false);
+        loginBtn.setClickable(false);
 
     }
 
@@ -151,27 +164,13 @@ public class LoginView extends BaseActivity<LoginPresenterImpl> implements ILogi
     // 登录按钮
     @OnClick(R.id.login_btn)
     public void clickLoginBtn() {
-        // Reset errors.
         passwordEt.setError(null);
         userNameEt.setError(null);
-        // Store values at the time of the login attempt.
-        String userName = userNameEt.getText().toString();
-        String password = passwordEt.getText().toString();
-        boolean cancel = false;
-        if (TextUtils.isEmpty(userName)) {
-            userNameEt.setError(StringUtils.getRes(this, R.string.alert_null_username));
-            cancel = true;
-        }
-        if (TextUtils.isEmpty(password)) {
-            passwordEt.setError(StringUtils.getRes(this, R.string.alert_null_password));
-            cancel = true;
-        }
-        if (!cancel) {
-            ImeUtils.hideIme(coordinatorLayout);
-            showProgress();
-            mPresenter.attemptLogin(userName, password);
-
-        }
+        final String userName = userNameEt.getText().toString();
+        final String password = passwordEt.getText().toString();
+        ImeUtils.hideIme(coordinatorLayout);
+        showProgress();
+        mPresenter.attemptLogin(userName, password);
     }
 
     // 微信登录
