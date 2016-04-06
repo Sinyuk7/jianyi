@@ -16,8 +16,6 @@ import com.flipboard.bottomsheet.OnSheetDismissedListener;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 import com.sinyuk.jianyimaterial.ui.InsetViewTransformer;
-import com.sinyuk.jianyimaterial.utils.LogUtils;
-import com.sinyuk.jianyimaterial.utils.ToastUtils;
 import com.sinyuk.jianyimaterial.widgets.flowlayout.FlowLayout;
 import com.sinyuk.jianyimaterial.widgets.flowlayout.TagAdapter;
 import com.sinyuk.jianyimaterial.widgets.flowlayout.TagFlowLayout;
@@ -28,7 +26,14 @@ import butterknife.OnClick;
 /**
  * Created by Sinyuk on 16.3.27.
  */
-public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements OnSheetDismissedListener{
+public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements OnSheetDismissedListener {
+    public static final String TITLE = "title"; // title 和 category 必然要传递过来一个
+    public static final String CATEGORY = "category"; //
+    public static final String ENABLE_FILTER = "enable_filter";
+    public static final String ENABLE_SCHOOL = "enable_school";
+    public static final String ENABLE_ORDER = "enable_order";
+    public static final String ENABLE_CHILD_SORT = "enable_child_sort";
+
     public static final int[] PARENT_SORT_LIST = new int[]{
             R.array.Clothing,
             R.array.Office,
@@ -42,8 +47,6 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
             R.array.Bags,
             R.array.Snacks,
     };
-    public static final String PARENT_SORT = "sort";
-    public static final String EXPLORE_TITLE = "title";
     private final String[] mOrderArray = new String[]{"时间↓", "时间↑", "价格↓", "价格↑"};
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -59,8 +62,6 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
     TagFlowLayout mSchoolTags;
     TagFlowLayout mOrderTags;
     TagFlowLayout mChildSortTags;
-
-    TextView mChildSortTitle;
 
     @Bind(R.id.filter_btn)
     ImageView mFilterBtn;
@@ -91,11 +92,12 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
     }
 
     private void configParentSort(Bundle extras) {
-        mTitle = extras.getString(EXPLORE_TITLE);
+        mTitle = extras.getString(TITLE);
         if (TextUtils.isEmpty(mTitle)) {
-            mParentSortIndex = extras.getInt(PARENT_SORT);
+            mParentSortIndex = extras.getInt(CATEGORY);
             mTitle = getResources().getStringArray(R.array.category_menu_items)[mParentSortIndex];
-            mChildSortArray = getResources().getStringArray(PARENT_SORT_LIST[mParentSortIndex]);
+            //
+
         }
     }
 
@@ -113,8 +115,12 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
     protected void onFinishInflate() {
         setupToolbarTitle();
         initFragment();
-        setupBottomSheet();
-        setupFlowLayout();
+        if (getIntent().getExtras().getBoolean(ENABLE_FILTER, false)) {
+            setupBottomSheet();
+            setupFlowLayout();
+        } else {
+            mFilterBtn.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -133,59 +139,67 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
 
     private void setupBottomSheet() {
         mFlowLayout = LayoutInflater.from(this).inflate(R.layout.explore_view_flow_layout, mBottomSheetLayout, false);
-        mSchoolTags = (TagFlowLayout) mFlowLayout.findViewById(R.id.school_tags);
-        mOrderTags = (TagFlowLayout) mFlowLayout.findViewById(R.id.order_tags);
-        mChildSortTags = (TagFlowLayout) mFlowLayout.findViewById(R.id.child_sort_tags);
-        mChildSortTitle = (TextView) mFlowLayout.findViewById(R.id.child_sort_title);
-
         mBottomSheetLayout.setUseHardwareLayerWhileAnimating(true);
         mBottomSheetLayout.setShouldDimContentView(false);
 
     }
 
     private void setupFlowLayout() {
+        if (getIntent().getExtras().getBoolean(ENABLE_SCHOOL, false)) {
+            mSchoolTags = (TagFlowLayout) mFlowLayout.findViewById(R.id.school_tags);
+            mSchoolTags.setMaxSelectCount(1); // disallowed multiSelected
+            TagAdapter<String> schoolTagAdapter = new TagAdapter<String>(mSchoolArray) {
+                @Override
+                public View getView(FlowLayout parent, int position, String s) {
+                    TextView tv = (TextView) getLayoutInflater().inflate(R.layout.item_tag, mSchoolTags, false);
+                    tv.setText(s);
+                    return tv;
+                }
+            };
+            mSchoolTags.setAdapter(schoolTagAdapter);
+            schoolTagAdapter.setSelectedList(0); // default school selected is ZJCM xiasha
+            // selected listener
+            mSchoolTags.setOnTagClickListener((view, position, parent) -> {
+                mOldSchoolPosition = mNewSchoolPosition;
+                mNewSchoolPosition = position;
+                return false;
+            });
+        } else {
+            TextView schoolTitle = (TextView) mFlowLayout.findViewById(R.id.school_title);
+            schoolTitle.setVisibility(View.GONE);
+        }
 
-        mSchoolTags.setMaxSelectCount(1); // disallowed multiSelected
+        if (getIntent().getExtras().getBoolean(ENABLE_ORDER, false)) {
+            mOrderTags = (TagFlowLayout) mFlowLayout.findViewById(R.id.order_tags);
+            mOrderTags.setMaxSelectCount(1);
+            TagAdapter<String> orderTagAdapter = new TagAdapter<String>(mOrderArray) {
+                @Override
+                public View getView(FlowLayout parent, int position, String s) {
+                    TextView tv = (TextView) getLayoutInflater().inflate(R.layout.item_tag, mOrderTags, false);
+                    tv.setText(s);
+                    return tv;
+                }
+            };
+            mOrderTags.setAdapter(orderTagAdapter);
+            orderTagAdapter.setSelectedList(0); // default time_desc
+            mOrderTags.setOnTagClickListener((view, position, parent) -> {
+                mOldOrderPosition = mNewOrderPosition;
+                mNewOrderPosition = position;
+                return false;
+            });
+        } else {
+            TextView orderTitle = (TextView) mFlowLayout.findViewById(R.id.order_title);
+            orderTitle.setVisibility(View.GONE);
+        }
 
-        TagAdapter<String> schoolTagAdapter = new TagAdapter<String>(mSchoolArray) {
-            @Override
-            public View getView(FlowLayout parent, int position, String s) {
-
-                TextView tv = (TextView) getLayoutInflater().inflate(R.layout.item_tag,
-                        mSchoolTags, false);
-                tv.setText(s);
-                return tv;
-            }
-        };
-        mSchoolTags.setAdapter(schoolTagAdapter);
-        // TODO: suan le 2333
-        schoolTagAdapter.setSelectedList(0); // default school selected is ZJCM xiasha
-
-
-        // sortOrder
-        mOrderTags.setMaxSelectCount(1);
-        TagAdapter<String> orderTagAdapter = new TagAdapter<String>(mOrderArray) {
-
-            @Override
-            public View getView(FlowLayout parent, int position, String s) {
-
-                TextView tv = (TextView) getLayoutInflater().inflate(R.layout.item_tag,
-                        mOrderTags, false);
-                tv.setText(s);
-                return tv;
-            }
-        };
-        mOrderTags.setAdapter(orderTagAdapter);
-        orderTagAdapter.setSelectedList(0); // default time_desc
-
-
-        if (null != mChildSortArray) {
+        if (getIntent().getExtras().getBoolean(ENABLE_CHILD_SORT, false)) {
+            mChildSortTags = (TagFlowLayout) mFlowLayout.findViewById(R.id.child_sort_tags);
+            mChildSortArray = getResources().getStringArray(PARENT_SORT_LIST[mParentSortIndex]);
             mChildSortTags.setMaxSelectCount(1); // multiSelected
             TagAdapter<String> childSortTagAdapter = new TagAdapter<String>(mChildSortArray) {
                 @Override
                 public View getView(FlowLayout parent, int position, String s) {
-                    TextView tv = (TextView) getLayoutInflater().inflate(R.layout.item_tag,
-                            mChildSortTags, false);
+                    TextView tv = (TextView) getLayoutInflater().inflate(R.layout.item_tag, mChildSortTags, false);
                     tv.setText(s);
                     return tv;
                 }
@@ -197,23 +211,9 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
                 return false;
             });
         } else {
-            mChildSortTags.setVisibility(View.GONE);
-            mChildSortTitle.setVisibility(View.GONE);
+            TextView childSortTitle = (TextView) mFlowLayout.findViewById(R.id.child_sort_title);
+            childSortTitle.setVisibility(View.GONE);
         }
-
-        // selected listener
-        mSchoolTags.setOnTagClickListener((view, position, parent) -> {
-            mOldSchoolPosition = mNewSchoolPosition;
-            mNewSchoolPosition = position;
-            return false;
-        });
-
-
-        mOrderTags.setOnTagClickListener((view, position, parent) -> {
-            mOldOrderPosition = mNewOrderPosition;
-            mNewOrderPosition = position;
-            return false;
-        });
     }
 
 
@@ -241,7 +241,6 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
                         mNewOrderPosition);
             }
         }
-        ToastUtils.toastSlow(this, "confirm");
     }
 
     public void cancel() {
@@ -249,7 +248,6 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
         mNewChildSortPosition = mOldChildSortPosition;
         mNewSchoolPosition = mOldSchoolPosition;
         mNewOrderPosition = mOldOrderPosition;
-        ToastUtils.toastSlow(this, "cancel");
     }
 
     @OnClick({R.id.filter_btn})

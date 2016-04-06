@@ -73,9 +73,13 @@ public class CategoryMenu extends BaseActivity implements CategoryMenuAdapter.On
         Intent intent = new Intent();
         intent.setClass(this, ExploreView.class);
 
-        intent.putExtra(ExploreView.PARENT_SORT, position);
+        intent.putExtra(ExploreView.CATEGORY, position);
+        intent.putExtra(ExploreView.ENABLE_FILTER, true);
+        intent.putExtra(ExploreView.ENABLE_SCHOOL, true);
+        intent.putExtra(ExploreView.ENABLE_ORDER, true);
+        intent.putExtra(ExploreView.ENABLE_CHILD_SORT, true);
         startActivity(intent);
-
+        overridePendingTransition(0, 0);
     }
 
     @Override
