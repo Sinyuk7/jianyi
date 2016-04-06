@@ -1,18 +1,17 @@
 package com.sinyuk.jianyimaterial.feature.explore;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;
@@ -42,39 +41,28 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
     };
     public static final String PARENT_SORT = "sort";
     private static final String EXPLORE_TITLE = "title";
-    private final String[] mOrderArray = new String[]{
-            "时间↓",
-            "时间↑",
-            "价格↓",
-            "价格↑"};
-
+    private final String[] mOrderArray = new String[]{"时间↓", "时间↑", "价格↓", "价格↑"};
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
     @Bind(R.id.app_bar_layout)
     AppBarLayout mAppBarLayout;
     @Bind(R.id.list_fragment_container)
     FrameLayout mListFragmentContainer;
-    @Bind(R.id.school_tags)
-    TagFlowLayout mSchoolTags;
-    @Bind(R.id.order_tags)
-    TagFlowLayout mOrderTags;
-    @Bind(R.id.child_sort_tags)
-    TagFlowLayout mChildSortTags;
-    @Bind(R.id.bottom_sheet)
-    NestedScrollView mBottomSheet;
     @Bind(R.id.coordinator_layout)
     CoordinatorLayout mCoordinatorLayout;
-    @Bind(R.id.confirm_btn)
-    ImageView mConfirmBtn;
-    @Bind(R.id.cancel_btn)
-    ImageView mCancelBtn;
-    @Bind(R.id.child_sort_title)
+    @Bind(R.id.bottom_sheet_layout)
+    BottomSheetLayout mBottomSheetLayout;
+
+    TagFlowLayout mSchoolTags;
+    TagFlowLayout mOrderTags;
+    TagFlowLayout mChildSortTags;
+
     TextView mChildSortTitle;
+
     private int mParentSortIndex;
     private String mTitle;
     private String[] mSchoolArray;
     private String[] mChildSortArray;
-    private BottomSheetBehavior<NestedScrollView> mBottomSheetBehavior;
 
     private int mOldSchoolPosition = 0;
     private int mOldOrderPosition = 0;
@@ -137,18 +125,16 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
     }
 
     private void setupBottomSheet() {
-        mBottomSheetBehavior = BottomSheetBehavior.from(mBottomSheet);
-        mBottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                // React to state change
-            }
+        final View flowLayout = LayoutInflater.from(this).inflate(R.layout.explore_view_flow_layout, mBottomSheetLayout, false);
+        mSchoolTags = (TagFlowLayout) flowLayout.findViewById(R.id.school_tags);
+        mOrderTags = (TagFlowLayout) flowLayout.findViewById(R.id.order_tags);
+        mChildSortTags = (TagFlowLayout) flowLayout.findViewById(R.id.child_sort_tags);
+        mChildSortTitle = (TextView) flowLayout.findViewById(R.id.child_sort_title);
+        mBottomSheetLayout.showWithSheetView(flowLayout);
 
-            @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                // React to dragging events
-            }
-        });
+        mBottomSheetLayout.setUseHardwareLayerWhileAnimating(true);
+        mBottomSheetLayout.setShouldDimContentView(true);
+        mBottomSheetLayout.peekSheet();
     }
 
     private void setupFlowLayout() {
@@ -224,7 +210,6 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
         });
     }
 
-    @OnClick(R.id.confirm_btn)
     public void confirm() {
 
         if (mNewChildSortPosition == mOldChildSortPosition &&
@@ -250,17 +235,15 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
             }
         }
         ToastUtils.toastSlow(this, "confirm");
-        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+//        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
     }
 
-    @OnClick(R.id.cancel_btn)
     public void cancel() {
         // reset
         mNewChildSortPosition = mOldChildSortPosition;
         mNewSchoolPosition = mOldSchoolPosition;
         mNewOrderPosition = mOldOrderPosition;
-        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+//        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         ToastUtils.toastSlow(this, "cancel");
     }
-
 }
