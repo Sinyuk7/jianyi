@@ -78,12 +78,11 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
     private int mOldOrderPosition;
     private int mOldChildSortPosition;
 
-    private int mNewSchoolPosition;
-    private int mNewOrderPosition;
-    private int mNewChildSortPosition;
+    private int mNewSchoolPosition = 0;
+    private int mNewOrderPosition = -1;
+    private int mNewChildSortPosition = -1;
 
     private View mFlowLayout;
-    private JianyiApi.YihuoProfileBuilder mUrlBuilder;
     private boolean mIsCategory = false;
     private ShelfView mShelfView;
     private String mUrl;
@@ -166,16 +165,13 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
                 }
             };
             mSchoolTags.setAdapter(schoolTagAdapter);
-/*            schoolTagAdapter.setSelectedList(0); // default school selected is ZJCM xiasha
-            // selected listener
-            mSchoolTags.setOnTagClickListener((view, position, parent) -> {
-                mOldSchoolPosition = mNewSchoolPosition;
-                mNewSchoolPosition = position;
-                return false;
-            });*/
             mSchoolTags.setOnSelectListener(selectPosSet -> {
                 mOldSchoolPosition = mNewSchoolPosition;
-                mNewSchoolPosition = (int) selectPosSet.toArray()[0];
+                if (selectPosSet.isEmpty()) {
+                    mNewSchoolPosition = 0;
+                } else {
+                    mNewSchoolPosition = (int) selectPosSet.toArray()[0];
+                }
             });
         } else {
             TextView schoolTitle = (TextView) mFlowLayout.findViewById(R.id.school_title);
@@ -194,17 +190,13 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
                 }
             };
             mOrderTags.setAdapter(orderTagAdapter);
-/*
-            orderTagAdapter.setSelectedList(0); // default time_desc
-*/
-        /*    mOrderTags.setOnTagClickListener((view, position, parent) -> {
-                mOldOrderPosition = mNewOrderPosition;
-                mNewOrderPosition = position;
-                return false;
-            });*/
             mOrderTags.setOnSelectListener(selectPosSet -> {
                 mOldOrderPosition = mNewOrderPosition;
-                mNewOrderPosition = (int) selectPosSet.toArray()[0];
+                if (selectPosSet.isEmpty()) {
+                    mNewOrderPosition = -1;
+                } else {
+                    mNewOrderPosition = (int) selectPosSet.toArray()[0];
+                }
             });
         } else {
             TextView orderTitle = (TextView) mFlowLayout.findViewById(R.id.order_title);
@@ -224,14 +216,14 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
                 }
             };
             mChildSortTags.setAdapter(childSortTagAdapter);
-    /*        mChildSortTags.setOnTagClickListener((view, position, parent) -> {
-                mOldChildSortPosition = mNewSchoolPosition;
-                mNewChildSortPosition = position;
-                return false;
-            });*/
             mChildSortTags.setOnSelectListener(selectPosSet -> {
                 mOldChildSortPosition = mNewChildSortPosition;
-                mNewChildSortPosition = (int) selectPosSet.toArray()[0];
+                if (selectPosSet.isEmpty()) {
+                    mNewChildSortPosition = -1;
+                } else {
+                    mNewChildSortPosition = (int) selectPosSet.toArray()[0];
+                }
+                LogUtils.simpleLog(ExploreView.class, "mNewChildSortPosition " + mNewChildSortPosition);
             });
         } else {
             TextView childSortTitle = (TextView) mFlowLayout.findViewById(R.id.child_sort_title);
@@ -241,7 +233,7 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
 
 
     public void confirm() {
-        mUrlBuilder = new JianyiApi.YihuoProfileBuilder(mTitle);
+        JianyiApi.YihuoProfileBuilder mUrlBuilder = new JianyiApi.YihuoProfileBuilder(mTitle);
         if (mIsCategory) {
             if (mNewChildSortPosition == -1) {
                 mUrlBuilder.addSort("all");
@@ -249,9 +241,12 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
                 mUrlBuilder.addSort(mChildSortArray[mNewChildSortPosition]);
             }
         }
-        mUrlBuilder.addSchool(mNewSchoolPosition);
+
+        mUrlBuilder.addSchool(mNewSchoolPosition + 1);
+
 
         switch (mNewOrderPosition) {
+            case -1:
             case 0:
                 mUrlBuilder.addTimeOrder(true);
                 break;
@@ -268,7 +263,8 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
 
         if (!mUrlBuilder.getUrl().equals(mUrl)) {
 //            mShelfView.updateUrl(mUrl);
-            LogUtils.simpleLog(ExploreView.class, mUrlBuilder.getUrl());
+            mUrl = mUrlBuilder.getUrl();
+            LogUtils.simpleLog(ExploreView.class, mUrl);
         }
     }
 
