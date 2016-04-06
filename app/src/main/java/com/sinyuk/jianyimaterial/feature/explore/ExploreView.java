@@ -12,9 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.flipboard.bottomsheet.BottomSheetLayout;
+import com.flipboard.bottomsheet.OnSheetDismissedListener;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 import com.sinyuk.jianyimaterial.ui.InsetViewTransformer;
+import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;
 import com.sinyuk.jianyimaterial.widgets.flowlayout.FlowLayout;
 import com.sinyuk.jianyimaterial.widgets.flowlayout.TagAdapter;
@@ -26,7 +28,7 @@ import butterknife.OnClick;
 /**
  * Created by Sinyuk on 16.3.27.
  */
-public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements IExploreView, BottomSheetLayout.OnSheetStateChangeListener {
+public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements OnSheetDismissedListener{
     public static final int[] PARENT_SORT_LIST = new int[]{
             R.array.Clothing,
             R.array.Office,
@@ -59,8 +61,7 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
     TagFlowLayout mChildSortTags;
 
     TextView mChildSortTitle;
-    @Bind(R.id.back_btn)
-    ImageView mBackBtn;
+
     @Bind(R.id.filter_btn)
     ImageView mFilterBtn;
 
@@ -105,7 +106,7 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
 
     @Override
     protected boolean isNavAsBack() {
-        return false;
+        return true;
     }
 
     @Override
@@ -123,7 +124,6 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
 
 
     private void setupToolbarTitle() {
-        setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle(mTitle);
     }
 
@@ -139,10 +139,7 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
         mChildSortTitle = (TextView) mFlowLayout.findViewById(R.id.child_sort_title);
 
         mBottomSheetLayout.setUseHardwareLayerWhileAnimating(true);
-        mBottomSheetLayout.setShouldDimContentView(true);
-        mBottomSheetLayout.setPeekOnDismiss(false);
-
-        mBottomSheetLayout.addOnSheetStateChangeListener(this);
+        mBottomSheetLayout.setShouldDimContentView(false);
 
     }
 
@@ -208,7 +205,6 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
         mSchoolTags.setOnTagClickListener((view, position, parent) -> {
             mOldSchoolPosition = mNewSchoolPosition;
             mNewSchoolPosition = position;
-            mBottomSheetLayout.dismissSheet();
             return false;
         });
 
@@ -216,7 +212,6 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
         mOrderTags.setOnTagClickListener((view, position, parent) -> {
             mOldOrderPosition = mNewOrderPosition;
             mNewOrderPosition = position;
-            mBottomSheetLayout.dismissSheet();
             return false;
         });
     }
@@ -257,31 +252,40 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
         ToastUtils.toastSlow(this, "cancel");
     }
 
-    @OnClick({R.id.back_btn, R.id.filter_btn})
-    public void onClick(View view) {
+    @OnClick({R.id.filter_btn})
+    public void onFilter(View view) {
         switch (view.getId()) {
-            case R.id.back_btn:
-                onBackPressed();
-                break;
             case R.id.filter_btn:
                 if (mBottomSheetLayout.isSheetShowing()) {
                     mBottomSheetLayout.dismissSheet();
+                    // confirm
                 } else {
-                    mBottomSheetLayout.showWithSheetView(mFlowLayout, new InsetViewTransformer());
+                    if (mBottomSheetLayout.getSheetView() == null) {
+                        mBottomSheetLayout.showWithSheetView(mFlowLayout, new InsetViewTransformer());
+                        mBottomSheetLayout.addOnSheetDismissedListener(this);
+                    } else {
+                        mBottomSheetLayout.expandSheet();
+                    }
+                    mToolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
+                    mFilterBtn.setImageResource(R.drawable.ic_check_primary_24dp);
                 }
                 break;
         }
     }
 
     @Override
-    public void onSheetStateChanged(BottomSheetLayout.State state) {
-        if (state == BottomSheetLayout.State.EXPANDED) {
-            mBackBtn.setBackgroundResource(R.drawable.ic_close_white_24dp);
-            mFilterBtn.setBackgroundResource(R.drawable.ic_check_primary_24dp);
-        }
-        if (state == BottomSheetLayout.State.HIDDEN) {
-            mBackBtn.setBackgroundResource(R.drawable.ic_arrow_back_primary_24dp);
-            mFilterBtn.setBackgroundResource(R.drawable.ic_sort_white_24dp);
+    public void onBackPressed() {
+        if (mBottomSheetLayout.isSheetShowing()) {
+            mBottomSheetLayout.dismissSheet();
+        } else {
+            super.onBackPressed();
         }
     }
+
+    @Override
+    public void onDismissed(BottomSheetLayout bottomSheetLayout) {
+        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_primary_24dp);
+        mFilterBtn.setImageResource(R.drawable.ic_sort_white_24dp);
+    }
+
 }
