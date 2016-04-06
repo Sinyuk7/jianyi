@@ -68,7 +68,7 @@ public abstract class BaseActivity<P extends BasePresenter>
     protected abstract P createPresenter();
 
     public void onNavigationClick(Void v) {
-        finish();
+        onBackPressed();
     }
 
     protected abstract boolean isNavAsBack();
