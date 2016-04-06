@@ -14,8 +14,11 @@ import android.widget.TextView;
 import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.flipboard.bottomsheet.OnSheetDismissedListener;
 import com.sinyuk.jianyimaterial.R;
+import com.sinyuk.jianyimaterial.api.JianyiApi;
+import com.sinyuk.jianyimaterial.feature.shelf.ShelfView;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 import com.sinyuk.jianyimaterial.ui.InsetViewTransformer;
+import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.widgets.flowlayout.FlowLayout;
 import com.sinyuk.jianyimaterial.widgets.flowlayout.TagAdapter;
 import com.sinyuk.jianyimaterial.widgets.flowlayout.TagFlowLayout;
@@ -71,14 +74,19 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
     private String[] mSchoolArray;
     private String[] mChildSortArray;
 
-    private int mOldSchoolPosition = 0;
-    private int mOldOrderPosition = 0;
-    private int mOldChildSortPosition = 0;
+    private int mOldSchoolPosition;
+    private int mOldOrderPosition;
+    private int mOldChildSortPosition;
 
-    private int mNewSchoolPosition = 0;
-    private int mNewOrderPosition = 0;
-    private int mNewChildSortPosition = 0;
+    private int mNewSchoolPosition;
+    private int mNewOrderPosition;
+    private int mNewChildSortPosition;
+
     private View mFlowLayout;
+    private JianyiApi.YihuoProfileBuilder mUrlBuilder;
+    private boolean mIsCategory = false;
+    private ShelfView mShelfView;
+    private String mUrl;
 
     @Override
     protected boolean isUseEventBus() {
@@ -97,7 +105,7 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
             mParentSortIndex = extras.getInt(CATEGORY);
             mTitle = getResources().getStringArray(R.array.category_menu_items)[mParentSortIndex];
             //
-
+            mIsCategory = true;
         }
     }
 
@@ -134,7 +142,8 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
     }
 
     private void initFragment() {
-
+        Bundle args = new Bundle();
+        mShelfView = ShelfView.newInstance(args);
     }
 
     private void setupBottomSheet() {
@@ -157,12 +166,16 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
                 }
             };
             mSchoolTags.setAdapter(schoolTagAdapter);
-            schoolTagAdapter.setSelectedList(0); // default school selected is ZJCM xiasha
+/*            schoolTagAdapter.setSelectedList(0); // default school selected is ZJCM xiasha
             // selected listener
             mSchoolTags.setOnTagClickListener((view, position, parent) -> {
                 mOldSchoolPosition = mNewSchoolPosition;
                 mNewSchoolPosition = position;
                 return false;
+            });*/
+            mSchoolTags.setOnSelectListener(selectPosSet -> {
+                mOldSchoolPosition = mNewSchoolPosition;
+                mNewSchoolPosition = (int) selectPosSet.toArray()[0];
             });
         } else {
             TextView schoolTitle = (TextView) mFlowLayout.findViewById(R.id.school_title);
@@ -181,11 +194,17 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
                 }
             };
             mOrderTags.setAdapter(orderTagAdapter);
+/*
             orderTagAdapter.setSelectedList(0); // default time_desc
-            mOrderTags.setOnTagClickListener((view, position, parent) -> {
+*/
+        /*    mOrderTags.setOnTagClickListener((view, position, parent) -> {
                 mOldOrderPosition = mNewOrderPosition;
                 mNewOrderPosition = position;
                 return false;
+            });*/
+            mOrderTags.setOnSelectListener(selectPosSet -> {
+                mOldOrderPosition = mNewOrderPosition;
+                mNewOrderPosition = (int) selectPosSet.toArray()[0];
             });
         } else {
             TextView orderTitle = (TextView) mFlowLayout.findViewById(R.id.order_title);
@@ -205,10 +224,14 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
                 }
             };
             mChildSortTags.setAdapter(childSortTagAdapter);
-            mChildSortTags.setOnTagClickListener((view, position, parent) -> {
+    /*        mChildSortTags.setOnTagClickListener((view, position, parent) -> {
                 mOldChildSortPosition = mNewSchoolPosition;
                 mNewChildSortPosition = position;
                 return false;
+            });*/
+            mChildSortTags.setOnSelectListener(selectPosSet -> {
+                mOldChildSortPosition = mNewChildSortPosition;
+                mNewChildSortPosition = (int) selectPosSet.toArray()[0];
             });
         } else {
             TextView childSortTitle = (TextView) mFlowLayout.findViewById(R.id.child_sort_title);
@@ -218,30 +241,37 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
 
 
     public void confirm() {
-
-        if (mNewChildSortPosition == mOldChildSortPosition &&
-                mNewOrderPosition == mOldOrderPosition &&
-                mNewSchoolPosition == mOldSchoolPosition) { return; }
-
-        if (null != mChildSortArray) {
-            if (mSchoolArray[mNewSchoolPosition] != null &&
-                    mOrderArray[mNewOrderPosition] != null &&
-                    mChildSortArray[mNewChildSortPosition] != null) {
-                mPresenter.selectInCategory(
-                        mTitle,
-                        mNewSchoolPosition,
-                        mNewOrderPosition,
-                        mChildSortArray[mNewChildSortPosition]);
-            }
-        } else {
-            if (mSchoolArray[mNewSchoolPosition] != null &&
-                    mOrderArray[mNewOrderPosition] != null) {
-                mPresenter.selectInTitles(
-                        mNewSchoolPosition,
-                        mNewOrderPosition);
+        mUrlBuilder = new JianyiApi.YihuoProfileBuilder(mTitle);
+        if (mIsCategory) {
+            if (mNewChildSortPosition == -1) {
+                mUrlBuilder.addSort("all");
+            } else {
+                mUrlBuilder.addSort(mChildSortArray[mNewChildSortPosition]);
             }
         }
+        mUrlBuilder.addSchool(mNewSchoolPosition);
+
+        switch (mNewOrderPosition) {
+            case 0:
+                mUrlBuilder.addTimeOrder(true);
+                break;
+            case 1:
+                mUrlBuilder.addTimeOrder(false);
+                break;
+            case 2:
+                mUrlBuilder.addPriceOrder(true);
+                break;
+            case 3:
+                mUrlBuilder.addPriceOrder(false);
+                break;
+        }
+
+        if (!mUrlBuilder.getUrl().equals(mUrl)) {
+//            mShelfView.updateUrl(mUrl);
+            LogUtils.simpleLog(ExploreView.class, mUrlBuilder.getUrl());
+        }
     }
+
 
     public void cancel() {
         // reset
@@ -255,8 +285,8 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
         switch (view.getId()) {
             case R.id.filter_btn:
                 if (mBottomSheetLayout.isSheetShowing()) {
+                    confirm();
                     mBottomSheetLayout.dismissSheet();
-                    // confirm
                 } else {
                     if (mBottomSheetLayout.getSheetView() == null) {
                         mBottomSheetLayout.showWithSheetView(mFlowLayout, new InsetViewTransformer());
@@ -275,6 +305,7 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
     public void onBackPressed() {
         if (mBottomSheetLayout.isSheetShowing()) {
             mBottomSheetLayout.dismissSheet();
+            cancel();
         } else {
             super.onBackPressed();
         }
@@ -284,6 +315,7 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
     public void onDismissed(BottomSheetLayout bottomSheetLayout) {
         mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_primary_24dp);
         mFilterBtn.setImageResource(R.drawable.ic_sort_white_24dp);
+        cancel();
     }
 
 }
