@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
  */
 public class JianyiApi {
     public static final String JIANYI = "http://wx.i-jianyi.com";
+    public static final String BASIC_AUTHOR_ACCOUNT = "1202072324";
+    public static final String BASIC_AUTHOR_PASSWORD = "1202072322";
     private static final String GOODS = JIANYI + "/port/goods";
     private static final String NEEDS = JIANYI + "/port/needs";
     private static final String SIGN = JIANYI + "/port/sign";
@@ -17,13 +19,11 @@ public class JianyiApi {
     private static final String IMAGE_UPLOAD = JIANYI + "/port/resource/imgUpload";
     private static final String POST_FEED = JIANYI + "/port/goods/create";
     private static final String SCHOOLS = JIANYI + "/port/school";
-    private static final String BANNER  = JIANYI + "/port/img/index";
-    public static final String BASIC_AUTHOR_ACCOUNT = "1202072324";
-    public static final String BASIC_AUTHOR_PASSWORD = "1202072322";
+    private static final String BANNER = JIANYI + "/port/img/index";
 
     public static String yihuoAll(@Nullable int pageIndex) {
         return GOODS +
-                "?title=all&sort=all" + "&page=" + pageIndex + ORDER_DESC;
+                "?title=all" + "&page=" + pageIndex + ORDER_DESC;
 
     }
 
@@ -103,5 +103,57 @@ public class JianyiApi {
 
     public static String banners() {
         return BANNER;
+    }
+
+    public class YihuoProfileBuilder {
+        private StringBuilder mStringBuilder;
+        private boolean hasSort = true;
+
+        public YihuoProfileBuilder() {
+            mStringBuilder = new StringBuilder(GOODS + "?title=all");
+            hasSort = false;
+        }
+
+        public YihuoProfileBuilder(String title) {
+            mStringBuilder = new StringBuilder(GOODS + "?title=" + title);
+        }
+
+        public YihuoProfileBuilder addSchool(int index) {
+            addParam("&school=" + index);
+            return this;
+        }
+
+        public YihuoProfileBuilder addSort(String sort) {
+            if (hasSort) { addParam("&sort=" + sort); }
+            return this;
+        }
+
+        public YihuoProfileBuilder addTimeOrder(boolean isAsc) {
+            final String order = isAsc ? "time_asc" : "time_desc";
+            addParam("&order=" + order);
+            return this;
+        }
+
+        public YihuoProfileBuilder addPriceOrder(boolean isAsc) {
+            final String order = isAsc ? "price_asc" : "price_desc";
+            addParam("&order=" + order);
+            return this;
+        }
+
+        public YihuoProfileBuilder addPageSize(int size) {
+            addParam("&page_size=" + size);
+            return this;
+        }
+
+        public YihuoProfileBuilder addPageIndex(int index) {
+            addParam("&page=" + index);
+            return this;
+        }
+
+
+        private void addParam(String s) {
+            mStringBuilder.append(s);
+        }
+
     }
 }
