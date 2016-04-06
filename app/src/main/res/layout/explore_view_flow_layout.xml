@@ -66,6 +66,7 @@
     </com.sinyuk.jianyimaterial.widgets.flowlayout.TagFlowLayout>
 
     <TextView
+        android:id="@+id/child_sort_title"
         style="@style/TagLayoutTitle"
         android:drawableLeft="@drawable/ic_dashboard_white_24dp"
         android:drawableStart="@drawable/ic_dashboard_white_24dp"

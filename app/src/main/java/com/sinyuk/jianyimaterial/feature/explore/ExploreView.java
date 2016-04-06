@@ -7,21 +7,21 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sinyuk.jianyimaterial.R;
-import com.sinyuk.jianyimaterial.events.XSelectionUpdateEvent;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
-import com.sinyuk.jianyimaterial.utils.StringUtils;
+import com.sinyuk.jianyimaterial.utils.ToastUtils;
 import com.sinyuk.jianyimaterial.widgets.flowlayout.FlowLayout;
 import com.sinyuk.jianyimaterial.widgets.flowlayout.TagAdapter;
 import com.sinyuk.jianyimaterial.widgets.flowlayout.TagFlowLayout;
 
-import org.greenrobot.eventbus.EventBus;
-
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * Created by Sinyuk on 16.3.27.
@@ -40,8 +40,9 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
             R.array.Bags,
             R.array.Snacks,
     };
-    public static final String PARENT_SORT = "title";
-    private final String[] sOrderArray = new String[]{
+    public static final String PARENT_SORT = "sort";
+    private static final String EXPLORE_TITLE = "title";
+    private final String[] mOrderArray = new String[]{
             "时间↓",
             "时间↑",
             "价格↓",
@@ -63,18 +64,25 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
     NestedScrollView mBottomSheet;
     @Bind(R.id.coordinator_layout)
     CoordinatorLayout mCoordinatorLayout;
+    @Bind(R.id.confirm_btn)
+    ImageView mConfirmBtn;
+    @Bind(R.id.cancel_btn)
+    ImageView mCancelBtn;
+    @Bind(R.id.child_sort_title)
+    TextView mChildSortTitle;
     private int mParentSortIndex;
     private String mTitle;
     private String[] mSchoolArray;
     private String[] mChildSortArray;
     private BottomSheetBehavior<NestedScrollView> mBottomSheetBehavior;
-    private int mOldSchoolPosition;
-    private int mOldOrderPosition;
-    private int mOldChildSortPosition;
 
-    private int mNewSchoolPosition;
-    private int mNewOrderPosition;
-    private int mNewChildSortPosition;
+    private int mOldSchoolPosition = 0;
+    private int mOldOrderPosition = 0;
+    private int mOldChildSortPosition = 0;
+
+    private int mNewSchoolPosition = 0;
+    private int mNewOrderPosition = 0;
+    private int mNewChildSortPosition = 0;
 
     @Override
     protected boolean isUseEventBus() {
@@ -88,10 +96,12 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
     }
 
     private void configParentSort(Bundle extras) {
-        if (null == extras) { return; }
-        mParentSortIndex = extras.getInt(PARENT_SORT, 0);
-        mTitle = StringUtils.check(this, getResources().getStringArray(R.array.category_menu_items)[mParentSortIndex], R.string.activity_category_page);
-        mChildSortArray = getResources().getStringArray(PARENT_SORT_LIST[mParentSortIndex]);
+        mTitle = extras.getString(EXPLORE_TITLE);
+        if (TextUtils.isEmpty(mTitle)) {
+            mParentSortIndex = extras.getInt(PARENT_SORT);
+            mTitle = getResources().getStringArray(R.array.category_menu_items)[mParentSortIndex];
+            mChildSortArray = getResources().getStringArray(PARENT_SORT_LIST[mParentSortIndex]);
+        }
     }
 
     @Override
@@ -132,13 +142,6 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 // React to state change
-                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
-                    if (mNewChildSortPosition == mOldChildSortPosition &&
-                            mNewOrderPosition == mOldOrderPosition &&
-                            mNewSchoolPosition == mOldSchoolPosition) { return; }
-                    EventBus.getDefault().post(new XSelectionUpdateEvent(mNewSchoolPosition,
-                            mNewOrderPosition, mNewChildSortPosition));
-                }
             }
 
             @Override
@@ -169,7 +172,7 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
 
         // sortOrder
         mOrderTags.setMaxSelectCount(1);
-        TagAdapter<String> orderTagAdapter = new TagAdapter<String>(sOrderArray) {
+        TagAdapter<String> orderTagAdapter = new TagAdapter<String>(mOrderArray) {
 
             @Override
             public View getView(FlowLayout parent, int position, String s) {
@@ -184,20 +187,27 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
         orderTagAdapter.setSelectedList(0); // default time_desc
 
 
-        // child Sort
-        mChildSortTags.setMaxSelectCount(1); // multiSelected
-        TagAdapter<String> childSortTagAdapter = new TagAdapter<String>(mChildSortArray) {
-            @Override
-            public View getView(FlowLayout parent, int position, String s) {
-
-                TextView tv = (TextView) getLayoutInflater().inflate(R.layout.item_tag,
-                        mChildSortTags, false);
-                tv.setText(s);
-                return tv;
-            }
-        };
-        mChildSortTags.setAdapter(childSortTagAdapter);
-
+        if (null != mChildSortArray) {
+            mChildSortTags.setMaxSelectCount(1); // multiSelected
+            TagAdapter<String> childSortTagAdapter = new TagAdapter<String>(mChildSortArray) {
+                @Override
+                public View getView(FlowLayout parent, int position, String s) {
+                    TextView tv = (TextView) getLayoutInflater().inflate(R.layout.item_tag,
+                            mChildSortTags, false);
+                    tv.setText(s);
+                    return tv;
+                }
+            };
+            mChildSortTags.setAdapter(childSortTagAdapter);
+            mChildSortTags.setOnTagClickListener((view, position, parent) -> {
+                mOldChildSortPosition = mNewSchoolPosition;
+                mNewChildSortPosition = position;
+                return false;
+            });
+        } else {
+            mChildSortTags.setVisibility(View.GONE);
+            mChildSortTitle.setVisibility(View.GONE);
+        }
 
         // selected listener
         mSchoolTags.setOnTagClickListener((view, position, parent) -> {
@@ -208,28 +218,49 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
 
 
         mOrderTags.setOnTagClickListener((view, position, parent) -> {
-            mOldSchoolPosition = mNewSchoolPosition;
+            mOldOrderPosition = mNewOrderPosition;
             mNewOrderPosition = position;
             return false;
         });
-
-        mChildSortTags.setOnTagClickListener((view, position, parent) -> {
-            mOldChildSortPosition = mNewSchoolPosition;
-            mNewChildSortPosition = position;
-            return false;
-        });
-
     }
 
-    private void confirm() {
+    @OnClick(R.id.confirm_btn)
+    public void confirm() {
+
+        if (mNewChildSortPosition == mOldChildSortPosition &&
+                mNewOrderPosition == mOldOrderPosition &&
+                mNewSchoolPosition == mOldSchoolPosition) { return; }
+
+        if (null != mChildSortArray) {
+            if (mSchoolArray[mNewSchoolPosition] != null &&
+                    mOrderArray[mNewOrderPosition] != null &&
+                    mChildSortArray[mNewChildSortPosition] != null) {
+                mPresenter.selectInCategory(
+                        mTitle,
+                        mNewSchoolPosition,
+                        mNewOrderPosition,
+                        mChildSortArray[mNewChildSortPosition]);
+            }
+        } else {
+            if (mSchoolArray[mNewSchoolPosition] != null &&
+                    mOrderArray[mNewOrderPosition] != null) {
+                mPresenter.selectInTitles(
+                        mNewSchoolPosition,
+                        mNewOrderPosition);
+            }
+        }
+        ToastUtils.toastSlow(this, "confirm");
         mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
     }
 
-    private void cancel() {
+    @OnClick(R.id.cancel_btn)
+    public void cancel() {
         // reset
         mNewChildSortPosition = mOldChildSortPosition;
         mNewSchoolPosition = mOldSchoolPosition;
         mNewOrderPosition = mOldOrderPosition;
         mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        ToastUtils.toastSlow(this, "cancel");
     }
+
 }
