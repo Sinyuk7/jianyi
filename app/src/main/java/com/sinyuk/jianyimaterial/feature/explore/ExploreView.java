@@ -6,10 +6,9 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.flipboard.bottomsheet.BottomSheetLayout;
@@ -22,11 +21,12 @@ import com.sinyuk.jianyimaterial.widgets.flowlayout.TagAdapter;
 import com.sinyuk.jianyimaterial.widgets.flowlayout.TagFlowLayout;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * Created by Sinyuk on 16.3.27.
  */
-public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements IExploreView {
+public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements IExploreView, BottomSheetLayout.OnSheetStateChangeListener {
     public static final int[] PARENT_SORT_LIST = new int[]{
             R.array.Clothing,
             R.array.Office,
@@ -41,7 +41,7 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
             R.array.Snacks,
     };
     public static final String PARENT_SORT = "sort";
-    private static final String EXPLORE_TITLE = "title";
+    public static final String EXPLORE_TITLE = "title";
     private final String[] mOrderArray = new String[]{"时间↓", "时间↑", "价格↓", "价格↑"};
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -59,6 +59,10 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
     TagFlowLayout mChildSortTags;
 
     TextView mChildSortTitle;
+    @Bind(R.id.back_btn)
+    ImageView mBackBtn;
+    @Bind(R.id.filter_btn)
+    ImageView mFilterBtn;
 
     private int mParentSortIndex;
     private String mTitle;
@@ -101,7 +105,7 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
 
     @Override
     protected boolean isNavAsBack() {
-        return true;
+        return false;
     }
 
     @Override
@@ -119,7 +123,8 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
 
 
     private void setupToolbarTitle() {
-        if (null != getSupportActionBar()) { getSupportActionBar().setTitle(mTitle); }
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle(mTitle);
     }
 
     private void initFragment() {
@@ -136,6 +141,8 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
         mBottomSheetLayout.setUseHardwareLayerWhileAnimating(true);
         mBottomSheetLayout.setShouldDimContentView(true);
         mBottomSheetLayout.setPeekOnDismiss(false);
+
+        mBottomSheetLayout.addOnSheetStateChangeListener(this);
 
     }
 
@@ -215,7 +222,6 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
     }
 
 
-
     public void confirm() {
 
         if (mNewChildSortPosition == mOldChildSortPosition &&
@@ -241,7 +247,6 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
             }
         }
         ToastUtils.toastSlow(this, "confirm");
-//        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
     }
 
     public void cancel() {
@@ -249,7 +254,34 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
         mNewChildSortPosition = mOldChildSortPosition;
         mNewSchoolPosition = mOldSchoolPosition;
         mNewOrderPosition = mOldOrderPosition;
-//        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         ToastUtils.toastSlow(this, "cancel");
+    }
+
+    @OnClick({R.id.back_btn, R.id.filter_btn})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.back_btn:
+                onBackPressed();
+                break;
+            case R.id.filter_btn:
+                if (mBottomSheetLayout.isSheetShowing()) {
+                    mBottomSheetLayout.dismissSheet();
+                } else {
+                    mBottomSheetLayout.showWithSheetView(mFlowLayout, new InsetViewTransformer());
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onSheetStateChanged(BottomSheetLayout.State state) {
+        if (state == BottomSheetLayout.State.EXPANDED) {
+            mBackBtn.setBackgroundResource(R.drawable.ic_close_white_24dp);
+            mFilterBtn.setBackgroundResource(R.drawable.ic_check_primary_24dp);
+        }
+        if (state == BottomSheetLayout.State.HIDDEN) {
+            mBackBtn.setBackgroundResource(R.drawable.ic_arrow_back_primary_24dp);
+            mFilterBtn.setBackgroundResource(R.drawable.ic_sort_white_24dp);
+        }
     }
 }
