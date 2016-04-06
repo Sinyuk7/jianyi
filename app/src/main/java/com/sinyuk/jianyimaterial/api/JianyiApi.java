@@ -105,7 +105,7 @@ public class JianyiApi {
         return BANNER;
     }
 
-    public class YihuoProfileBuilder {
+    public static class YihuoProfileBuilder {
         private StringBuilder mStringBuilder;
         private boolean hasSort = true;
 
@@ -153,6 +153,10 @@ public class JianyiApi {
 
         private void addParam(String s) {
             mStringBuilder.append(s);
+        }
+
+        public String getUrl() {
+            return mStringBuilder.toString();
         }
 
     }
