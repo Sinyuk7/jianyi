@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
@@ -61,6 +62,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
 
@@ -80,6 +82,14 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     MultiSwipeRefreshLayout mSwipeRefreshLayout;
     @Bind(R.id.banner_view)
     ConvenientBanner mBannerView;
+    @Bind(R.id.collapsing_toolbar_layout)
+    CollapsingToolbarLayout mCollapsingToolbarLayout;
+    @Bind(R.id.app_bar_layout)
+    AppBarLayout mAppBarLayout;
+    @Bind(R.id.fab)
+    FloatingActionButton mFab;
+    @Bind(R.id.coordinator_layout)
+    CoordinatorLayout mCoordinatorLayout;
     @Bind(R.id.category_wears_tv)
     TextView mCategoryWearsTv;
     @Bind(R.id.category_personal_care_tv)
@@ -90,14 +100,6 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     TextView mCategoryAllItemsTv;
     @Bind(R.id.home_category)
     CardView mHomeCategory;
-    @Bind(R.id.collapsing_toolbar_layout)
-    CollapsingToolbarLayout mCollapsingToolbarLayout;
-    @Bind(R.id.app_bar_layout)
-    AppBarLayout mAppBarLayout;
-    @Bind(R.id.fab)
-    FloatingActionButton mFab;
-    @Bind(R.id.coordinator_layout)
-    CoordinatorLayout mCoordinatorLayout;
 
     private boolean mIsRequestDataRefresh;
     private CardListAdapter mAdapter;
@@ -327,7 +329,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(data.getTitle())));
         }));
     }
-    
+
 
     @Override
     public void onVolleyError(@NonNull String message) {mSwipeRefreshLayout.setRefreshing(false);}
@@ -392,6 +394,20 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
         } else {
             mBannerView.stopTurning();
             mSwipeRefreshLayout.setEnabled(false);
+        }
+    }
+
+    @OnClick({R.id.category_wears_tv, R.id.category_personal_care_tv, R.id.category_devices_tv, R.id.category_all_items_tv})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.category_wears_tv:
+                break;
+            case R.id.category_personal_care_tv:
+                break;
+            case R.id.category_devices_tv:
+                break;
+            case R.id.category_all_items_tv:
+                break;
         }
     }
 
