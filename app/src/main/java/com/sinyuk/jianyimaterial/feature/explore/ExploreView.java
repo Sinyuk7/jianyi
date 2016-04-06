@@ -2,11 +2,12 @@ package com.sinyuk.jianyimaterial.feature.explore;
 
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -14,13 +15,13 @@ import android.widget.TextView;
 import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
+import com.sinyuk.jianyimaterial.ui.InsetViewTransformer;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;
 import com.sinyuk.jianyimaterial.widgets.flowlayout.FlowLayout;
 import com.sinyuk.jianyimaterial.widgets.flowlayout.TagAdapter;
 import com.sinyuk.jianyimaterial.widgets.flowlayout.TagFlowLayout;
 
 import butterknife.Bind;
-import butterknife.OnClick;
 
 /**
  * Created by Sinyuk on 16.3.27.
@@ -71,6 +72,7 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
     private int mNewSchoolPosition = 0;
     private int mNewOrderPosition = 0;
     private int mNewChildSortPosition = 0;
+    private View mFlowLayout;
 
     @Override
     protected boolean isUseEventBus() {
@@ -125,16 +127,16 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
     }
 
     private void setupBottomSheet() {
-        final View flowLayout = LayoutInflater.from(this).inflate(R.layout.explore_view_flow_layout, mBottomSheetLayout, false);
-        mSchoolTags = (TagFlowLayout) flowLayout.findViewById(R.id.school_tags);
-        mOrderTags = (TagFlowLayout) flowLayout.findViewById(R.id.order_tags);
-        mChildSortTags = (TagFlowLayout) flowLayout.findViewById(R.id.child_sort_tags);
-        mChildSortTitle = (TextView) flowLayout.findViewById(R.id.child_sort_title);
-        mBottomSheetLayout.showWithSheetView(flowLayout);
+        mFlowLayout = LayoutInflater.from(this).inflate(R.layout.explore_view_flow_layout, mBottomSheetLayout, false);
+        mSchoolTags = (TagFlowLayout) mFlowLayout.findViewById(R.id.school_tags);
+        mOrderTags = (TagFlowLayout) mFlowLayout.findViewById(R.id.order_tags);
+        mChildSortTags = (TagFlowLayout) mFlowLayout.findViewById(R.id.child_sort_tags);
+        mChildSortTitle = (TextView) mFlowLayout.findViewById(R.id.child_sort_title);
 
         mBottomSheetLayout.setUseHardwareLayerWhileAnimating(true);
         mBottomSheetLayout.setShouldDimContentView(true);
-        mBottomSheetLayout.peekSheet();
+        mBottomSheetLayout.setPeekOnDismiss(false);
+
     }
 
     private void setupFlowLayout() {
@@ -199,6 +201,7 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
         mSchoolTags.setOnTagClickListener((view, position, parent) -> {
             mOldSchoolPosition = mNewSchoolPosition;
             mNewSchoolPosition = position;
+            mBottomSheetLayout.dismissSheet();
             return false;
         });
 
@@ -206,9 +209,12 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements I
         mOrderTags.setOnTagClickListener((view, position, parent) -> {
             mOldOrderPosition = mNewOrderPosition;
             mNewOrderPosition = position;
+            mBottomSheetLayout.dismissSheet();
             return false;
         });
     }
+
+
 
     public void confirm() {
 
