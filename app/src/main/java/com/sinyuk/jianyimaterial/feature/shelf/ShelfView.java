@@ -2,6 +2,7 @@ package com.sinyuk.jianyimaterial.feature.shelf;
 
 import android.content.Context;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
@@ -43,6 +44,13 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
     private View mListHeader;
     private int mPageIndex = 1;
     private List<YihuoProfile> mYihuoProfileList = new ArrayList<>();
+
+    public static ShelfView newInstance(Bundle args) {
+
+        ShelfView fragment = new ShelfView();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onAttach(Context context) {
