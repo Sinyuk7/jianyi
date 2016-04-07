@@ -139,7 +139,7 @@ public class PostFeedFragment extends BaseFragment {
 
     @Override
     protected int getContentViewId() {
-        return R.layout.fragment_post_feed;
+        return R.layout.offer_view_content;
     }
 
     @Override
