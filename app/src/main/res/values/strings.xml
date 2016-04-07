@@ -229,10 +229,10 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="hint_left_nothing_here">…什么都没留下</string>
     <string name="hint_post_something">还什么都没有</string>
     <string name="activity_post">发布</string>
-    <string name="hint_post_feed">你想提供什么…</string>
-    <string name="hint_give_more_details">介绍</string>
+    <string name="offer_hint_title">简要…</string>
+    <string name="offer_hint_details">详细…</string>
     <string name="hint_select_category">分类</string>
-    <string name="hint_select_new_price">转让价</string>
+    <string name="offer_hint_price">转让价…</string>
     <string name="hint_want_price">心动价</string>
     <string name="splash_for_beta">\t\tThis build is on the bleeding edge,it does need heavy tested,and it\'s subject to bugs.So all your feedback and
         suggestions can be sent to \"sinyuk.7@gmail.com\". \n\t\t这只是一个测试版本,所以如果它出了问题,
@@ -268,6 +268,8 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="action_filter">筛选</string>
     <string name="entry_recommended">小编推荐</string>
     <string name="entry_free">免费赠送</string>
+    <string name="offer_hint_confirm">确认</string>
+    <string name="offer_hint_cover">第一张照片会被当作封面</string>
 
 
 </resources>
