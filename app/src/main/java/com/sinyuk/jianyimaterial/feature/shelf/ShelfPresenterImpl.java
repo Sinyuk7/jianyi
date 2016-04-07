@@ -7,7 +7,7 @@ import com.sinyuk.jianyimaterial.mvp.BasePresenter;
  */
 public class ShelfPresenterImpl extends BasePresenter<ShelfView> implements IShelfPresenter{
     @Override
-    public void loadData(int pageIndex) {
+    public void loadData(int pageIndex ,String url) {
 
     }
 }

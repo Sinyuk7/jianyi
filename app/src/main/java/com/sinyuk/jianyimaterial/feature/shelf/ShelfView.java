@@ -37,6 +37,7 @@ import butterknife.Bind;
  */
 public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShelfView,
         AppBarLayout.OnOffsetChangedListener {
+    private static final String URL_WHEN_INIT = "init_url";
     @Bind(R.id.recycler_view)
     RecyclerView mRecyclerView;
     @Bind(R.id.swipe_refresh_layout)
@@ -48,6 +49,8 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
     private View mListHeader;
     private int mPageIndex = 1;
     private List<YihuoProfile> mYihuoProfileList = new ArrayList<>();
+
+    private String mUrl;
 
     public static ShelfView newInstance(Bundle args) {
         ShelfView fragment = new ShelfView();
@@ -87,6 +90,8 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
     protected void onFinishInflate() {
         setupSwipeRefreshLayout();
         setupRecyclerView();
+        mUrl = getArguments().getString(URL_WHEN_INIT);
+        mPresenter.loadData(1, mUrl);
     }
 
     private void setupRecyclerView() {
@@ -166,12 +171,12 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
 
     @Override
     public void refresh() {
-        mPresenter.loadData(1);
+        mPresenter.loadData(1, mUrl);
     }
 
     @Override
     public void loadData(int pageIndex) {
-        mPresenter.loadData(pageIndex);
+        mPresenter.loadData(pageIndex, mUrl);
     }
 
     @Override
@@ -204,6 +209,9 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onYihuoChange(XShelfChangeEvent event) {
-
+        if (!event.getNewUrl().equals(mUrl)) {
+            mUrl = event.getNewUrl();
+            mPresenter.loadData(1, mUrl);
+        }
     }
 }
