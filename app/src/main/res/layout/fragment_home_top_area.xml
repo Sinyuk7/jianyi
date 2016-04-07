@@ -14,6 +14,6 @@
         android:layout_height="@dimen/home_billboard_height"
         app:canLoop="true" />
 
-    <include layout="@layout/include_home_category" />
+    <include layout="@layout/home_view_entry_layout" />
 
 </LinearLayout>

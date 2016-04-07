@@ -32,7 +32,7 @@
                     android:fitsSystemWindows="true"
                     app:canLoop="true"/>
 
-                <include layout="@layout/include_home_category"/>
+                <include layout="@layout/home_view_entry_layout"/>
             </LinearLayout>
 
             <android.support.v7.widget.Toolbar
