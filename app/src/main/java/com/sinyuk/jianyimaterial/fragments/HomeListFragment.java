@@ -136,7 +136,7 @@ public class HomeListFragment extends SwipeRefreshFragment {
         pageIndex = 1;
 
         JsonRequest jsonRequest = new JsonRequest
-                (Request.Method.GET, JianyiApi.yihuoAll(pageIndex), null, new Response.Listener<JSONObject>() {
+                (Request.Method.GET, JianyiApi.yihuoProfile(pageIndex), null, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         // the response is already constructed as a JSONObject!
@@ -190,7 +190,7 @@ public class HomeListFragment extends SwipeRefreshFragment {
     protected void loadListData(int pageIndex) {
 
         JsonRequest jsonRequest = new JsonRequest
-                (Request.Method.GET, JianyiApi.yihuoAll(pageIndex), null, new Response.Listener<JSONObject>() {
+                (Request.Method.GET, JianyiApi.yihuoProfile(pageIndex), null, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         // the response is already constructed as a JSONObject!

@@ -86,7 +86,7 @@ public class YihuoModel implements BaseModel {
     public void getProfile(int pageIndex, RequestYihuoProfileCallback callback) {
         boolean isRefresh = pageIndex == 1;
         JsonRequest jsonRequest = new JsonRequest
-                (Request.Method.GET, JianyiApi.yihuoAll(pageIndex), null, response -> {
+                (Request.Method.GET, JianyiApi.yihuoProfile(pageIndex), null, response -> {
                     try {
                         Index index = gson.fromJson(response.toString(), Index.class);
 
@@ -106,6 +106,31 @@ public class YihuoModel implements BaseModel {
                 }, error -> callback.onVolleyError(VolleyErrorHelper.getMessage(error)));
         Jianyi.getInstance().addRequest(jsonRequest, INDEX_REQUEST);
     }
+
+    public void getProfileByUrl(int pageIndex, String url, RequestYihuoProfileCallback callback) {
+        boolean isRefresh = pageIndex == 1;
+        JsonRequest jsonRequest = new JsonRequest
+                (Request.Method.GET, url, null, response -> {
+                    try {
+                        Index index = gson.fromJson(response.toString(), Index.class);
+
+                        List<Index.Data.Items> items = index.getData().getItems();
+
+                        String trans = gson.toJson(items);
+
+                        List<YihuoProfile> data = gson.fromJson(trans,
+                                new TypeToken<List<YihuoProfile>>() {
+                                }.getType());
+
+                        // do clear
+                        if (data != null) { callback.onCompleted(data, isRefresh); }
+                    } catch (JsonParseException e) {
+                        callback.onParseError(e.getMessage());
+                    }
+                }, error -> callback.onVolleyError(VolleyErrorHelper.getMessage(error)));
+        Jianyi.getInstance().addRequest(jsonRequest, INDEX_REQUEST);
+    }
+
 
     public void getDetails(@NonNull String yihuoId, RequestYihuoDetailsCallback callback) {
         JsonRequest jsonRequest = new JsonRequest
@@ -153,6 +178,7 @@ public class YihuoModel implements BaseModel {
             callback.onAddToLikes();
         }
     }
+
 
     public void removeFromLikes(@NonNull YihuoDetails detailsData, LikesCallback callback) {
         yihuoDetailsService.deleteByKey(detailsData.getId());

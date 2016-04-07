@@ -21,19 +21,12 @@ public class JianyiApi {
     private static final String SCHOOLS = JIANYI + "/port/school";
     private static final String BANNER = JIANYI + "/port/img/index";
 
-    public static String yihuoAll(@Nullable int pageIndex) {
+    public static String yihuoProfile(@Nullable int pageIndex) {
         return GOODS +
                 "?title=all" + "&page=" + pageIndex + ORDER_DESC;
 
     }
 
-    public static String yihuoAll(@Nullable int pageIndex, boolean reverse) {
-        if (reverse) {
-            return GOODS +
-                    "?title=all&sort=all" + "&page=" + pageIndex + ORDER_ASC;
-        }
-        return yihuoAll(pageIndex);
-    }
 
     // 大类
     public static String yihuoBySort(@Nullable int pageIndex, String parentSort) {
