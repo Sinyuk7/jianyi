@@ -1,38 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
+              android:background="@color/white"
               android:orientation="vertical"
-              android:paddingBottom="@dimen/general_content_space"
-              tools:background="@color/grey_600">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-
-        <android.support.v4.widget.Space
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-
-        <ImageView
-            android:id="@+id/confirm_btn"
-            android:layout_marginRight="4dp"
-            style="@style/TagLayoutButton"
-            android:src="@drawable/ic_check_primary_24dp"/>
-
-        <ImageView
-            android:id="@+id/cancel_btn"
-            style="@style/TagLayoutButton"
-            android:layout_marginRight="4dp"
-            android:src="@drawable/ic_close_circle_outline_accent_24dp"/>
-    </LinearLayout>
+              android:paddingTop="@dimen/activity_horizontal_margin"
+              android:paddingBottom="@dimen/activity_horizontal_margin">
 
     <TextView
+        android:id="@+id/school_title"
         style="@style/TagLayoutTitle"
         android:drawableLeft="@drawable/ic_school_white_24dp"
         android:drawableStart="@drawable/ic_school_white_24dp"
@@ -50,6 +27,7 @@
 
 
     <TextView
+        android:id="@+id/order_title"
         style="@style/TagLayoutTitle"
         android:drawableLeft="@drawable/ic_sort_white_24dp"
         android:drawableStart="@drawable/ic_sort_white_24dp"

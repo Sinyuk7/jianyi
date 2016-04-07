@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
@@ -38,12 +37,14 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.jakewharton.rxbinding.view.RxView;
 import com.mxn.soul.flowingdrawer_core.LeftDrawerLayout;
 import com.sinyuk.jianyimaterial.R;
+import com.sinyuk.jianyimaterial.activities.CategoryMenu;
 import com.sinyuk.jianyimaterial.activities.PostActivity;
 import com.sinyuk.jianyimaterial.adapters.CardListAdapter;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.entity.Banner;
 import com.sinyuk.jianyimaterial.entity.YihuoDetails;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
+import com.sinyuk.jianyimaterial.feature.explore.ExploreView;
 import com.sinyuk.jianyimaterial.managers.SnackBarFactory;
 import com.sinyuk.jianyimaterial.mvp.BaseFragment;
 import com.sinyuk.jianyimaterial.ui.HeaderItemSpaceDecoration;
@@ -62,7 +63,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
 
@@ -90,16 +90,6 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     FloatingActionButton mFab;
     @Bind(R.id.coordinator_layout)
     CoordinatorLayout mCoordinatorLayout;
-    @Bind(R.id.category_wears_tv)
-    TextView mCategoryWearsTv;
-    @Bind(R.id.category_personal_care_tv)
-    TextView mCategoryPersonalCareTv;
-    @Bind(R.id.category_devices_tv)
-    TextView mCategoryDevicesTv;
-    @Bind(R.id.category_all_items_tv)
-    TextView mCategoryAllItemsTv;
-    @Bind(R.id.home_category)
-    CardView mHomeCategory;
 
     private boolean mIsRequestDataRefresh;
     private CardListAdapter mAdapter;
@@ -397,16 +387,33 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
         }
     }
 
-    @OnClick({R.id.category_wears_tv, R.id.category_personal_care_tv, R.id.category_devices_tv, R.id.category_all_items_tv})
+    @OnClick({R.id.entry_recommended, R.id.entry_free, R.id.entry_category})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.category_wears_tv:
+            case R.id.entry_recommended:
+                Intent toRecommended = new Intent();
+                toRecommended.setClass(getContext(), ExploreView.class);
+                toRecommended.putExtra(ExploreView.TITLE, "hot");
+                toRecommended.putExtra(ExploreView.ENABLE_FILTER, true);
+                toRecommended.putExtra(ExploreView.ENABLE_SCHOOL, true);
+                toRecommended.putExtra(ExploreView.ENABLE_ORDER, true);
+                startActivity(toRecommended);
+                getActivity().overridePendingTransition(0, 0);
                 break;
-            case R.id.category_personal_care_tv:
+            case R.id.entry_free:
+                Intent toFree = new Intent();
+                toFree.setClass(getContext(), ExploreView.class);
+                toFree.putExtra(ExploreView.TITLE, "free");
+                toFree.putExtra(ExploreView.ENABLE_FILTER, true);
+                toFree.putExtra(ExploreView.ENABLE_SCHOOL, true);
+                toFree.putExtra(ExploreView.ENABLE_ORDER, true);
+                startActivity(toFree);
+                getActivity().overridePendingTransition(0, 0);
                 break;
-            case R.id.category_devices_tv:
-                break;
-            case R.id.category_all_items_tv:
+            case R.id.entry_category:
+                Intent toCategory = new Intent(getContext(), CategoryMenu.class);
+                startActivity(toCategory);
+                getActivity().overridePendingTransition(0, 0);
                 break;
         }
     }

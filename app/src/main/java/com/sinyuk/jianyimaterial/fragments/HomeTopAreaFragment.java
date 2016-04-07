@@ -54,16 +54,7 @@ public class HomeTopAreaFragment extends BaseFragment {
     @Bind(R.id.banner_view)
     ConvenientBanner billboard;
 
-    @Bind(R.id.home_category)
-    CardView homeCategory;
-    @Bind(R.id.category_wears_tv)
-    TextView categoryWearsTv;
-    @Bind(R.id.category_personal_care_tv)
-    TextView categoryPersonalCareTv;
-    @Bind(R.id.category_devices_tv)
-    TextView categoryDevicesTv;
-    @Bind(R.id.category_all_items_tv)
-    TextView categoryAllItemsTv;
+
 
 
     private List<String> posterUrls = new ArrayList();
@@ -124,23 +115,19 @@ public class HomeTopAreaFragment extends BaseFragment {
 
     }
 
-    @OnClick({R.id.category_wears_tv, R.id.category_personal_care_tv, R.id.category_devices_tv, R.id.category_all_items_tv})
+    @OnClick({ R.id.entry_recommended, R.id.entry_free, R.id.entry_category})
     public void onClick(View view) {
         Intent intent = new Intent();
         switch (view.getId()) {
-            case R.id.category_wears_tv:
-                intent.setClass(mContext, CategoryPage.class);
-                intent.putExtra("parent_sort_index", 0);
-                break;
-            case R.id.category_personal_care_tv:
+            case R.id.entry_recommended:
                 intent.setClass(mContext, CategoryPage.class);
                 intent.putExtra("parent_sort_index", 3);
                 break;
-            case R.id.category_devices_tv:
+            case R.id.entry_free:
                 intent.setClass(mContext, CategoryPage.class);
                 intent.putExtra("parent_sort_index", 6);
                 break;
-            case R.id.category_all_items_tv:
+            case R.id.entry_category:
                 intent.setClass(mContext, CategoryMenu.class);
                 break;
         }
