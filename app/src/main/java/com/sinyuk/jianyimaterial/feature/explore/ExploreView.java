@@ -15,6 +15,7 @@ import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.flipboard.bottomsheet.OnSheetDismissedListener;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
+import com.sinyuk.jianyimaterial.events.XShelfChangeEvent;
 import com.sinyuk.jianyimaterial.feature.shelf.ShelfView;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 import com.sinyuk.jianyimaterial.ui.InsetViewTransformer;
@@ -22,6 +23,8 @@ import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.widgets.flowlayout.FlowLayout;
 import com.sinyuk.jianyimaterial.widgets.flowlayout.TagAdapter;
 import com.sinyuk.jianyimaterial.widgets.flowlayout.TagFlowLayout;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -74,16 +77,8 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
     private String[] mSchoolArray;
     private String[] mChildSortArray;
 
-    private int mNewSchoolPosition = 0;
-    private int mNewOrderPosition = 0;
-    private int mNewChildSortPosition = -1; // all selected
-
     private View mFlowLayout;
-    private ShelfView mShelfView;
     private String mUrl;
-    private TagAdapter<String> mChildSortTagAdapter;
-    private TagAdapter<String> mSchoolTagAdapter;
-    private TagAdapter<String> mOrderTagAdapter;
 
     @Override
     protected boolean isUseEventBus() {
@@ -153,8 +148,12 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
     }
 
     private void initFragment() {
+        mUrl = new JianyiApi.YihuoProfileBuilder(mTitle).addSort("all").getUrl();
         Bundle args = new Bundle();
-        mShelfView = ShelfView.newInstance(args);
+        args.putString(ShelfView.URL_WHEN_INIT, mUrl);
+        LogUtils.simpleLog(ExploreView.class, "init Url " + mUrl);
+        ShelfView mShelfView = ShelfView.newInstance(args);
+        getSupportFragmentManager().beginTransaction().add(R.id.list_fragment_container, mShelfView).commit();
     }
 
     private void setupBottomSheet() {
@@ -168,7 +167,7 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
         if (getIntent().getExtras().getBoolean(ENABLE_SCHOOL, false)) {
             mSchoolTags = (TagFlowLayout) mFlowLayout.findViewById(R.id.school_tags);
             mSchoolTags.setMaxSelectCount(1); // disallowed multiSelected
-            mSchoolTagAdapter = new TagAdapter<String>(mSchoolArray) {
+            TagAdapter<String> mSchoolTagAdapter = new TagAdapter<String>(mSchoolArray) {
                 @Override
                 public View getView(FlowLayout parent, int position, String s) {
                     TextView tv = (TextView) getLayoutInflater().inflate(R.layout.item_tag, mSchoolTags, false);
@@ -185,7 +184,7 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
         if (getIntent().getExtras().getBoolean(ENABLE_ORDER, false)) {
             mOrderTags = (TagFlowLayout) mFlowLayout.findViewById(R.id.order_tags);
             mOrderTags.setMaxSelectCount(1);
-            mOrderTagAdapter = new TagAdapter<String>(mOrderArray) {
+            TagAdapter<String> mOrderTagAdapter = new TagAdapter<String>(mOrderArray) {
                 @Override
                 public View getView(FlowLayout parent, int position, String s) {
                     TextView tv = (TextView) getLayoutInflater().inflate(R.layout.item_tag, mOrderTags, false);
@@ -203,7 +202,7 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
             mChildSortTags = (TagFlowLayout) mFlowLayout.findViewById(R.id.child_sort_tags);
             mChildSortArray = getResources().getStringArray(PARENT_SORT_LIST[mParentSortIndex]);
             mChildSortTags.setMaxSelectCount(1); // multiSelected
-            mChildSortTagAdapter = new TagAdapter<String>(mChildSortArray) {
+            TagAdapter<String> mChildSortTagAdapter = new TagAdapter<String>(mChildSortArray) {
                 @Override
                 public View getView(FlowLayout parent, int position, String s) {
                     TextView tv = (TextView) getLayoutInflater().inflate(R.layout.item_tag, mChildSortTags, false);
@@ -220,11 +219,19 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
 
 
     public void confirm() {
+        if (!getComposedUrl().equals(mUrl)) {
+            mUrl = getComposedUrl();
+            EventBus.getDefault().post(new XShelfChangeEvent(mUrl));
+            LogUtils.simpleLog(ExploreView.class, "update Url " + mUrl);
+        }
 
+    }
+
+    private String getComposedUrl() {
         JianyiApi.YihuoProfileBuilder mUrlBuilder = new JianyiApi.YihuoProfileBuilder(mTitle);
 
         if (getIntent().getExtras().getBoolean(ENABLE_CHILD_SORT, false)) {
-            mNewChildSortPosition = mChildSortTags.getSelectedList().isEmpty() ? -1 : (int) mChildSortTags.getSelectedList().toArray()[0];
+            int mNewChildSortPosition = mChildSortTags.getSelectedList().isEmpty() ? -1 : (int) mChildSortTags.getSelectedList().toArray()[0];
             if (mNewChildSortPosition > -1) {
                 mUrlBuilder.addSort(mChildSortArray[mNewChildSortPosition]);
             } else {
@@ -233,12 +240,12 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
         }
 
         if (getIntent().getExtras().getBoolean(ENABLE_SCHOOL, false)) {
-            mNewSchoolPosition = mSchoolTags.getSelectedList().isEmpty() ? 0 : (int) mSchoolTags.getSelectedList().toArray()[0];
+            int mNewSchoolPosition = mSchoolTags.getSelectedList().isEmpty() ? 0 : (int) mSchoolTags.getSelectedList().toArray()[0];
             mUrlBuilder.addSchool(mNewSchoolPosition + 1);
         }
 
         if (getIntent().getExtras().getBoolean(ENABLE_ORDER, false)) {
-            mNewOrderPosition = mOrderTags.getSelectedList().isEmpty() ? 0 : (int) mOrderTags.getSelectedList().toArray()[0];
+            int mNewOrderPosition = mOrderTags.getSelectedList().isEmpty() ? 0 : (int) mOrderTags.getSelectedList().toArray()[0];
             switch (mNewOrderPosition) {
                 case 0:
                     mUrlBuilder.addTimeOrder(true);
@@ -254,10 +261,7 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
                     break;
             }
         }
-        if (!mUrlBuilder.getUrl().equals(mUrl)) {
-            mUrl = mUrlBuilder.getUrl();
-            LogUtils.simpleLog(ExploreView.class, mUrl);
-        }
+        return mUrlBuilder.getUrl();
     }
 
 
