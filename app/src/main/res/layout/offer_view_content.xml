@@ -11,9 +11,8 @@
         android:id="@+id/gallery_wrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_rect_white"
-        android:elevation="@dimen/widget_elevation_low"
         android:orientation="vertical"
+        android:background="@color/white"
         android:paddingBottom="@dimen/general_content_space"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
@@ -40,7 +39,7 @@
                 android:layout_weight="1"
                 android:text="@string/offer_hint_cover"
                 android:textColor="@color/grey_600"
-                android:textSize="@dimen/material_text_caption2"/>
+                android:textSize="@dimen/material_text_caption1"/>
 
             <TextView
                 android:id="@+id/shot_count_tv"
@@ -48,8 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:text="0/3"
-                android:textColor="@color/grey_600"
-                android:textSize="@dimen/material_text_caption2"/>
+                android:textSize="@dimen/material_text_caption1"/>
         </LinearLayout>
     </LinearLayout>
 
