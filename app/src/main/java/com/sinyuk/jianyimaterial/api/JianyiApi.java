@@ -124,8 +124,8 @@ public class JianyiApi {
             return this;
         }
 
-        public YihuoProfileBuilder addTimeOrder(boolean isAsc) {
-            final String order = isAsc ? "time_asc" : "time_desc";
+        public YihuoProfileBuilder addTimeOrder(boolean isDesc) {
+            final String order = isDesc ? "time_desc" : "time_asc";
             addParam("&order=" + order);
             return this;
         }
