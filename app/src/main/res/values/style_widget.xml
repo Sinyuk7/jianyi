@@ -69,72 +69,7 @@
     </style>
 
 
-    <!-- ============================================== -->
-    <!--登录页面-->
-    <!--Login Page-->
-    <!-- ============================================== -->
-    <eat-comment />
 
-    <style name="DefaultInputTextLayout">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:elevation">@dimen/widget_elevation_low</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@drawable/rounded_rect_white</item>
-        <item name="android:paddingLeft">@dimen/activity_vertical_margin</item>
-        <item name="android:paddingRight">@dimen/activity_vertical_margin</item>
-        <item name="android:paddingTop">@dimen/general_content_space</item>
-        <item name="android:paddingBottom">@dimen/activity_vertical_margin</item>
-        <item name="android:textColorHint">@color/colorAccent</item>
-    </style>
-
-    <style name="FakeInputTextLayout">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:elevation">@dimen/widget_elevation_low</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@drawable/rounded_rect_white</item>
-        <item name="android:paddingLeft">@dimen/activity_vertical_margin</item>
-        <item name="android:paddingRight">@dimen/activity_vertical_margin</item>
-        <item name="android:paddingTop">@dimen/activity_horizontal_margin</item>
-        <item name="android:paddingBottom">@dimen/activity_vertical_margin</item>
-    </style>
-
-    <style name="DefaultInputTextLayout.Margin" parent="DefaultInputTextLayout">
-        <item name="android:layout_marginLeft">56dp</item>
-        <item name="android:layout_marginRight">56dp</item>
-    </style>
-
-    <style name="DefaultEditText">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@null</item>
-        <item name="android:drawablePadding">16dp</item>
-        <item name="android:textColorHighlight">@color/colorAccent</item>
-        <item name="android:textColor">@color/textColorDark</item>
-        <item name="android:textColorHint">@color/colorAccent</item>
-        <item name="android:textSize">@dimen/material_text_subhead</item>
-        <item name="android:focusableInTouchMode">true</item>
-    </style>
-
-    <style name="DefaultEditText.Display">
-        <item name="android:cursorVisible">false</item>
-        <item name="android:focusableInTouchMode">false</item>
-        <item name="android:background">@null</item>
-    </style>
-    <style name="DefaultEditText.SingleLine">
-        <item name="android:maxLines">1</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:ellipsize">end</item>
-    </style>
-
-    <style name="DefaultEditText.ReadOnly" parent="DefaultEditText">
-        <item name="android:cursorVisible">false</item>
-        <item name="android:focusableInTouchMode">false</item>
-    </style>
-
-    <style name="DefaultEditText.SingleLine.ReadOnly" parent="DefaultEditText.SingleLine">
-        <item name="android:cursorVisible">false</item>
-        <item name="android:focusableInTouchMode">false</item>
-    </style>
 
 
     <style name="ToolbarImageButton" parent="ClickableImageViewBorderless">
