@@ -6,13 +6,13 @@
               android:background="@color/white"
               android:orientation="vertical"
               android:paddingTop="@dimen/activity_horizontal_margin"
-              android:paddingBottom="@dimen/activity_horizontal_margin">
+              android:paddingBottom="24dp">
 
     <TextView
         android:id="@+id/school_title"
         style="@style/TagLayoutTitle"
-        android:drawableLeft="@drawable/ic_school_white_24dp"
-        android:drawableStart="@drawable/ic_school_white_24dp"
+        android:drawableLeft="@drawable/ic_school_accent_24dp"
+        android:drawableStart="@drawable/ic_school_accent_24dp"
         android:text="@string/tag_school"/>
 
     <com.sinyuk.jianyimaterial.widgets.flowlayout.TagFlowLayout
@@ -29,8 +29,8 @@
     <TextView
         android:id="@+id/order_title"
         style="@style/TagLayoutTitle"
-        android:drawableLeft="@drawable/ic_sort_white_24dp"
-        android:drawableStart="@drawable/ic_sort_white_24dp"
+        android:drawableLeft="@drawable/ic_filter_variant_accent_24dp"
+        android:drawableStart="@drawable/ic_filter_variant_accent_24dp"
         android:text="@string/tag_order"/>
 
     <com.sinyuk.jianyimaterial.widgets.flowlayout.TagFlowLayout
@@ -46,8 +46,8 @@
     <TextView
         android:id="@+id/child_sort_title"
         style="@style/TagLayoutTitle"
-        android:drawableLeft="@drawable/ic_dashboard_white_24dp"
-        android:drawableStart="@drawable/ic_dashboard_white_24dp"
+        android:drawableLeft="@drawable/ic_child_sort_accent_24dp"
+        android:drawableStart="@drawable/ic_child_sort_accent_24dp"
         android:text="@string/tag_child_sort"/>
 
     <com.sinyuk.jianyimaterial.widgets.flowlayout.TagFlowLayout

@@ -18,7 +18,7 @@ public class InsetViewTransformer extends BaseViewTransformer {
             parent.setBackgroundColor(0);
             ensureLayer(view, View.LAYER_TYPE_NONE);
         } else {
-            parent.setBackgroundColor(view.getResources().getColor(R.color.colorPrimaryDark));
+            parent.setBackgroundColor(view.getResources().getColor(R.color.colorAccentLight));
             ensureLayer(view, View.LAYER_TYPE_HARDWARE);
         }
 

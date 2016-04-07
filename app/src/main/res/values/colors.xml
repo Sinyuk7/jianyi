@@ -11,6 +11,7 @@
     <color name="colorPrimaryDark">#019B79</color>
     <color name="colorPrimaryLight">#C8E6C9</color>
     <color name="colorAccent">#25c4ec</color>
+    <color name="colorAccentLight">#45daff</color>
     <color name="colorAccentDark">#25c4ec</color>
     <color name="colorPrimaryDarkExtra">#005E49</color>
 

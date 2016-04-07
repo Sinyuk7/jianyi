@@ -159,8 +159,7 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
     private void setupBottomSheet() {
         mFlowLayout = LayoutInflater.from(this).inflate(R.layout.explore_view_flow_layout, mBottomSheetLayout, false);
         mBottomSheetLayout.setUseHardwareLayerWhileAnimating(true);
-        mBottomSheetLayout.setShouldDimContentView(false);
-
+        mBottomSheetLayout.setShouldDimContentView(true);
     }
 
     private void setupFlowLayout() {
@@ -283,7 +282,7 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
                     } else {
                         mBottomSheetLayout.expandSheet();
                     }
-                    mToolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
+                    mToolbar.setNavigationIcon(R.drawable.ic_close_primary_24dp);
                     mFilterBtn.setImageResource(R.drawable.ic_check_primary_24dp);
                 }
                 break;
