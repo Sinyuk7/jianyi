@@ -159,7 +159,7 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
     private void setupBottomSheet() {
         mFlowLayout = LayoutInflater.from(this).inflate(R.layout.explore_view_flow_layout, mBottomSheetLayout, false);
         mBottomSheetLayout.setUseHardwareLayerWhileAnimating(true);
-        mBottomSheetLayout.setShouldDimContentView(true);
+        mBottomSheetLayout.setShouldDimContentView(false);
     }
 
     private void setupFlowLayout() {

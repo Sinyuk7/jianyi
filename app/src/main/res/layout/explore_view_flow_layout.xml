@@ -19,8 +19,8 @@
         android:id="@+id/school_tags"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
         app:max_select="1">
 
     </com.sinyuk.jianyimaterial.widgets.flowlayout.TagFlowLayout>
@@ -37,8 +37,8 @@
         android:id="@+id/order_tags"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
         app:max_select="1">
 
     </com.sinyuk.jianyimaterial.widgets.flowlayout.TagFlowLayout>
@@ -54,8 +54,8 @@
         android:id="@+id/child_sort_tags"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
         app:max_select="1">
     </com.sinyuk.jianyimaterial.widgets.flowlayout.TagFlowLayout>
 </LinearLayout>
