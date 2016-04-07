@@ -37,7 +37,7 @@ import butterknife.Bind;
  */
 public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShelfView,
         AppBarLayout.OnOffsetChangedListener {
-    private static final String URL_WHEN_INIT = "init_url";
+    public static final String URL_WHEN_INIT = "init_url";
     @Bind(R.id.recycler_view)
     RecyclerView mRecyclerView;
     @Bind(R.id.swipe_refresh_layout)
@@ -78,7 +78,7 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
 
     @Override
     protected boolean isUseEventBus() {
-        return false;
+        return true;
     }
 
     @Override
