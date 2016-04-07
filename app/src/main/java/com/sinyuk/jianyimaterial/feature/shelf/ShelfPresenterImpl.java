@@ -17,16 +17,17 @@ public class ShelfPresenterImpl extends BasePresenter<ShelfView> implements IShe
 
     @Override
     public void onVolleyError(String message) {
-
+        mView.onVolleyError(message);
     }
 
     @Override
     public void onCompleted(List<YihuoProfile> data, boolean isRefresh) {
-
+        mView.showList(data, isRefresh);
+        mView.onDataLoaded();
     }
 
     @Override
     public void onParseError(String message) {
-
+        mView.onParseError(message);
     }
 }
