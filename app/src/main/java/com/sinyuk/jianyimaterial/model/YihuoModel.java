@@ -86,7 +86,7 @@ public class YihuoModel implements BaseModel {
     public void getProfile(int pageIndex, RequestYihuoProfileCallback callback) {
         boolean isRefresh = pageIndex == 1;
         JsonRequest jsonRequest = new JsonRequest
-                (Request.Method.GET, JianyiApi.yihuoProfile(pageIndex), null, response -> {
+                (Request.Method.GET, JianyiApi.fetchYihuoProfile(pageIndex), null, response -> {
                     try {
                         Index index = gson.fromJson(response.toString(), Index.class);
 
@@ -110,7 +110,7 @@ public class YihuoModel implements BaseModel {
     public void getProfileByUrl(int pageIndex, String url, RequestYihuoProfileCallback callback) {
         boolean isRefresh = pageIndex == 1;
         JsonRequest jsonRequest = new JsonRequest
-                (Request.Method.GET, url, null, response -> {
+                (Request.Method.GET, JianyiApi.filterYihuoProfile(pageIndex, url), null, response -> {
                     try {
                         Index index = gson.fromJson(response.toString(), Index.class);
 

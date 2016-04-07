@@ -21,9 +21,12 @@ public class JianyiApi {
     private static final String SCHOOLS = JIANYI + "/port/school";
     private static final String BANNER = JIANYI + "/port/img/index";
 
-    public static String yihuoProfile(@Nullable int pageIndex) {
-        return GOODS +
-                "?title=all" + "&page=" + pageIndex + ORDER_DESC;
+    public static String fetchYihuoProfile(@Nullable int pageIndex) {
+        return GOODS + "?title=all" + "&page=" + pageIndex + ORDER_DESC;
+    }
+
+    public static String filterYihuoProfile(@Nullable int pageIndex, String url) {
+        return url + "&page=" + pageIndex;
 
     }
 
