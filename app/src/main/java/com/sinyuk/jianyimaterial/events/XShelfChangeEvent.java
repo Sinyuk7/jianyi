@@ -3,10 +3,10 @@ package com.sinyuk.jianyimaterial.events;
 /**
  * Created by Sinyuk on 16.4.7.
  */
-public class XShelfExchangeEvent {
+public class XShelfChangeEvent {
     private String mNewUrl;
 
-    public XShelfExchangeEvent(String newUrl) {
+    public XShelfChangeEvent(String newUrl) {
         mNewUrl = newUrl;
     }
 

@@ -17,11 +17,15 @@ import android.view.View;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.adapters.CardListAdapter;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
+import com.sinyuk.jianyimaterial.events.XShelfChangeEvent;
 import com.sinyuk.jianyimaterial.mvp.BaseFragment;
 import com.sinyuk.jianyimaterial.ui.GridItemSpaceDecoration;
 import com.sinyuk.jianyimaterial.ui.OnLoadMoreListener;
 import com.sinyuk.jianyimaterial.utils.NetWorkUtils;
 import com.sinyuk.jianyimaterial.widgets.MultiSwipeRefreshLayout;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +50,6 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
     private List<YihuoProfile> mYihuoProfileList = new ArrayList<>();
 
     public static ShelfView newInstance(Bundle args) {
-
         ShelfView fragment = new ShelfView();
         fragment.setArguments(args);
         return fragment;
@@ -197,5 +200,10 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
         mSwipeRefreshLayout.setEnabled(verticalOffset == 0);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onYihuoChange(XShelfChangeEvent event) {
+
     }
 }
