@@ -1,16 +1,11 @@
 package com.sinyuk.jianyimaterial.feature.login;
 
 import android.content.Intent;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.TextInputLayout;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.sinyuk.jianyimaterial.R;
@@ -29,28 +24,14 @@ import rx.Observable;
  */
 public class LoginView extends BaseActivity<LoginPresenterImpl> implements ILoginView {
 
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
-    @Bind(R.id.app_bar_layout)
-    AppBarLayout appBarLayout;
     @Bind(R.id.user_name_et)
-    EditText userNameEt;
-    @Bind(R.id.user_name_input_area)
-    TextInputLayout userNameInputArea;
+    EditText mUserNameEt;
     @Bind(R.id.password_et)
-    EditText passwordEt;
-    @Bind(R.id.password_input_area)
-    TextInputLayout passwordInputArea;
-    @Bind(R.id.forget_psw_tv)
-    TextView forgetPswTv;
+    EditText mPasswordEt;
     @Bind(R.id.login_btn)
-    Button loginBtn;
-    @Bind(R.id.access_wechat)
-    TextView accessWechat;
-    @Bind(R.id.nested_scroll_view)
-    NestedScrollView nestedScrollView;
+    Button mLoginBtn;
     @Bind(R.id.coordinator_layout)
-    CoordinatorLayout coordinatorLayout;
+    CoordinatorLayout mCoordinatorLayout;
 
     private SweetAlertDialog mDialog;
 
@@ -76,29 +57,29 @@ public class LoginView extends BaseActivity<LoginPresenterImpl> implements ILogi
 
     @Override
     protected void onFinishInflate() {
-        mCompositeSubscription.add(RxTextView.editorActions(passwordEt)
+        mCompositeSubscription.add(RxTextView.editorActions(mPasswordEt)
                 .map(actionId -> actionId == EditorInfo.IME_ACTION_DONE)
                 .subscribe(done -> {
                     if (done) { clickLoginBtn(); }
                 }));
 
-        Observable<CharSequence> passwordObservable = RxTextView.textChanges(passwordEt).skip(5);
-        Observable<CharSequence> phoneNumObservable = RxTextView.textChanges(userNameEt).skip(10);
+        Observable<CharSequence> passwordObservable = RxTextView.textChanges(mPasswordEt).skip(5);
+        Observable<CharSequence> phoneNumObservable = RxTextView.textChanges(mUserNameEt).skip(10);
 
         mCompositeSubscription.add(Observable.combineLatest(passwordObservable, phoneNumObservable, (password, phoneNum) -> {
             if (phoneNum.length() != 11) {
-                userNameEt.setError("你确定?");
+                mUserNameEt.setError("你确定?");
                 return false;
             }
             if (password.length() < 6) {
-                passwordEt.setError("你确定?");
+                mPasswordEt.setError("你确定?");
                 return false;
             }
             return true;
         }).subscribe(LoginView.this::toggleLoginButton));
 
-        loginBtn.setEnabled(false);
-        loginBtn.setClickable(false);
+        mLoginBtn.setEnabled(false);
+        mLoginBtn.setClickable(false);
 
     }
 
@@ -157,18 +138,17 @@ public class LoginView extends BaseActivity<LoginPresenterImpl> implements ILogi
     @OnClick(R.id.forget_psw_tv)
     public void clickForgetPsw(View view) {
         Intent toRegisterView = new Intent(LoginView.this, RegisterView.class);
-        toRegisterView.putExtra(RegisterView.USER_INTENT, RegisterView.FORGET_PASSWORD);
         startActivity(toRegisterView);
     }
 
     // 登录按钮
     @OnClick(R.id.login_btn)
     public void clickLoginBtn() {
-        passwordEt.setError(null);
-        userNameEt.setError(null);
-        final String userName = userNameEt.getText().toString();
-        final String password = passwordEt.getText().toString();
-        ImeUtils.hideIme(coordinatorLayout);
+        mPasswordEt.setError(null);
+        mUserNameEt.setError(null);
+        final String userName = mUserNameEt.getText().toString();
+        final String password = mPasswordEt.getText().toString();
+        ImeUtils.hideIme(mCoordinatorLayout);
         showProgress();
         mPresenter.attemptLogin(userName, password);
     }
@@ -177,17 +157,16 @@ public class LoginView extends BaseActivity<LoginPresenterImpl> implements ILogi
     @OnClick(R.id.access_wechat)
     public void clickContinueWithWechat() {
         Intent toRegisterView = new Intent(LoginView.this, RegisterView.class);
-        toRegisterView.putExtra(RegisterView.USER_INTENT, RegisterView.FORGET_PASSWORD);
         startActivity(toRegisterView);
     }
 
     private void toggleLoginButton(boolean hasInput) {
-        loginBtn.setEnabled(hasInput);
-        loginBtn.setClickable(hasInput);
+        mLoginBtn.setEnabled(hasInput);
+        mLoginBtn.setClickable(hasInput);
         if (hasInput) {
-            loginBtn.setBackground(getResources().getDrawable(R.drawable.rounded_rect_fill_accent));
+            mLoginBtn.setBackground(getResources().getDrawable(R.drawable.rounded_rect_fill_accent));
         } else {
-            loginBtn.setBackground(getResources().getDrawable(R.drawable.rounded_rect_fill_grey));
+            mLoginBtn.setBackground(getResources().getDrawable(R.drawable.rounded_rect_fill_grey));
         }
     }
 }
