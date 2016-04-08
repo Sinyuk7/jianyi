@@ -39,7 +39,7 @@ import butterknife.OnClick;
  * Created by Sinyuk on 16.3.30.
  */
 public class DrawerView extends MyMenuFragment<DrawerPresenterImpl> implements IDrawerView {
-    private static final long DRAWER_CLOSE_DURATION = 300;
+    private static final long DRAWER_CLOSE_DURATION = 250;
     private static DrawerView sInstance;
     @Bind(R.id.avatar)
     ImageView mAvatar;
@@ -50,8 +50,6 @@ public class DrawerView extends MyMenuFragment<DrawerPresenterImpl> implements I
     LinearLayout mNavigationView;
     @Bind(R.id.drawer_menu_category)
     TextView mDrawerMenuCategory;
-    @Bind(R.id.drawer_menu_explore)
-    TextView mDrawerMenuExplore;
     @Bind(R.id.drawer_menu_want)
     TextView mDrawerMenuWant;
     @Bind(R.id.drawer_menu_message)
@@ -64,7 +62,6 @@ public class DrawerView extends MyMenuFragment<DrawerPresenterImpl> implements I
     ImageView mBackdrop;
 
     private LeftDrawerLayout mLeftDrawerLayout;
-    private int mSelected;
 
     public static DrawerView getInstance() {
         if (null == sInstance) { sInstance = new DrawerView(); }
@@ -167,10 +164,9 @@ public class DrawerView extends MyMenuFragment<DrawerPresenterImpl> implements I
         mPresenter.onUserInfoClick();
     }
 
-    @OnClick({R.id.drawer_menu_category, R.id.drawer_menu_explore, R.id.drawer_menu_want, R.id.drawer_menu_message, R.id.drawer_menu_account, R.id.drawer_menu_settings})
+    @OnClick({R.id.drawer_menu_category, R.id.drawer_menu_want, R.id.drawer_menu_message, R.id.drawer_menu_account, R.id.drawer_menu_settings})
     public void onMenuItemSelected(View view) {
-        mSelected = view.getId();
-        toMenuItemIntent(mSelected);
+        toMenuItemIntent(view.getId());
     }
 
     private void toMenuItemIntent(int mSelected) {
@@ -179,10 +175,8 @@ public class DrawerView extends MyMenuFragment<DrawerPresenterImpl> implements I
         mLeftDrawerLayout.postDelayed(() -> {
             switch (sSelected) {
                 case R.id.drawer_menu_category:
-                    startActivity(new Intent(getContext(), ExploreView.class));
+                    startActivity(new Intent(getContext(), CategoryMenu.class));
                     getActivity().overridePendingTransition(0, 0);
-                    break;
-                case R.id.drawer_menu_explore:
                     break;
                 case R.id.drawer_menu_want:
                     startActivity(new Intent(getContext(), CategoryMenu.class));

@@ -18,7 +18,7 @@
         <ImageView
             android:id="@+id/backdrop_iv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_above="@+id/anchor"
             android:foreground="@color/backdrop_scrim"
             android:scaleType="centerCrop"
@@ -58,12 +58,6 @@
         style="@style/DrawerMenuText"
         android:drawableLeft="@drawable/ic_tag_multiple_grey600_24dp"
         android:text="@string/drawer_menu_category"/>
-
-    <TextView
-        android:id="@+id/drawer_menu_explore"
-        style="@style/DrawerMenuText"
-        android:drawableLeft="@drawable/ic_compass_grey600_24dp"
-        android:text="@string/drawer_menu_explode"/>
 
     <TextView
         android:id="@+id/drawer_menu_want"
