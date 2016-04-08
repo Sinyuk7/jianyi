@@ -13,7 +13,7 @@ import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.sinyuk.jianyimaterial.R;
-import com.sinyuk.jianyimaterial.events.ListItemDeleteEvent;
+import com.sinyuk.jianyimaterial.events.XShotDropEvent;
 import com.sinyuk.jianyimaterial.widgets.LabelView;
 import com.sinyuk.jianyimaterial.widgets.RatioImageView;
 
@@ -54,21 +54,11 @@ public class ShotsGalleryAdapter extends ExtendedRecyclerViewAdapter<Uri, ShotsG
 
         Uri uri = getData().get(position);
 
-        holder.deleteIv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getData().remove(position);
-                notifyMyItemRemoved(position);
-                notifyItemRangeChanged(position, getDataItemCount());
-                EventBus.getDefault().post(new ListItemDeleteEvent(position));
-            }
-        });
-
-        holder.shotIv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: goto photo viewActivity
-            }
+        holder.deleteIv.setOnClickListener(v -> {
+            getData().remove(position);
+            notifyMyItemRemoved(position);
+            notifyItemRangeChanged(position, getDataItemCount());
+            EventBus.getDefault().post(new XShotDropEvent(position));
         });
 
         if (position == 0) {
@@ -77,10 +67,7 @@ public class ShotsGalleryAdapter extends ExtendedRecyclerViewAdapter<Uri, ShotsG
             holder.coverLabelView.setVisibility(View.GONE);
         }
 
-
         loadRequest.load(uri).into(holder.shotIv);
-
-
     }
 
 
