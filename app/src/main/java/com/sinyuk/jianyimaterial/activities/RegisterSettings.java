@@ -242,7 +242,7 @@ public class RegisterSettings extends BaseActivity {
             intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
             intent.addCategory(Intent.CATEGORY_OPENABLE);
-            startActivityForResult(Intent.createChooser(intent, getString(R.string.hint_pick_pics)), REQUEST_PICK_PICTURE);
+            startActivityForResult(Intent.createChooser(intent, getString(R.string.offer_hint_pick_from)), REQUEST_PICK_PICTURE);
         }
     }
 

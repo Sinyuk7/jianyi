@@ -52,7 +52,7 @@ public class LoginView extends BaseActivity<LoginPresenterImpl> implements ILogi
     @Bind(R.id.coordinator_layout)
     CoordinatorLayout coordinatorLayout;
 
-    private SweetAlertDialog pDialog;
+    private SweetAlertDialog mDialog;
 
     @Override
     protected int getContentViewID() {
@@ -110,16 +110,16 @@ public class LoginView extends BaseActivity<LoginPresenterImpl> implements ILogi
 
     @Override
     public void showProgress() {
-        pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
-        pDialog.getProgressHelper().setBarColor(getResources().getColor(R.color.colorAccent));
-        pDialog.setTitleText(StringUtils.getRes(this, R.string.login_hint_in_progress));
-        pDialog.setCancelable(false);
-        pDialog.show();
+        mDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        mDialog.getProgressHelper().setBarColor(getResources().getColor(R.color.colorAccent));
+        mDialog.setTitleText(StringUtils.getRes(this, R.string.login_hint_in_progress));
+        mDialog.setCancelable(false);
+        mDialog.show();
     }
 
     @Override
     public void hideProgress() {
-        pDialog.dismissWithAnimation();
+        mDialog.dismissWithAnimation();
     }
 
     /**
@@ -128,7 +128,7 @@ public class LoginView extends BaseActivity<LoginPresenterImpl> implements ILogi
      */
     @Override
     public void onLoginSucceed() {
-        pDialog.setTitleText(StringUtils.getRes(this, R.string.login_hint_succeed))
+        mDialog.setTitleText(StringUtils.getRes(this, R.string.login_hint_succeed))
                 .setConfirmText(StringUtils.getRes(this, R.string.action_confirm))
                 .setConfirmClickListener(sweetAlertDialog -> {
                     sweetAlertDialog.dismiss();
@@ -139,7 +139,7 @@ public class LoginView extends BaseActivity<LoginPresenterImpl> implements ILogi
 
     @Override
     public void onLoginFailed(String message) {
-        pDialog.setTitleText(StringUtils.check(this, message, R.string.login_hint_failed))
+        mDialog.setTitleText(StringUtils.check(this, message, R.string.login_hint_failed))
                 .setConfirmText(StringUtils.getRes(this, R.string.action_confirm))
                 .setConfirmClickListener(null)
                 .changeAlertType(SweetAlertDialog.WARNING_TYPE);
@@ -147,7 +147,7 @@ public class LoginView extends BaseActivity<LoginPresenterImpl> implements ILogi
 
     @Override
     public void onNetworkError(String message) {
-        pDialog.setTitleText(StringUtils.check(this, message, R.string.hint_network_error))
+        mDialog.setTitleText(StringUtils.check(this, message, R.string.hint_network_error))
                 .setConfirmText(StringUtils.getRes(this, R.string.action_confirm))
                 .setConfirmClickListener(null)
                 .changeAlertType(SweetAlertDialog.ERROR_TYPE);

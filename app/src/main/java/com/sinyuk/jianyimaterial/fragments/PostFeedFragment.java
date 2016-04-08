@@ -39,7 +39,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.google.gson.Gson;
 import com.sinyuk.jianyimaterial.R;
-import com.sinyuk.jianyimaterial.activities.RegisterSettings;
 import com.sinyuk.jianyimaterial.adapters.ShotsGalleryAdapter;
 import com.sinyuk.jianyimaterial.api.JUploadResponse;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
@@ -186,7 +185,7 @@ public class PostFeedFragment extends BaseFragment {
             intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
             intent.addCategory(Intent.CATEGORY_OPENABLE);
-            startActivityForResult(Intent.createChooser(intent, getString(R.string.hint_pick_pics)), REQUEST_PICK_PICTURE);
+            startActivityForResult(Intent.createChooser(intent, getString(R.string.offer_hint_pick_from)), REQUEST_PICK_PICTURE);
         }
     }
 

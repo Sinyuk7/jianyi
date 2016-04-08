@@ -45,6 +45,7 @@ import com.sinyuk.jianyimaterial.entity.Banner;
 import com.sinyuk.jianyimaterial.entity.YihuoDetails;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
 import com.sinyuk.jianyimaterial.feature.explore.ExploreView;
+import com.sinyuk.jianyimaterial.feature.offer.OfferView;
 import com.sinyuk.jianyimaterial.managers.SnackBarFactory;
 import com.sinyuk.jianyimaterial.mvp.BaseFragment;
 import com.sinyuk.jianyimaterial.ui.HeaderItemSpaceDecoration;
@@ -336,7 +337,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
 
     @Override
     public void toPostView() {
-        startActivity(new Intent(getContext(), PostActivity.class));
+        startActivity(new Intent(getContext(), OfferView.class));
     }
 
     @Override
