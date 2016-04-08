@@ -111,16 +111,17 @@
                 android:text="@string/action_confirm"/>
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/hint_continue_with_wechat"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/expression_65"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:drawableTop="@drawable/expression_81"
                 android:gravity="center"
                 android:text="@string/register_hint_wechat"
                 android:textColor="@color/grey_600"
-                android:visibility="gone"/>
+                />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

@@ -280,7 +280,7 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="register_hint_authenticode_et">验证码</string>
     <string name="register_hint_psw_et">密码</string>
     <string name="register_hint_get_authenticode">输123456</string>
-    <string name="register_hint_wechat">用微信上一样的号码,就可以关联了.\n…什么?\n在简易微信端-个人中心里面设置哦~</string>
+    <string name="register_hint_wechat">用微信端一样的号码,就可以关联啦\n…不知道?\n在微信端-个人中心里设置哦~</string>
 
 
 </resources>
