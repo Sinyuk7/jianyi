@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/wrapper"
-    style="@style/ClickableArea"
-    android:layout_width="112dp"
-    android:layout_height="112dp"
-    android:layout_marginRight="@dimen/activity_horizontal_margin"
-    android:elevation="@dimen/widget_elevation_low"
-    android:focusable="true">
+<FrameLayout android:id="@+id/wrapper"
+             style="@style/ClickableArea"
+             xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="112dp"
+             android:layout_height="112dp"
+             android:layout_marginRight="@dimen/activity_horizontal_margin">
 
     <com.sinyuk.jianyimaterial.widgets.RatioImageView
         android:id="@+id/shot_iv"
@@ -16,7 +14,7 @@
         android:layout_height="96dp"
         android:layout_gravity="center"
         android:scaleType="centerCrop"
-        tools:src="@drawable/eminem" />
+        tools:src="@drawable/ic_avatar_placeholder"/>
 
     <com.sinyuk.jianyimaterial.widgets.LabelView
         android:id="@+id/cover_label_view"
@@ -30,14 +28,14 @@
         app:lv_gravity="TOP_LEFT"
         app:lv_text="封面"
         app:lv_text_bold="true"
-        app:lv_text_size="@dimen/material_text_caption2" />
+        app:lv_text_size="@dimen/material_text_caption2"/>
 
     <ImageView
         android:id="@+id/delete_iv"
         android:layout_width="18dp"
-        android:scaleType="centerInside"
         android:layout_height="18dp"
         android:layout_gravity="end|top"
-        android:src="@drawable/ic_close_circle_red_24dp" />
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_close_circle_red_24dp"/>
 
 </FrameLayout>

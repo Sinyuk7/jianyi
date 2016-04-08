@@ -19,7 +19,7 @@ public class OfferPresenterImpl extends BasePresenter<OfferView> implements IOff
 
     @Override
     public void compressThenUpload(String str) {
-        ShotModel.getInstance(mView).compressThenUpload(str,this);
+        /*ShotModel.getInstance(mView).compressThenUpload(str,this);*/
     }
 
     @Override

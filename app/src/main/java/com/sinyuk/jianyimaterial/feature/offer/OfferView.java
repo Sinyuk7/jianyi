@@ -10,6 +10,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -23,11 +24,19 @@ import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.adapters.ShotsGalleryAdapter;
+import com.sinyuk.jianyimaterial.events.XShotDropEvent;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 import com.sinyuk.jianyimaterial.sweetalert.SweetAlertDialog;
+import com.sinyuk.jianyimaterial.utils.AnimUtils;
+import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
+import com.sinyuk.jianyimaterial.utils.ToastUtils;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -69,8 +78,8 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
     @Bind(R.id.coordinator_layout)
     CoordinatorLayout mCoordinatorLayout;
     private ShotsGalleryAdapter mAdapter;
-    private View mAddButton;
-    private List<Uri> uriList;
+
+    private List<Uri> uriList = new ArrayList<>();
 
     private SweetAlertDialog mDialog;
 
@@ -101,14 +110,43 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
     }
 
     private void setupObserver() {
-        mCompositeSubscription.add(RxTextView.editorActions(passwordEt)
+        mCompositeSubscription.add(RxTextView.editorActions(mNewPriceEt)
                 .map(actionId -> actionId == EditorInfo.IME_ACTION_DONE)
                 .subscribe(done -> {
-                    if (done) { clickLoginBtn(); }
+                    if (done) { onClickConfirm(); }
                 }));
 
-        Observable<CharSequence> passwordObservable = RxTextView.textChanges(passwordEt).skip(5);
-        Observable<CharSequence> phoneNumObservable = RxTextView.textChanges(userNameEt).skip(10);
+        Observable<Integer> shotObservable = Observable.from(uriList).count();
+        Observable<CharSequence> titleObservable = RxTextView.textChanges(mTitleEt).skip(1);
+        Observable<CharSequence> detailsObservable = RxTextView.textChanges(mDetailsEt).skip(1);
+        Observable<CharSequence> priceObservable = RxTextView.textChanges(mNewPriceEt).skip(1);
+
+        mCompositeSubscription.add(Observable.combineLatest(shotObservable, titleObservable, detailsObservable, priceObservable,
+                (count, title, details, price) -> {
+                    if (count <= 0) {
+                        ToastUtils.toastSlow(this, getString(R.string.offer_hint_null_shot));
+                        return false;
+                    }
+
+                    if (TextUtils.isEmpty(title)) {
+                        mTitleEt.setError(getString(R.string.offer_hint_null_title));
+                        return false;
+                    }
+
+                    if (TextUtils.isEmpty(details)) {
+                        mDetailsEt.setError(getString(R.string.offer_hint_null_details));
+                        return false;
+                    }
+
+                    if (TextUtils.isEmpty(price)) {
+                        mNewPriceEt.setError(getString(R.string.offer_hint_null_price));
+                        return false;
+                    }
+                    return true;
+                }).subscribe(this::toggleConfirmButton));
+
+        mConfirmBtn.setEnabled(false);
+        mConfirmBtn.setClickable(false);
     }
 
     private void setupRecyclerView() {
@@ -123,9 +161,9 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
 
         mRecyclerView.setAdapter(mAdapter);
 
-//        mAdapter.setData(uriList);
+        mAdapter.setData(uriList);
 
-        mAddButton = View.inflate(this, R.layout.offer_view_shot_add_button, null);
+        final View mAddButton = View.inflate(this, R.layout.offer_view_shot_add_button, null);
 
         mCompositeSubscription.add(
                 RxView.clicks(mAddButton).compose(RxPermissions.getInstance(this)
@@ -138,8 +176,25 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
         mAdapter.setFooterView(mAddButton);
     }
 
-    private void hintPermissionDenied() {
+    private void toggleConfirmButton(boolean enable) {
+        mConfirmBtn.setEnabled(enable);
+        mConfirmBtn.setClickable(enable);
+        if (enable) {
+            mConfirmBtn.setBackground(getResources().getDrawable(R.drawable.rounded_rect_fill_accent));
+        } else {
+            mConfirmBtn.setBackground(getResources().getDrawable(R.drawable.rounded_rect_fill_grey));
+        }
+    }
 
+    /**
+     * 点击确认按钮
+     */
+    private void onClickConfirm() {
+
+    }
+
+    private void hintPermissionDenied() {
+        ToastUtils.toastSlow(this, getString(R.string.offer_hint_permission_denied));
     }
 
     private void pickPhoto() {
@@ -154,17 +209,20 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        LogUtils.simpleLog(OfferView.class, "resultCode " + resultCode + "然而" + RESULT_OK);
         if (resultCode == RESULT_OK) {
+            LogUtils.simpleLog(OfferView.class, "OKOKOKO");
             if (requestCode == REQUEST_PICK) {
                 final Uri selectedUri = data.getData();
-                if (selectedUri != null) {
-                    if (uriList.size() >= 3) { return; }
-                    //
-                    uriList.add(selectedUri);
-                    mAdapter.notifyMyItemInserted(uriList.size());
-                    updateIndicator(uriList.size());
-                    mPresenter.compressThenUpload(selectedUri.getPath());
-                }
+                LogUtils.simpleLog(OfferView.class, selectedUri.getPath());
+                updateIndicator(uriList.size());
+                if (uriList.size() >= 3) { return; }
+                //
+                uriList.add(selectedUri);
+                LogUtils.simpleLog(OfferView.class, "List " + uriList.size());
+                LogUtils.simpleLog(OfferView.class, "List " + uriList.toString());
+                mAdapter.notifyMyItemInserted(uriList.size());
+                mPresenter.compressThenUpload(selectedUri.getPath());
             }
         }
 
@@ -172,8 +230,21 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
 
     private void updateIndicator(int size) {
         // 更新计数器
+        if (size >= 3) {
+            mShotCountTv.setTextColor(getResources().getColor(R.color.themeRed));
+            AnimUtils.tada(mShotCountTv);
+            mShotCountTv.setText("3/3");
+        } else {
+            mShotCountTv.setTextColor(getResources().getColor(R.color.grey_600));
+            mShotCountTv.setText(size + "/3");
+        }
+
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onListItemDelete(XShotDropEvent event) {
+        updateIndicator(uriList.size());
+    }
 
     @Override
     protected int getContentViewID() {

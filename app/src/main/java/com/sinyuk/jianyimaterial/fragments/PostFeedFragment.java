@@ -46,7 +46,7 @@ import com.sinyuk.jianyimaterial.application.Jianyi;
 import com.sinyuk.jianyimaterial.base.BaseFragment;
 import com.sinyuk.jianyimaterial.entity.User;
 import com.sinyuk.jianyimaterial.events.CategorySelectEvent;
-import com.sinyuk.jianyimaterial.events.ListItemDeleteEvent;
+import com.sinyuk.jianyimaterial.events.XShotDropEvent;
 import com.sinyuk.jianyimaterial.greendao.dao.DaoUtils;
 import com.sinyuk.jianyimaterial.greendao.dao.UserService;
 import com.sinyuk.jianyimaterial.managers.SnackBarFactory;
@@ -242,7 +242,6 @@ public class PostFeedFragment extends BaseFragment {
                     uriList.add(selectedUri);
                     adapter.notifyMyItemInserted(uriList.size());
                     updateCounterText(uriList.size());
-
                     startUpload(uriList.size() - 1);
                 }
             }
@@ -600,7 +599,7 @@ public class PostFeedFragment extends BaseFragment {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onListItemDelete(ListItemDeleteEvent event) {
+    public void onListItemDelete(XShotDropEvent event) {
         cancelUpload(event.getPosition());
         updateCounterText(uriList.size());
     }
