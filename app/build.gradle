@@ -56,5 +56,6 @@ dependencies {
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.flipboard:bottomsheet-core:1.5.0'
     compile 'com.flipboard:bottomsheet-commons:1.5.0' // optional
+    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.7.0@aar'
 //    compile 'com.squareup.leakcanary:leakcanary-android:1.4-beta1' // or 1.4-beta1
 }
