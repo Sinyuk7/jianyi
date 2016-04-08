@@ -160,7 +160,7 @@ public class PostFeedFragment extends BaseFragment {
         recyclerView.setAdapter(adapter);
         adapter.setData(uriList);
 
-        addButton = View.inflate(mContext, R.layout.item_feed_cell_add, null);
+        addButton = View.inflate(mContext, R.layout.offer_view_shot_add_button, null);
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,7 +178,6 @@ public class PostFeedFragment extends BaseFragment {
 
     private void pickPhoto() {
         if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            LogUtils.simpleLog(RegisterSettings.class, "requestPermission");
             requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE,
                     getString(R.string.permission_read_storage_rationale),
                     REQUEST_STORAGE_READ_ACCESS_PERMISSION);
