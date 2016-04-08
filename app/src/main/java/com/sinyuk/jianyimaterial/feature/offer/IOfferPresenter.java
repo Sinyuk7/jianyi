@@ -8,5 +8,5 @@ public interface IOfferPresenter {
 
     void updateUserSchool(int schoolIndex);
 
-
+    void compressThenUpload(String uri);
 }

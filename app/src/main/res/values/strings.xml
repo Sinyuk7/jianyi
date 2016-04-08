@@ -217,7 +217,7 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="permission_title_rationale">Permission needed</string>
     <string name="permission_read_storage_rationale">Storage read permission is needed to pick files.</string>
     <string name="permission_write_storage_rationale">Storage write permission is needed to save the image.</string>
-    <string name="hint_pick_pics">选择图片</string>
+    <string name="offer_hint_pick_from">从哪里选择图片</string>
     <string name="toast_cannot_retrieve_selected_image">选择的图片无法被检测到</string>
     <string name="action_login">登录</string>
     <string name="hint_forget_password">忘记密码</string>
@@ -270,6 +270,7 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="entry_free">免费赠送</string>
     <string name="offer_hint_confirm">确认</string>
     <string name="offer_hint_cover">第一张照片会被当作封面</string>
+    <string name="offer_hint_uploading">上传中</string>
 
 
 </resources>

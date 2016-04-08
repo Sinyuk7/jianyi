@@ -7,8 +7,6 @@ import android.provider.MediaStore;
 import android.util.Base64;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.google.gson.Gson;
 import com.sinyuk.jianyimaterial.api.JUploadResponse;
@@ -59,12 +57,12 @@ public class ShotModel {
 
 
     /**
-     *
-     * @param uri bitmap uri
+     * @param uriStr      bitmap uri
      * @param callback
      */
-    public void compressThenUpload(Uri uri, ShotUploadCallback callback) {
-        Observable.just(uri)
+    public void compressThenUpload(String uriStr, ShotUploadCallback callback) {
+        Observable.just(uriStr)
+                .map(Uri::parse)
                 .map(this::getFileDataFromDrawable)
                 .subscribeOn(Schedulers.io()).doOnError(throwable -> {})
                 .map(this::getMultipartBody).subscribeOn(Schedulers.io())
