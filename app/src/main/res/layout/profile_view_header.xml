@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/general_content_space"
+                android:paddingTop="56dp"
+                tools:background="@color/colorPrimary">
+
+
+    <com.sinyuk.jianyimaterial.widgets.MyCircleImageView
+        android:id="@+id/avatar"
+        android:layout_width="@dimen/image_size_6"
+        android:layout_height="@dimen/image_size_6"
+        android:layout_centerHorizontal="true"
+        app:border_color="@color/white_30_pct"
+        app:border_width="1dp"
+        tools:src="@drawable/boy"/>
+
+    <TextView
+        android:id="@+id/user_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/avatar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/general_content_space"
+        android:textColor="@color/white"
+        android:textSize="@dimen/material_text_body1"
+        android:textStyle="bold"
+        tools:text="Sinyuk"/>
+
+    <TextView
+        android:id="@+id/location_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_name_tv"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/extra_tiny_content_space"
+        android:textColor="@color/white"
+        android:textSize="@dimen/material_text_caption1"
+        tools:text="浙江传媒学院"/>
+
+</RelativeLayout>
