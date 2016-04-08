@@ -27,8 +27,6 @@ import com.sinyuk.jianyimaterial.adapters.ShotsGalleryAdapter;
 import com.sinyuk.jianyimaterial.events.XShotDropEvent;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 import com.sinyuk.jianyimaterial.sweetalert.SweetAlertDialog;
-import com.sinyuk.jianyimaterial.utils.AnimUtils;
-import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;
 import com.tbruyelle.rxpermissions.RxPermissions;
@@ -77,20 +75,20 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
     BottomSheetLayout mBottomSheetLayout;
     @Bind(R.id.coordinator_layout)
     CoordinatorLayout mCoordinatorLayout;
+
     private ShotsGalleryAdapter mAdapter;
 
-    private List<Uri> uriList = new ArrayList<>();
+    private List<Uri> uriList;
 
     private SweetAlertDialog mDialog;
 
     @Override
     protected boolean isUseEventBus() {
-        return false;
+        return true;
     }
 
     @Override
     protected void beforeInflate() {
-
     }
 
     @Override
@@ -105,16 +103,15 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
 
     @Override
     protected void onFinishInflate() {
-        setupObserver();
+        uriList = new ArrayList<>();
+        setupObservers();
         setupRecyclerView();
     }
 
-    private void setupObserver() {
+    private void setupObservers() {
         mCompositeSubscription.add(RxTextView.editorActions(mNewPriceEt)
                 .map(actionId -> actionId == EditorInfo.IME_ACTION_DONE)
-                .subscribe(done -> {
-                    if (done) { onClickConfirm(); }
-                }));
+                .subscribe(done -> {if (done) { onClickConfirm(); }}));
 
         Observable<Integer> shotObservable = Observable.from(uriList).count();
         Observable<CharSequence> titleObservable = RxTextView.textChanges(mTitleEt).skip(1);
@@ -150,8 +147,8 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
     }
 
     private void setupRecyclerView() {
-
         mAdapter = new ShotsGalleryAdapter(this);
+
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(linearLayoutManager);
 
@@ -161,9 +158,12 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
 
         mRecyclerView.setAdapter(mAdapter);
 
+        // attach to
         mAdapter.setData(uriList);
 
         final View mAddButton = View.inflate(this, R.layout.offer_view_shot_add_button, null);
+
+        mAdapter.setFooterView(mAddButton);
 
         mCompositeSubscription.add(
                 RxView.clicks(mAddButton).compose(RxPermissions.getInstance(this)
@@ -172,8 +172,6 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
                             if (granted) {pickPhoto();} else {hintPermissionDenied();}
                         }));
 
-
-        mAdapter.setFooterView(mAddButton);
     }
 
     private void toggleConfirmButton(boolean enable) {
@@ -206,38 +204,51 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
     }
 
 
-    @Override
+/*    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        LogUtils.simpleLog(OfferView.class, "resultCode " + resultCode + "然而" + RESULT_OK);
         if (resultCode == RESULT_OK) {
-            LogUtils.simpleLog(OfferView.class, "OKOKOKO");
             if (requestCode == REQUEST_PICK) {
                 final Uri selectedUri = data.getData();
-                LogUtils.simpleLog(OfferView.class, selectedUri.getPath());
-                updateIndicator(uriList.size());
                 if (uriList.size() >= 3) { return; }
                 //
+                // 因为没有header 所以notifyMyItemInserted 和notifyItemInserted 是一样的
+//                mAdapter.addData(selectedUri);
                 uriList.add(selectedUri);
-                LogUtils.simpleLog(OfferView.class, "List " + uriList.size());
-                LogUtils.simpleLog(OfferView.class, "List " + uriList.toString());
                 mAdapter.notifyMyItemInserted(uriList.size());
+                LogUtils.simpleLog(OfferView.class, "uriList.size() " + uriList.size());
+                LogUtils.simpleLog(OfferView.class, "getDataItemCount() " + mAdapter.getDataItemCount());
+                LogUtils.simpleLog(OfferView.class, "getItemCount() " + mAdapter.getItemCount());
+                updateIndicator(uriList.size());
                 mPresenter.compressThenUpload(selectedUri.getPath());
             }
         }
 
+    }*/
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_PICK) {
+                final Uri selectedUri = data.getData();
+                if (selectedUri != null) {
+                    if (uriList.size() == 3) { return; }
+                    uriList.add(selectedUri);
+                    mAdapter.notifyMyItemInserted(uriList.size());
+                    updateIndicator(uriList.size());
+                }
+            }
+        }
     }
 
     private void updateIndicator(int size) {
         // 更新计数器
-        if (size >= 3) {
+        if (size == 3) {
             mShotCountTv.setTextColor(getResources().getColor(R.color.themeRed));
-            AnimUtils.tada(mShotCountTv);
-            mShotCountTv.setText("3/3");
         } else {
             mShotCountTv.setTextColor(getResources().getColor(R.color.grey_600));
-            mShotCountTv.setText(size + "/3");
         }
+        mShotCountTv.setText(size + "/3");
 
     }
 

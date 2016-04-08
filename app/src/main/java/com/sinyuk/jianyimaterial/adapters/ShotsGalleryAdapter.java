@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.events.XShotDropEvent;
+import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.widgets.LabelView;
 import com.sinyuk.jianyimaterial.widgets.RatioImageView;
 
@@ -53,6 +54,8 @@ public class ShotsGalleryAdapter extends ExtendedRecyclerViewAdapter<Uri, ShotsG
     public void onBindDataItemViewHolder(final ShotViewHolder holder, final int position) {
 
         Uri uri = getData().get(position);
+
+        LogUtils.simpleLog(ShotsGalleryAdapter.class, "Adapter's Data size" + getData().size());
 
         holder.deleteIv.setOnClickListener(v -> {
             getData().remove(position);

@@ -14,7 +14,6 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -91,24 +90,12 @@ public class PostFeedFragment extends BaseFragment {
     RecyclerView recyclerView;
     @Bind(R.id.shot_count_tv)
     TextView shotCountTv;
-    @Bind(R.id.gallery_wrapper)
-    LinearLayout galleryWrapper;
     @Bind(R.id.title_et)
     EditText titleEt;
-    @Bind(R.id.title_input_area)
-    TextInputLayout titleInputArea;
     @Bind(R.id.details_et)
     EditText detailsEt;
-    @Bind(R.id.details_input_area)
-    TextInputLayout detailsInputArea;
     @Bind(R.id.new_price_et)
     EditText newPriceEt;
-    @Bind(R.id.new_price_input_area)
-    TextInputLayout newPriceInputArea;
-    @Bind(R.id.post_btn)
-    Button postBtn;
-    @Bind(R.id.nested_scroll_view)
-    NestedScrollView nestedScrollView;
     private ShotsGalleryAdapter adapter;
     private View addButton;
     private ArrayList<Uri> uriList;
@@ -158,17 +145,9 @@ public class PostFeedFragment extends BaseFragment {
 
         recyclerView.setAdapter(adapter);
         adapter.setData(uriList);
-
         addButton = View.inflate(mContext, R.layout.offer_view_shot_add_button, null);
 
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pickPhoto();
-            }
-
-
-        });
+        addButton.setOnClickListener(v -> pickPhoto());
 
 
         adapter.setFooterView(addButton);
@@ -334,7 +313,7 @@ public class PostFeedFragment extends BaseFragment {
         ByteArrayInputStream fileInputStream = new ByteArrayInputStream(fileData);
         int bytesAvailable = fileInputStream.available();
 
-        int maxBufferSize = 1920 * 1080;
+        int maxBufferSize = 800 * 600;
         int bufferSize = Math.min(bytesAvailable, maxBufferSize);
         byte[] buffer = new byte[bufferSize];
 
@@ -391,15 +370,6 @@ public class PostFeedFragment extends BaseFragment {
     }
 
 
-/*
-    @OnClick(R.id.category_et)
-    public void selectCategory() {
-        CategorySelectDialog dialog = new CategorySelectDialog();
-        dialog.show(getChildFragmentManager(), CategorySelectDialog.TAG);
-    }
-*/
-
-    @OnClick(R.id.post_btn)
     public void onClick() {
 
         attemptPost();
