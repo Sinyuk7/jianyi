@@ -1,5 +1,7 @@
 package com.sinyuk.jianyimaterial.feature.register;
 
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
+import com.sinyuk.jianyimaterial.utils.ToastUtils;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -32,6 +35,8 @@ public class RegisterView extends BaseActivity<RegisterPresenterImpl> implements
     EditText mPasswordEt;
     @Bind(R.id.register_btn)
     Button mRegisterBtn;
+    @Bind(R.id.password_text_layout)
+    TextInputLayout passwordTextLayout;
     @Bind(R.id.hint_continue_with_wechat)
     TextView mHintContinueWithWechat;
 
@@ -53,6 +58,11 @@ public class RegisterView extends BaseActivity<RegisterPresenterImpl> implements
     @Override
     protected boolean isNavAsBack() {
         return true;
+    }
+
+    @Override
+    protected int getContentViewID() {
+        return R.layout.register_view;
     }
 
     @Override
@@ -81,8 +91,8 @@ public class RegisterView extends BaseActivity<RegisterPresenterImpl> implements
                 mPhoneNumberEt.setError("你确定?");
                 return false;
             }
-            if (!authenticode.toString().equals("123456")) {
-                mPasswordEt.setError("你确定?");
+            if (authenticode.length() != 6) {
+                mAuthenticodeEt.setError("你确定?");
                 return false;
             }
             return true;
@@ -92,11 +102,11 @@ public class RegisterView extends BaseActivity<RegisterPresenterImpl> implements
         mRegisterBtn.setClickable(false);
     }
 
-    private void togglePasswordEt(Boolean valid) {
+    private void togglePasswordEt(boolean valid) {
         if (valid) {
-            mPasswordEt.setVisibility(View.VISIBLE);
+            passwordTextLayout.setVisibility(View.VISIBLE);
         } else {
-            mPasswordEt.setVisibility(View.GONE);
+            passwordTextLayout.setVisibility(View.GONE);
         }
     }
 
@@ -113,11 +123,6 @@ public class RegisterView extends BaseActivity<RegisterPresenterImpl> implements
         } else {
             mRegisterBtn.setBackground(getResources().getDrawable(R.drawable.rounded_rect_fill_grey));
         }
-    }
-
-    @Override
-    protected int getContentViewID() {
-        return R.layout.register_view;
     }
 
 }

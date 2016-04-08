@@ -107,6 +107,11 @@
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity
+            android:name=".feature.register.RegisterView"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            />
+        <activity
             android:name=".feature.details.DetailsView"
             android:launchMode="singleTop"
             android:theme="@style/Jianyi.TranspStatus"
