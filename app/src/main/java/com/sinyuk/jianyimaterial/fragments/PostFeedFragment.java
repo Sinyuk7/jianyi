@@ -40,18 +40,17 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.google.gson.Gson;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.activities.RegisterSettings;
-import com.sinyuk.jianyimaterial.events.ListItemDeleteEvent;
 import com.sinyuk.jianyimaterial.adapters.ShotsGalleryAdapter;
 import com.sinyuk.jianyimaterial.api.JUploadResponse;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.application.Jianyi;
 import com.sinyuk.jianyimaterial.base.BaseFragment;
-import com.sinyuk.jianyimaterial.managers.SnackBarFactory;
+import com.sinyuk.jianyimaterial.entity.User;
 import com.sinyuk.jianyimaterial.events.CategorySelectEvent;
-import com.sinyuk.jianyimaterial.fragments.dialogs.CategorySelectDialog;
+import com.sinyuk.jianyimaterial.events.ListItemDeleteEvent;
 import com.sinyuk.jianyimaterial.greendao.dao.DaoUtils;
 import com.sinyuk.jianyimaterial.greendao.dao.UserService;
-import com.sinyuk.jianyimaterial.entity.User;
+import com.sinyuk.jianyimaterial.managers.SnackBarFactory;
 import com.sinyuk.jianyimaterial.utils.AnimUtils;
 import com.sinyuk.jianyimaterial.utils.DialogUtils;
 import com.sinyuk.jianyimaterial.utils.LogUtils;
@@ -83,9 +82,12 @@ import butterknife.OnClick;
 public class PostFeedFragment extends BaseFragment {
 
     private static final String POST_FEED = "post_feed";
-    private static PostFeedFragment instance;
     private static final int REQUEST_PICK_PICTURE = 0x01;
-
+    private static PostFeedFragment instance;
+    private final String twoHyphens = "--";
+    private final String lineEnd = "\r\n";
+    private final String boundary = "apiclient-" + System.currentTimeMillis();
+    private final String mimeType = "multipart/form-data;boundary=" + boundary;
     @Bind(R.id.recycler_view)
     RecyclerView recyclerView;
     @Bind(R.id.shot_count_tv)
@@ -100,10 +102,6 @@ public class PostFeedFragment extends BaseFragment {
     EditText detailsEt;
     @Bind(R.id.details_input_area)
     TextInputLayout detailsInputArea;
-    @Bind(R.id.category_et)
-    EditText categoryEt;
-    @Bind(R.id.category_input_area)
-    TextInputLayout categoryInputArea;
     @Bind(R.id.new_price_et)
     EditText newPriceEt;
     @Bind(R.id.new_price_input_area)
@@ -112,21 +110,11 @@ public class PostFeedFragment extends BaseFragment {
     Button postBtn;
     @Bind(R.id.nested_scroll_view)
     NestedScrollView nestedScrollView;
-
-
     private ShotsGalleryAdapter adapter;
     private View addButton;
     private ArrayList<Uri> uriList;
-
-
     private ProgressDialog progressDialog;
-
     private ArrayList<String> uploadUrls;
-
-    private final String twoHyphens = "--";
-    private final String lineEnd = "\r\n";
-    private final String boundary = "apiclient-" + System.currentTimeMillis();
-    private final String mimeType = "multipart/form-data;boundary=" + boundary;
     private byte[] multipartBody;
     private ProgressDialog uploadProgress;
 
@@ -252,8 +240,7 @@ public class PostFeedFragment extends BaseFragment {
             if (requestCode == REQUEST_PICK_PICTURE) {
                 final Uri selectedUri = data.getData();
                 if (selectedUri != null) {
-                    if (uriList.size() == 3)
-                        return;
+                    if (uriList.size() == 3) { return; }
                     uriList.add(selectedUri);
                     adapter.notifyMyItemInserted(uriList.size());
                     updateCounterText(uriList.size());
@@ -280,8 +267,7 @@ public class PostFeedFragment extends BaseFragment {
             // pass to multipart body
             multipartBody = bos.toByteArray();
         } catch (IOException e) {
-            if (null != uploadProgress)
-                uploadProgress.dismiss();
+            if (null != uploadProgress) { uploadProgress.dismiss(); }
             e.printStackTrace();
         }
 
@@ -297,11 +283,9 @@ public class PostFeedFragment extends BaseFragment {
                     if (null != url) {
                         uploadUrls.add(url);
                     }
-                    if (null != uploadProgress)
-                        uploadProgress.dismiss();
+                    if (null != uploadProgress) { uploadProgress.dismiss(); }
                 } catch (Exception e) {
-                    if (null != uploadProgress)
-                        uploadProgress.dismiss();
+                    if (null != uploadProgress) { uploadProgress.dismiss(); }
                     e.printStackTrace();
                 }
 
@@ -309,8 +293,7 @@ public class PostFeedFragment extends BaseFragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if (null != uploadProgress)
-                    uploadProgress.dismiss();
+                if (null != uploadProgress) { uploadProgress.dismiss(); }
                 ToastUtils.toastSlow(mContext, VolleyErrorHelper.getMessage(error));
             }
         }) {
@@ -411,11 +394,13 @@ public class PostFeedFragment extends BaseFragment {
     }
 
 
+/*
     @OnClick(R.id.category_et)
     public void selectCategory() {
         CategorySelectDialog dialog = new CategorySelectDialog();
         dialog.show(getChildFragmentManager(), CategorySelectDialog.TAG);
     }
+*/
 
     @OnClick(R.id.post_btn)
     public void onClick() {
@@ -425,8 +410,7 @@ public class PostFeedFragment extends BaseFragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_post)
-            attemptPost();
+        if (item.getItemId() == R.id.action_post) { attemptPost(); }
         return true;
     }
 
@@ -445,7 +429,7 @@ public class PostFeedFragment extends BaseFragment {
         String title = titleEt.getText().toString();
         String details = detailsEt.getText().toString();
 
-        String category = categoryEt.getText().toString();
+//        String category = categoryEt.getText().toString();
         String newPrice = newPriceEt.getText().toString();
 
         boolean cancel = false;
@@ -457,10 +441,10 @@ public class PostFeedFragment extends BaseFragment {
             cancel = true;
         }
 
-        if (TextUtils.isEmpty(category)) {
+ /*       if (TextUtils.isEmpty(category)) {
             categoryEt.setError("标签不能为空");
             cancel = true;
-        }
+        }*/
 
         if (TextUtils.isEmpty(newPrice)) {
             newPriceEt.setError("转让价不能为空");
@@ -476,7 +460,7 @@ public class PostFeedFragment extends BaseFragment {
             hideSoftInput();
             createProgressDialog();
             progressDialog.show();
-            startPostTask(title, details, category, newPrice);
+//            startPostTask(title, details, category, newPrice);
 
         }
 
@@ -492,13 +476,12 @@ public class PostFeedFragment extends BaseFragment {
         String uId = PreferencesUtils.getString(mContext, StringUtils.getRes(mContext, R.string.key_user_id));
         final User user = (User) userService.query(uId);
 
-        if (user == null) postFailed();
+        if (user == null) { postFailed(); }
 
         final String tel = user.getTel();
 
         final String password = PreferencesUtils.getString(mContext, StringUtils.getRes(mContext, R.string.key_psw));
-        if (null == tel || null == password)
-            postFailed();
+        if (null == tel || null == password) { postFailed(); }
 
 //
 //        LogUtils.simpleLog(PostFeedFragment.class, tel + "\n" + password + "\n" + title + "\n" + description + "\n" + category + "\n" + newPrice);
@@ -528,10 +511,8 @@ public class PostFeedFragment extends BaseFragment {
                 params.put("price", newPrice);
                 params.put("sort", "all");
                 params.put("pic[0]", uploadUrls.get(0));
-                if (uploadUrls.size() >= 2)
-                    params.put("pic[1]", uploadUrls.get(1));
-                if (uploadUrls.size() >= 3)
-                    params.put("pic[2]", uploadUrls.get(2));
+                if (uploadUrls.size() >= 2) { params.put("pic[1]", uploadUrls.get(1)); }
+                if (uploadUrls.size() >= 3) { params.put("pic[2]", uploadUrls.get(2)); }
                 return params;
             }
         };
@@ -542,21 +523,18 @@ public class PostFeedFragment extends BaseFragment {
     private void postFailed(VolleyError error) {
         ToastUtils.toastSlow(mContext, VolleyErrorHelper.getMessage(error));
         LogUtils.simpleLog(PostFeedFragment.class, error.getMessage());
-        if (null != progressDialog)
-            progressDialog.dismiss();
+        if (null != progressDialog) { progressDialog.dismiss(); }
     }
 
     private void postFailed() {
         ToastUtils.toastSlow(mContext, "发布失败");
-        if (null != progressDialog)
-            progressDialog.dismiss();
+        if (null != progressDialog) { progressDialog.dismiss(); }
     }
 
     private void postSucceed(String response) {
         LogUtils.simpleLog(UserInfoFragment.class, response);
         ToastUtils.toastSlow(mContext, "发布成功");
-        if (null != progressDialog)
-            progressDialog.dismiss();
+        if (null != progressDialog) { progressDialog.dismiss(); }
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -594,7 +572,7 @@ public class PostFeedFragment extends BaseFragment {
         titleEt.setFocusable(true);
         detailsEt.setFocusableInTouchMode(true);
         detailsEt.setFocusable(true);
-        categoryEt.setEnabled(true);
+//        categoryEt.setEnabled(true);
         newPriceEt.setFocusableInTouchMode(true);
         newPriceEt.setFocusable(true);
     }
@@ -602,7 +580,7 @@ public class PostFeedFragment extends BaseFragment {
     private void cancelErrorHint() {
         titleEt.setError(null);
         detailsEt.setError(null);
-        categoryEt.setError(null);
+//        categoryEt.setError(null);
         newPriceEt.setError(null);
     }
 
@@ -613,7 +591,7 @@ public class PostFeedFragment extends BaseFragment {
         titleEt.setFocusable(false);
         detailsEt.setFocusableInTouchMode(false);
         detailsEt.setFocusable(false);
-        categoryEt.setEnabled(false);
+//        categoryEt.setEnabled(false);
         newPriceEt.setFocusableInTouchMode(false);
         newPriceEt.setFocusable(false);
 
@@ -633,8 +611,8 @@ public class PostFeedFragment extends BaseFragment {
     public void onCategorySelected(CategorySelectEvent event) {
         final String category = mContext.getResources().getStringArray(R.array.category_menu_items)[event.getWhich()];
         LogUtils.simpleLog(PostFeedFragment.class, "choosen category" + event.getWhich() + category);
-        if (!TextUtils.isEmpty(category))
-            categoryEt.setText(category);
+//        if (!TextUtils.isEmpty(category))
+//            categoryEt.setText(category);
     }
 
 
