@@ -61,7 +61,7 @@
         android:id="@+id/fab"
         style="@style/FAB.Large"
         android:layout_gravity="bottom|end"
-        android:src="@drawable/ic_add_white_48dp"
+        android:src="@drawable/ic_photo_camera_white_24dp"
         app:layout_behavior="com.sinyuk.jianyimaterial.ui.ScrollAwareFABBehavior"/>
 </android.support.design.widget.CoordinatorLayout>
 
