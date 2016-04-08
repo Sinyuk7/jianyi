@@ -103,9 +103,9 @@
         style="@style/CustomBackgroundButton.Fill"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="56dp"
-        android:layout_marginRight="56dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginLeft="@dimen/toolbar_height"
+        android:layout_marginRight="@dimen/toolbar_height"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:background="@drawable/rounded_rect_fill_grey"
         android:text="@string/offer_hint_confirm"/>
 </LinearLayout>
