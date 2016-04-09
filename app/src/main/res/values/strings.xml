@@ -152,7 +152,7 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="hint_input_password">密码</string>
     <string name="hint_input_user_name">手机</string>
     <string name="hint_register_success">注册成功</string>
-    <string name="hint_register_attempt">注册</string>
+    <string name="hint_register_register">注册</string>
     <string name="hint_set_password">设置密码(6位+)</string>
     <string name="hint_set_phone_number">填写手机号</string>
     <string name="action_help">帮助</string>
@@ -280,7 +280,10 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="register_hint_authenticode_et">验证码</string>
     <string name="register_hint_psw_et">密码</string>
     <string name="register_hint_get_authenticode">输123456</string>
-    <string name="register_hint_wechat">用微信端一样的号码,就可以关联啦\n…不知道?\n在微信端-个人中心里设置哦~</string>
+    <string name="register_hint_wechat">-用同一个号码,就能关联简易微信端啦\n\n-什么号码啊(⊙o⊙)…\n-去微信端-个人中心里设置啦</string>
+    <string name="register_hint_register_processing">正在注册</string>
+    <string name="register_hint_register_succeed">注册成功</string>
+    <string name="hint_register_authenticate">验证</string>
 
 
 </resources>

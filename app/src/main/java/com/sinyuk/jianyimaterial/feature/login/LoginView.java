@@ -134,14 +134,12 @@ public class LoginView extends BaseActivity<LoginPresenterImpl> implements ILogi
                 .changeAlertType(SweetAlertDialog.ERROR_TYPE);
     }
 
-    // 忘记密码
     @OnClick(R.id.forget_psw_tv)
     public void clickForgetPsw(View view) {
         Intent toRegisterView = new Intent(LoginView.this, RegisterView.class);
         startActivity(toRegisterView);
     }
 
-    // 登录按钮
     @OnClick(R.id.login_btn)
     public void clickLoginBtn() {
         mPasswordEt.setError(null);

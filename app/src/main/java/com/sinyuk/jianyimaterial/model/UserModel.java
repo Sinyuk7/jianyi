@@ -92,12 +92,12 @@ public class UserModel implements BaseModel {
             if (userData != null) {
                 // TODO: 这里应该保存数据 然后保存成功在回调onSucceed();
                 registerSucceed(userData, password);
-                callback.onSucceed();
+                callback.onLoginSucceed();
             } else {
                 JLoginError error = mGson.fromJson(response, JLoginError.class);
-                callback.onFailed(error.getError_msg());
+                callback.onLoginFailed(error.getError_msg());
             }
-        }, (Response.ErrorListener) error -> callback.onError(VolleyErrorHelper.getMessage(error))) {
+        }, (Response.ErrorListener) error -> callback.onLoginError(VolleyErrorHelper.getMessage(error))) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
@@ -137,15 +137,15 @@ public class UserModel implements BaseModel {
                 if (jUser != null) {
                     String trans = mGson.toJson(jUser.getData());
                     final User userData = mGson.fromJson(trans, User.class);
-                    if (null != userData) { callback.onSucceed(); }
+                    if (null != userData) { callback.onRegisterSucceed(); }
                 } else {
                     JResponse jResponse = mGson.fromJson(response, JResponse.class);
-                    if (jResponse != null) { callback.onFailed(jResponse.getData()); }
+                    if (jResponse != null) { callback.onRegisterFailed(jResponse.getData()); }
                 }
             } catch (Exception e) {
-                callback.onParseError(e.getMessage());
+                callback.onRegisterParseError(e.getMessage());
             }
-        }, (Response.ErrorListener) error -> callback.onVolleyError(VolleyErrorHelper.getMessage(error))) {
+        }, (Response.ErrorListener) error -> callback.onRegisterVolleyError(VolleyErrorHelper.getMessage(error))) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
@@ -161,65 +161,47 @@ public class UserModel implements BaseModel {
      * there is no callback cause I don't know what's going on
      * @param tel
      */
-    void askForAuthenticode(@NonNull String tel) {
+    public  void askForAuthenticode(@NonNull String tel) {
 
-    }
-
-    void checkAuthenticode(@NonNull String tel, @NonNull String authenticode) {
-
-    }
-
-    void load(@NonNull String tel, @NonNull String password) {
-
-    }
-
-    Observable saveOrUpdate(User user) {
-        return Observable.create(
-                new Observable.OnSubscribe<User>() {
-                    @Override
-                    public void call(Subscriber<? super User> sub) {
-                        sub.onNext(saveUser());
-                        sub.onCompleted();
-                    }
-                }
-        ).subscribeOn(Schedulers.io());
-    }
-
-    private User saveUser() {
-        // 保存用户 要么就数据库要么就prefs 别乱几把早的啦
-        return null;
     }
 
     /**
-     * load data from server
+     * 验证验证码
+     * @param tel
+     * @param authenticode
+     * @param callback
      */
-    User load() {
-        return null;
+    public void checkAuthenticode(@NonNull String tel, @NonNull String authenticode,AuthenticateCallback callback) {
+        callback.onAuthenticateSucceed();
     }
 
-    /**
-     * pull data from database
-     */
-    User pull() {
-        return null;
-    }
 
     public interface LoginCallback {
 
-        void onSucceed();
+        void onLoginSucceed();
 
-        void onError(String message);
+        void onLoginError(String message);
 
-        void onFailed(String message);
+        void onLoginFailed(String message);
     }
 
     public interface RegisterCallback {
-        void onSucceed();
+        void onRegisterSucceed();
 
-        void onFailed(String message);
+        void onRegisterFailed(String message);
 
-        void onVolleyError(String message);
+        void onRegisterVolleyError(String message);
 
-        void onParseError(String message);
+        void onRegisterParseError(String message);
+    }
+
+    public interface AuthenticateCallback {
+        void onAuthenticateSucceed();
+
+        void onAuthenticateFailed(String message);
+
+        void onAuthenticateVolleyError(String message);
+
+        void onAuthenticateParseError(String message);
     }
 }

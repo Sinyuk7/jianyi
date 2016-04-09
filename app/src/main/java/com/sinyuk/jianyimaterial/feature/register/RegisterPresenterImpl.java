@@ -10,7 +10,7 @@ import com.sinyuk.jianyimaterial.mvp.BasePresenter;
  */
 public class RegisterPresenterImpl extends BasePresenter<RegisterView>
         implements IRegisterPresenter,
-        UserModel.RegisterCallback {
+        UserModel.RegisterCallback, UserModel.AuthenticateCallback {
     @Override
     public void askForAuthenticode(@NonNull String tel) {
 
@@ -18,7 +18,7 @@ public class RegisterPresenterImpl extends BasePresenter<RegisterView>
 
     @Override
     public void checkForAuthenticode(@NonNull String tel, @NonNull String authenticode) {
-
+        UserModel.getInstance(mView).checkAuthenticode(tel, authenticode, this);
     }
 
     @Override
@@ -28,26 +28,42 @@ public class RegisterPresenterImpl extends BasePresenter<RegisterView>
     }
 
     @Override
-    public void onSucceed() {
-        mView.hintRegisterCompleted();
+    public void onRegisterSucceed() {
         mView.hintRegisterSucceed();
     }
 
     @Override
-    public void onFailed(String message) {
-        mView.hintRegisterCompleted();
+    public void onRegisterFailed(String message) {
         mView.hintRegisterFailed(message);
     }
 
     @Override
-    public void onVolleyError(String message) {
-        mView.hintRegisterCompleted();
+    public void onRegisterVolleyError(String message) {
         mView.hintRegisterError(message);
     }
 
     @Override
-    public void onParseError(String message) {
-        mView.hintRegisterCompleted();
+    public void onRegisterParseError(String message) {
         mView.hintRegisterError(message);
+    }
+
+    @Override
+    public void onAuthenticateSucceed() {
+        mView.hintAuthenticated();
+    }
+
+    @Override
+    public void onAuthenticateFailed(String message) {
+
+    }
+
+    @Override
+    public void onAuthenticateVolleyError(String message) {
+
+    }
+
+    @Override
+    public void onAuthenticateParseError(String message) {
+
     }
 }

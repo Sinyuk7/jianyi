@@ -23,18 +23,18 @@ public class LoginPresenterImpl extends BasePresenter<LoginView>
     }
 
     @Override
-    public void onSucceed() {
+    public void onLoginSucceed() {
         mView.onLoginSucceed();
         EventBus.getDefault().post(new XLoginEvent());
     }
 
     @Override
-    public void onError(String message) {
+    public void onLoginError(String message) {
         mView.onNetworkError(message);
     }
 
     @Override
-    public void onFailed(String message) {
+    public void onLoginFailed(String message) {
         mView.onLoginFailed(message);
     }
 }

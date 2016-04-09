@@ -33,8 +33,7 @@
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/phone_number_text_layout"
-                style="@style/DefaultInputTextLayout"
-                android:layout_marginBottom="@dimen/activity_vertical_margin">
+                style="@style/DefaultInputTextLayout">
 
                 <EditText
                     android:id="@+id/phone_number_et"
@@ -50,6 +49,7 @@
             <LinearLayout
                 android:id="@+id/authenticode_text_layout"
                 style="@style/FakeInputTextLayout"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:orientation="horizontal">
 
                 <EditText
@@ -110,7 +110,7 @@
                 android:layout_marginBottom="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_horizontal_margin"
                 android:background="@drawable/rounded_rect_fill_grey"
-                android:text="@string/action_confirm"/>
+                android:text="@string/hint_register_authenticate"/>
 
             <TextView
                 android:id="@+id/hint_continue_with_wechat"
