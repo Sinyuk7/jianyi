@@ -157,7 +157,15 @@ public class UserModel implements BaseModel {
         Jianyi.getInstance().addRequest(jsonRequest, REGISTER);
     }
 
-    void authenticate(@NonNull String tel) {
+    /**
+     * there is no callback cause I don't know what's going on
+     * @param tel
+     */
+    void askForAuthenticode(@NonNull String tel) {
+
+    }
+
+    void checkAuthenticode(@NonNull String tel, @NonNull String authenticode) {
 
     }
 

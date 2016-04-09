@@ -14,7 +14,7 @@ public class RegisterPresenterImpl extends BasePresenter<RegisterView>
         implements IRegisterPresenter,
         UserModel.RegisterCallback{
     @Override
-    public void requestAuthenticode(@NonNull String tel) {
+    public void askForAuthenticode(@NonNull String tel) {
 
     }
 
