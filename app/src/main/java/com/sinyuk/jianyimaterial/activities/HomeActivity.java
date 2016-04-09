@@ -62,8 +62,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.subscriptions.CompositeSubscription;
 
 

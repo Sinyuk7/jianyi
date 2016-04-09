@@ -11,6 +11,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.api.JLoginError;
+import com.sinyuk.jianyimaterial.api.JResponse;
 import com.sinyuk.jianyimaterial.api.JUser;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.application.Jianyi;
@@ -36,30 +37,31 @@ import rx.schedulers.Schedulers;
 public class UserModel implements BaseModel {
     public static final String LOGIN_REQUEST = "login";
     public static final String UPDATE_REQUEST = "update";
+    public static final String REGISTER = "register";
 
 
-    private static UserModel instance;
+    private static UserModel sInstance;
     private final Context mContext;
-    private final UserService userService;
-    private User currentUser;
-    private Gson gson;
+    private final UserService mUserService;
+    private User mCurrentUser;
+    private Gson mGson;
 
     private UserModel(Context context) {
         this.mContext = context;
-        userService = DaoUtils.getUserService();
-        gson = new Gson();
+        mUserService = DaoUtils.getUserService();
+        mGson = new Gson();
     }
 
 
     public static UserModel getInstance(Context context) {
-        if (instance == null) {
+        if (sInstance == null) {
             synchronized (UserModel.class) {
-                if (instance == null) {
-                    instance = new UserModel(context);
+                if (sInstance == null) {
+                    sInstance = new UserModel(context);
                 }
             }
         }
-        return instance;
+        return sInstance;
     }
 
     public boolean isLoggedIn() {
@@ -73,8 +75,8 @@ public class UserModel implements BaseModel {
      */
     public User getCurrentUser() {
         String uId = PreferencesUtils.getString(mContext, StringUtils.getRes(mContext, R.string.key_user_id));
-        currentUser = (User) userService.query(uId);
-        return currentUser;
+        mCurrentUser = (User) mUserService.query(uId);
+        return mCurrentUser;
 
     }
 
@@ -83,16 +85,16 @@ public class UserModel implements BaseModel {
         FormDataRequest jsonRequest = new FormDataRequest(Request.Method.POST, JianyiApi.login(), (Response.Listener<String>) str -> {
             JsonParser parser = new JsonParser();
             final JsonObject response = parser.parse(str).getAsJsonObject();
-            JUser jsonData = gson.fromJson(response, JUser.class);
+            JUser jsonData = mGson.fromJson(response, JUser.class);
             JUser.Data data = jsonData.getData();
-            String trans = gson.toJson(data);
-            User userData = gson.fromJson(trans, User.class);
+            String trans = mGson.toJson(data);
+            User userData = mGson.fromJson(trans, User.class);
             if (userData != null) {
                 // TODO: 这里应该保存数据 然后保存成功在回调onSucceed();
                 registerSucceed(userData, password);
                 callback.onSucceed();
             } else {
-                JLoginError error = gson.fromJson(response, JLoginError.class);
+                JLoginError error = mGson.fromJson(response, JLoginError.class);
                 callback.onFailed(error.getError_msg());
             }
         }, (Response.ErrorListener) error -> callback.onError(VolleyErrorHelper.getMessage(error))) {
@@ -109,9 +111,9 @@ public class UserModel implements BaseModel {
     }
 
     private void registerSucceed(User userData, String password) {
-        userService.saveOrUpdate(userData);
-        if (null != currentUser) {
-            if (!userData.getId().equals(currentUser.getId())) {
+        mUserService.saveOrUpdate(userData);
+        if (null != mCurrentUser) {
+            if (!userData.getId().equals(mCurrentUser.getId())) {
                 PreferencesUtils.clearAll(mContext); // a new user has login  clean up the prefs
             }
         }
@@ -125,8 +127,34 @@ public class UserModel implements BaseModel {
     }
 
 
-    void register(@NonNull String tel, @NonNull String password) {
-
+    void register(@NonNull String tel, @NonNull String password, RegisterCallback callback) {
+        FormDataRequest jsonRequest = new FormDataRequest(Request.Method.POST, JianyiApi.register(), (Response.Listener<String>) str -> {
+            try {
+                JsonParser parser = new JsonParser();
+                final JsonObject response = parser.parse(str).getAsJsonObject();
+                JUser jUser = mGson.fromJson(response, JUser.class);
+                // 转换成我的Model;
+                if (jUser != null) {
+                    String trans = mGson.toJson(jUser.getData());
+                    final User userData = mGson.fromJson(trans, User.class);
+                    if (null != userData) { callback.onSucceed(); }
+                } else {
+                    JResponse jResponse = mGson.fromJson(response, JResponse.class);
+                    if (jResponse != null) { callback.onFailed(jResponse.getData()); }
+                }
+            } catch (Exception e) {
+                callback.onParseError(e.getMessage());
+            }
+        }, (Response.ErrorListener) error -> callback.onVolleyError(VolleyErrorHelper.getMessage(error))) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("tel", tel);
+                params.put("password", password);
+                return params;
+            }
+        };
+        Jianyi.getInstance().addRequest(jsonRequest, REGISTER);
     }
 
     void authenticate(@NonNull String tel) {
@@ -178,5 +206,12 @@ public class UserModel implements BaseModel {
     }
 
     public interface RegisterCallback {
+        void onSucceed();
+
+        void onFailed(String message);
+
+        void onVolleyError(String message);
+
+        void onParseError(String message);
     }
 }

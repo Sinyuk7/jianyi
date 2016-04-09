@@ -8,4 +8,5 @@ import android.support.annotation.NonNull;
 public interface IRegisterPresenter {
     void requestAuthenticode(@NonNull String tel);
     void attemptRegister(@NonNull String tel, @NonNull String password);
+
 }
