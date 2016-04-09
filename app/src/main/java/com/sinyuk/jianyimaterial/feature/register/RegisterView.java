@@ -90,7 +90,7 @@ public class RegisterView extends BaseActivity<RegisterPresenterImpl> implements
                 return false;
             }
             // TODO: 这里应该是验证成功
-            if (!authenticode.toString().equals("123456")) {
+            if (authenticode.length() != 6) {
                 mAuthenticodeEt.setError("你确定?");
                 return false;
             }
@@ -122,12 +122,19 @@ public class RegisterView extends BaseActivity<RegisterPresenterImpl> implements
         toggleButton(isReady);
     }
 
+    /**
+     * WTF 验证成功之后要做好多事情啊
+     * 显示 隐藏
+     * 不能改手机号了
+     * 注册按钮不能点的
+     */
     public void hintAuthenticated() {
         mIsAuthenticated = true;
         passwordTextLayout.setVisibility(View.VISIBLE);
         authenticodeTextLayout.setVisibility(View.GONE);
         mPhoneNumberEt.setCursorVisible(false);
         mPhoneNumberEt.setFocusableInTouchMode(false);
+        toggleButton(false);
         mRegisterBtn.setText(R.string.hint_register_register);
     }
 
@@ -150,7 +157,6 @@ public class RegisterView extends BaseActivity<RegisterPresenterImpl> implements
         mDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
         mDialog.getProgressHelper().setBarColor(getResources().getColor(R.color.colorAccent));
         mDialog.setTitleText(getString(R.string.register_hint_register_processing));
-        mDialog.setCancelable(false);
         mDialog.show();
     }
 

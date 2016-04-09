@@ -10,8 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sinyuk.jianyimaterial.R;
-import com.sinyuk.jianyimaterial.api.JLoginError;
-import com.sinyuk.jianyimaterial.api.JResponse;
+import com.sinyuk.jianyimaterial.api.JError;
 import com.sinyuk.jianyimaterial.api.JUser;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.application.Jianyi;
@@ -28,8 +27,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import rx.Observable;
-import rx.Subscriber;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by Sinyuk on 16.3.16.
@@ -94,7 +91,7 @@ public class UserModel implements BaseModel {
                 registerSucceed(userData, password);
                 callback.onLoginSucceed();
             } else {
-                JLoginError error = mGson.fromJson(response, JLoginError.class);
+                JError error = mGson.fromJson(response, JError.class);
                 callback.onLoginFailed(error.getError_msg());
             }
         }, (Response.ErrorListener) error -> callback.onLoginError(VolleyErrorHelper.getMessage(error))) {
@@ -129,22 +126,24 @@ public class UserModel implements BaseModel {
 
     public void register(@NonNull String tel, @NonNull String password, RegisterCallback callback) {
         FormDataRequest jsonRequest = new FormDataRequest(Request.Method.POST, JianyiApi.register(), (Response.Listener<String>) str -> {
-            try {
-                JsonParser parser = new JsonParser();
-                final JsonObject response = parser.parse(str).getAsJsonObject();
-                JUser jUser = mGson.fromJson(response, JUser.class);
-                // 转换成我的Model;
-                if (jUser != null) {
-                    String trans = mGson.toJson(jUser.getData());
-                    final User userData = mGson.fromJson(trans, User.class);
-                    if (null != userData) { callback.onRegisterSucceed(); }
-                } else {
-                    JResponse jResponse = mGson.fromJson(response, JResponse.class);
-                    if (jResponse != null) { callback.onRegisterFailed(jResponse.getData()); }
-                }
-            } catch (Exception e) {
-                callback.onRegisterParseError(e.getMessage());
-            }
+            Observable.just(str)
+                    .map(responseStr -> new JsonParser().parse(responseStr).getAsJsonObject())
+                    .map(jsonObject -> mGson.fromJson(jsonObject, JUser.class))
+                    .map(jUser -> mGson.toJson(jUser.getData()))
+                    .map(trans -> mGson.fromJson(trans, User.class))
+                    .doOnError(error -> callback.onRegisterParseError(error.getMessage()))
+                    .subscribe(user -> {
+                        if (user != null) {callback.onRegisterSucceed();}
+                        else {
+                            Observable.just(str)
+                                    .map(responseStr -> new JsonParser().parse(responseStr).getAsJsonObject())
+                                    .map(response -> mGson.fromJson(response, JError.class))
+                                    .map(JError::getError_msg)
+                                    .doOnError(error -> callback.onRegisterParseError(error.getMessage()))
+                                    .subscribe(callback::onRegisterFailed);
+                        }
+                    });
+
         }, (Response.ErrorListener) error -> callback.onRegisterVolleyError(VolleyErrorHelper.getMessage(error))) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
@@ -159,20 +158,26 @@ public class UserModel implements BaseModel {
 
     /**
      * there is no callback cause I don't know what's going on
+     *
      * @param tel
      */
-    public  void askForAuthenticode(@NonNull String tel) {
+    public void askForAuthenticode(@NonNull String tel) {
 
     }
 
     /**
      * 验证验证码
+     *
      * @param tel
      * @param authenticode
      * @param callback
      */
-    public void checkAuthenticode(@NonNull String tel, @NonNull String authenticode,AuthenticateCallback callback) {
-        callback.onAuthenticateSucceed();
+    public void checkAuthenticode(@NonNull String tel, @NonNull String authenticode, AuthenticateCallback callback) {
+        if (authenticode.equals("123456")) {
+            callback.onAuthenticateSucceed();
+        } else {
+            callback.onAuthenticateFailed("验证码错误");
+        }
     }
 
 
