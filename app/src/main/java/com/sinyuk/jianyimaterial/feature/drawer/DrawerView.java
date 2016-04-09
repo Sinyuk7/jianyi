@@ -22,6 +22,7 @@ import com.sinyuk.jianyimaterial.events.XLoginEvent;
 import com.sinyuk.jianyimaterial.events.XLogoutEvent;
 import com.sinyuk.jianyimaterial.feature.explore.ExploreView;
 import com.sinyuk.jianyimaterial.feature.login.LoginView;
+import com.sinyuk.jianyimaterial.feature.profile.ProfileView;
 import com.sinyuk.jianyimaterial.feature.register.RegisterView;
 import com.sinyuk.jianyimaterial.glide.BlurTransformation;
 import com.sinyuk.jianyimaterial.glide.ColorFilterTransformation;
@@ -186,6 +187,8 @@ public class DrawerView extends MyMenuFragment<DrawerPresenterImpl> implements I
                 case R.id.drawer_menu_message:
                     break;
                 case R.id.drawer_menu_account:
+                    startActivity(new Intent(getContext(), ProfileView.class));
+                    getActivity().overridePendingTransition(0, 0);
                     break;
                 case R.id.drawer_menu_settings:
                     startActivity(new Intent(getContext(), SettingsActivity.class));
