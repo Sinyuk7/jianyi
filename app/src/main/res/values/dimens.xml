@@ -46,10 +46,10 @@
     <!-- Card View -->
     <!-- ============================================== -->
     <eat-comment />
-    <dimen name="cardView_default_corner_radius">4dp</dimen>
-    <dimen name="cardview_distinct_corner_radius">6dp</dimen>
-    <dimen name="cardView_default_elevation">1dp</dimen>
-    <dimen name="cardView_raised_elevation">2dp</dimen>
+    <dimen name="cardView_default_corner_radius">2dp</dimen>
+    <dimen name="cardview_distinct_corner_radius">4dp</dimen>
+    <dimen name="cardView_default_elevation">0.5dp</dimen>
+    <dimen name="cardView_raised_elevation">1dp</dimen>
     <dimen name="cardView_default_margin">0dp</dimen>
     <!-- ============================================== -->
     <!-- Text Size -->
@@ -108,7 +108,7 @@
     <dimen name="status_bar_height">24dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="extra_tiny_content_space">2dp</dimen>
-    <dimen name="widget_elevation_low">1dp</dimen>
+    <dimen name="widget_elevation_low">0.5dp</dimen>
     <dimen name="login_backdrop_height">256dp</dimen>
     <dimen name="profile_backdrop_height">232dp</dimen>
 
