@@ -1,6 +1,5 @@
 package com.sinyuk.jianyimaterial.feature.register;
 
-import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
-import com.sinyuk.jianyimaterial.utils.ToastUtils;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -112,7 +110,7 @@ public class RegisterView extends BaseActivity<RegisterPresenterImpl> implements
 
     @OnClick(R.id.register_btn)
     public void clickConfirmBtn() {
-
+        mPresenter.attemptRegister(mPhoneNumberEt.getText().toString(), mPasswordEt.getText().toString());
     }
 
     private void toggleConfirmButton(boolean isReady) {
@@ -125,4 +123,29 @@ public class RegisterView extends BaseActivity<RegisterPresenterImpl> implements
         }
     }
 
+
+    @Override
+    public void hintRegisterProcessing() {
+        
+    }
+
+    @Override
+    public void hintRegisterError(String message) {
+
+    }
+
+    @Override
+    public void hintRegisterFailed(String message) {
+
+    }
+
+    @Override
+    public void hintRegisterSucceed() {
+
+    }
+
+    @Override
+    public void hintRegisterCompleted() {
+
+    }
 }

@@ -127,7 +127,7 @@ public class UserModel implements BaseModel {
     }
 
 
-    void register(@NonNull String tel, @NonNull String password, RegisterCallback callback) {
+    public void register(@NonNull String tel, @NonNull String password, RegisterCallback callback) {
         FormDataRequest jsonRequest = new FormDataRequest(Request.Method.POST, JianyiApi.register(), (Response.Listener<String>) str -> {
             try {
                 JsonParser parser = new JsonParser();
