@@ -3,7 +3,7 @@ package com.sinyuk.jianyimaterial.api;
 /**
  * Created by Sinyuk on 16.2.15.
  */
-public class JLoginError {
+public class JError {
 
     /**
      * status : 0
@@ -29,7 +29,7 @@ public class JLoginError {
 
     @Override
     public String toString() {
-        return "JLoginError{" +
+        return "JError{" +
                 "status=" + status +
                 ", data='" + error_msg + '\'' +
                 ", code=" + error_code +

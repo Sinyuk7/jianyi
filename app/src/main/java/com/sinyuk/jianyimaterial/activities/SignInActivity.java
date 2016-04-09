@@ -27,7 +27,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sinyuk.jianyimaterial.R;
-import com.sinyuk.jianyimaterial.api.JLoginError;
+import com.sinyuk.jianyimaterial.api.JError;
 import com.sinyuk.jianyimaterial.api.JUser;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.application.Jianyi;
@@ -164,7 +164,7 @@ public class SignInActivity extends BaseActivity {
                 if (userData != null) {
                     loginSucceed();
                 } else {
-                    JLoginError error = gson.fromJson(response, JLoginError.class);
+                    JError error = gson.fromJson(response, JError.class);
                     loginFailed(error);
                 }
             }
@@ -193,9 +193,9 @@ public class SignInActivity extends BaseActivity {
 
         if (error == null) {
             SnackBarFactory.loginFailed(mContext, coordinatorLayout, "登录失败").show();
-        } else if (error instanceof JLoginError) {
-            if (null != ((JLoginError) error).getError_msg()) {
-                SnackBarFactory.loginFailed(mContext, coordinatorLayout, ((JLoginError) error).getError_msg()).show();
+        } else if (error instanceof JError) {
+            if (null != ((JError) error).getError_msg()) {
+                SnackBarFactory.loginFailed(mContext, coordinatorLayout, ((JError) error).getError_msg()).show();
             } else {
                 SnackBarFactory.loginFailed(mContext, coordinatorLayout, "登录失败").show();
             }
