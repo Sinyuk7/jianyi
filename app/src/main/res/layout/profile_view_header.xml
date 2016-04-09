@@ -4,19 +4,25 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/general_content_space"
-                android:paddingTop="56dp"
-                tools:background="@color/colorPrimary">
+                android:background="@color/white">
 
+
+    <com.sinyuk.jianyimaterial.widgets.RectRevealView
+        android:id="@+id/reveal_view"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:background="@color/colorPrimary"/>
 
     <com.sinyuk.jianyimaterial.widgets.MyCircleImageView
         android:id="@+id/avatar"
-        android:layout_width="@dimen/image_size_6"
-        android:layout_height="@dimen/image_size_6"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_alignBottom="@+id/reveal_view"
         android:layout_centerHorizontal="true"
-        app:border_color="@color/white_30_pct"
-        app:border_width="1dp"
-        tools:src="@drawable/boy"/>
+        android:layout_marginBottom="-24dp"
+        app:border_color="@color/white"
+        app:border_width="2dp"
+        tools:src="@drawable/backdrop_2"/>
 
     <TextView
         android:id="@+id/user_name_tv"
@@ -24,11 +30,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/avatar"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/general_content_space"
-        android:textColor="@color/white"
-        android:textSize="@dimen/material_text_body1"
+        android:layout_marginTop="28dp"
+        android:textSize="@dimen/material_text_display2"
         android:textStyle="bold"
-        tools:text="Sinyuk"/>
+        tools:text="乔昔之"/>
 
     <TextView
         android:id="@+id/location_tv"
@@ -36,9 +41,16 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/user_name_tv"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/extra_tiny_content_space"
-        android:textColor="@color/white"
+        android:layout_marginTop="@dimen/tiny_content_space"
+        android:textColor="@color/grey_600"
         android:textSize="@dimen/material_text_caption1"
         tools:text="浙江传媒学院"/>
 
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
+        style="@style/ProfileTabLayout"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_below="@+id/location_tv"
+        tools:background="@color/black"/>
 </RelativeLayout>

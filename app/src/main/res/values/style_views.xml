@@ -71,7 +71,7 @@
         <!--<item name="android:layout_marginLeft">@dimen/cardView_default_margin</item>-->
         <item name="cardPreventCornerOverlap">false</item>
         <item name="cardUseCompatPadding">true</item>
-        <item name="cardElevation">@dimen/cardView_default_elevation</item>
+        <item name="cardElevation">0dp</item>
         <item name="cardCornerRadius">@dimen/cardView_default_corner_radius</item>
         <item name="cardMaxElevation">@dimen/cardView_raised_elevation</item>
     </style>
