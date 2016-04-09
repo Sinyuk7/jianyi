@@ -25,7 +25,9 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 style="@style/BaseToolbar"
-                android:background="@color/transparent">
+                android:background="@color/transparent"
+                app:layout_collapseMode="pin"
+                app:layout_scrollFlags="scroll|enterAlways|snap">
 
                 <ImageView
                     android:id="@+id/collapse_fab"

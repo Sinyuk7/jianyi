@@ -11,7 +11,7 @@
         android:id="@+id/reveal_view"
         android:layout_width="match_parent"
         android:layout_height="160dp"
-        android:background="@color/colorPrimary"/>
+        android:background="@color/colorAccent"/>
 
     <com.sinyuk.jianyimaterial.widgets.MyCircleImageView
         android:id="@+id/avatar"
@@ -25,7 +25,7 @@
         tools:src="@drawable/backdrop_2"/>
 
     <EditText
-        android:id="@+id/user_name_tv"
+        android:id="@+id/user_name_et"
         style="@style/ProfileEditText"
         android:layout_below="@+id/avatar"
         android:layout_marginTop="28dp"
@@ -36,7 +36,7 @@
     <EditText
         android:id="@+id/location_tv"
         style="@style/ProfileEditText"
-        android:layout_below="@+id/user_name_tv"
+        android:layout_below="@+id/user_name_et"
         android:layout_marginTop="@dimen/tiny_content_space"
         android:textColor="@color/grey_600"
         android:textSize="@dimen/material_text_caption1"

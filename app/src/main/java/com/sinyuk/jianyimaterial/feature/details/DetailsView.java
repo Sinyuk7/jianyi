@@ -289,7 +289,7 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
 
     @Override
     protected int getContentViewID() {
-        return R.layout.activity_details;
+        return R.layout.details_view;
     }
 
 
