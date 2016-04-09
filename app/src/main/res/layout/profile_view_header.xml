@@ -15,32 +15,28 @@
 
     <com.sinyuk.jianyimaterial.widgets.MyCircleImageView
         android:id="@+id/avatar"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
+        android:layout_width="98dp"
+        android:layout_height="98dp"
         android:layout_alignBottom="@+id/reveal_view"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="-24dp"
         app:border_color="@color/white"
-        app:border_width="2dp"
+        app:border_width="3dp"
         tools:src="@drawable/backdrop_2"/>
 
-    <TextView
+    <EditText
         android:id="@+id/user_name_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/ProfileEditText"
         android:layout_below="@+id/avatar"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="28dp"
         android:textSize="@dimen/material_text_display2"
         android:textStyle="bold"
         tools:text="乔昔之"/>
 
-    <TextView
+    <EditText
         android:id="@+id/location_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/ProfileEditText"
         android:layout_below="@+id/user_name_tv"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/tiny_content_space"
         android:textColor="@color/grey_600"
         android:textSize="@dimen/material_text_caption1"
@@ -50,7 +46,7 @@
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"
         style="@style/ProfileTabLayout"
-        android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:layout_below="@+id/location_tv"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
         tools:background="@color/black"/>
 </RelativeLayout>

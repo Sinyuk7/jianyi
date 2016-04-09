@@ -17,4 +17,27 @@
         <item name="android:gravity">center</item>
     </style>
 
+  <!--  <EditText
+        android:id="@+id/user_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/avatar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp"
+        android:textSize="@dimen/material_text_display2"
+        android:textStyle="bold"
+        tools:text="乔昔之"/>-->
+    <eat-comment/>
+    <style name="ProfileEditText">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">160dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:cursorVisible">false</item>
+        <item name="android:focusableInTouchMode">false</item>
+        <item name="android:inputType">text</item>
+    </style>
 </resources>
