@@ -20,19 +20,16 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.sinyuk.jianyimaterial.R;
-import com.sinyuk.jianyimaterial.activities.ProfileActivity;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
 import com.sinyuk.jianyimaterial.feature.details.DetailsView;
+import com.sinyuk.jianyimaterial.feature.profile.ProfileView;
 import com.sinyuk.jianyimaterial.glide.CropCircleTransformation;
 import com.sinyuk.jianyimaterial.utils.FormatUtils;
-import com.sinyuk.jianyimaterial.utils.FuzzyDateFormater;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
 import com.sinyuk.jianyimaterial.widgets.LabelView;
 import com.sinyuk.jianyimaterial.widgets.RatioImageView;
 import com.sinyuk.jianyimaterial.widgets.TextDrawable;
-
-import java.text.ParseException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -81,11 +78,11 @@ public class CardListAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile, C
     @Override
     public void onBindDataItemViewHolder(final CardViewHolder holder, final int position) {
         YihuoProfile itemData = null;
-        if (!getData().isEmpty() && getData().get(position) != null)
+        if (!getData().isEmpty() && getData().get(position) != null) {
             itemData = getData().get(position);
+        }
 
-        if (itemData == null)
-            return;
+        if (itemData == null) { return; }
         // TODO: initialize cardView
         if (holder.cardView != null) {
             final YihuoProfile finalItemData = itemData;
@@ -141,8 +138,9 @@ public class CardListAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile, C
         final YihuoProfile finalItemData1 = itemData;
 
         holder.avatar.setOnClickListener(avatar -> {
-            Intent intent = new Intent(mContext, ProfileActivity.class);
+            Intent intent = new Intent(mContext, ProfileView.class);
             Bundle bundle = new Bundle();
+            bundle.putFloat(ProfileView.PROFILE_TYPE, ProfileView.OTHER);
             bundle.putString("user_name", finalItemData1.getUsername());
             bundle.putString("location", finalItemData1.getSchoolname());
             bundle.putString("tel", finalItemData1.getTel());
