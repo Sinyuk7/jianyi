@@ -15,6 +15,8 @@ import com.sinyuk.jianyimaterial.api.JUser;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.application.Jianyi;
 import com.sinyuk.jianyimaterial.entity.User;
+import com.sinyuk.jianyimaterial.events.XLoginEvent;
+import com.sinyuk.jianyimaterial.events.XLogoutEvent;
 import com.sinyuk.jianyimaterial.greendao.dao.DaoUtils;
 import com.sinyuk.jianyimaterial.greendao.dao.UserService;
 import com.sinyuk.jianyimaterial.mvp.BaseModel;
@@ -22,6 +24,8 @@ import com.sinyuk.jianyimaterial.utils.PreferencesUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
 import com.sinyuk.jianyimaterial.volley.FormDataRequest;
 import com.sinyuk.jianyimaterial.volley.VolleyErrorHelper;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -77,7 +81,13 @@ public class UserModel implements BaseModel {
 
     }
 
-
+    /**
+     * 登录
+     *
+     * @param tel      账号
+     * @param password 密码
+     * @param callback 回调
+     */
     public void login(@NonNull String tel, @NonNull String password, LoginCallback callback) {
         FormDataRequest jsonRequest = new FormDataRequest(Request.Method.POST, JianyiApi.login(), (Response.Listener<String>) str -> {
             JsonParser parser = new JsonParser();
@@ -107,6 +117,13 @@ public class UserModel implements BaseModel {
         Jianyi.getInstance().addRequest(jsonRequest, LOGIN_REQUEST);
     }
 
+    /**
+     * TODO: 早晚直接用prefs的key 而不是这样做
+     * 登录成功之后保存信息
+     *
+     * @param userData
+     * @param password
+     */
     private void registerSucceed(User userData, String password) {
         mUserService.saveOrUpdate(userData);
         if (null != mCurrentUser) {
@@ -117,13 +134,20 @@ public class UserModel implements BaseModel {
 
         PreferencesUtils.putString(mContext, StringUtils.getRes(mContext, R.string.key_user_id), userData.getId());
         PreferencesUtils.putBoolean(mContext, StringUtils.getRes(mContext, R.string.key_login_state), true);
-        int loginTimes = PreferencesUtils.getInt(mContext, StringUtils.getRes(mContext, R.string.key_login_times), 0) + 1;
-        PreferencesUtils.putInt(mContext, StringUtils.getRes(mContext, R.string.key_login_times), loginTimes);
         // post event first  in case they clean up the prefs
         PreferencesUtils.putString(mContext, StringUtils.getRes(mContext, R.string.key_psw), password);
+        // 发送事件
+        EventBus.getDefault().post(new XLoginEvent());
+
     }
 
-
+    /**
+     * 注册
+     *
+     * @param tel
+     * @param password
+     * @param callback
+     */
     public void register(@NonNull String tel, @NonNull String password, RegisterCallback callback) {
         FormDataRequest jsonRequest = new FormDataRequest(Request.Method.POST, JianyiApi.register(), (Response.Listener<String>) str -> {
             Observable.just(str)
@@ -133,8 +157,7 @@ public class UserModel implements BaseModel {
                     .map(trans -> mGson.fromJson(trans, User.class))
                     .doOnError(error -> callback.onRegisterParseError(error.getMessage()))
                     .subscribe(user -> {
-                        if (user != null) {callback.onRegisterSucceed();}
-                        else {
+                        if (user != null) {callback.onRegisterSucceed();} else {
                             Observable.just(str)
                                     .map(responseStr -> new JsonParser().parse(responseStr).getAsJsonObject())
                                     .map(response -> mGson.fromJson(response, JError.class))
@@ -180,6 +203,14 @@ public class UserModel implements BaseModel {
         }
     }
 
+    /**
+     * 登出
+     */
+    public void logout() {
+        mUserService.deleteAll();
+        PreferencesUtils.clearAll(mContext); // a new user has login  clean up the prefs
+        EventBus.getDefault().post(new XLogoutEvent());
+    }
 
     public interface LoginCallback {
 

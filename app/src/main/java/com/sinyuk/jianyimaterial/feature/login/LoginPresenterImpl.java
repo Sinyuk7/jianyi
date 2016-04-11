@@ -25,7 +25,6 @@ public class LoginPresenterImpl extends BasePresenter<LoginView>
     @Override
     public void onLoginSucceed() {
         mView.onLoginSucceed();
-        EventBus.getDefault().post(new XLoginEvent());
     }
 
     @Override
