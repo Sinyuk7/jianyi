@@ -200,24 +200,7 @@
     </style>
 
 
-    <style name="Activity_Settings_IconTextView">
-        <item name="android:drawablePadding">@dimen/activity_horizontal_margin</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:layout_gravity">start|top</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/grey_600</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">@dimen/material_text_subhead</item>
-    </style>
 
-    <style name="Activity_Settings_Hint">
-        <item name="android:layout_gravity">start|bottom</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>-->
-        <item name="android:textColor">@color/grey_300</item>
-        <item name="android:textSize">@dimen/material_text_caption1</item>
-    </style>
 
     <style name="UserInfoForm">
         <item name="android:layout_width">match_parent</item>

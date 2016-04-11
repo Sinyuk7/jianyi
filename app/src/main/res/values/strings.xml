@@ -284,6 +284,11 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="register_hint_register_processing">正在注册</string>
     <string name="register_hint_register_succeed">注册成功</string>
     <string name="hint_register_authenticate">验证</string>
+    <string name="settings_account">账户</string>
+    <string name="settings_about">关于</string>
+    <string name="settings_feedback">联系我们</string>
+    <string name="settings_cache">缓存</string>
+    <string name="settings_push">推送</string>
 
 
 </resources>
