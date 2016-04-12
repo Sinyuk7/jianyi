@@ -24,6 +24,7 @@ import com.sinyuk.jianyimaterial.feature.explore.ExploreView;
 import com.sinyuk.jianyimaterial.feature.login.LoginView;
 import com.sinyuk.jianyimaterial.feature.profile.ProfileView;
 import com.sinyuk.jianyimaterial.feature.register.RegisterView;
+import com.sinyuk.jianyimaterial.feature.settings.SettingsView;
 import com.sinyuk.jianyimaterial.glide.BlurTransformation;
 import com.sinyuk.jianyimaterial.glide.ColorFilterTransformation;
 import com.sinyuk.jianyimaterial.glide.CropCircleTransformation;
@@ -191,7 +192,7 @@ public class DrawerView extends MyMenuFragment<DrawerPresenterImpl> implements I
                     getActivity().overridePendingTransition(0, 0);
                     break;
                 case R.id.drawer_menu_settings:
-                    startActivity(new Intent(getContext(), SettingsActivity.class));
+                    startActivity(new Intent(getContext(), SettingsView.class));
                     getActivity().overridePendingTransition(0, 0);
                     break;
             }

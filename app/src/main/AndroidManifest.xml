@@ -139,6 +139,10 @@
             android:name=".feature.profile.ProfileView"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustPan|stateHidden"/>
+
+        <activity
+            android:name=".feature.settings.SettingsView"
+            android:launchMode="singleTop"/>
         <!--MVP-->
     </application>
 
