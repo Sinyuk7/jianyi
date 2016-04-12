@@ -3,7 +3,8 @@
     android:id="@id/coordinator_layout"
     style="@style/DefaultCoordinatorLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"
@@ -80,7 +81,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical|end"
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:text="36M"
+                    tools:text="36M"
                     android:textColor="@color/grey_600"
                     android:textSize="@dimen/material_text_caption1"/>
             </FrameLayout>

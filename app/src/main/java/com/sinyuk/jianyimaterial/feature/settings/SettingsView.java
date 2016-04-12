@@ -13,6 +13,8 @@ import com.sinyuk.jianyimaterial.managers.CacheManager;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 import com.sinyuk.jianyimaterial.sweetalert.SweetAlertDialog;
 
+import java.util.concurrent.TimeUnit;
+
 import butterknife.Bind;
 import butterknife.OnClick;
 import rx.Observable;
@@ -102,7 +104,7 @@ public class SettingsView extends BaseActivity<SettingsPresenterImpl> implements
     }
 
     private void setupCacheOption() {
-        mCompositeSubscription.add(cacheObservable.subscribeOn(Schedulers.io())
+        mCompositeSubscription.add(cacheObservable.delay(1, TimeUnit.SECONDS).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(cacheSize -> {mCacheSizeTv.setText(cacheSize);}));
     }
