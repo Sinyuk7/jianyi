@@ -294,6 +294,8 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="settings_hint_clear_cache_content">(￢_￢)那样又要浪费好多流量了哦</string>
     <string name="settings_hint_confirm">确定</string>
     <string name="settings_hint_cancel">算了</string>
+    <string name="settings_update_password">更改密码</string>
+    <string name="settings_update_school">切换学校</string>
 
 
 </resources>
