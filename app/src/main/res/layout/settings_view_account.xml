@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    style="@style/DefaultCardView.Rect"
-    xmlns:android="http://schemas.android.com/apk/res/android"
 
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+<LinearLayout
+    android:id="@+id/settings_items"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/transparent"
-    app:cardBackgroundColor="@android:color/transparent">
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/settings_items"
-        style="@style/DividedView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/set_password"
-            style="@style/SettingsItemText"
-            android:drawableLeft="@drawable/ic_key_variant_accent_24dp"
-            android:text="@string/settings_update_password"/>
+    <TextView
+        android:id="@+id/password_btn"
+        style="@style/SettingsItemText"
+        android:drawableLeft="@drawable/ic_key_variant_accent_24dp"
+        android:text="@string/settings_update_password_hint"/>
 
-        <TextView
-            android:id="@+id/set_school"
-            style="@style/SettingsItemText"
-            android:drawableLeft="@drawable/ic_location_on_accent_18dp"
-            android:text="@string/settings_update_school"/>
-    </LinearLayout>
 
-</android.support.v7.widget.CardView>
+    <TextView
+        android:id="@+id/school_btn"
+        style="@style/SettingsItemText"
+        android:drawableLeft="@drawable/ic_location_on_accent_18dp"
+        android:text="@string/settings_update_school_hint"/>
+
+
+    <TextView
+        android:id="@+id/logout_btn"
+        style="@style/SettingsItemText"
+        android:drawableLeft="@drawable/ic_close_primary_24dp"
+        android:text="@string/settings_logout"/>
+</LinearLayout>
+
