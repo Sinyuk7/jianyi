@@ -3,12 +3,14 @@ package com.sinyuk.jianyimaterial.feature.settings;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.sinyuk.jianyimaterial.R;
+import com.sinyuk.jianyimaterial.feature.settings.account.AccountView;
 import com.sinyuk.jianyimaterial.managers.CacheManager;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 import com.sinyuk.jianyimaterial.sweetalert.SweetAlertDialog;
@@ -25,13 +27,20 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Sinyuk on 16.4.12.
  */
-public class SettingsView extends BaseActivity<SettingsPresenterImpl> implements ISettingsView, AppBarLayout.OnOffsetChangedListener {
-
+public class SettingsView extends BaseActivity<SettingsPresenterImpl> implements ISettingsView {
 
     @Bind(R.id.icon_iv)
     TextView mIconIv;
+    @Bind(R.id.toolbar)
+    Toolbar mToolbar;
+    @Bind(R.id.collapsing_toolbar_layout)
+    CollapsingToolbarLayout mCollapsingToolbarLayout;
+    @Bind(R.id.app_bar_layout)
+    AppBarLayout mAppBarLayout;
     @Bind(R.id.settings_account)
     TextView mSettingsAccount;
+    @Bind(R.id.settings_account_group)
+    LinearLayout mSettingsAccountGroup;
     @Bind(R.id.settings_push)
     TextView mSettingsPush;
     @Bind(R.id.settings_cache)
@@ -42,17 +51,10 @@ public class SettingsView extends BaseActivity<SettingsPresenterImpl> implements
     TextView mSettingsFeedback;
     @Bind(R.id.settings_about)
     TextView mSettingsAbout;
-    @Bind(R.id.toolbar)
-    Toolbar mToolbar;
-    @Bind(R.id.collapsing_toolbar_layout)
-    CollapsingToolbarLayout mCollapsingToolbarLayout;
-    @Bind(R.id.app_bar_layout)
-    AppBarLayout mAppBarLayout;
+    @Bind(R.id.settings_items)
+    LinearLayout mSettingsItems;
     @Bind(R.id.coordinator_layout)
     CoordinatorLayout mCoordinatorLayout;
-    @Bind(R.id.settings_items)
-    LinearLayout mSettingItems;
-
     private Observable<String> cacheObservable;
     private Observable<String> mCacheClearObservable;
 
@@ -101,8 +103,6 @@ public class SettingsView extends BaseActivity<SettingsPresenterImpl> implements
 
     @Override
     protected void onFinishInflate() {
-
-        setupAppBarLayout();
         setupCacheOption();
 
     }
@@ -129,51 +129,37 @@ public class SettingsView extends BaseActivity<SettingsPresenterImpl> implements
                 .subscribe(cacheSize -> {mCacheSizeTv.setText(cacheSize);}));
     }
 
-    private void setupAppBarLayout() {
-        mAppBarLayout.addOnOffsetChangedListener(this);
-    }
 
     @Override
     protected int getContentViewID() {
         return R.layout.settings_view;
     }
 
-    @Override
-    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-        float fraction = verticalOffset * -1.0f / mAppBarLayout.getTotalScrollRange();
-        mIconIv.setAlpha(1 - fraction);
-        mSettingItems.setAlpha(1 - fraction);
-        if (fraction == 1) {
-            mSettingItems.setVisibility(View.GONE);
-        } else {
-            mSettingItems.setVisibility(View.VISIBLE);
-        }
 
+    @OnClick(R.id.settings_account)
+    public void onClickAccountOption() {
+        final FragmentManager fm = getSupportFragmentManager();
+        if (fm.findFragmentByTag("account") == null) {
+            fm.beginTransaction()
+                    .add(R.id.settings_account_group, AccountView.getInstance(), "account").commit();
+        } else {
+            fm.beginTransaction().remove(AccountView.getInstance()).commit();
+        }
     }
 
-    @OnClick({R.id.settings_account, R.id.settings_push, R.id.settings_cache, R.id.settings_feedback, R.id.settings_about})
+    @OnClick({R.id.settings_push, R.id.settings_cache, R.id.settings_feedback, R.id.settings_about})
     public void onClick(View view) {
-        int resId;
         switch (view.getId()) {
-            case R.id.settings_account:
-                resId = R.string.settings_account;
-                mCollapsingToolbarLayout.setTitle(getString(resId));
-                mAppBarLayout.setExpanded(false, true);
-                break;
+
             case R.id.settings_push:
                 break;
             case R.id.settings_cache:
                 createDialogs();
                 break;
             case R.id.settings_feedback:
-                resId = R.string.settings_feedback;
-                mCollapsingToolbarLayout.setTitle(getString(resId));
-                mAppBarLayout.setExpanded(false, true);
+
                 break;
             case R.id.settings_about:
-                resId = R.string.settings_about;
-                mCollapsingToolbarLayout.setTitle(getString(resId));
-                mAppBarLayout.setExpanded(false, true);
                 break;
         }
     }

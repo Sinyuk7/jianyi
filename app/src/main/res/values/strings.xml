@@ -294,8 +294,11 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="settings_hint_clear_cache_content">(￢_￢)那样又要浪费好多流量了哦</string>
     <string name="settings_hint_confirm">确定</string>
     <string name="settings_hint_cancel">算了</string>
-    <string name="settings_update_password">更改密码</string>
-    <string name="settings_update_school">切换学校</string>
+    <string name="settings_update_password_hint">密码: ******</string>
+    <string name="settings_update_school_hint">学校: 浙江传媒学院-下沙校区</string>
+    <string name="settings_logout">登出</string>
+    <string name="settings_update_password">更改</string>
+    <string name="settings_label">设置</string>
 
 
 </resources>
