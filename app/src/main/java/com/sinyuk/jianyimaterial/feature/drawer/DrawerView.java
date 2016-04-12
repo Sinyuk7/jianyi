@@ -16,11 +16,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.mxn.soul.flowingdrawer_core.LeftDrawerLayout;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.activities.CategoryMenu;
-import com.sinyuk.jianyimaterial.activities.SettingsActivity;
 import com.sinyuk.jianyimaterial.entity.User;
 import com.sinyuk.jianyimaterial.events.XLoginEvent;
 import com.sinyuk.jianyimaterial.events.XLogoutEvent;
-import com.sinyuk.jianyimaterial.feature.explore.ExploreView;
 import com.sinyuk.jianyimaterial.feature.login.LoginView;
 import com.sinyuk.jianyimaterial.feature.profile.ProfileView;
 import com.sinyuk.jianyimaterial.feature.register.RegisterView;
@@ -90,11 +88,7 @@ public class DrawerView extends MyMenuFragment<DrawerPresenterImpl> implements I
 
     @Override
     protected void onFinishInflate() {
-        if (mPresenter.configLoginState()) {
-            showLoggedState(mPresenter.loadUserInfo());
-        } else {
-            showNotLoginState();
-        }
+        mPresenter.queryCurrentUser();
     }
 
     @Override
@@ -104,44 +98,14 @@ public class DrawerView extends MyMenuFragment<DrawerPresenterImpl> implements I
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLogin(XLogoutEvent event) {
-        showLoggedState(mPresenter.loadUserInfo());
+        mPresenter.queryCurrentUser();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLogout(XLoginEvent event) {
-        showNotLoginState();
+        onUserNotLogged();
     }
 
-    private void showNotLoginState() {
-        mDrawerMenuAccount.setVisibility(View.GONE);
-        mDrawerMenuMessage.setVisibility(View.GONE);
-        Glide.with(this).load(R.drawable.ic_avatar_placeholder)
-                .bitmapTransform(new CropCircleTransformation(getContext()))
-                .into(mAvatar);
-        /**
-         * load custom picture in backdrop here
-         */
-        mUserNameTv.setText("点击登录");
-    }
-
-    private void showLoggedState(User user) {
-        if (user != null) {
-            mDrawerMenuAccount.setVisibility(View.VISIBLE);
-            mDrawerMenuMessage.setVisibility(View.VISIBLE);
-            DrawableRequestBuilder<String> requestBuilder;
-            requestBuilder = Glide.with(mContext).fromString().diskCacheStrategy(DiskCacheStrategy.RESULT);
-            requestBuilder.load(user.getHeading()).bitmapTransform(new CropCircleTransformation(mContext))
-                    .thumbnail(0.2f).error(R.drawable.ic_avatar_placeholder).priority(Priority.IMMEDIATE).into(mAvatar);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                requestBuilder.load(user.getHeading()).bitmapTransform(new BlurTransformation(mContext))
-                        .crossFade().priority(Priority.HIGH).error(R.drawable.backdrop_2).thumbnail(0.5f).into(mBackdrop);
-            } else {
-                requestBuilder.load(user.getHeading()).bitmapTransform(new ColorFilterTransformation(mContext, getResources().getColor(R.color.colorPrimary_50pct)))
-                        .crossFade().priority(Priority.HIGH).error(R.drawable.backdrop_2).thumbnail(0.5f).into(mBackdrop);
-            }
-            mUserNameTv.setText(StringUtils.check(mContext, user.getName(), R.string.unknown_user_name));
-        }
-    }
 
     @Override
     public void showMessageBadge() {
@@ -151,7 +115,7 @@ public class DrawerView extends MyMenuFragment<DrawerPresenterImpl> implements I
     @Override
     public void toPersonalView() {
         mLeftDrawerLayout.closeDrawer();
-        mLeftDrawerLayout.postDelayed(() -> startActivity(new Intent(getContext(), LoginView.class)), DRAWER_CLOSE_DURATION);
+        /*mLeftDrawerLayout.postDelayed(() -> startActivity(new Intent(getContext(), LoginView.class)), DRAWER_CLOSE_DURATION);*/
     }
 
     @Override
@@ -160,6 +124,42 @@ public class DrawerView extends MyMenuFragment<DrawerPresenterImpl> implements I
         mLeftDrawerLayout.postDelayed(() -> {
             startActivity(new Intent(getContext(), LoginView.class));
         }, DRAWER_CLOSE_DURATION);
+    }
+
+    @Override
+    public void onQuerySucceed(User user) {
+        mDrawerMenuAccount.setVisibility(View.VISIBLE);
+        mDrawerMenuMessage.setVisibility(View.VISIBLE);
+        DrawableRequestBuilder<String> requestBuilder;
+        requestBuilder = Glide.with(mContext).fromString().diskCacheStrategy(DiskCacheStrategy.RESULT);
+        requestBuilder.load(user.getHeading()).bitmapTransform(new CropCircleTransformation(mContext))
+                .thumbnail(0.2f).error(R.drawable.ic_avatar_placeholder).priority(Priority.IMMEDIATE).into(mAvatar);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            requestBuilder.load(user.getHeading()).bitmapTransform(new BlurTransformation(mContext))
+                    .crossFade().priority(Priority.HIGH).error(R.drawable.backdrop_2).thumbnail(0.5f).into(mBackdrop);
+        } else {
+            requestBuilder.load(user.getHeading()).bitmapTransform(new ColorFilterTransformation(mContext, getResources().getColor(R.color.colorPrimary_50pct)))
+                    .crossFade().priority(Priority.HIGH).error(R.drawable.backdrop_2).thumbnail(0.5f).into(mBackdrop);
+        }
+        mUserNameTv.setText(StringUtils.check(mContext, user.getName(), R.string.unknown_user_name));
+    }
+
+    @Override
+    public void onQueryFailed(String message) {
+        mUserNameTv.setText(message);
+    }
+
+    @Override
+    public void onUserNotLogged() {
+        mDrawerMenuAccount.setVisibility(View.GONE);
+        mDrawerMenuMessage.setVisibility(View.GONE);
+        Glide.with(this).load(R.drawable.ic_avatar_placeholder)
+                .bitmapTransform(new CropCircleTransformation(getContext()))
+                .into(mAvatar);
+        /**
+         * load custom picture in backdrop here
+         */
+        mUserNameTv.setText("点击登录");
     }
 
     @OnClick({R.id.avatar, R.id.user_name_tv})

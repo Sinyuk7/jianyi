@@ -1,24 +1,20 @@
 package com.sinyuk.jianyimaterial.feature.drawer;
 
-import android.support.annotation.NonNull;
-
 import com.sinyuk.jianyimaterial.entity.User;
 import com.sinyuk.jianyimaterial.model.UserModel;
 import com.sinyuk.jianyimaterial.mvp.BasePresenter;
+import com.sinyuk.jianyimaterial.utils.LogUtils;
 
 /**
  * Created by Sinyuk on 16.3.30.
  */
-public class DrawerPresenterImpl extends BasePresenter<DrawerView> implements IDrawerPresenter {
-    @Override
-    public boolean configLoginState() {
-        return UserModel.getInstance(mView.getContext()).isLoggedIn();
-    }
+public class DrawerPresenterImpl extends BasePresenter<DrawerView> implements IDrawerPresenter, UserModel.QueryCurrentUserCallback {
+    private static final boolean DEBUG = true;
 
-    @NonNull
     @Override
-    public User loadUserInfo() {
-        return UserModel.getInstance(mView.getContext()).getCurrentUser();
+    public void queryCurrentUser() {
+        UserModel.getInstance(mView.getContext()).queryCurrentUser(this);
+        if (DEBUG) { LogUtils.simpleLog(DrawerPresenterImpl.class, "queryCurrentUser"); }
     }
 
     @Override
@@ -28,5 +24,23 @@ public class DrawerPresenterImpl extends BasePresenter<DrawerView> implements ID
         } else {
             mView.toLoginView();
         }
+    }
+
+    @Override
+    public void onQuerySucceed(User currentUser) {
+        mView.onQuerySucceed(currentUser);
+        { LogUtils.simpleLog(DrawerPresenterImpl.class, "onQuerySucceed"); }
+    }
+
+    @Override
+    public void onQueryFailed(String message) {
+        mView.onQueryFailed(message);
+        { LogUtils.simpleLog(DrawerPresenterImpl.class, "onQueryFailed"); }
+    }
+
+    @Override
+    public void onUserNotLogged() {
+        mView.onUserNotLogged();
+        { LogUtils.simpleLog(DrawerPresenterImpl.class, "onUserNotLogged"); }
     }
 }

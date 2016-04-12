@@ -3,10 +3,10 @@ package com.sinyuk.jianyimaterial.events;
 /**
  * Created by Sinyuk on 16.2.19.
  */
-public class LocationSelectEvent extends BaseEvent {
+public class XLocationSelectEvent extends BaseEvent {
     private int which;
 
-    public LocationSelectEvent(int which) {
+    public XLocationSelectEvent(int which) {
         this.which = which;
     }
 
@@ -16,6 +16,6 @@ public class LocationSelectEvent extends BaseEvent {
 
     @Override
     public String getType() {
-        return "LocationSelectEvent";
+        return "XLocationSelectEvent";
     }
 }

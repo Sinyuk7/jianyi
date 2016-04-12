@@ -13,4 +13,10 @@ public interface IDrawerView {
 
     void toLoginView();
 
+    void onQuerySucceed(User currentUser);
+
+    void onQueryFailed(String message);
+
+    void onUserNotLogged();
+
 }

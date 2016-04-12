@@ -9,10 +9,7 @@ import com.sinyuk.jianyimaterial.entity.User;
  */
 public interface IDrawerPresenter {
 
-    boolean configLoginState();
-
-    @NonNull
-    User loadUserInfo();
+    void queryCurrentUser();
 
     void onUserInfoClick();
 }
