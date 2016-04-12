@@ -53,9 +53,8 @@ public class SettingsView extends BaseActivity<SettingsPresenterImpl> implements
     @Bind(R.id.settings_items)
     LinearLayout mSettingItems;
 
-    private SweetAlertDialog mDialog;
     private Observable<String> cacheObservable;
-    private Observable<Void> mCacheClearObservable;
+    private Observable<String> mCacheClearObservable;
 
     @Override
     protected boolean isUseEventBus() {
@@ -76,11 +75,16 @@ public class SettingsView extends BaseActivity<SettingsPresenterImpl> implements
             }
         }).doOnError(throwable -> mCacheSizeTv.setText(getString(R.string.settings_hint_read_cache_failed)));
 
-        mCacheClearObservable = Observable.create(new Observable.OnSubscribe<Void>() {
+        mCacheClearObservable = Observable.create(new Observable.OnSubscribe<String>() {
             @Override
-            public void call(Subscriber<? super Void> subscriber) {
+            public void call(Subscriber<? super String> subscriber) {
                 CacheManager.clearAllCache(SettingsView.this);
-                subscriber.onCompleted();
+                try {
+                    subscriber.onNext(CacheManager.getTotalCacheSize(SettingsView.this));
+                    subscriber.onCompleted();
+                } catch (Exception e) {
+                    subscriber.onError(e);
+                }
             }
         }).subscribeOn(Schedulers.io());
     }
@@ -97,14 +101,30 @@ public class SettingsView extends BaseActivity<SettingsPresenterImpl> implements
 
     @Override
     protected void onFinishInflate() {
-        mDialog = new SweetAlertDialog(this);
+
         setupAppBarLayout();
         setupCacheOption();
 
     }
 
+    private void createDialogs() {
+        SweetAlertDialog cacheDialog = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
+        cacheDialog.setTitleText(getString(R.string.settings_hint_clear_cache_title))
+                .setContentText(getString(R.string.settings_hint_clear_cache_content))
+                .setConfirmText(getString(R.string.settings_hint_confirm))
+                .setConfirmClickListener(sweetAlertDialog -> {
+                    mCacheClearObservable.observeOn(AndroidSchedulers.mainThread()).subscribe(cashSize -> {
+                        mCacheSizeTv.setText(cashSize);
+                    });
+                    sweetAlertDialog.dismissWithAnimation();
+                })
+                .setCancelText(getString(R.string.settings_hint_cancel));
+        cacheDialog.setCancelable(true);
+        cacheDialog.show();
+    }
+
     private void setupCacheOption() {
-        mCompositeSubscription.add(cacheObservable.delay(1, TimeUnit.SECONDS).subscribeOn(Schedulers.io())
+        mCompositeSubscription.add(cacheObservable.delay(500, TimeUnit.MILLISECONDS).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(cacheSize -> {mCacheSizeTv.setText(cacheSize);}));
     }
@@ -143,21 +163,7 @@ public class SettingsView extends BaseActivity<SettingsPresenterImpl> implements
             case R.id.settings_push:
                 break;
             case R.id.settings_cache:
-                mDialog.setTitleText(getString(R.string.settings_hint_clear_cache))
-                        .setConfirmText(getString(R.string.settings_hint_confirm))
-                        .setConfirmClickListener(sweetAlertDialog -> {
-                            mDialog
-                                    .setCancelText("取消")
-                                    .setCancelClickListener(dialog -> {})
-                                    .setTitleText("清理缓存中")
-                                    .changeAlertType(SweetAlertDialog.PROGRESS_TYPE);
-                            mCacheClearObservable.observeOn(AndroidSchedulers.mainThread()).subscribe(aVoid -> {
-
-                            });
-                        })
-                        .setCancelText(getString(R.string.settings_hint_cancel))
-                        .changeAlertType(SweetAlertDialog.WARNING_TYPE);
-                mDialog.show();
+                createDialogs();
                 break;
             case R.id.settings_feedback:
                 resId = R.string.settings_feedback;

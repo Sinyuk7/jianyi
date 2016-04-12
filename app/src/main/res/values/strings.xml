@@ -290,7 +290,8 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="settings_cache">缓存</string>
     <string name="settings_push">推送</string>
     <string name="settings_hint_read_cache_failed">读取失败</string>
-    <string name="settings_hint_clear_cache">这下会清除图片缓存哦\n( ▔, ▔ )ㄏ那样你又要浪费好多流量了</string>
+    <string name="settings_hint_clear_cache_title">真的要清除图片缓存吗?</string>
+    <string name="settings_hint_clear_cache_content">(￢_￢)那样又要浪费好多流量了哦</string>
     <string name="settings_hint_confirm">确定</string>
     <string name="settings_hint_cancel">算了</string>
 
