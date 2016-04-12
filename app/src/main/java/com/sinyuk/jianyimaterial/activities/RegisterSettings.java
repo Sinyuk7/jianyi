@@ -46,7 +46,7 @@ import com.sinyuk.jianyimaterial.api.JUploadResponse;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.application.Jianyi;
 import com.sinyuk.jianyimaterial.base.BaseActivity;
-import com.sinyuk.jianyimaterial.events.LocationSelectEvent;
+import com.sinyuk.jianyimaterial.events.XLocationSelectEvent;
 import com.sinyuk.jianyimaterial.events.UserStateUpdateEvent;
 import com.sinyuk.jianyimaterial.fragments.dialogs.LocationSelectDialog;
 import com.sinyuk.jianyimaterial.greendao.dao.DaoUtils;
@@ -218,7 +218,7 @@ public class RegisterSettings extends BaseActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onLocationSelected(LocationSelectEvent event) {
+    public void onLocationSelected(XLocationSelectEvent event) {
         setupLocation(event.getWhich());
     }
 

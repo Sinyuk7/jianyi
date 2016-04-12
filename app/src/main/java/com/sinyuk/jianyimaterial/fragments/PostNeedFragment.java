@@ -425,7 +425,7 @@ public class PostNeedFragment extends BaseFragment {
 //    }
 
 //    @Subscribe(threadMode = ThreadMode.MAIN)
-//    public void onLocationSelected(LocationSelectEvent event) {
+//    public void onLocationSelected(XLocationSelectEvent event) {
 //        setupLocation(event.getWhich());
 //
 //    }

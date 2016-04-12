@@ -186,8 +186,8 @@ public class HomeActivity extends BaseActivity implements
         final TextView userNameTv = (TextView) headerLayout.findViewById(R.id.user_name_tv);
         final TextView locationTv = (TextView) headerLayout.findViewById(R.id.location_tv);
 
-        if (UserModel.getInstance(this).isLoggedIn()) {
-            if (UserModel.getInstance(this).getCurrentUser() == null) {
+       /* if (UserModel.getInstance(this).isLoggedIn()) {
+            if (UserModel.getInstance(this).queryCurrentUser() == null) {
                 ToastUtils.toastSlow(mContext, "登陆失败");
 
                 Glide.with(mContext).load(R.drawable.backdrop_2).into(backdropIv);
@@ -196,7 +196,7 @@ public class HomeActivity extends BaseActivity implements
                 userNameTv.setText(StringUtils.getRes(mContext, R.string.hint_click_to_login));
                 locationTv.setText(null);
             } else {
-                final User user = UserModel.getInstance(this).getCurrentUser();
+                final User user = UserModel.getInstance(this).queryCurrentUser();
                 DrawableRequestBuilder<String> requestBuilder;
                 requestBuilder = Glide.with(mContext).fromString().diskCacheStrategy(DiskCacheStrategy.RESULT);
                 requestBuilder.load(user.getHeading()).bitmapTransform(new CropCircleTransformation(mContext)).crossFade()
@@ -215,9 +215,9 @@ public class HomeActivity extends BaseActivity implements
                     locationTv.setText(StringUtils.check(mContext, getResources().getStringArray(R.array.schools_sort)[index], R.string.untable));
 
             }
-            /**
+            *//**
              * TODO: 设置学校 这个要动态更新啊
-             */
+             *//*
 
         } else {
             //  Logout State
@@ -236,7 +236,7 @@ public class HomeActivity extends BaseActivity implements
             }
         };
         avatar.setOnClickListener(goToPersonalPage);
-        userNameTv.setOnClickListener(goToPersonalPage);
+        userNameTv.setOnClickListener(goToPersonalPage);*/
     }
 
 
