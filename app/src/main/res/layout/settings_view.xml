@@ -5,15 +5,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"
         style="@style/DefaultAppBarLayout"
-        android:layout_height="152dp">
+        android:layout_height="wrap_content"
+        app:elevation="0dp"
+        app:expanded="true">
 
         <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@id/collapsing_toolbar_layout"
             style="@style/DefaultCollapsingToolbarLayout"
-            android:layout_height="match_parent"
+            android:layout_height="160dp"
             android:background="@color/colorPrimary"
             app:collapsedTitleTextAppearance="@style/collapsedTitleText"
             app:expandedTitleMarginBottom="@dimen/activity_horizontal_margin"
@@ -22,7 +24,7 @@
             app:titleEnabled="true">
 
             <TextView
-                android:id="@+id/backdrop_iv"
+                android:id="@+id/icon_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center_horizontal"
@@ -43,74 +45,61 @@
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
+        <LinearLayout
+            android:id="@+id/settings_items"
+            style="@style/DividedView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/settings_account"
+                style="@style/SettingsItemText"
+                android:drawableLeft="@drawable/ic_account_grey600_24dp"
+                android:text="@string/settings_account"/>
+
+            <TextView
+                android:id="@+id/settings_push"
+                style="@style/SettingsItemText"
+                android:drawableLeft="@drawable/ic_message_text_accent_24dp"
+                android:text="@string/settings_push"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/settings_cache"
+                    style="@style/SettingsItemText"
+                    android:drawableLeft="@drawable/ic_cached_accent_24dp"
+                    android:text="@string/settings_cache"/>
+
+                <TextView
+                    android:id="@+id/cache_size_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:text="36M"
+                    android:textColor="@color/grey_600"
+                    android:textSize="@dimen/material_text_caption1"/>
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/settings_feedback"
+                style="@style/SettingsItemText"
+                android:drawableLeft="@drawable/ic_message_text_accent_24dp"
+                android:text="@string/settings_feedback"/>
+
+            <TextView
+                android:id="@+id/settings_about"
+                style="@style/SettingsItemText"
+                android:drawableLeft="@drawable/ic_message_text_accent_24dp"
+                android:text="@string/settings_about"/>
+        </LinearLayout>
+
+
     </android.support.design.widget.AppBarLayout>
 
-
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/nested_scroll_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:overScrollMode="never"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <android.support.v7.widget.CardView
-            style="@style/DefaultCardView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                style="@style/DividedView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/settings_account"
-                    style="@style/SettingsItemText"
-                    android:drawableLeft="@drawable/ic_account_grey600_24dp"
-                    android:text="@string/settings_account"/>
-
-                <TextView
-                    android:id="@+id/settings_push"
-                    style="@style/SettingsItemText"
-                    android:drawableLeft="@drawable/ic_message_text_accent_24dp"
-                    android:text="@string/settings_push"/>
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/settings_cache"
-                        style="@style/SettingsItemText"
-                        android:layout_width="wrap_content"
-                        android:drawableLeft="@drawable/ic_cached_accent_24dp"
-                        android:text="@string/settings_cache"/>
-
-                    <TextView
-                        android:id="@+id/cache_size_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|end"
-                        android:layout_marginRight="@dimen/activity_horizontal_margin"
-                        android:text="36M"
-                        android:textColor="@color/grey_600"
-                        android:textSize="@dimen/material_text_caption1"/>
-                </FrameLayout>
-
-                <TextView
-                    android:id="@+id/settings_feedback"
-                    style="@style/SettingsItemText"
-                    android:drawableLeft="@drawable/ic_message_text_accent_24dp"
-                    android:text="@string/settings_feedback"/>
-
-                <TextView
-                    android:id="@+id/settings_about"
-                    style="@style/SettingsItemText"
-                    android:drawableLeft="@drawable/ic_message_text_accent_24dp"
-                    android:text="@string/settings_about"/>
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-    </android.support.v4.widget.NestedScrollView>
 
 </android.support.design.widget.CoordinatorLayout>
