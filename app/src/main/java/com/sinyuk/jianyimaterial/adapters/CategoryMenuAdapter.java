@@ -28,8 +28,8 @@ public class CategoryMenuAdapter extends RecyclerView.Adapter<CategoryMenuAdapte
 
     private String[] titles;
     public final int[] iconResIds = new int[]{
-            R.drawable.ic_tshirt_crew_white_48dp,//1
-            R.drawable.ic_guitar_electric_white_48dp,
+            R.drawable.ic_hanger_white_48dp,//1
+            R.drawable.ic_android_studio_white_48dp,
             R.drawable.ic_umbrella_outline_white_48dp,//2
             R.drawable.ic_face_unlock_white_48dp,//3
             R.drawable.ic_dribbble_white_48dp,

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    style="@style/DefaultCoordinatorLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".feature.CategoryView">
+
+    <android.support.design.widget.AppBarLayout style="@style/DefaultAppBarLayout">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/BaseToolbar.Light"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:title="@string/activity_category"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/app_bar_shadow"
+            android:background="@drawable/toolbar_shadow"/>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+</android.support.design.widget.CoordinatorLayout>

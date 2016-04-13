@@ -151,7 +151,6 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
         mUrl = new JianyiApi.YihuoProfileBuilder(mTitle).addSort("all").getUrl();
         Bundle args = new Bundle();
         args.putString(ShelfView.URL_WHEN_INIT, mUrl);
-        LogUtils.simpleLog(ExploreView.class, "init Url " + mUrl);
         ShelfView mShelfView = ShelfView.newInstance(args);
         getSupportFragmentManager().beginTransaction().add(R.id.list_fragment_container, mShelfView).commit();
     }

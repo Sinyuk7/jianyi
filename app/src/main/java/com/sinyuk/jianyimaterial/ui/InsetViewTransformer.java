@@ -7,10 +7,11 @@ import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.sinyuk.jianyimaterial.R;
 
 public class InsetViewTransformer extends BaseViewTransformer {
+
     @Override
     public void transformView(float translation, float maxTranslation, float peekedTranslation, BottomSheetLayout parent, View view) {
         float progress = Math.min(translation / peekedTranslation, 1);
-        float scale = (1 - progress) + progress * 1.16f;
+        float scale = (1 - progress) + progress * 0.9f;
         view.setScaleX(scale);
         view.setScaleY(scale);
 
@@ -18,12 +19,14 @@ public class InsetViewTransformer extends BaseViewTransformer {
             parent.setBackgroundColor(0);
             ensureLayer(view, View.LAYER_TYPE_NONE);
         } else {
-//            parent.setBackgroundColor(view.getResources().getColor(R.color.colorAccentLight));
+/*
+            parent.setBackgroundColor(view.getResources().getColor(<whatever you want>));
+*/
             ensureLayer(view, View.LAYER_TYPE_HARDWARE);
         }
 
-        float translationToTop = -(view.getHeight() * (1 - scale)) / 2;
-        view.setTranslationY(translationToTop + progress * 20 * view.getContext().getResources().getDisplayMetrics().density);
+     /*   float translationToTop = -(view.getHeight() * (1 - scale)) / 2;
+        view.setTranslationY(translationToTop + progress * 20 * view.getContext().getResources().getDisplayMetrics().density);*/
     }
 
     private void ensureLayer(View view, int layerType) {

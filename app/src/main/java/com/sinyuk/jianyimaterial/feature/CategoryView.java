@@ -1,4 +1,4 @@
-package com.sinyuk.jianyimaterial.activities;
+package com.sinyuk.jianyimaterial.feature;
 
 import android.app.SearchManager;
 import android.content.ComponentName;
@@ -13,14 +13,16 @@ import android.view.Menu;
 import android.view.View;
 
 import com.sinyuk.jianyimaterial.R;
+import com.sinyuk.jianyimaterial.activities.SearchActivity;
 import com.sinyuk.jianyimaterial.adapters.CategoryMenuAdapter;
 import com.sinyuk.jianyimaterial.base.BaseActivity;
 import com.sinyuk.jianyimaterial.feature.explore.ExploreView;
 import com.sinyuk.jianyimaterial.utils.ImeUtils;
+import com.sinyuk.jianyimaterial.utils.LogUtils;
 
 import butterknife.Bind;
 
-public class CategoryMenu extends BaseActivity implements CategoryMenuAdapter.OnCategoryMenuItemClickListener {
+public class CategoryView extends BaseActivity implements CategoryMenuAdapter.OnCategoryMenuItemClickListener {
 
     @Bind(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -32,7 +34,7 @@ public class CategoryMenu extends BaseActivity implements CategoryMenuAdapter.On
 
     @Override
     protected int getContentViewID() {
-        return R.layout.activity_category_menu;
+        return R.layout.category_view;
     }
 
     @Override
@@ -72,14 +74,13 @@ public class CategoryMenu extends BaseActivity implements CategoryMenuAdapter.On
     public void onCategoryMenuItemClick(View view, int position) {
         Intent intent = new Intent();
         intent.setClass(this, ExploreView.class);
-
         intent.putExtra(ExploreView.CATEGORY, position);
+        LogUtils.simpleLog(CategoryView.class, "position->" + position);
         intent.putExtra(ExploreView.ENABLE_FILTER, true);
         intent.putExtra(ExploreView.ENABLE_SCHOOL, true);
         intent.putExtra(ExploreView.ENABLE_ORDER, true);
         intent.putExtra(ExploreView.ENABLE_CHILD_SORT, true);
         startActivity(intent);
-        overridePendingTransition(0, 0);
     }
 
     @Override

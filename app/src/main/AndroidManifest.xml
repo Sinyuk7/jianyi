@@ -18,7 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/Jianyi">
         <activity
-            android:name=".activities.CategoryMenu"
+            android:name=".feature.CategoryView"
             android:launchMode="singleTop"/>
         <activity
             android:name=".activities.CategoryPage"

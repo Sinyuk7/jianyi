@@ -7,7 +7,6 @@ import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -29,31 +28,22 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.DrawableRequestBuilder;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.base.BaseActivity;
-import com.sinyuk.jianyimaterial.entity.User;
 import com.sinyuk.jianyimaterial.events.AppBarEvent;
 import com.sinyuk.jianyimaterial.events.UserStateUpdateEvent;
+import com.sinyuk.jianyimaterial.feature.CategoryView;
 import com.sinyuk.jianyimaterial.fragments.HomeListFragment;
 import com.sinyuk.jianyimaterial.fragments.HomeTopAreaFragment;
-import com.sinyuk.jianyimaterial.glide.BlurTransformation;
-import com.sinyuk.jianyimaterial.glide.ColorFilterTransformation;
-import com.sinyuk.jianyimaterial.glide.CropCircleTransformation;
 import com.sinyuk.jianyimaterial.greendao.dao.DaoUtils;
 import com.sinyuk.jianyimaterial.greendao.dao.UserService;
 import com.sinyuk.jianyimaterial.managers.SnackBarFactory;
-import com.sinyuk.jianyimaterial.model.UserModel;
 import com.sinyuk.jianyimaterial.utils.AnimUtils;
 import com.sinyuk.jianyimaterial.utils.ImeUtils;
 import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.PreferencesUtils;
 import com.sinyuk.jianyimaterial.utils.ScreenUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
-import com.sinyuk.jianyimaterial.utils.ToastUtils;
 import com.sinyuk.jianyimaterial.widgets.MyCircleImageView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -259,7 +249,7 @@ public class HomeActivity extends BaseActivity implements
     private void delayNavItemSelected(int itemId) {
         switch (itemId) {
             case R.id.drawer_menu_category:
-                startActivity(new Intent(HomeActivity.this, CategoryMenu.class));
+                startActivity(new Intent(HomeActivity.this, CategoryView.class));
                 break;
             case R.id.drawer_menu_explore:
                 startActivity(new Intent(HomeActivity.this, ExploreActivity.class));

@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.sinyuk.jianyimaterial.R;
-import com.sinyuk.jianyimaterial.activities.CategoryMenu;
+import com.sinyuk.jianyimaterial.feature.CategoryView;
 import com.sinyuk.jianyimaterial.entity.User;
 import com.sinyuk.jianyimaterial.events.XLoginEvent;
 import com.sinyuk.jianyimaterial.events.XLogoutEvent;
@@ -201,7 +201,7 @@ public class DrawerView extends BaseFragment<DrawerPresenterImpl> implements IDr
         mDrawerLayout.closeDrawers();
         switch (selected) {
             case R.id.drawer_menu_category:
-                mMenuIntent = new Intent(getContext(), CategoryMenu.class);
+                mMenuIntent = new Intent(getContext(), CategoryView.class);
                 break;
             case R.id.drawer_menu_want:
                 mMenuIntent = new Intent(getContext(), RegisterView.class);

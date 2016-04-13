@@ -4,14 +4,12 @@ package com.sinyuk.jianyimaterial.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.Holder;
@@ -21,7 +19,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.sinyuk.jianyimaterial.R;
-import com.sinyuk.jianyimaterial.activities.CategoryMenu;
+import com.sinyuk.jianyimaterial.feature.CategoryView;
 import com.sinyuk.jianyimaterial.activities.CategoryPage;
 import com.sinyuk.jianyimaterial.activities.HomeActivity;
 import com.sinyuk.jianyimaterial.activities.WebViewActivity;
@@ -128,7 +126,7 @@ public class HomeTopAreaFragment extends BaseFragment {
                 intent.putExtra("parent_sort_index", 6);
                 break;
             case R.id.entry_category:
-                intent.setClass(mContext, CategoryMenu.class);
+                intent.setClass(mContext, CategoryView.class);
                 break;
         }
         startActivity(intent);

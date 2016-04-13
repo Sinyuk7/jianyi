@@ -38,7 +38,7 @@ import com.jakewharton.rxbinding.support.design.widget.RxAppBarLayout;
 import com.jakewharton.rxbinding.support.v7.widget.RxToolbar;
 import com.jakewharton.rxbinding.view.RxView;
 import com.sinyuk.jianyimaterial.R;
-import com.sinyuk.jianyimaterial.activities.CategoryMenu;
+import com.sinyuk.jianyimaterial.feature.CategoryView;
 import com.sinyuk.jianyimaterial.adapters.CardListAdapter;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.entity.Banner;
@@ -432,7 +432,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     }
 
     public void toCategory(Void v) {
-        Intent toCategory = new Intent(getContext(), CategoryMenu.class);
+        Intent toCategory = new Intent(getContext(), CategoryView.class);
         startActivity(toCategory);
     }
 
