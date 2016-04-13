@@ -69,7 +69,6 @@
         android:id="@+id/drawer_menu_message"
         style="@style/DrawerMenuText"
         android:drawableLeft="@drawable/ic_message_text_grey600_24dp"
-        android:drawableRight="@drawable/ic_icon_24dp"
         android:text="@string/drawer_menu_message"/>
 
     <TextView
