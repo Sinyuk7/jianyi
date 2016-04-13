@@ -3,6 +3,7 @@ package com.sinyuk.jianyimaterial.feature.drawer;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,7 +14,6 @@ import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.mxn.soul.flowingdrawer_core.LeftDrawerLayout;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.activities.CategoryMenu;
 import com.sinyuk.jianyimaterial.entity.User;
@@ -26,6 +26,7 @@ import com.sinyuk.jianyimaterial.feature.settings.SettingsView;
 import com.sinyuk.jianyimaterial.glide.BlurTransformation;
 import com.sinyuk.jianyimaterial.glide.ColorFilterTransformation;
 import com.sinyuk.jianyimaterial.glide.CropCircleTransformation;
+import com.sinyuk.jianyimaterial.mvp.BaseFragment;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -39,7 +40,7 @@ import butterknife.OnClick;
 /**
  * Created by Sinyuk on 16.3.30.
  */
-public class DrawerView extends MyMenuFragment<DrawerPresenterImpl> implements IDrawerView {
+public class DrawerView extends BaseFragment<DrawerPresenterImpl> implements IDrawerView {
     private static final long DRAWER_CLOSE_DURATION = 250;
     private static DrawerView sInstance;
     @Bind(R.id.avatar)
@@ -62,7 +63,7 @@ public class DrawerView extends MyMenuFragment<DrawerPresenterImpl> implements I
     @Bind(R.id.backdrop_iv)
     ImageView mBackdrop;
 
-    private LeftDrawerLayout mLeftDrawerLayout;
+    private DrawerLayout mDrawerLayout;
 
     public static DrawerView getInstance() {
         if (null == sInstance) { sInstance = new DrawerView(); }
@@ -70,9 +71,14 @@ public class DrawerView extends MyMenuFragment<DrawerPresenterImpl> implements I
     }
 
     @Override
+    protected boolean isUseEventBus() {
+        return false;
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mLeftDrawerLayout = (LeftDrawerLayout) getActivity().findViewById(R.id.left_drawer_layout);
+        mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
     }
 
     @Override
@@ -114,14 +120,14 @@ public class DrawerView extends MyMenuFragment<DrawerPresenterImpl> implements I
 
     @Override
     public void toPersonalView() {
-        mLeftDrawerLayout.closeDrawer();
-        /*mLeftDrawerLayout.postDelayed(() -> startActivity(new Intent(getContext(), LoginView.class)), DRAWER_CLOSE_DURATION);*/
+        mDrawerLayout.closeDrawers();
+        /*mDrawerLayout.postDelayed(() -> startActivity(new Intent(getContext(), LoginView.class)), DRAWER_CLOSE_DURATION);*/
     }
 
     @Override
     public void toLoginView() {
-        mLeftDrawerLayout.closeDrawer();
-        mLeftDrawerLayout.postDelayed(() -> {
+        mDrawerLayout.closeDrawers();
+        mDrawerLayout.postDelayed(() -> {
             startActivity(new Intent(getContext(), LoginView.class));
         }, DRAWER_CLOSE_DURATION);
     }
@@ -173,9 +179,9 @@ public class DrawerView extends MyMenuFragment<DrawerPresenterImpl> implements I
     }
 
     private void toMenuItemIntent(int mSelected) {
-        mLeftDrawerLayout.closeDrawer();
+        mDrawerLayout.closeDrawers();
         final int sSelected = mSelected;
-        mLeftDrawerLayout.postDelayed(() -> {
+        mDrawerLayout.postDelayed(() -> {
             switch (sSelected) {
                 case R.id.drawer_menu_category:
                     startActivity(new Intent(getContext(), CategoryMenu.class));

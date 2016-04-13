@@ -52,8 +52,6 @@ dependencies {
     compile 'com.jakewharton.rxbinding:rxbinding-appcompat-v7:0.4.0'
     compile 'com.jakewharton.rxbinding:rxbinding-design:0.4.0'
     compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
-    compile 'com.mxn.soul:flowingdrawer-core:1.2.2'
-    compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.flipboard:bottomsheet-core:1.5.0'
     compile 'com.flipboard:bottomsheet-commons:1.5.0' // optional
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.7.0@aar'

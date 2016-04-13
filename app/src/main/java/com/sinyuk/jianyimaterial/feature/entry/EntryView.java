@@ -2,10 +2,9 @@ package com.sinyuk.jianyimaterial.feature.entry;
 
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.DrawerLayout;
 import android.widget.FrameLayout;
 
-import com.mxn.soul.flowingdrawer_core.FlowingView;
-import com.mxn.soul.flowingdrawer_core.LeftDrawerLayout;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.feature.drawer.DrawerView;
 import com.sinyuk.jianyimaterial.feature.home.HomeView;
@@ -20,12 +19,6 @@ import butterknife.Bind;
 public class EntryView extends BaseActivity<EntryPresenterImpl> implements IEntryView {
     @Bind(R.id.home_view)
     CoordinatorLayout mHomeView;
-    @Bind(R.id.flowing_view)
-    FlowingView mFlowingView;
-    @Bind(R.id.container_menu)
-    FrameLayout mContainerMenu;
-    @Bind(R.id.left_drawer_layout)
-    LeftDrawerLayout mLeftDrawerLayout;
     private long attemptExitTime;
 
     @Override
@@ -51,11 +44,8 @@ public class EntryView extends BaseActivity<EntryPresenterImpl> implements IEntr
     @Override
     protected void onFinishInflate() {
         FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction().add(R.id.container_menu, DrawerView.getInstance()).commit();
-        mLeftDrawerLayout.setFluidView(mFlowingView);
-        mLeftDrawerLayout.setMenuFragment(DrawerView.getInstance());
-
-        fm.beginTransaction().add(R.id.home_view, HomeView.getInstance()).commit();
+        fm.beginTransaction().replace(R.id.container_menu, DrawerView.getInstance()).commit();
+        fm.beginTransaction().replace(R.id.home_view, HomeView.getInstance()).commit();
     }
 
     @Override
@@ -65,11 +55,9 @@ public class EntryView extends BaseActivity<EntryPresenterImpl> implements IEntr
 
     @Override
     public void onBackPressed() {
-        if (mLeftDrawerLayout.isShownMenu()) {
-            mLeftDrawerLayout.closeDrawer();
-        } else {
-            if (confirmExit()) { finish(); }
-        }
+
+        if (confirmExit()) { super.onBackPressed(); }
+
     }
 
     private boolean confirmExit() {

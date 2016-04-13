@@ -13,6 +13,8 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.OrientationHelper;
@@ -33,8 +35,8 @@ import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.jakewharton.rxbinding.support.v7.widget.RxToolbar;
 import com.jakewharton.rxbinding.view.RxView;
-import com.mxn.soul.flowingdrawer_core.LeftDrawerLayout;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.activities.CategoryMenu;
 import com.sinyuk.jianyimaterial.adapters.CardListAdapter;
@@ -95,7 +97,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     private View mListHeader;
     private int mPageIndex = 1;
     private List<YihuoProfile> mYihuoProfileList = new ArrayList<>();
-    private LeftDrawerLayout mLeftDrawerLayout;
+    private DrawerLayout mDrawerLayout;
     private List<Banner> mBannerItemList;
 
     public static HomeView getInstance() {
@@ -111,7 +113,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mLeftDrawerLayout = (LeftDrawerLayout) getActivity().findViewById(R.id.left_drawer_layout);
+        mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
     }
 
     @Override
@@ -130,7 +132,8 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     }
 
     private void setupToolbar() {
-        mToolbar.setNavigationOnClickListener(v -> toggleDrawerView());
+        RxToolbar.navigationClicks(mToolbar).subscribe(aVoid -> toggleDrawerView());
+
         final long[] mHits = new long[2];
         mToolbar.setOnClickListener(v -> {
             System.arraycopy(mHits, 1, mHits, 0, mHits.length - 1);
@@ -172,7 +175,11 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     }
 
     private void toggleDrawerView() {
-        if (null != mLeftDrawerLayout) { mLeftDrawerLayout.toggle(); }
+        if (null != mDrawerLayout) {
+            if (!mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+                mDrawerLayout.openDrawer(GravityCompat.START);
+            }
+        }
     }
 
     private void setupRecyclerView() {
