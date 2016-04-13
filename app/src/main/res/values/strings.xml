@@ -81,7 +81,7 @@
     <string name="thrift_list_item_footer_vote">赞</string>
     <string name="thrift_list_item_footer_favorite">收藏</string>
     <string name="thrift_list_item_header_level">等级</string>
-    <string name="entry_category">所有分类</string>
+    <string name="entry_category">分类</string>
     <string name="dummy_thrift_description">[附专柜小票] 洗脸仪 乐天免税店5月12号韩国买的,只用过一次.</string>
     <string name="action_back">返回上一级</string>
     <string name="thrift_for_free_on_sale">0元抢易</string>
@@ -266,8 +266,8 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="details_username">﹂ %1$s</string>
     <string name="drawer_menu_login">登录</string>
     <string name="action_filter">筛选</string>
-    <string name="entry_recommended">小编推荐</string>
-    <string name="entry_free">免费赠送</string>
+    <string name="entry_recommended">推荐</string>
+    <string name="entry_free">免费</string>
     <string name="offer_hint_confirm">确认</string>
     <string name="offer_hint_cover">第一张照片会被当作封面</string>
     <string name="offer_hint_uploading">上传中</string>

@@ -20,7 +20,7 @@
         <TextView
             android:id="@+id/entry_free"
             style="@style/CategoryCaption.Small"
-            android:drawableTop="@drawable/ic_free_primary_24dp"
+            android:drawableTop="@drawable/ic_leaf_primary_24dp"
             android:text="@string/entry_free"/>
 
         <TextView
