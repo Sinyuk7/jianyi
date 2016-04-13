@@ -92,6 +92,7 @@ public class UserModel implements BaseModel {
             public void call(Subscriber<? super User> subscriber) {
                 if (mUserService.query(uId) != null) {
                     subscriber.onNext((User) mUserService.query(uId));
+                    subscriber.onCompleted();
                 } else {
                     subscriber.onError(new Throwable("读取用户信息失败"));
                 }

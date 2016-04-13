@@ -28,7 +28,6 @@ import com.sinyuk.jianyimaterial.glide.CropCircleTransformation;
 import com.sinyuk.jianyimaterial.mvp.BaseFragment;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -71,7 +70,7 @@ public class DrawerView extends BaseFragment<DrawerPresenterImpl> implements IDr
 
     @Override
     protected boolean isUseEventBus() {
-        return false;
+        return true;
     }
 
     @Override
@@ -106,7 +105,6 @@ public class DrawerView extends BaseFragment<DrawerPresenterImpl> implements IDr
 
     @Override
     protected void beforeInflate() {
-        EventBus.getDefault().register(this);
     }
 
     @Override

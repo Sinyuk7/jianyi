@@ -99,6 +99,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     private List<YihuoProfile> mYihuoProfileList = new ArrayList<>();
     private DrawerLayout mDrawerLayout;
     private List<Banner> mBannerItemList;
+    private int mTouchThreshold;
 
     public static HomeView getInstance() {
         if (null == sInstance) { sInstance = new HomeView(); }
@@ -114,10 +115,12 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     public void onAttach(Context context) {
         super.onAttach(context);
         mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+        mTouchThreshold = ScreenUtils.getScrollThreshold(mContext);
     }
 
     @Override
     protected void beforeInflate() {
+
     }
 
     @Override
@@ -207,6 +210,21 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
                 loadData(mPageIndex);
             }
         });
+
+ /*       mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > mTouchThreshold) {
+                    ScreenUtils.hideSystemyBar(getActivity());
+                } else if (dy < -mTouchThreshold) {
+                    ScreenUtils.showSystemyBar(getActivity());
+                }
+            }
+        });*/
+
+//        Observable.just(mNewScrollY-mOldScrollY).debounce(500, TimeUnit.MILLISECONDS)
+
+
     }
 
     private void setupSwipeRefreshLayout() {

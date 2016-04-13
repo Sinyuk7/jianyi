@@ -1,8 +1,12 @@
 package com.sinyuk.jianyimaterial.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
+import android.os.Build;
+import android.util.Log;
 import android.view.Display;
+import android.view.View;
 import android.view.WindowManager;
 
 /**
@@ -10,7 +14,7 @@ import android.view.WindowManager;
  * <ul>
  * <strong>Convert between dp and sp</strong>
  * <li>{@link ScreenUtils#dpToPx(Context, float)}</li>
- * <li>{@link ScreenUtils#pxToDp(Context, float)}</li>
+ * <li>{@link ScreenUtils#dpToPxInt(Context, float)}</li>
  * </ul>
  *
  * @author <a href="http://www.trinea.cn" target="_blank">Trinea</a> 2014-2-14
@@ -23,8 +27,6 @@ public class ScreenUtils {
     private ScreenUtils() {
         throw new AssertionError();
     }
-
-
 
 
     public static float dpToPx(Context context, float dp) {
@@ -74,5 +76,102 @@ public class ScreenUtils {
         return screenWidth;
     }
 
+    /**
+     * Detects and toggles immersive mode (also known as "hidey bar" mode).
+     */
+    public static void toggleHideyBar(final Activity activity) {
+
+        // BEGIN_INCLUDE (get_current_ui_flags)
+        // The UI options currently enabled are represented by a bitfield.
+        // getSystemUiVisibility() gives us that bitfield.
+        int uiOptions = activity.getWindow().getDecorView().getSystemUiVisibility();
+        int newUiOptions = uiOptions;
+        // END_INCLUDE (get_current_ui_flags)
+        // BEGIN_INCLUDE (toggle_ui_flags)
+        boolean isImmersiveModeEnabled =
+                ((uiOptions | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY) == uiOptions);
+        if (isImmersiveModeEnabled) {
+            Log.i(ScreenUtils.class.getSimpleName(), "Turning immersive mode mode off. ");
+        } else {
+            Log.i(ScreenUtils.class.getSimpleName(), "Turning immersive mode mode on.");
+        }
+
+        // Navigation bar hiding:  Backwards compatible to ICS.
+        if (Build.VERSION.SDK_INT >= 14) {
+            newUiOptions ^= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        }
+
+        // Status bar hiding: Backwards compatible to Jellybean
+        if (Build.VERSION.SDK_INT >= 16) {
+            newUiOptions ^= View.SYSTEM_UI_FLAG_FULLSCREEN;
+        }
+
+        // Immersive mode: Backward compatible to KitKat.
+        // Note that this flag doesn't do anything by itself, it only augments the behavior
+        // of HIDE_NAVIGATION and FLAG_FULLSCREEN.  For the purposes of this sample
+        // all three flags are being toggled together.
+        // Note that there are two immersive mode UI flags, one of which is referred to as "sticky".
+        // Sticky immersive mode differs in that it makes the navigation and status bars
+        // semi-transparent, and the UI flag does not get cleared when the user interacts with
+        // the screen.
+        if (Build.VERSION.SDK_INT >= 18) {
+            newUiOptions ^= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+        }
+
+        activity.getWindow().getDecorView().setSystemUiVisibility(newUiOptions);
+        //END_INCLUDE (set_ui_flags)
+    }
+
+
+    public static void hideSystemyBar(final Activity activity) {
+
+        int uiOptions = activity.getWindow().getDecorView().getSystemUiVisibility();
+        int newUiOptions = uiOptions;
+        boolean isImmersiveModeEnabled =
+                ((uiOptions | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY) == uiOptions);
+        if (isImmersiveModeEnabled) { return; }
+
+        if (Build.VERSION.SDK_INT >= 14) {
+            newUiOptions += View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        }
+
+        if (Build.VERSION.SDK_INT >= 16) {
+            newUiOptions += View.SYSTEM_UI_FLAG_FULLSCREEN;
+        }
+
+        if (Build.VERSION.SDK_INT >= 18) {
+            newUiOptions += View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+        }
+
+        activity.getWindow().getDecorView().setSystemUiVisibility(newUiOptions);
+    }
+
+    public static void showSystemyBar(final Activity activity) {
+
+        int uiOptions = activity.getWindow().getDecorView().getSystemUiVisibility();
+        int newUiOptions = uiOptions;
+        boolean isImmersiveModeEnabled =
+                ((uiOptions | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY) == uiOptions);
+        if (!isImmersiveModeEnabled) { return; }
+
+        if (Build.VERSION.SDK_INT >= 14) {
+            newUiOptions -= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        }
+
+        if (Build.VERSION.SDK_INT >= 16) {
+            newUiOptions -= View.SYSTEM_UI_FLAG_FULLSCREEN;
+        }
+
+        if (Build.VERSION.SDK_INT >= 18) {
+            newUiOptions -= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+        }
+
+        activity.getWindow().getDecorView().setSystemUiVisibility(newUiOptions);
+    }
+
+
+    public static int getScrollThreshold(Context context) {
+        return ScreenUtils.dpToPxInt(context, 20);
+    }
 
 }

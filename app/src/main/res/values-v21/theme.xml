@@ -11,7 +11,7 @@
         <item name="android:windowBackground">@color/window_background</item>
         <item name="android:windowContentTransitions">true</item>
         <!-- 设置activity切换动画 -->
-        <!--<item name="android:windowAnimationStyle">@style/activityAnimation</item>-->
+        <item name="android:windowAnimationStyle">@null</item>
         <item name="android:alertDialogTheme">@style/MyAlertDialogTheme</item>
 
         <item name="autoCompleteTextViewStyle">@style/myAutoCompleteTextViewStyle</item>
