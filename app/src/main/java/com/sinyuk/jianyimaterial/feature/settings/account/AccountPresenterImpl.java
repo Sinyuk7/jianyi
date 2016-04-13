@@ -15,33 +15,29 @@ public class AccountPresenterImpl extends BasePresenter<AccountView> implements 
         UserModel.getInstance(mView.getContext()).logout();
     }
 
-    @Override
-    public void update() {
-
-    }
 
     @Override
-    public void update(HashMap<String,String> params) {
-        UserModel.getInstance(mView.getContext()).update(params,this);
+    public void update(HashMap<String, String> params) {
+        UserModel.getInstance(mView.getContext()).update(params, this);
     }
 
     @Override
     public void onUpdateSucceed(String message) {
-
+        mView.onUpdateSucceed(message);
     }
 
     @Override
     public void onUpdateFailed(String message) {
-
+        mView.onUpdateFailed(message);
     }
 
     @Override
     public void onUpdateVolleyError(String message) {
-
+        mView.onUpdateVolleyError(message);
     }
 
     @Override
     public void onUpdateParseError(String message) {
-
+        mView.onUpdateParseError(message);
     }
 }
