@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Toolbar.Home" parent="BaseToolbar.Primary">
-        <item name="navigationIcon">@drawable/ic_menu_white_24dp</item>
-        <item name="navigationContentDescription">@string/action_menu</item>
+    <style name="Toolbar.Home" parent="BaseToolbar.Light">
+        <item name="layout_collapseMode">pin</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="navigationIcon">@drawable/ic_menu_primary_24dp</item>
         <item name="layout_scrollFlags">scroll|enterAlways|snap</item>
     </style>
 

@@ -2,6 +2,7 @@
 <resources>
     <!--Appbar Layout -->
     <style name="DefaultAppBarLayout">
+        <item name="android:fitsSystemWindows">true</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -21,8 +22,8 @@
     </style>
 
     <style name="DefaultCollapsingToolbarLayout.Light" parent="DefaultCollapsingToolbarLayout">
-        <item name="contentScrim">@color/colorPrimary</item>
-        <item name="statusBarScrim">@color/grey_600</item>
+        <item name="contentScrim">@color/white</item>
+        <item name="statusBarScrim">@color/grey_300</item>
         <item name="titleTextColor">@color/colorPrimary</item>
     </style>
 

@@ -9,7 +9,6 @@ import android.os.Build;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
@@ -56,7 +55,6 @@ import com.sinyuk.jianyimaterial.ui.trans.AccordionTransformer;
 import com.sinyuk.jianyimaterial.utils.AnimUtils;
 import com.sinyuk.jianyimaterial.utils.AnimatorLayerListener;
 import com.sinyuk.jianyimaterial.utils.FuzzyDateFormater;
-import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.NetWorkUtils;
 import com.sinyuk.jianyimaterial.utils.ScreenUtils;
 import com.sinyuk.jianyimaterial.widgets.LabelView;
@@ -65,6 +63,7 @@ import com.sinyuk.jianyimaterial.widgets.MultiSwipeRefreshLayout;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -88,8 +87,14 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     AppBarLayout mAppBarLayout;
     @Bind(R.id.fab)
     FloatingActionButton mFab;
-    @Bind(R.id.coordinator_layout)
-    CoordinatorLayout mCoordinatorLayout;
+    @Bind(R.id.banner_view)
+    ConvenientBanner mBannerView;
+    @Bind(R.id.entry_recommended)
+    TextView mEntryRecommended;
+    @Bind(R.id.entry_free)
+    TextView mEntryFree;
+    @Bind(R.id.entry_category)
+    TextView mEntryCategory;
 
     private boolean mIsRequestDataRefresh;
     private CardListAdapter mAdapter;
@@ -99,9 +104,6 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     private DrawerLayout mDrawerLayout;
     private List<Banner> mBannerItemList;
     private int mTouchThreshold;
-
-    private ConvenientBanner mBannerView;
-    private int mAppBarOffsetY = 0;
 
     public static HomeView getInstance() {
         if (null == sInstance) { sInstance = new HomeView(); }
@@ -147,7 +149,6 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
                         mBannerView.stopTurning();
                         mSwipeRefreshLayout.setEnabled(false);
                     }
-                    mAppBarOffsetY = -dy;
                 }));
     }
 
@@ -179,6 +180,12 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
         mBannerView.setPageTransformer(new AccordionTransformer());
 
         mBannerView.setOnItemClickListener(this::onBannerShotClick);
+
+        mCompositeSubscription.add(RxView.clicks(mEntryRecommended).subscribe(this::toRecommended));
+
+        mCompositeSubscription.add(RxView.clicks(mEntryCategory).subscribe(this::toCategory));
+
+        mCompositeSubscription.add(RxView.clicks(mEntryFree).subscribe(this::toFree));
 
     }
 
@@ -218,13 +225,6 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
 
         mListHeader = LayoutInflater.from(mContext).inflate(R.layout.include_home_daily_edition, mRecyclerView, false);
 //
-        mBannerView = (ConvenientBanner) mListHeader.findViewById(R.id.banner_view);
-
-        mCompositeSubscription.add(RxView.clicks(mListHeader.findViewById(R.id.entry_recommended)).subscribe(this::toRecommended));
-
-        mCompositeSubscription.add(RxView.clicks(mListHeader.findViewById(R.id.entry_category)).subscribe(this::toCategory));
-
-        mCompositeSubscription.add(RxView.clicks(mListHeader.findViewById(R.id.entry_free)).subscribe(this::toFree));
 
         mAdapter.setHeaderViewFullSpan(mListHeader);
 
@@ -235,19 +235,20 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
                 loadData(mPageIndex);
             }
         });
-        if (Build.VERSION.SDK_INT > 21) {
-            mCompositeSubscription.add(RxRecyclerView.scrollEvents(mRecyclerView).observeOn(AndroidSchedulers.mainThread())
+/*        if (Build.VERSION.SDK_INT > 21) {
+            mCompositeSubscription.add(RxRecyclerView.scrollEvents(mRecyclerView)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .throttleFirst(1000, TimeUnit.MILLISECONDS)
                     .subscribeOn(AndroidSchedulers.mainThread())
                     .map(RecyclerViewScrollEvent::dy).subscribe(dy -> {
                         // toolbar 隐藏 -> 判断速度是否达到
-                        if (mAppBarOffsetY == mAppBarLayout.getTotalScrollRange() && dy > mTouchThreshold) {
+                        if (mFab.getScaleY() == 0) {
                             ScreenUtils.hideSystemyBar(getActivity());
-                        } else if (mAppBarOffsetY == 0 && dy < -mTouchThreshold) {
+                        } else if (mFab.getScaleY() == 1) {
                             ScreenUtils.showSystemyBar(getActivity());
                         }
-                        /*LogUtils.simpleLog(HomeView.class, "toolbarY: " + mAppBarOffsetY);*/
                     }));
-        }
+        }*/
     }
 
     private void setupSwipeRefreshLayout() {
@@ -445,7 +446,6 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
         Intent toCategory = new Intent(getContext(), CategoryView.class);
         startActivity(toCategory);
     }
-
 
     public class BannerItemViewHolder implements Holder<String> {
         private ImageView imageView;
