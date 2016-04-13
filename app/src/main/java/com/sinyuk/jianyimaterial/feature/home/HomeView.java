@@ -35,15 +35,17 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.jakewharton.rxbinding.support.design.widget.RxAppBarLayout;
+import com.jakewharton.rxbinding.support.v7.widget.RecyclerViewScrollEvent;
+import com.jakewharton.rxbinding.support.v7.widget.RxRecyclerView;
 import com.jakewharton.rxbinding.support.v7.widget.RxToolbar;
 import com.jakewharton.rxbinding.view.RxView;
 import com.sinyuk.jianyimaterial.R;
-import com.sinyuk.jianyimaterial.feature.CategoryView;
 import com.sinyuk.jianyimaterial.adapters.CardListAdapter;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.entity.Banner;
 import com.sinyuk.jianyimaterial.entity.YihuoDetails;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
+import com.sinyuk.jianyimaterial.feature.CategoryView;
 import com.sinyuk.jianyimaterial.feature.explore.ExploreView;
 import com.sinyuk.jianyimaterial.feature.offer.OfferView;
 import com.sinyuk.jianyimaterial.managers.SnackBarFactory;
@@ -54,6 +56,7 @@ import com.sinyuk.jianyimaterial.ui.trans.AccordionTransformer;
 import com.sinyuk.jianyimaterial.utils.AnimUtils;
 import com.sinyuk.jianyimaterial.utils.AnimatorLayerListener;
 import com.sinyuk.jianyimaterial.utils.FuzzyDateFormater;
+import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.NetWorkUtils;
 import com.sinyuk.jianyimaterial.utils.ScreenUtils;
 import com.sinyuk.jianyimaterial.widgets.LabelView;
@@ -98,6 +101,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     private int mTouchThreshold;
 
     private ConvenientBanner mBannerView;
+    private int mAppBarOffsetY = 0;
 
     public static HomeView getInstance() {
         if (null == sInstance) { sInstance = new HomeView(); }
@@ -136,14 +140,6 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
         mCompositeSubscription.add(RxAppBarLayout.offsetChanges(mAppBarLayout).subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(dy -> {
-                    if (Build.VERSION.SDK_INT > 21) {
-                        if (-dy == mAppBarLayout.getTotalScrollRange()) {
-                            ScreenUtils.hideSystemyBar(getActivity());
-                        } else if (dy < ScreenUtils.dpToPxInt(mContext, 24)) {
-                            ScreenUtils.showSystemyBar(getActivity());
-                        }
-                    }
-
                     if (dy == 0) {
                         mBannerView.startTurning(BANNER_SWITCH_INTERVAL);
                         mSwipeRefreshLayout.setEnabled(true);
@@ -151,6 +147,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
                         mBannerView.stopTurning();
                         mSwipeRefreshLayout.setEnabled(false);
                     }
+                    mAppBarOffsetY = -dy;
                 }));
     }
 
@@ -238,6 +235,19 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
                 loadData(mPageIndex);
             }
         });
+        if (Build.VERSION.SDK_INT > 21) {
+            mCompositeSubscription.add(RxRecyclerView.scrollEvents(mRecyclerView).observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(AndroidSchedulers.mainThread())
+                    .map(RecyclerViewScrollEvent::dy).subscribe(dy -> {
+                        // toolbar 隐藏 -> 判断速度是否达到
+                        if (mAppBarOffsetY == mAppBarLayout.getTotalScrollRange() && dy > mTouchThreshold) {
+                            ScreenUtils.hideSystemyBar(getActivity());
+                        } else if (mAppBarOffsetY == 0 && dy < -mTouchThreshold) {
+                            ScreenUtils.showSystemyBar(getActivity());
+                        }
+                        /*LogUtils.simpleLog(HomeView.class, "toolbarY: " + mAppBarOffsetY);*/
+                    }));
+        }
     }
 
     private void setupSwipeRefreshLayout() {

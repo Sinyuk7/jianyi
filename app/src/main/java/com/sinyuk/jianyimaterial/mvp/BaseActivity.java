@@ -53,7 +53,6 @@ public abstract class BaseActivity<P extends BasePresenter>
             // TODO: Set back arrow as default navigation button
             if (isNavAsBack()) {
                 setSupportActionBar(toolbar);
-                toolbar.setNavigationIcon(R.drawable.ic_arrow_back_primary_24dp);
                 mCompositeSubscription.add(RxToolbar.navigationClicks(toolbar).subscribe(this::onNavigationClick));
             }
         }
