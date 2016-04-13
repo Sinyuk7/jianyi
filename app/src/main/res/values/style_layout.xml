@@ -25,50 +25,5 @@
         <item name="android:id">@id/coordinator_layout</item>
     </style>
 
-    <!--Appbar Layout -->
-    <style name="DefaultAppBarLayout">
-        <!--<item name="elevation">0dp</item>-->
-        <item name="android:background">@android:color/transparent</item>
-        <item name="android:fitsSystemWindows">true</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:id">@id/app_bar_layout</item>
-    </style>
 
-    <!--Collapsing Toolbar Layout-->
-
-    <style name="DefaultCollapsingToolbarLayout">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="contentScrim">@color/white</item>
-        <item name="statusBarScrim">@color/colorPrimaryDark</item>
-        <item name="titleEnabled">false</item>
-        <item name="android:fitsSystemWindows">true</item>
-        <item name="layout_scrollFlags">scroll|exitUntilCollapsed</item>
-        <item name="android:id">@id/collapsing_toolbar_layout</item>
-    </style>
-
-    <!--Tab Layout-->
-    <style name="DefaultTabLayout">
-        <item name="android:id">@id/tab_layout</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="tabIndicatorColor">@color/colorPrimary</item>
-        <item name="tabIndicatorHeight">4dp</item>
-        <item name="tabMinWidth">@dimen/tab_min_width</item>
-        <item name="tabPadding">@dimen/general_content_space</item>
-        <item name="tabSelectedTextColor">@color/textColorDark</item>
-        <item name="tabTextAppearance">@style/TabTextAppearance</item>
-        <item name="tabTextColor">@color/textColorLight</item>
-    </style>
-
-    <style name="DefaultTabLayout.Fixed" parent="DefaultTabLayout">
-        <item name="tabGravity">fill</item>
-        <item name="tabMode">fixed</item>
-    </style>
-
-    <style name="DefaultTabLayout.Scrollable" parent="DefaultTabLayout">
-        <item name="tabGravity">fill</item>
-        <item name="tabMode">scrollable</item>
-    </style>
 </resources>

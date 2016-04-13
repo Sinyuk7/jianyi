@@ -1,32 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- ============================ -->
-    <!-- Toolbar 样式 -->
-    <!-- ========================== -->
-    <eat-comment/>
 
-    <style name="BaseToolbar">
-        <item name="titleTextColor">@color/colorPrimary</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/toolbar_height</item>
-        <item name="android:background">@color/white</item>
-        <!--<item name="theme">@style/MyActionBar</item>-->
-        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
-    </style>
-
-    <style name="BaseToolbar.Home" parent="BaseToolbar">
-        <item name="titleTextColor">@color/white</item>
+    <style name="Toolbar.Home" parent="BaseToolbar.Primary">
         <item name="navigationIcon">@drawable/ic_menu_white_24dp</item>
         <item name="navigationContentDescription">@string/action_menu</item>
-        <item name="android:background">?colorPrimary</item>
         <item name="layout_scrollFlags">scroll|enterAlways|snap</item>
     </style>
 
-    <style name="BaseToolbar.Explore" parent="BaseToolbar">
+    <style name="Toolbar.Explore" parent="BaseToolbar.Light">
         <item name="layout_scrollFlags">scroll|enterAlways|snap</item>
     </style>
 
-    <style name="BaseToolbar.Comments" parent="BaseToolbar">
+    <style name="Toolbar.Comments" parent="BaseToolbar">
         <item name="title">@string/activity_comments</item>
         <item name="navigationIcon">@drawable/ic_arrow_back_primary_24dp</item>
         <item name="navigationContentDescription">@string/action_back</item>

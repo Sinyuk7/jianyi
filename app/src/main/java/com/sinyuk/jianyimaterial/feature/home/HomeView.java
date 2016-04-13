@@ -54,7 +54,6 @@ import com.sinyuk.jianyimaterial.ui.trans.AccordionTransformer;
 import com.sinyuk.jianyimaterial.utils.AnimUtils;
 import com.sinyuk.jianyimaterial.utils.AnimatorLayerListener;
 import com.sinyuk.jianyimaterial.utils.FuzzyDateFormater;
-import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.NetWorkUtils;
 import com.sinyuk.jianyimaterial.utils.ScreenUtils;
 import com.sinyuk.jianyimaterial.widgets.LabelView;
@@ -72,8 +71,7 @@ import rx.android.schedulers.AndroidSchedulers;
 /**
  * Created by Sinyuk on 16.3.27.
  */
-public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeView,
-        AppBarLayout.OnOffsetChangedListener {
+public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeView {
     public static final float BANNER_ASPECT_RATIO = 243 / 720.f;
     private static final long BANNER_SWITCH_INTERVAL = 3000;
     private static HomeView sInstance;
@@ -135,14 +133,23 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     }
 
     private void setupAppBarLayout() {
-        mAppBarLayout.addOnOffsetChangedListener(this);
         mCompositeSubscription.add(RxAppBarLayout.offsetChanges(mAppBarLayout).subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(dy -> {
-                    if (-dy == mAppBarLayout.getTotalScrollRange()) {
-                        ScreenUtils.hideSystemyBar(getActivity());
-                    } else if (dy < ScreenUtils.dpToPxInt(mContext, 24)) {
-                        ScreenUtils.showSystemyBar(getActivity());
+                    if (Build.VERSION.SDK_INT > 21) {
+                        if (-dy == mAppBarLayout.getTotalScrollRange()) {
+                            ScreenUtils.hideSystemyBar(getActivity());
+                        } else if (dy < ScreenUtils.dpToPxInt(mContext, 24)) {
+                            ScreenUtils.showSystemyBar(getActivity());
+                        }
+                    }
+
+                    if (dy == 0) {
+                        mBannerView.startTurning(BANNER_SWITCH_INTERVAL);
+                        mSwipeRefreshLayout.setEnabled(true);
+                    } else {
+                        mBannerView.stopTurning();
+                        mSwipeRefreshLayout.setEnabled(false);
                     }
                 }));
     }
@@ -402,20 +409,6 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     public void onPause() {
         super.onPause();
         mBannerView.stopTurning();
-    }
-
-
-    @Override
-    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-        LogUtils.simpleLog(HomeView.class, "vertical" + verticalOffset);
-        LogUtils.simpleLog(HomeView.class, "max" + appBarLayout.getTotalScrollRange());
-        if (verticalOffset == 0) {
-            mBannerView.startTurning(BANNER_SWITCH_INTERVAL);
-            mSwipeRefreshLayout.setEnabled(true);
-        } else {
-            mBannerView.stopTurning();
-            mSwipeRefreshLayout.setEnabled(false);
-        }
     }
 
     public void toRecommended(Void v) {

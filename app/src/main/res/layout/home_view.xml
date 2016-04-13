@@ -3,17 +3,21 @@
     style="@style/DefaultCoordinatorLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    >
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"
         style="@style/DefaultAppBarLayout">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                app:title="@string/app_name"
-                style="@style/BaseToolbar.Home"/>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/Toolbar.Home"
+            app:title="@string/app_name"/>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/app_bar_shadow"
+            android:background="@drawable/toolbar_shadow"/>
     </android.support.design.widget.AppBarLayout>
 
     <com.sinyuk.jianyimaterial.widgets.MultiSwipeRefreshLayout

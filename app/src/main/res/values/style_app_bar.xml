@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Appbar Layout -->
+    <style name="DefaultAppBarLayout">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:id">@id/app_bar_layout</item>
+    </style>
+
+    <!--Collapsing Toolbar Layout-->
+
+    <style name="DefaultCollapsingToolbarLayout">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="titleEnabled">false</item>
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="layout_scrollFlags">scroll|exitUntilCollapsed</item>
+        <item name="android:id">@id/collapsing_toolbar_layout</item>
+    </style>
+
+    <style name="DefaultCollapsingToolbarLayout.Light" parent="DefaultCollapsingToolbarLayout">
+        <item name="contentScrim">@color/colorPrimary</item>
+        <item name="statusBarScrim">@color/grey_600</item>
+        <item name="titleTextColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="DefaultCollapsingToolbarLayout.Primary" parent="DefaultCollapsingToolbarLayout">
+        <item name="contentScrim">@color/colorPrimary</item>
+        <item name="statusBarScrim">@color/colorPrimaryDark</item>
+        <item name="titleTextColor">@color/white</item>
+    </style>
+
+    <!--Tab Layout-->
+    <style name="DefaultTabLayout">
+        <item name="android:id">@id/tab_layout</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="tabIndicatorColor">@color/colorPrimary</item>
+        <item name="tabIndicatorHeight">4dp</item>
+        <item name="tabMinWidth">@dimen/tab_min_width</item>
+        <item name="tabPadding">@dimen/general_content_space</item>
+        <item name="tabSelectedTextColor">@color/textColorDark</item>
+        <item name="tabTextAppearance">@style/TabTextAppearance</item>
+        <item name="tabTextColor">@color/textColorLight</item>
+    </style>
+
+    <style name="DefaultTabLayout.Fixed" parent="DefaultTabLayout">
+        <item name="tabGravity">fill</item>
+        <item name="tabMode">fixed</item>
+    </style>
+
+    <style name="DefaultTabLayout.Scrollable" parent="DefaultTabLayout">
+        <item name="tabGravity">fill</item>
+        <item name="tabMode">scrollable</item>
+    </style>
+
+    <!-- ============================ -->
+    <!-- Toolbar 样式 -->
+    <!-- ========================== -->
+    <eat-comment/>
+
+    <style name="BaseToolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/toolbar_height</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+    </style>
+
+    <style name="BaseToolbar.Primary">
+        <item name="titleTextColor">@color/white</item>
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
+    <style name="BaseToolbar.Light">
+        <item name="theme">@style/MyActionBar</item>
+        <item name="titleTextColor">@color/colorPrimary</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <dimen name="app_bar_shadow">4dp</dimen>
+</resources>
