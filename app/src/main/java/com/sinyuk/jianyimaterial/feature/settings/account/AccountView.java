@@ -18,6 +18,8 @@ import com.sinyuk.jianyimaterial.utils.ToastUtils;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.HashMap;
+
 import butterknife.Bind;
 import butterknife.OnClick;
 
@@ -76,7 +78,6 @@ public class AccountView extends BaseFragment<AccountPresenterImpl> implements I
 
     private void setupSchool(int index) {
         final String[] schools = getResources().getStringArray(R.array.schools_sort);
-        index = index - 1;
         if (index >= 0 && index < schools.length) {
             mSchoolBtn.setText(String.format(getString(R.string.settings_school_is), schools[index]));
         }
@@ -121,26 +122,28 @@ public class AccountView extends BaseFragment<AccountPresenterImpl> implements I
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLocationSelected(XLocationSelectEvent event) {
-        mPresenter.up
+        final HashMap<String, String> schoolParam = new HashMap<>();
+        schoolParam.put("school", String.valueOf(event.getWhich() + 1));
+        mPresenter.update(schoolParam);
     }
 
     @Override
     public void onUpdateSucceed(String message) {
-
+        ToastUtils.toastFast(mContext, message);
     }
 
     @Override
     public void onUpdateFailed(String message) {
-
+        ToastUtils.toastFast(mContext, message);
     }
 
     @Override
     public void onUpdateVolleyError(String message) {
-
+        ToastUtils.toastFast(mContext, message);
     }
 
     @Override
     public void onUpdateParseError(String message) {
-
+        ToastUtils.toastFast(mContext, message);
     }
 }

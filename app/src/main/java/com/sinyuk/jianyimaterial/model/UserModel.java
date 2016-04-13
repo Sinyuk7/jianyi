@@ -23,6 +23,7 @@ import com.sinyuk.jianyimaterial.events.XLogoutEvent;
 import com.sinyuk.jianyimaterial.greendao.dao.DaoUtils;
 import com.sinyuk.jianyimaterial.greendao.dao.UserService;
 import com.sinyuk.jianyimaterial.mvp.BaseModel;
+import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.PreferencesUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
 import com.sinyuk.jianyimaterial.volley.FormDataRequest;
@@ -245,19 +246,19 @@ public class UserModel implements BaseModel {
         final String tel = mCurrentUser.getTel();
         final String password = PreferencesUtils.getString(mContext, Constants.Prefs_Psw);
         FormDataRequest jsonRequest = new FormDataRequest(Request.Method.POST, JianyiApi.updateUser(), (Response.Listener<String>) str -> {
+            try {
+                JsonParser parser = new JsonParser();
+                final JsonObject response = parser.parse(str).getAsJsonObject();
+                JResponse jResponse = mGson.fromJson(response, JResponse.class);
 
-            Observable.just(str)
-                    .map(responseStr -> new JsonParser().parse(responseStr).getAsJsonObject())
-                    .map(jsonObject -> mGson.fromJson(jsonObject, JResponse.class))
-                    .map(jResponse -> {
-                        if (jResponse != null && jResponse.getCode() == JResponse.CODE_SUCCEED) {
-                            return jResponse.getData();
-                        } else {
-                            return "更新用户信息失败";
-                        }
-                    })
-                    .doOnError(throwable -> callback.onUpdateParseError(throwable.getMessage()))
-                    .subscribe(callback::onUpdateSucceed);
+                if (jResponse != null && jResponse.getCode() == JResponse.CODE_SUCCEED) {
+                    callback.onUpdateSucceed(jResponse.getData());
+                } else {
+                    callback.onUpdateParseError("更新用户信息失败");
+                }
+            } catch (Exception e) {
+                callback.onUpdateParseError("更新用户信息失败");
+            }
         }, (Response.ErrorListener) error -> callback.onUpdateVolleyError(VolleyErrorHelper.getMessage(error))) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
