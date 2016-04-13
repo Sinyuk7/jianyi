@@ -20,7 +20,6 @@ import com.sinyuk.jianyimaterial.entity.User;
 import com.sinyuk.jianyimaterial.events.XLoginEvent;
 import com.sinyuk.jianyimaterial.events.XLogoutEvent;
 import com.sinyuk.jianyimaterial.feature.login.LoginView;
-import com.sinyuk.jianyimaterial.feature.profile.ProfileView;
 import com.sinyuk.jianyimaterial.feature.register.RegisterView;
 import com.sinyuk.jianyimaterial.feature.settings.SettingsView;
 import com.sinyuk.jianyimaterial.glide.BlurTransformation;
@@ -64,6 +63,7 @@ public class DrawerView extends BaseFragment<DrawerPresenterImpl> implements IDr
     ImageView mBackdrop;
 
     private DrawerLayout mDrawerLayout;
+    private Intent mMenuIntent = null;
 
     public static DrawerView getInstance() {
         if (null == sInstance) { sInstance = new DrawerView(); }
@@ -79,6 +79,30 @@ public class DrawerView extends BaseFragment<DrawerPresenterImpl> implements IDr
     public void onAttach(Context context) {
         super.onAttach(context);
         mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+        if (null != mDrawerLayout) {
+            mDrawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
+                @Override
+                public void onDrawerSlide(View drawerView, float slideOffset) {
+
+                }
+
+                @Override
+                public void onDrawerOpened(View drawerView) {
+
+                }
+
+                @Override
+                public void onDrawerClosed(View drawerView) {
+                    if (mMenuIntent != null) { startActivity(mMenuIntent); }
+                    mMenuIntent = null;
+                }
+
+                @Override
+                public void onDrawerStateChanged(int newState) {
+
+                }
+            });
+        }
     }
 
     @Override
@@ -178,36 +202,22 @@ public class DrawerView extends BaseFragment<DrawerPresenterImpl> implements IDr
         toMenuItemIntent(view.getId());
     }
 
-    private void toMenuItemIntent(int mSelected) {
+    private void toMenuItemIntent(int selected) {
         mDrawerLayout.closeDrawers();
-        final int sSelected = mSelected;
-        mDrawerLayout.postDelayed(() -> {
-            switch (sSelected) {
-                case R.id.drawer_menu_category:
-                    startActivity(new Intent(getContext(), CategoryMenu.class));
-                    getActivity().overridePendingTransition(0, 0);
-                    break;
-                case R.id.drawer_menu_want:
-                    startActivity(new Intent(getContext(), RegisterView.class));
-                    getActivity().overridePendingTransition(0, 0);
-                    break;
-                case R.id.drawer_menu_message:
-                    break;
-                case R.id.drawer_menu_account:
-                    startActivity(new Intent(getContext(), ProfileView.class));
-                    getActivity().overridePendingTransition(0, 0);
-                    break;
-                case R.id.drawer_menu_settings:
-                    startActivity(new Intent(getContext(), SettingsView.class));
-                    getActivity().overridePendingTransition(0, 0);
-                    break;
-            }
-        }, DRAWER_CLOSE_DURATION);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
+        switch (selected) {
+            case R.id.drawer_menu_category:
+                mMenuIntent = new Intent(getContext(), CategoryMenu.class);
+                break;
+            case R.id.drawer_menu_want:
+                mMenuIntent = new Intent(getContext(), RegisterView.class);
+                break;
+            case R.id.drawer_menu_message:
+                break;
+            case R.id.drawer_menu_account:
+                break;
+            case R.id.drawer_menu_settings:
+                mMenuIntent = new Intent(getContext(), SettingsView.class);
+                break;
+        }
     }
 }
