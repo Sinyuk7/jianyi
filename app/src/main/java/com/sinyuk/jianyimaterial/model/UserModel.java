@@ -12,9 +12,11 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.api.JError;
+import com.sinyuk.jianyimaterial.api.JResponse;
 import com.sinyuk.jianyimaterial.api.JUser;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.application.Jianyi;
+import com.sinyuk.jianyimaterial.common.Constants;
 import com.sinyuk.jianyimaterial.entity.User;
 import com.sinyuk.jianyimaterial.events.XLoginEvent;
 import com.sinyuk.jianyimaterial.events.XLogoutEvent;
@@ -234,6 +236,42 @@ public class UserModel implements BaseModel {
         EventBus.getDefault().post(new XLogoutEvent());
     }
 
+    public void update(Map<String, String> params, UserUpdateCallback callback) {
+        if (TextUtils.isEmpty(mCurrentUser.getTel()) || TextUtils.isEmpty(PreferencesUtils.getString(mContext, Constants.Prefs_Psw))) {
+            callback.onUpdateFailed("读取用户信息失败");
+            return;
+        }
+
+        final String tel = mCurrentUser.getTel();
+        final String password = PreferencesUtils.getString(mContext, Constants.Prefs_Psw);
+        FormDataRequest jsonRequest = new FormDataRequest(Request.Method.POST, JianyiApi.updateUser(), (Response.Listener<String>) str -> {
+
+            Observable.just(str)
+                    .map(responseStr -> new JsonParser().parse(responseStr).getAsJsonObject())
+                    .map(jsonObject -> mGson.fromJson(jsonObject, JResponse.class))
+                    .map(jResponse -> {
+                        if (jResponse != null && jResponse.getCode() == JResponse.CODE_SUCCEED) {
+                            return jResponse.getData();
+                        } else {
+                            return "更新用户信息失败";
+                        }
+                    })
+                    .doOnError(throwable -> callback.onUpdateParseError(throwable.getMessage()))
+                    .subscribe(callback::onUpdateSucceed);
+        }, (Response.ErrorListener) error -> callback.onUpdateVolleyError(VolleyErrorHelper.getMessage(error))) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> body = new HashMap<>();
+                body.put("tel", tel);
+                body.put("password", password);
+                body.putAll(params);
+                return body;
+            }
+        };
+
+        Jianyi.getInstance().addRequest(jsonRequest, UPDATE_REQUEST);
+    }
+
     public interface LoginCallback {
 
         void onLoginSucceed();
@@ -269,6 +307,16 @@ public class UserModel implements BaseModel {
         void onQueryFailed(String message);
 
         void onUserNotLogged();
+    }
+
+    public interface UserUpdateCallback {
+        void onUpdateSucceed(String message);
+
+        void onUpdateFailed(String message);
+
+        void onUpdateVolleyError(String message);
+
+        void onUpdateParseError(String message);
     }
 
 
