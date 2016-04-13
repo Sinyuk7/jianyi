@@ -2,6 +2,7 @@ package com.sinyuk.jianyimaterial.model;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -31,6 +32,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Sinyuk on 16.3.16.
@@ -74,11 +78,29 @@ public class UserModel implements BaseModel {
      *
      * @return current user if has logged in
      */
-    public User getCurrentUser() {
+    public void queryCurrentUser(QueryCurrentUserCallback callback) {
         String uId = PreferencesUtils.getString(mContext, StringUtils.getRes(mContext, R.string.key_user_id));
-        mCurrentUser = (User) mUserService.query(uId);
-        return mCurrentUser;
+        if (TextUtils.isEmpty(uId)) {
+            callback.onUserNotLogged();
+            return;
+        }
+        Observable.create(new Observable.OnSubscribe<User>() {
+            @Override
+            public void call(Subscriber<? super User> subscriber) {
+                if (mUserService.query(uId) != null) {
+                    subscriber.onNext((User) mUserService.query(uId));
+                } else {
+                    subscriber.onError(new Throwable("读取用户信息失败"));
+                }
 
+            }
+        }).subscribeOn(Schedulers.computation())
+                .doOnError(throwable -> callback.onQueryFailed(throwable.getMessage()))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(user -> {
+                    mCurrentUser = user;
+                    callback.onQuerySucceed(user);
+                });
     }
 
     /**
@@ -240,4 +262,14 @@ public class UserModel implements BaseModel {
 
         void onAuthenticateParseError(String message);
     }
+
+    public interface QueryCurrentUserCallback {
+        void onQuerySucceed(User currentUser);
+
+        void onQueryFailed(String message);
+
+        void onUserNotLogged();
+    }
+
+
 }

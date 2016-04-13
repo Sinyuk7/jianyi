@@ -1,14 +1,13 @@
 package com.sinyuk.jianyimaterial.fragments.dialogs;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 
 import com.sinyuk.jianyimaterial.R;
-import com.sinyuk.jianyimaterial.events.LocationSelectEvent;
+import com.sinyuk.jianyimaterial.events.XLocationSelectEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -29,16 +28,10 @@ public class LocationSelectDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.MyAlertDialogTheme);
-
-
         // Build the dialog and set up the button click handlers
         builder.setTitle(R.string.pick_location)
-                .setItems(getContext().getResources().getStringArray(R.array.schools_sort), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // The 'which' argument contains the index position
-                        // of the selected item
-                        EventBus.getDefault().post(new LocationSelectEvent(which));
-                    }
+                .setItems(getContext().getResources().getStringArray(R.array.schools_sort), (dialog, which) -> {
+                    EventBus.getDefault().post(new XLocationSelectEvent(which));
                 });
 
         return builder.create();

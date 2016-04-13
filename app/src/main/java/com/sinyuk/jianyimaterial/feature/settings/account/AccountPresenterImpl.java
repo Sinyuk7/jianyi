@@ -1,5 +1,6 @@
 package com.sinyuk.jianyimaterial.feature.settings.account;
 
+import com.sinyuk.jianyimaterial.model.UserModel;
 import com.sinyuk.jianyimaterial.mvp.BasePresenter;
 
 /**
@@ -7,4 +8,8 @@ import com.sinyuk.jianyimaterial.mvp.BasePresenter;
  */
 public class AccountPresenterImpl extends BasePresenter<AccountView> implements IAccountPresenter{
 
+    @Override
+    public void logout() {
+        UserModel.getInstance(mView.getContext()).logout();
+    }
 }

@@ -10,6 +10,12 @@
 
 
     <TextView
+        android:id="@+id/tel_tv"
+        style="@style/SettingsItemText"
+        android:drawableLeft="@drawable/ic_account_grey600_24dp"
+        android:text="@string/settings_tel_is"/>
+
+    <TextView
         android:id="@+id/password_btn"
         style="@style/SettingsItemText"
         android:drawableLeft="@drawable/ic_key_variant_accent_24dp"
@@ -20,7 +26,7 @@
         android:id="@+id/school_btn"
         style="@style/SettingsItemText"
         android:drawableLeft="@drawable/ic_location_on_accent_18dp"
-        android:text="@string/settings_update_school_hint"/>
+        android:text="@string/settings_school_is"/>
 
 
     <TextView

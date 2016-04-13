@@ -1,5 +1,7 @@
 package com.sinyuk.jianyimaterial.feature.settings;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -10,10 +12,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.sinyuk.jianyimaterial.R;
+import com.sinyuk.jianyimaterial.entity.User;
+import com.sinyuk.jianyimaterial.feature.login.LoginView;
 import com.sinyuk.jianyimaterial.feature.settings.account.AccountView;
 import com.sinyuk.jianyimaterial.managers.CacheManager;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 import com.sinyuk.jianyimaterial.sweetalert.SweetAlertDialog;
+import com.sinyuk.jianyimaterial.utils.ToastUtils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -57,6 +62,8 @@ public class SettingsView extends BaseActivity<SettingsPresenterImpl> implements
     CoordinatorLayout mCoordinatorLayout;
     private Observable<String> cacheObservable;
     private Observable<String> mCacheClearObservable;
+    private User mCurrentUser;
+    private boolean mIsLogged;
 
     @Override
     protected boolean isUseEventBus() {
@@ -89,6 +96,7 @@ public class SettingsView extends BaseActivity<SettingsPresenterImpl> implements
                 }
             }
         }).subscribeOn(Schedulers.io());
+
     }
 
     @Override
@@ -103,11 +111,12 @@ public class SettingsView extends BaseActivity<SettingsPresenterImpl> implements
 
     @Override
     protected void onFinishInflate() {
+        // whether the user is logged in or not
+        mPresenter.queryCurrentUser();
         setupCacheOption();
-
     }
 
-    private void createDialogs() {
+    private void showAlertDialog() {
         SweetAlertDialog cacheDialog = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
         cacheDialog.setTitleText(getString(R.string.settings_hint_clear_cache_title))
                 .setContentText(getString(R.string.settings_hint_clear_cache_content))
@@ -138,29 +147,64 @@ public class SettingsView extends BaseActivity<SettingsPresenterImpl> implements
 
     @OnClick(R.id.settings_account)
     public void onClickAccountOption() {
-        final FragmentManager fm = getSupportFragmentManager();
-        if (fm.findFragmentByTag("account") == null) {
-            fm.beginTransaction()
-                    .add(R.id.settings_account_group, AccountView.getInstance(), "account").commit();
+        if (mIsLogged) {
+            final FragmentManager fm = getSupportFragmentManager();
+            if (fm.findFragmentByTag("account") == null) {
+                fm.beginTransaction()
+                        .add(R.id.settings_account_group, AccountView.getInstance(), "account").commit();
+            } else {
+                fm.beginTransaction().remove(AccountView.getInstance()).commit();
+            }
         } else {
-            fm.beginTransaction().remove(AccountView.getInstance()).commit();
+            requireLogin();
         }
+    }
+
+    private void requireLogin() {
+        SweetAlertDialog dialog = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
+        dialog.setTitleText(getString(R.string.settings_hint_has_not_logged))
+                .setContentText(getString(R.string.settings_hint_require_login))
+                .setConfirmText(getString(R.string.settings_hint_confirm))
+                .setConfirmClickListener(sweetAlertDialog -> {
+                    startActivity(new Intent(SettingsView.this, LoginView.class));
+                    sweetAlertDialog.dismissWithAnimation();
+                })
+                .setCancelText(getString(R.string.settings_hint_cancel));
+        dialog.setCancelable(true);
+        dialog.show();
     }
 
     @OnClick({R.id.settings_push, R.id.settings_cache, R.id.settings_feedback, R.id.settings_about})
     public void onClick(View view) {
         switch (view.getId()) {
-
             case R.id.settings_push:
                 break;
             case R.id.settings_cache:
-                createDialogs();
+                showAlertDialog();
                 break;
             case R.id.settings_feedback:
-
                 break;
             case R.id.settings_about:
                 break;
         }
+    }
+
+    @Override
+    public void onQuerySucceed(User user) {
+        mIsLogged = true;
+        Bundle args = new Bundle();
+        args.putString("school", user.getSchool());
+        args.putString("tel", user.getTel());
+        AccountView.newInstance(args);
+    }
+
+    @Override
+    public void onQueryFailed(String message) {
+        ToastUtils.toastSlow(this, message);
+    }
+
+    @Override
+    public void onUserNotLogged() {
+        mIsLogged = false;
     }
 }
