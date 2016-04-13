@@ -81,10 +81,6 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     RecyclerView mRecyclerView;
     @Bind(R.id.swipe_refresh_layout)
     MultiSwipeRefreshLayout mSwipeRefreshLayout;
-    @Bind(R.id.banner_view)
-    ConvenientBanner mBannerView;
-    @Bind(R.id.collapsing_toolbar_layout)
-    CollapsingToolbarLayout mCollapsingToolbarLayout;
     @Bind(R.id.app_bar_layout)
     AppBarLayout mAppBarLayout;
     @Bind(R.id.fab)
@@ -100,6 +96,8 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     private DrawerLayout mDrawerLayout;
     private List<Banner> mBannerItemList;
     private int mTouchThreshold;
+
+    private ConvenientBanner mBannerView;
 
     public static HomeView getInstance() {
         if (null == sInstance) { sInstance = new HomeView(); }
@@ -127,9 +125,9 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     protected void onFinishInflate() {
         setupToolbar();
         mAppBarLayout.addOnOffsetChangedListener(this);
-        setupBanner();
         setupSwipeRefreshLayout();
         setupRecyclerView();
+        setupBanner();
         mPresenter.loadListHeader();
         mPresenter.loadBanner();
     }
@@ -190,9 +188,9 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mRecyclerView.addItemDecoration(new HeaderItemSpaceDecoration(2, R.dimen.general_content_space, true, mContext));
+            mRecyclerView.addItemDecoration(new HeaderItemSpaceDecoration(2, R.dimen.general_content_space, false, mContext));
         } else {
-            mRecyclerView.addItemDecoration(new HeaderItemSpaceDecoration(2, R.dimen.tiny_content_space, true, mContext));
+            mRecyclerView.addItemDecoration(new HeaderItemSpaceDecoration(2, R.dimen.tiny_content_space, false, mContext));
         }
 
         final StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, OrientationHelper.VERTICAL);
@@ -201,6 +199,14 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
 
         mListHeader = LayoutInflater.from(mContext).inflate(R.layout.include_home_daily_edition, mRecyclerView, false);
 //
+        mBannerView = (ConvenientBanner) mListHeader.findViewById(R.id.banner_view);
+
+        mCompositeSubscription.add(RxView.clicks(mListHeader.findViewById(R.id.entry_recommended)).subscribe(this::toRecommended));
+
+        mCompositeSubscription.add(RxView.clicks(mListHeader.findViewById(R.id.entry_category)).subscribe(this::toCategory));
+
+        mCompositeSubscription.add(RxView.clicks(mListHeader.findViewById(R.id.entry_free)).subscribe(this::toFree));
+
         mAdapter.setHeaderViewFullSpan(mListHeader);
 
         mRecyclerView.addOnScrollListener(new OnLoadMoreListener(staggeredGridLayoutManager, mSwipeRefreshLayout) {
@@ -211,7 +217,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
             }
         });
 
- /*       mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 if (dy > mTouchThreshold) {
@@ -220,7 +226,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
                     ScreenUtils.showSystemyBar(getActivity());
                 }
             }
-        });*/
+        });
 
 //        Observable.just(mNewScrollY-mOldScrollY).debounce(500, TimeUnit.MILLISECONDS)
 
@@ -410,36 +416,31 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
         }
     }
 
-    @OnClick({R.id.entry_recommended, R.id.entry_free, R.id.entry_category})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.entry_recommended:
-                Intent toRecommended = new Intent();
-                toRecommended.setClass(getContext(), ExploreView.class);
-                toRecommended.putExtra(ExploreView.TITLE, "hot");
-                toRecommended.putExtra(ExploreView.ENABLE_FILTER, true);
-                toRecommended.putExtra(ExploreView.ENABLE_SCHOOL, true);
-                toRecommended.putExtra(ExploreView.ENABLE_ORDER, true);
-                startActivity(toRecommended);
-                getActivity().overridePendingTransition(0, 0);
-                break;
-            case R.id.entry_free:
-                Intent toFree = new Intent();
-                toFree.setClass(getContext(), ExploreView.class);
-                toFree.putExtra(ExploreView.TITLE, "free");
-                toFree.putExtra(ExploreView.ENABLE_FILTER, true);
-                toFree.putExtra(ExploreView.ENABLE_SCHOOL, true);
-                toFree.putExtra(ExploreView.ENABLE_ORDER, true);
-                startActivity(toFree);
-                getActivity().overridePendingTransition(0, 0);
-                break;
-            case R.id.entry_category:
-                Intent toCategory = new Intent(getContext(), CategoryMenu.class);
-                startActivity(toCategory);
-                getActivity().overridePendingTransition(0, 0);
-                break;
-        }
+    public void toRecommended(Void v) {
+        Intent toRecommended = new Intent();
+        toRecommended.setClass(getContext(), ExploreView.class);
+        toRecommended.putExtra(ExploreView.TITLE, "hot");
+        toRecommended.putExtra(ExploreView.ENABLE_FILTER, true);
+        toRecommended.putExtra(ExploreView.ENABLE_SCHOOL, true);
+        toRecommended.putExtra(ExploreView.ENABLE_ORDER, true);
+        startActivity(toRecommended);
     }
+
+    public void toFree(Void v) {
+        Intent toFree = new Intent();
+        toFree.setClass(getContext(), ExploreView.class);
+        toFree.putExtra(ExploreView.TITLE, "free");
+        toFree.putExtra(ExploreView.ENABLE_FILTER, true);
+        toFree.putExtra(ExploreView.ENABLE_SCHOOL, true);
+        toFree.putExtra(ExploreView.ENABLE_ORDER, true);
+        startActivity(toFree);
+    }
+
+    public void toCategory(Void v) {
+        Intent toCategory = new Intent(getContext(), CategoryMenu.class);
+        startActivity(toCategory);
+    }
+
 
     public class BannerItemViewHolder implements Holder<String> {
         private ImageView imageView;

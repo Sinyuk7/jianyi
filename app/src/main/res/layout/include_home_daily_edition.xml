@@ -1,18 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
 
+    <com.bigkoo.convenientbanner.ConvenientBanner
+        android:id="@+id/banner_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/home_billboard_height"
+        android:fitsSystemWindows="true"
+        app:canLoop="true"/>
+
+    <include layout="@layout/home_view_entry_layout"/>
 
     <android.support.v7.widget.CardView
         android:id="@+id/card_view"
         style="@style/DefaultCardView.Clickable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/general_content_space"
+        android:layout_marginRight="@dimen/general_content_space"
+        android:layout_marginTop="@dimen/general_content_space"
         android:stateListAnimator="@drawable/touch_raise"
         app:contentPaddingBottom="@dimen/general_content_space">
 
@@ -27,7 +37,7 @@
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/backdrop_7"
-                app:ratio="0.418" />
+                app:ratio="0.418"/>
 
             <com.sinyuk.jianyimaterial.widgets.LabelView
                 android:id="@+id/label_rect"
@@ -40,7 +50,7 @@
                 app:lv_gravity="TOP_RIGHT"
                 app:lv_text="你好"
                 app:lv_text_all_caps="true"
-                app:lv_text_size="@dimen/material_text_body2" />
+                app:lv_text_size="@dimen/material_text_body2"/>
 
 
             <TextView
@@ -53,7 +63,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="简易 for Android BETA V1.0"
-                android:textSize="@dimen/material_text_body1" />
+                android:textSize="@dimen/material_text_body1"/>
 
             <TextView
                 android:id="@+id/description_tv"
@@ -66,7 +76,7 @@
                 android:maxLines="3"
                 android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
                 android:textColor="@color/grey_600"
-                android:textSize="@dimen/material_text_body2" />
+                android:textSize="@dimen/material_text_body2"/>
 
 
             <!--</LinearLayout>-->
@@ -81,7 +91,7 @@
                 android:layout_marginLeft="@dimen/general_content_space"
                 android:layout_marginRight="@dimen/general_content_space"
                 android:layout_marginTop="@dimen/general_content_space"
-                android:background="@color/grey_100" />
+                android:background="@color/grey_100"/>
 
 
             <!--日期-->
@@ -97,7 +107,7 @@
                 android:maxLines="1"
                 android:text="@string/pubdate"
                 android:textColor="@color/grey_600"
-                android:textSize="@dimen/material_text_caption2" />
+                android:textSize="@dimen/material_text_caption2"/>
 
             <TextView
                 android:id="@+id/read_more"
@@ -108,7 +118,7 @@
                 android:layout_marginRight="@dimen/general_content_space"
                 android:text="@string/action_read_more"
                 android:textColor="@color/textColorLight"
-                android:textSize="@dimen/material_text_caption2" />
+                android:textSize="@dimen/material_text_caption2"/>
 
         </RelativeLayout>
 
@@ -117,12 +127,14 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/general_content_space"
+        android:layout_marginRight="@dimen/general_content_space"
         android:layout_marginTop="@dimen/general_content_space"
         android:drawableLeft="@drawable/ic_google_nearby_accent_24dp"
         android:drawablePadding="@dimen/general_content_space"
         android:gravity="center"
         android:text="切换地区"
         android:textColor="@color/grey_600"
-        android:textSize="@dimen/material_text_body2" />
+        android:textSize="@dimen/material_text_body2"/>
 
 </LinearLayout>

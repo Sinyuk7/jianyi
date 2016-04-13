@@ -118,8 +118,7 @@
             android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity
             android:name=".feature.entry.EntryView"
-            android:launchMode="singleTop"
-            android:theme="@style/Jianyi.TranspStatus">
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

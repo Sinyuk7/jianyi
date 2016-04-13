@@ -42,7 +42,7 @@ public class HeaderItemSpaceDecoration extends RecyclerView.ItemDecoration {
 
             }
         } else {
-            outRect.top = mSpace; // item top
+    /*        outRect.top = mSpace; // item top
             if (position == 0) { // header top edge
                 outRect.right = outRect.left = mSpace;
             } else {
@@ -51,6 +51,16 @@ public class HeaderItemSpaceDecoration extends RecyclerView.ItemDecoration {
 
                 outRect.left = column * mSpace / spanCount; // column * ((1f / spanCount) * mSpace)
                 outRect.right = mSpace - (column + 1) * mSpace / spanCount; // mSpace - (column + 1) * ((1f /    spanCount) * mSpace)
+            }*/
+            if (position == 0) { // header top edge
+                outRect.top = outRect.right = outRect.left = 0;
+                outRect.bottom =  mSpace; // item bottom
+
+            } else {
+                outRect.left = mSpace - column * mSpace / spanCount; // mSpace - column * ((1f / spanCount) * mSpace)
+                outRect.right = (column + 1) * mSpace / spanCount; // (column + 1) * ((1f / spanCount) * mSpace)
+                outRect.bottom = mSpace; // item bottom
+
             }
         }
     }
