@@ -132,8 +132,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     }
 
     private void setupToolbar() {
-        RxToolbar.navigationClicks(mToolbar).subscribe(aVoid -> toggleDrawerView());
-
+        mCompositeSubscription.add(RxToolbar.navigationClicks(mToolbar).subscribe(aVoid -> toggleDrawerView()));
         final long[] mHits = new long[2];
         mToolbar.setOnClickListener(v -> {
             System.arraycopy(mHits, 1, mHits, 0, mHits.length - 1);

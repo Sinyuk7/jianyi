@@ -2,9 +2,6 @@ package com.sinyuk.jianyimaterial.feature.entry;
 
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.widget.DrawerLayout;
-import android.widget.FrameLayout;
-
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.feature.drawer.DrawerView;
 import com.sinyuk.jianyimaterial.feature.home.HomeView;

@@ -40,7 +40,6 @@ import butterknife.OnClick;
  * Created by Sinyuk on 16.3.30.
  */
 public class DrawerView extends BaseFragment<DrawerPresenterImpl> implements IDrawerView {
-    private static final long DRAWER_CLOSE_DURATION = 250;
     private static DrawerView sInstance;
     @Bind(R.id.avatar)
     ImageView mAvatar;
@@ -151,9 +150,7 @@ public class DrawerView extends BaseFragment<DrawerPresenterImpl> implements IDr
     @Override
     public void toLoginView() {
         mDrawerLayout.closeDrawers();
-        mDrawerLayout.postDelayed(() -> {
-            startActivity(new Intent(getContext(), LoginView.class));
-        }, DRAWER_CLOSE_DURATION);
+        mMenuIntent = new Intent(getContext(), LoginView.class);
     }
 
     @Override
