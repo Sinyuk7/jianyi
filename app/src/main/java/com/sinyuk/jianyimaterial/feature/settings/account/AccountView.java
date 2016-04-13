@@ -121,6 +121,26 @@ public class AccountView extends BaseFragment<AccountPresenterImpl> implements I
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLocationSelected(XLocationSelectEvent event) {
-        ToastUtils.toastFast(mContext, event.getWhich() + "");
+        mPresenter.up
+    }
+
+    @Override
+    public void onUpdateSucceed(String message) {
+
+    }
+
+    @Override
+    public void onUpdateFailed(String message) {
+
+    }
+
+    @Override
+    public void onUpdateVolleyError(String message) {
+
+    }
+
+    @Override
+    public void onUpdateParseError(String message) {
+
     }
 }
