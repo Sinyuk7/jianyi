@@ -3,7 +3,7 @@
     <!-- ============================ -->
     <!-- Toolbar 样式 -->
     <!-- ========================== -->
-    <eat-comment />
+    <eat-comment/>
 
     <style name="BaseToolbar">
         <item name="titleTextColor">@color/colorPrimary</item>
@@ -15,9 +15,10 @@
     </style>
 
     <style name="BaseToolbar.Home" parent="BaseToolbar">
-        <item name="navigationIcon">@drawable/ic_menu_primary_24dp</item>
+        <item name="titleTextColor">@color/white</item>
+        <item name="navigationIcon">@drawable/ic_menu_white_24dp</item>
         <item name="navigationContentDescription">@string/action_menu</item>
-        <item name="android:background">@color/white</item>
+        <item name="android:background">?colorPrimary</item>
         <item name="layout_scrollFlags">scroll|enterAlways|snap</item>
     </style>
 
@@ -31,7 +32,6 @@
         <item name="navigationContentDescription">@string/action_back</item>
         <item name="layout_scrollFlags">scroll|enterAlways|snap</item>
     </style>
-
 
 
 </resources>

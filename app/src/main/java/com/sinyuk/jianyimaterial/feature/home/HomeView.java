@@ -9,7 +9,6 @@ import android.os.Build;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -35,6 +34,7 @@ import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.jakewharton.rxbinding.support.design.widget.RxAppBarLayout;
 import com.jakewharton.rxbinding.support.v7.widget.RxToolbar;
 import com.jakewharton.rxbinding.view.RxView;
 import com.sinyuk.jianyimaterial.R;
@@ -54,6 +54,7 @@ import com.sinyuk.jianyimaterial.ui.trans.AccordionTransformer;
 import com.sinyuk.jianyimaterial.utils.AnimUtils;
 import com.sinyuk.jianyimaterial.utils.AnimatorLayerListener;
 import com.sinyuk.jianyimaterial.utils.FuzzyDateFormater;
+import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.NetWorkUtils;
 import com.sinyuk.jianyimaterial.utils.ScreenUtils;
 import com.sinyuk.jianyimaterial.widgets.LabelView;
@@ -66,6 +67,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by Sinyuk on 16.3.27.
@@ -124,12 +126,25 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     @Override
     protected void onFinishInflate() {
         setupToolbar();
-        mAppBarLayout.addOnOffsetChangedListener(this);
+        setupAppBarLayout();
         setupSwipeRefreshLayout();
         setupRecyclerView();
         setupBanner();
         mPresenter.loadListHeader();
         mPresenter.loadBanner();
+    }
+
+    private void setupAppBarLayout() {
+        mAppBarLayout.addOnOffsetChangedListener(this);
+        mCompositeSubscription.add(RxAppBarLayout.offsetChanges(mAppBarLayout).subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(dy -> {
+                    if (-dy == mAppBarLayout.getTotalScrollRange()) {
+                        ScreenUtils.hideSystemyBar(getActivity());
+                    } else if (dy < ScreenUtils.dpToPxInt(mContext, 24)) {
+                        ScreenUtils.showSystemyBar(getActivity());
+                    }
+                }));
     }
 
     private void setupToolbar() {
@@ -216,21 +231,6 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
                 loadData(mPageIndex);
             }
         });
-
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (dy > mTouchThreshold) {
-                    ScreenUtils.hideSystemyBar(getActivity());
-                } else if (dy < -mTouchThreshold) {
-                    ScreenUtils.showSystemyBar(getActivity());
-                }
-            }
-        });
-
-//        Observable.just(mNewScrollY-mOldScrollY).debounce(500, TimeUnit.MILLISECONDS)
-
-
     }
 
     private void setupSwipeRefreshLayout() {
@@ -407,6 +407,8 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
 
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+        LogUtils.simpleLog(HomeView.class, "vertical" + verticalOffset);
+        LogUtils.simpleLog(HomeView.class, "max" + appBarLayout.getTotalScrollRange());
         if (verticalOffset == 0) {
             mBannerView.startTurning(BANNER_SWITCH_INTERVAL);
             mSwipeRefreshLayout.setEnabled(true);
