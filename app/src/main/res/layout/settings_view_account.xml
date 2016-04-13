@@ -18,21 +18,21 @@
     <TextView
         android:id="@+id/password_btn"
         style="@style/SettingsItemText"
-        android:drawableLeft="@drawable/ic_key_variant_accent_24dp"
+        android:drawableLeft="@drawable/ic_key_variant_grey600_24dp"
         android:text="@string/settings_update_password_hint"/>
 
 
     <TextView
         android:id="@+id/school_btn"
         style="@style/SettingsItemText"
-        android:drawableLeft="@drawable/ic_location_on_accent_18dp"
+        android:drawableLeft="@drawable/ic_location_on_grey600_24dp"
         android:text="@string/settings_school_is"/>
 
 
     <TextView
         android:id="@+id/logout_btn"
         style="@style/SettingsItemText"
-        android:drawableLeft="@drawable/ic_close_primary_24dp"
+        android:drawableLeft="@drawable/ic_close_octagon_grey600_24dp"
         android:text="@string/settings_logout"/>
 </LinearLayout>
 
