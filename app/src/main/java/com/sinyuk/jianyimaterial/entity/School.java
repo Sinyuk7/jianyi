@@ -18,7 +18,7 @@ public class School implements java.io.Serializable {
     private String y;
 
     // KEEP FIELDS - put your custom fields here
-    public static final String TAG = "JSchool";
+
     // KEEP FIELDS END
 
     public School() {
