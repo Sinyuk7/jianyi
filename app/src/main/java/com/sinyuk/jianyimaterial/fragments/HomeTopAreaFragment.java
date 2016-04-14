@@ -20,7 +20,6 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.feature.CategoryView;
-import com.sinyuk.jianyimaterial.activities.CategoryPage;
 import com.sinyuk.jianyimaterial.activities.HomeActivity;
 import com.sinyuk.jianyimaterial.activities.WebViewActivity;
 import com.sinyuk.jianyimaterial.base.BaseFragment;
@@ -118,11 +117,9 @@ public class HomeTopAreaFragment extends BaseFragment {
         Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.entry_recommended:
-                intent.setClass(mContext, CategoryPage.class);
                 intent.putExtra("parent_sort_index", 3);
                 break;
             case R.id.entry_free:
-                intent.setClass(mContext, CategoryPage.class);
                 intent.putExtra("parent_sort_index", 6);
                 break;
             case R.id.entry_category:

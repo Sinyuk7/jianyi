@@ -2,12 +2,12 @@ package com.sinyuk.jianyimaterial.feature.entry;
 
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.FragmentManager;
+
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.feature.drawer.DrawerView;
 import com.sinyuk.jianyimaterial.feature.home.HomeView;
 import com.sinyuk.jianyimaterial.managers.SnackBarFactory;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
-import com.sinyuk.jianyimaterial.utils.ScreenUtils;
 
 import butterknife.Bind;
 
