@@ -15,7 +15,6 @@
 
     <!--menu-->
 
-
     <FrameLayout
         android:id="@+id/container_menu"
         android:layout_width="280dp"

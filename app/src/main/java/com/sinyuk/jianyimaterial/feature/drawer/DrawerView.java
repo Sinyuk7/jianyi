@@ -15,10 +15,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.sinyuk.jianyimaterial.R;
-import com.sinyuk.jianyimaterial.feature.CategoryView;
 import com.sinyuk.jianyimaterial.entity.User;
 import com.sinyuk.jianyimaterial.events.XLoginEvent;
 import com.sinyuk.jianyimaterial.events.XLogoutEvent;
+import com.sinyuk.jianyimaterial.feature.CategoryView;
 import com.sinyuk.jianyimaterial.feature.login.LoginView;
 import com.sinyuk.jianyimaterial.feature.register.RegisterView;
 import com.sinyuk.jianyimaterial.feature.settings.SettingsView;
@@ -181,6 +181,7 @@ public class DrawerView extends BaseFragment<DrawerPresenterImpl> implements IDr
         Glide.with(this).load(R.drawable.ic_avatar_placeholder)
                 .bitmapTransform(new CropCircleTransformation(getContext()))
                 .into(mAvatar);
+        mBackdrop.setImageResource(R.color.colorPrimary);
         /**
          * load custom picture in backdrop here
          */
