@@ -20,6 +20,7 @@
         android:id="@+id/container_menu"
         android:layout_width="280dp"
         android:layout_height="match_parent"
-        android:layout_gravity="start"/>
+        android:layout_gravity="start"
+        android:fitsSystemWindows="false"/>
 
 </android.support.v4.widget.DrawerLayout>
