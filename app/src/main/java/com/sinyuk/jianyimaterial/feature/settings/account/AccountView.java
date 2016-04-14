@@ -113,7 +113,11 @@ public class AccountView extends BaseFragment<AccountPresenterImpl> implements I
         SweetAlertDialog dialog = new SweetAlertDialog(mContext, SweetAlertDialog.WARNING_TYPE);
         dialog.setCancelText(getString(R.string.settings_hint_cancel))
                 .setConfirmText(getString(R.string.settings_hint_confirm))
-                .setConfirmClickListener(sweetAlertDialog -> mPresenter.logout())
+                .setConfirmClickListener(sweetAlertDialog -> {
+                    mPresenter.logout();
+                    sweetAlertDialog.dismissWithAnimation();
+                    getActivity().finish();
+                })
                 .setTitleText(getString(R.string.settings_hint_confirm_logout))
                 .setCanceledOnTouchOutside(true);
         dialog.setCancelable(true);

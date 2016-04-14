@@ -26,6 +26,7 @@ import com.sinyuk.jianyimaterial.glide.BlurTransformation;
 import com.sinyuk.jianyimaterial.glide.ColorFilterTransformation;
 import com.sinyuk.jianyimaterial.glide.CropCircleTransformation;
 import com.sinyuk.jianyimaterial.mvp.BaseFragment;
+import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -124,12 +125,14 @@ public class DrawerView extends BaseFragment<DrawerPresenterImpl> implements IDr
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onLogin(XLogoutEvent event) {
+    public void onLogin(XLoginEvent event) {
+        LogUtils.simpleLog(DrawerView.class,"登录登录登录登录登录登录");
         mPresenter.queryCurrentUser();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onLogout(XLoginEvent event) {
+    public void onLogout(XLogoutEvent event) {
+        LogUtils.simpleLog(DrawerView.class,"登出登出登出登出登出登出");
         onUserNotLogged();
     }
 

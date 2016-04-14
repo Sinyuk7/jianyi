@@ -23,7 +23,6 @@ import com.sinyuk.jianyimaterial.events.XLogoutEvent;
 import com.sinyuk.jianyimaterial.greendao.dao.DaoUtils;
 import com.sinyuk.jianyimaterial.greendao.dao.UserService;
 import com.sinyuk.jianyimaterial.mvp.BaseModel;
-import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.PreferencesUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
 import com.sinyuk.jianyimaterial.volley.FormDataRequest;
@@ -124,7 +123,7 @@ public class UserModel implements BaseModel {
             User userData = mGson.fromJson(trans, User.class);
             if (userData != null) {
                 // TODO: 这里应该保存数据 然后保存成功在回调onSucceed();
-                registerSucceed(userData, password);
+                loginSucceed(userData, password);
                 callback.onLoginSucceed();
             } else {
                 JError error = mGson.fromJson(response, JError.class);
@@ -150,7 +149,7 @@ public class UserModel implements BaseModel {
      * @param userData
      * @param password
      */
-    private void registerSucceed(User userData, String password) {
+    private void loginSucceed(User userData, String password) {
         mUserService.saveOrUpdate(userData);
         if (null != mCurrentUser) {
             if (!userData.getId().equals(mCurrentUser.getId())) {
