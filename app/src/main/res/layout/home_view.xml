@@ -13,7 +13,6 @@
             app:collapsedTitleTextAppearance="@style/collapsedTitleText"
             app:expandedTitleMarginBottom="@dimen/activity_horizontal_margin"
             app:expandedTitleTextAppearance="@style/expandedTitleText"
-            app:layout_scrollFlags="scroll"
             app:title="@string/app_name"
             app:titleEnabled="true">
 
@@ -27,7 +26,6 @@
                     android:id="@+id/banner_view"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/home_billboard_height"
-                    android:fitsSystemWindows="true"
                     app:canLoop="true"/>
 
                 <include layout="@layout/home_view_entry_layout"/>

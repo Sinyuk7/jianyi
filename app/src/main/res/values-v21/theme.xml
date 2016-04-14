@@ -34,9 +34,9 @@
     </style>
 
 
-    <style name="Jianyi.TranspStatus" parent="Jianyi">
+   <!-- <style name="Jianyi.TranspStatus" parent="Jianyi">
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowTranslucentStatus">true</item>
-    </style>
+    </style>-->
 </resources>

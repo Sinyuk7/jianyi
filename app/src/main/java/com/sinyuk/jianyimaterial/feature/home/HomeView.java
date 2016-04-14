@@ -34,8 +34,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.jakewharton.rxbinding.support.design.widget.RxAppBarLayout;
-import com.jakewharton.rxbinding.support.v7.widget.RecyclerViewScrollEvent;
-import com.jakewharton.rxbinding.support.v7.widget.RxRecyclerView;
 import com.jakewharton.rxbinding.support.v7.widget.RxToolbar;
 import com.jakewharton.rxbinding.view.RxView;
 import com.sinyuk.jianyimaterial.R;
@@ -63,7 +61,6 @@ import com.sinyuk.jianyimaterial.widgets.MultiSwipeRefreshLayout;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -134,7 +131,6 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
         setupSwipeRefreshLayout();
         setupRecyclerView();
         setupBanner();
-        mPresenter.loadListHeader();
         mPresenter.loadBanner();
     }
 
@@ -311,6 +307,8 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
                         .map(src -> JianyiApi.JIANYI + src)
                         .toList().toBlocking().single());
         mBannerView.notifyDataSetChanged();
+        //加载完banner之后在...
+        mPresenter.loadListHeader();
     }
 
 
@@ -365,6 +363,8 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
         mCompositeSubscription.add(RxView.clicks(mShotIv).subscribe(aVoid -> {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(data.getTitle())));
         }));
+//        加载完这个之后在刷新
+        refresh();
     }
 
 
