@@ -1,7 +1,6 @@
 package com.sinyuk.jianyimaterial.feature.details;
 
 import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -22,7 +21,6 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -44,6 +42,7 @@ import com.sinyuk.jianyimaterial.glide.CropCircleTransformation;
 import com.sinyuk.jianyimaterial.managers.SnackBarFactory;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 import com.sinyuk.jianyimaterial.ui.trans.AccordionTransformer;
+import com.sinyuk.jianyimaterial.utils.AnimatorLayerListener;
 import com.sinyuk.jianyimaterial.utils.FormatUtils;
 import com.sinyuk.jianyimaterial.utils.FuzzyDateFormater;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
@@ -69,8 +68,6 @@ import cimi.com.easeinterpolator.EaseSineInInterpolator;
 public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements IDetailsView {
 
     public static final String YihuoProfile = "YihuoProfile";
-    @Bind(R.id.placeholder)
-    RatioImageView placeholder;
     @Bind(R.id.view_pager)
     ViewPager viewPager;
     @Bind(R.id.scrim)
@@ -81,20 +78,12 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
     RoundCornerIndicator roundCornerIndicator;
     @Bind(R.id.progress_bar)
     ProgressBar progressBar;
-    @Bind(R.id.anchor)
-    Space anchor;
     @Bind(R.id.new_price_tv)
     TextView newPriceTv;
     @Bind(R.id.title_tv)
     TextView titleTv;
-    @Bind(R.id.expandable_text)
-    TextView expandableText;
-    @Bind(R.id.expand_collapse)
-    ImageButton expandCollapse;
     @Bind(R.id.description_tv)
     ExpandableTextView descriptionTv;
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
     @Bind(R.id.collapsing_toolbar_layout)
     CollapsingToolbarLayout collapsingToolbarLayout;
     @Bind(R.id.avatar)
@@ -103,8 +92,6 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
     TextView userNameTv;
     @Bind(R.id.pub_date_tv)
     TextView pubDateTv;
-    @Bind(R.id.app_bar_layout)
-    AppBarLayout appBarLayout;
     @Bind(R.id.like_checkable_iv)
     CheckableImageView likeCheckableIv;
     @Bind(R.id.view_count_tv)
@@ -131,7 +118,6 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
     private boolean isEnterActivity = true;
     private DrawableRequestBuilder<String> avatarRequest;
     private BitmapRequestBuilder<String, Bitmap> shotRequest;
-    private ShotsAdapter viewPagerAdapter;
 
     @Override
     protected boolean isUseEventBus() {
@@ -206,7 +192,7 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
     }
 
     private void setupUsername() {
-        userNameTv.setText( String.format(StringUtils.getRes(this, R.string.details_username),
+        userNameTv.setText(String.format(StringUtils.getRes(this, R.string.details_username),
                 StringUtils.check(this, profileData.getUsername(), R.string.untable)));
     }
 
@@ -236,11 +222,6 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
     private void setupViewPager() {
         // TODO:  use view-stub instead
         pageIndicator.setVisibility(View.GONE);
-
-        viewPagerAdapter = new ShotsAdapter(this);
-
-        viewPager.setAdapter(viewPagerAdapter);
-
         viewPager.setPageTransformer(false, new AccordionTransformer());
         viewPager.setOnTouchListener((v, ev) -> {
 
@@ -262,8 +243,7 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
     }
 
     private void onShotClick(int shotIndex) {
-        if (shotsList == null)
-            return;
+        if (shotsList == null) { return; }
         Intent intent = new Intent(DetailsView.this, PhotoViewActivity.class);
         Bundle bundle = new Bundle();
         ArrayList<String> list = new ArrayList<>();
@@ -311,8 +291,12 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
     @Override
     public void showShots(List<YihuoDetails.Pics> shots) {
         shotsList = shots;
-        viewPagerAdapter.notifyDataSetChanged();
-        viewPager.setAdapter(viewPagerAdapter);
+        // TODO: 这2个的位置
+        ShotsAdapter mViewPagerAdapter = new ShotsAdapter(this);
+
+        viewPager.setAdapter(mViewPagerAdapter);
+
+        mViewPagerAdapter.notifyDataSetChanged();
 
         // TODO: use view-stub instead
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -359,6 +343,13 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
         SnackBarFactory.requestLogin(this, coordinatorLayout).show();
     }
 
+    public void showLoadingProgress() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    public void hideLoadingProgress() {
+        progressBar.setVisibility(View.GONE);
+    }
 
     /**
      * ViewPager Adapter
@@ -374,8 +365,7 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
         @Override
         public int getCount() {
             // if the shotList is empty load a placeholder
-            if (shotsList.isEmpty())
-                return 1;
+            if (shotsList.isEmpty()) { return 1; }
             return shotsList.size();
         }
 
@@ -409,7 +399,7 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
                 return imageView;
             }
 
-            imageView.setTag(R.id.shot_tag, shotsList.get(position).getId());
+            /*imageView.setTag(R.id.shot_tag, shotsList.get(position).getId());*/
 
             shotRequest.load(JianyiApi.shotUrl(shotsList.get(position).getPic())).listener(new RequestListener<String, Bitmap>() {
                 @Override
@@ -423,7 +413,7 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
                 public boolean onResourceReady(final Bitmap bitmap, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
                     hideLoadingProgress();
                     if (isEnterActivity) {
-                        scrim.animate().alpha(0).setDuration(100).setStartDelay(150).setInterpolator(new EaseSineInInterpolator()).setListener(new AnimatorListenerAdapter() {
+                        scrim.animate().alpha(0).setDuration(150).setStartDelay(50).setInterpolator(new EaseSineInInterpolator()).setListener(new AnimatorLayerListener(scrim) {
                             @Override
                             public void onAnimationEnd(Animator animation) {
                                 scrim.setAlpha(0);
@@ -438,13 +428,5 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
 
             return imageView;
         }
-    }
-
-    public void showLoadingProgress() {
-        progressBar.setVisibility(View.VISIBLE);
-    }
-
-    public void hideLoadingProgress() {
-        progressBar.setVisibility(View.GONE);
     }
 }

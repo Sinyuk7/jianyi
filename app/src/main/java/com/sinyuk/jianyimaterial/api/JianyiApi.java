@@ -44,7 +44,7 @@ public class JianyiApi {
 
 
     public static String shotUrl(@Nullable String uri) {
-        return "http://wx.i-jianyi.com" + uri;
+        return JIANYI + uri;
     }
 
     public static String yihuoDetails(String id) {

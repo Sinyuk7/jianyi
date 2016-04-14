@@ -19,7 +19,6 @@
 
     <!--Coordinator Layout-->
     <style name="DefaultCoordinatorLayout">
-        <item name="android:fitsSystemWindows">false</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:id">@id/coordinator_layout</item>

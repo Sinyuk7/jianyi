@@ -61,8 +61,6 @@ public class YihuoDetails implements java.io.Serializable {
     // KEEP FIELDS - put your custom fields here
     @SuppressWarnings("unused")
     public static final String TAG = "YihuoDetails";
-    public static final String LOAD_REQUEST = "load_" + TAG;
-    public static final String REFRESH_REQUEST = "refresh_" + TAG;
 
     private List<Pics> pics;
 
@@ -71,6 +69,7 @@ public class YihuoDetails implements java.io.Serializable {
         private String pic;
         private String gid;
         private String del;
+        private String thumbnail;
 
         public String getId() {
             return id;
@@ -88,6 +87,9 @@ public class YihuoDetails implements java.io.Serializable {
             return del;
         }
 
+        public String getThumbnail() {
+            return thumbnail;
+        }
 
         public Pics() {
         }

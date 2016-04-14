@@ -1,32 +1,33 @@
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.design.widget.CoordinatorLayout
     android:id="@+id/coordinator_layout"
-    style="@style/DefaultCoordinatorLayout">
+    style="@style/DefaultCoordinatorLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"
-        style="@style/DefaultAppBarLayout"
-        android:background="@color/transparent">
+        style="@style/DefaultAppBarLayout">
 
         <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/collapsing_toolbar_layout"
             style="@style/DefaultCollapsingToolbarLayout.Light"
             app:collapsedTitleTextAppearance="@style/collapsedTitleText"
             app:expandedTitleMarginBottom="@dimen/activity_horizontal_margin"
             app:expandedTitleTextAppearance="@style/expandedTitleText"
+            app:title="@string/app_name"
             app:titleEnabled="true">
 
-            <include layout="@layout/include_product_details_shots" />
+            <include layout="@layout/include_product_details_shots"/>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
-                style="@style/Toolbar.Details"
-               />
+                style="@style/Toolbar.Details"/>
         </android.support.design.widget.CollapsingToolbarLayout>
 
         <include
             android:id="@+id/seller_info"
-            layout="@layout/include_product_details_seller_info" />
+            layout="@layout/include_product_details_seller_info"/>
+
+        <include layout="@layout/toolbar_shadow_compat"/>
 
     </android.support.design.widget.AppBarLayout>
 
@@ -36,18 +37,18 @@
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <include layout="@layout/include_product_details_socials" />
+        <include layout="@layout/include_product_details_socials"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
 
     <include
         android:id="@+id/footer"
-        layout="@layout/include_product_details_footer" />
+        layout="@layout/include_product_details_footer"/>
 </android.support.design.widget.CoordinatorLayout>
 
 
