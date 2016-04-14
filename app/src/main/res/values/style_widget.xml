@@ -72,7 +72,7 @@
 
 
 
-    <style name="ToolbarImageButton" parent="ClickableImageViewBorderless">
+    <style name="ToolbarImageButton" parent="ClickableImageView">
         <item name="android:layout_width">56dp</item>
         <item name="android:layout_height">56dp</item>
         <item name="android:padding">16dp</item>

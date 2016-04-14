@@ -18,5 +18,4 @@ public interface IProfileView {
 
     void showToolbarTitle(@NonNull String username);
 
-    void initFragments(@NonNull String url);
 }

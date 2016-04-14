@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -17,21 +18,21 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.jakewharton.rxbinding.support.design.widget.RxAppBarLayout;
+import com.jakewharton.rxbinding.view.RxView;
 import com.sinyuk.jianyimaterial.R;
-import com.sinyuk.jianyimaterial.events.XFragmentReadyEvent;
+import com.sinyuk.jianyimaterial.feature.shelf.ShelfView;
 import com.sinyuk.jianyimaterial.glide.BlurTransformation;
+import com.sinyuk.jianyimaterial.glide.ColorFilterTransformation;
 import com.sinyuk.jianyimaterial.glide.CropCircleTransformation;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 import com.sinyuk.jianyimaterial.widgets.MyCircleImageView;
-
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Sinyuk on 16.4.10.
@@ -40,7 +41,7 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
     public static final String PROFILE_TYPE = "type";
     public static final float MINE = 1;
     public static final float OTHER = 2;
-    private final static String[] sTabTitles = new String[]{"物品", "需求", "喜欢"};
+    private final static String[] sTabTitles = new String[]{"物品", "喜欢"};
     @Bind(R.id.reveal_view)
     ImageView mRevealView;
     @Bind(R.id.avatar)
@@ -51,8 +52,8 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
     EditText mLocationTv;
     @Bind(R.id.tab_layout)
     TabLayout mTabLayout;
-    @Bind(R.id.collapse_fab)
-    ImageView mCollapseFab;
+    @Bind(R.id.action_iv)
+    ImageView mAcionIv;
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
     @Bind(R.id.collapsing_toolbar_layout)
@@ -63,6 +64,8 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
     ViewPager mViewPager;
     @Bind(R.id.profile_header)
     RelativeLayout mProfileHeader;
+    @Bind(R.id.back_iv)
+    ImageView mBackIv;
 
     private float mType;
     private String mUserNameStr;
@@ -71,8 +74,6 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
     private String mAvatarUrlStr;
 
     private List<Fragment> fragmentList = new ArrayList<>();
-
-    private float mFraction = 1;
 
     @Override
     protected boolean isUseEventBus() {
@@ -105,7 +106,7 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
 
     @Override
     protected boolean isNavAsBack() {
-        return true;
+        return false;
     }
 
     @Override
@@ -120,41 +121,66 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
             showBackdrop(mAvatarUrlStr);
             showLocation(mLocationStr);
             showUsername(mUserNameStr);
-            showToolbarTitle(mUserNameStr);
+//            showToolbarTitle(mUserNameStr);
         }
+        setupLayerType();
+        setupToolbar();
         setAppBarLayout();
+        initFragments();
+        setupViewPager();
+        setupTabLayout();
+    }
+
+    private void setupLayerType() {
+        mAvatar.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        mAcionIv.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        mBackIv.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        mUserNameEt.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        mLocationTv.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+    }
+
+    private void setupToolbar() {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
+        mCompositeSubscription.add(RxView.clicks(mBackIv).subscribe(aVoid -> onBackPressed()));
+    }
+
+    private void initFragments() {
+        final Bundle goodsUrl = new Bundle();
+        goodsUrl.putString(ShelfView.URL_WHEN_INIT, "http://wx.i-jianyi.com/port/goods?title=all&sort=all&order=time_desc");
+        fragmentList.add(ShelfView.newInstance(goodsUrl));
+
+        final Bundle needUrl = new Bundle();
+        needUrl.putString(ShelfView.URL_WHEN_INIT, "http://wx.i-jianyi.com/port/goods?title=all&sort=all&order=time_desc");
+        fragmentList.add(ShelfView.newInstance(needUrl));
     }
 
     private void setAppBarLayout() {
         mCompositeSubscription.add(RxAppBarLayout.offsetChanges(mAppBarLayout)
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe(dy -> {
-                    mFraction = 1 - (-dy * 1f / mAppBarLayout.getTotalScrollRange());
-                    mUserNameEt.setAlpha(mFraction);
-                    mLocationTv.setAlpha(mFraction);
-                    mRevealView.setAlpha(mFraction);
-                    mAvatar.setAlpha(mFraction);
+                .map(dy -> 1 - (-dy / (mAppBarLayout.getTotalScrollRange() / 1.5f)))
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(fraction -> {
+                    if (fraction < 0) { fraction = 0f; }
+                    mUserNameEt.setAlpha(fraction);
+                    mLocationTv.setAlpha(fraction);
+                    mAvatar.setScaleY(fraction);
+                    mAvatar.setAlpha(fraction);
+                    mAvatar.setScaleX(fraction);
+                    mAcionIv.setAlpha(fraction);
+                    mBackIv.setAlpha(fraction);
                 }));
     }
 
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onFragmentsReady(XFragmentReadyEvent event) {
-        // 当fragment加载好数据之后才显示tab
-        showFragments();
-    }
-
-    private void showFragments() {
-
-    }
 
     private void setupViewPager() {
         mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
 
             @Override
             public int getCount() {
-                return 3;
+                return 2;
             }
 
             @Override
@@ -190,12 +216,21 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
 
     @Override
     public void showBackdrop(@NonNull String url) {
-        Glide.with(this).load(url)
-                .crossFade(2000)
-                .priority(Priority.IMMEDIATE)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .bitmapTransform(new BlurTransformation(this, 20, 8))
-                .into(mRevealView);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            Glide.with(this).load(url)
+                    .crossFade(2000)
+                    .priority(Priority.IMMEDIATE)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .bitmapTransform(new BlurTransformation(this, 20, 8))
+                    .into(mRevealView);
+        } else {
+            Glide.with(this).load(url)
+                    .crossFade(2000)
+                    .priority(Priority.IMMEDIATE)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .bitmapTransform(new ColorFilterTransformation(this, getResources().getColor(R.color.profile_view_backdrop_scrim)))
+                    .into(mRevealView);
+        }
     }
 
     @Override
@@ -205,16 +240,7 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
 
     @Override
     public void showToolbarTitle(@NonNull String username) {
-        mCollapsingToolbarLayout.setTitle(username);
+//        mCollapsingToolbarLayout.setTitle(username);
     }
 
-    @Override
-    public void initFragments(@NonNull String url) {
-        if (mType == OTHER) {
-            // new fragment
-            // add to list
-        } else {
-
-        }
-    }
 }

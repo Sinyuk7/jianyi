@@ -220,7 +220,6 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
         if (!getComposedUrl().equals(mUrl)) {
             mUrl = getComposedUrl();
             EventBus.getDefault().post(new XShelfChangeEvent(mUrl));
-            LogUtils.simpleLog(ExploreView.class, "update Url " + mUrl);
         }
 
     }

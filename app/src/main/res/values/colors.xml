@@ -39,7 +39,7 @@
     <color name="window_background">#fff5f5f5</color>
     <color name="scrim">#53060606</color>
     <color name="backdrop_scrim">#6802ba92</color>
-
+    <color name="profile_view_backdrop_scrim">#e1fcfcfc</color>
 
     <color name="grey_900">#ff212121</color>
     <color name="grey_850">#ff303030</color>
