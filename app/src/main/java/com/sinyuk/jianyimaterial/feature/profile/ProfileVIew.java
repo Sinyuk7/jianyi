@@ -11,10 +11,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.jakewharton.rxbinding.support.design.widget.RxAppBarLayout;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.events.XFragmentReadyEvent;
 import com.sinyuk.jianyimaterial.glide.BlurTransformation;
@@ -29,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by Sinyuk on 16.4.10.
@@ -58,6 +61,8 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
     AppBarLayout mAppBarLayout;
     @Bind(R.id.view_pager)
     ViewPager mViewPager;
+    @Bind(R.id.profile_header)
+    RelativeLayout mProfileHeader;
 
     private float mType;
     private String mUserNameStr;
@@ -66,6 +71,8 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
     private String mAvatarUrlStr;
 
     private List<Fragment> fragmentList = new ArrayList<>();
+
+    private float mFraction = 1;
 
     @Override
     protected boolean isUseEventBus() {
@@ -115,6 +122,20 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
             showUsername(mUserNameStr);
             showToolbarTitle(mUserNameStr);
         }
+        setAppBarLayout();
+    }
+
+    private void setAppBarLayout() {
+        mCompositeSubscription.add(RxAppBarLayout.offsetChanges(mAppBarLayout)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(dy -> {
+                    mFraction = 1 - (-dy * 1f / mAppBarLayout.getTotalScrollRange());
+                    mUserNameEt.setAlpha(mFraction);
+                    mLocationTv.setAlpha(mFraction);
+                    mRevealView.setAlpha(mFraction);
+                    mAvatar.setAlpha(mFraction);
+                }));
     }
 
 

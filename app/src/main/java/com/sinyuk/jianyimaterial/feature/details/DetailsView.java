@@ -38,6 +38,7 @@ import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.common.Constants;
 import com.sinyuk.jianyimaterial.entity.YihuoDetails;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
+import com.sinyuk.jianyimaterial.feature.profile.ProfileView;
 import com.sinyuk.jianyimaterial.glide.CropCircleTransformation;
 import com.sinyuk.jianyimaterial.managers.SnackBarFactory;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
@@ -286,6 +287,19 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
     @Override
     public void showDescription(String description) {
         descriptionTv.setText(StringUtils.check(this, description, R.string.untable));
+    }
+
+    @OnClick(R.id.avatar)
+    public void toProfileView(){
+        Intent intent = new Intent(this, ProfileView.class);
+        Bundle bundle = new Bundle();
+        bundle.putFloat(ProfileView.PROFILE_TYPE, ProfileView.OTHER);
+        bundle.putString("user_name", profileData.getUsername());
+        bundle.putString("location", profileData.getSchoolname());
+        bundle.putString("tel", profileData.getTel());
+        bundle.putString("avatar", profileData.getHeadImg());
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     @Override
