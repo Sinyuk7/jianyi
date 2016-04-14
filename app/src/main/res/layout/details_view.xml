@@ -10,8 +10,7 @@
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar_layout"
-            style="@style/DefaultCollapsingToolbarLayout"
-            android:background="@color/transparent"
+            style="@style/DefaultCollapsingToolbarLayout.Light"
             app:collapsedTitleTextAppearance="@style/collapsedTitleText"
             app:expandedTitleMarginBottom="@dimen/activity_horizontal_margin"
             app:expandedTitleTextAppearance="@style/expandedTitleText"
@@ -21,11 +20,8 @@
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/toolbar_height"
-                android:background="@color/transparent"
-                app:layout_collapseMode="pin"
-                app:layout_scrollFlags="scroll|enterAlways|snap" />
+                style="@style/Toolbar.Details"
+               />
         </android.support.design.widget.CollapsingToolbarLayout>
 
         <include

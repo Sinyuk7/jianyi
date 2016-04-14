@@ -12,6 +12,12 @@
         <item name="layout_scrollFlags">scroll|enterAlways|snap</item>
     </style>
 
+    <style name="Toolbar.Details" parent="BaseToolbar">
+        <item name="android:background">@color/transparent</item>
+        <item name="navigationIcon">@drawable/ic_arrow_back_primary_24dp</item>
+        <item name="layout_collapseMode">pin</item>
+    </style>
+
     <style name="Toolbar.Comments" parent="BaseToolbar">
         <item name="title">@string/activity_comments</item>
         <item name="navigationIcon">@drawable/ic_arrow_back_primary_24dp</item>
