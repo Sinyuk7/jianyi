@@ -14,9 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.events.XShotDropEvent;
-import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.widgets.LabelView;
-import com.sinyuk.jianyimaterial.widgets.RatioImageView;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -55,14 +53,7 @@ public class ShotsGalleryAdapter extends ExtendedRecyclerViewAdapter<Uri, ShotsG
 
         Uri uri = getData().get(position);
 
-        LogUtils.simpleLog(ShotsGalleryAdapter.class, "Adapter's Data size" + getData().size());
-
-        holder.deleteIv.setOnClickListener(v -> {
-            getData().remove(position);
-            notifyMyItemRemoved(position);
-            notifyItemRangeChanged(position, getDataItemCount());
-            EventBus.getDefault().post(new XShotDropEvent(position));
-        });
+        holder.deleteIv.setOnClickListener(v -> EventBus.getDefault().post(new XShotDropEvent(position)));
 
         if (position == 0) {
             holder.coverLabelView.setVisibility(View.VISIBLE);
@@ -76,7 +67,7 @@ public class ShotsGalleryAdapter extends ExtendedRecyclerViewAdapter<Uri, ShotsG
 
     public class ShotViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.shot_iv)
-        RatioImageView shotIv;
+        ImageView shotIv;
         @Bind(R.id.delete_iv)
         ImageView deleteIv;
         @Bind(R.id.cover_label_view)

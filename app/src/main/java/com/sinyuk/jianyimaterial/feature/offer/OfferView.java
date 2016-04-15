@@ -27,6 +27,7 @@ import com.sinyuk.jianyimaterial.adapters.ShotsGalleryAdapter;
 import com.sinyuk.jianyimaterial.events.XShotDropEvent;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 import com.sinyuk.jianyimaterial.sweetalert.SweetAlertDialog;
+import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;
 import com.tbruyelle.rxpermissions.RxPermissions;
@@ -78,7 +79,7 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
 
     private ShotsGalleryAdapter mAdapter;
 
-    private List<Uri> uriList;
+    private List<Uri> uriList = new ArrayList<>(3);
 
     private SweetAlertDialog mDialog;
 
@@ -234,7 +235,12 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
                 if (selectedUri != null) {
                     if (uriList.size() == 3) { return; }
                     uriList.add(selectedUri);
-                    mAdapter.notifyMyItemInserted(uriList.size());
+                    LogUtils.simpleLog(OfferView.class, "getItemCount At list add" + mAdapter.getItemCount());
+//                    mAdapter.notifyMyItemInserted(uriList.size());
+                    mAdapter.setData(uriList);
+                    LogUtils.simpleLog(OfferView.class, "uriList.size " + uriList.size());
+                    LogUtils.simpleLog(OfferView.class, "getDataItemCount " + mAdapter.getDataItemCount());
+                    LogUtils.simpleLog(OfferView.class, "getItemCount " + mAdapter.getItemCount());
                     updateIndicator(uriList.size());
                 }
             }
@@ -254,7 +260,9 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onListItemDelete(XShotDropEvent event) {
+        uriList.remove(event.getPosition());
         updateIndicator(uriList.size());
+        mAdapter.setData(uriList);
     }
 
     @Override

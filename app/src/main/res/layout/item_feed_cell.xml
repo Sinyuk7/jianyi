@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout android:id="@+id/wrapper"
-             style="@style/ClickableArea"
              xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:app="http://schemas.android.com/apk/res-auto"
              xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="112dp"
-             android:layout_height="112dp"
+             android:layout_width="@dimen/shot_grid_width"
+             android:layout_height="@dimen/shot_grid_width"
              android:layout_marginRight="@dimen/activity_horizontal_margin">
 
-    <com.sinyuk.jianyimaterial.widgets.RatioImageView
+    <ImageView
         android:id="@+id/shot_iv"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
+        android:layout_width="@dimen/shot_grid_width"
+        android:layout_height="@dimen/shot_grid_width"
+        android:padding="@dimen/shot_grid_internal_gap"
         android:layout_gravity="center"
         android:scaleType="centerCrop"
         tools:src="@drawable/ic_avatar_placeholder"/>
@@ -21,7 +21,7 @@
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_gravity="top|start"
-        android:layout_margin="@dimen/general_content_space"
+        android:layout_margin="@dimen/shot_grid_internal_gap"
         android:visibility="gone"
         app:lv_background_color="@color/colorAccent"
         app:lv_fill_triangle="true"
@@ -32,8 +32,8 @@
 
     <ImageView
         android:id="@+id/delete_iv"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_gravity="end|top"
         android:scaleType="centerInside"
         android:src="@drawable/ic_close_circle_red_24dp"/>

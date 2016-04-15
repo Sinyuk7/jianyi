@@ -217,7 +217,7 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="permission_title_rationale">Permission needed</string>
     <string name="permission_read_storage_rationale">Storage read permission is needed to pick files.</string>
     <string name="permission_write_storage_rationale">Storage write permission is needed to save the image.</string>
-    <string name="offer_hint_pick_from">想从哪里挑</string>
+    <string name="offer_hint_pick_from">请选择…</string>
     <string name="toast_cannot_retrieve_selected_image">选择的图片无法被检测到</string>
     <string name="action_login">登录</string>
     <string name="hint_forget_password">忘记密码</string>
@@ -271,10 +271,10 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="offer_hint_confirm">确认</string>
     <string name="offer_hint_cover">第一张照片会被当作封面</string>
     <string name="offer_hint_uploading">上传中</string>
-    <string name="offer_hint_null_title">忘了填简介哦</string>
+    <string name="offer_hint_null_title">简介呢</string>
     <string name="offer_hint_null_details">再补充点嘛</string>
-    <string name="offer_hint_null_price">不要钱也写个0呗</string>
-    <string name="offer_hint_null_shot">无图无真相…</string>
+    <string name="offer_hint_null_price">不要钱吗= =</string>
+    <string name="offer_hint_null_shot">没有图你…</string>
     <string name="offer_hint_permission_denied">没有访问相册的权限QAQ</string>
     <string name="register_hint_phone_num_et">手机号</string>
     <string name="register_hint_authenticode_et">验证码</string>
