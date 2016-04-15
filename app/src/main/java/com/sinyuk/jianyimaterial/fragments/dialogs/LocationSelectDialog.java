@@ -29,7 +29,7 @@ public class LocationSelectDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.MyAlertDialogTheme);
         // Build the dialog and set up the button click handlers
-        builder.setTitle(R.string.pick_location)
+        builder.setTitle(R.string.hint_choose_school)
                 .setItems(getContext().getResources().getStringArray(R.array.schools_sort), (dialog, which) -> {
                     EventBus.getDefault().post(new XLocationSelectEvent(which));
                 });

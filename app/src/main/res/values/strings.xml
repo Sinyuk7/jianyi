@@ -139,7 +139,7 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <!-- ============================================== -->
     <eat-comment />
     <string name="confirm_exit">确定要退出吗</string>
-    <string name="pick_location">您所在的学校是</string>
+    <string name="hint_choose_school">请选择</string>
     <string name="action_sign_up">注册</string>
     <string name="action_sign_in">登录</string>
     <string name="hint_continue_with">第三方账号登录</string>
