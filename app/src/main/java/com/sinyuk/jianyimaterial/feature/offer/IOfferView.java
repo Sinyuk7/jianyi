@@ -13,5 +13,7 @@ public interface IOfferView {
 
     void onVolleyError(String message);
 
-    void onUploaded(String url);
+    void onCompressError(String message);
+
+    void onUploadedSucceed(String url);
 }

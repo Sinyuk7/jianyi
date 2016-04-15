@@ -274,7 +274,7 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="offer_hint_null_title">简介呢</string>
     <string name="offer_hint_null_details">再补充点嘛</string>
     <string name="offer_hint_null_price">不要钱吗= =</string>
-    <string name="offer_hint_null_shot">没有图你…</string>
+    <string name="offer_hint_null_shot">没图你…</string>
     <string name="offer_hint_permission_denied">没有访问相册的权限QAQ</string>
     <string name="register_hint_phone_num_et">手机号</string>
     <string name="register_hint_authenticode_et">验证码</string>

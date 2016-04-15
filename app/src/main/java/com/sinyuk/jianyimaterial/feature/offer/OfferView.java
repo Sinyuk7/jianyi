@@ -36,9 +36,11 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 import rx.Observable;
 
 /**
@@ -80,6 +82,7 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
     private ShotsGalleryAdapter mAdapter;
 
     private List<Uri> uriList = new ArrayList<>(3);
+    private HashMap<String, String> indexAndUrlMap = new HashMap<>();
 
     private SweetAlertDialog mDialog;
 
@@ -114,17 +117,12 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
                 .map(actionId -> actionId == EditorInfo.IME_ACTION_DONE)
                 .subscribe(done -> {if (done) { onClickConfirm(); }}));
 
-        Observable<Integer> shotObservable = Observable.from(uriList).count();
         Observable<CharSequence> titleObservable = RxTextView.textChanges(mTitleEt).skip(1);
         Observable<CharSequence> detailsObservable = RxTextView.textChanges(mDetailsEt).skip(1);
         Observable<CharSequence> priceObservable = RxTextView.textChanges(mNewPriceEt).skip(1);
 
-        mCompositeSubscription.add(Observable.combineLatest(shotObservable, titleObservable, detailsObservable, priceObservable,
-                (count, title, details, price) -> {
-                    if (count <= 0) {
-                        ToastUtils.toastSlow(this, getString(R.string.offer_hint_null_shot));
-                        return false;
-                    }
+        mCompositeSubscription.add(Observable.combineLatest(titleObservable, detailsObservable, priceObservable,
+                (title, details, price) -> {
 
                     if (TextUtils.isEmpty(title)) {
                         mTitleEt.setError(getString(R.string.offer_hint_null_title));
@@ -188,7 +186,14 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
     /**
      * 点击确认按钮
      */
-    private void onClickConfirm() {
+    @OnClick(R.id.confirm_btn)
+    public void onClickConfirm() {
+        if (uriList.isEmpty()) {
+            ToastUtils.toastSlow(this, getString(R.string.offer_hint_null_shot));
+            return;
+        } else {
+
+        }
 
     }
 
@@ -204,29 +209,6 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
         startActivityForResult(Intent.createChooser(intent, getString(R.string.offer_hint_pick_from)), REQUEST_PICK);
     }
 
-
-/*    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_PICK) {
-                final Uri selectedUri = data.getData();
-                if (uriList.size() >= 3) { return; }
-                //
-                // 因为没有header 所以notifyMyItemInserted 和notifyItemInserted 是一样的
-//                mAdapter.addData(selectedUri);
-                uriList.add(selectedUri);
-                mAdapter.notifyMyItemInserted(uriList.size());
-                LogUtils.simpleLog(OfferView.class, "uriList.size() " + uriList.size());
-                LogUtils.simpleLog(OfferView.class, "getDataItemCount() " + mAdapter.getDataItemCount());
-                LogUtils.simpleLog(OfferView.class, "getItemCount() " + mAdapter.getItemCount());
-                updateIndicator(uriList.size());
-                mPresenter.compressThenUpload(selectedUri.getPath());
-            }
-        }
-
-    }*/
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
@@ -235,13 +217,9 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
                 if (selectedUri != null) {
                     if (uriList.size() == 3) { return; }
                     uriList.add(selectedUri);
-                    LogUtils.simpleLog(OfferView.class, "getItemCount At list add" + mAdapter.getItemCount());
-//                    mAdapter.notifyMyItemInserted(uriList.size());
                     mAdapter.setData(uriList);
-                    LogUtils.simpleLog(OfferView.class, "uriList.size " + uriList.size());
-                    LogUtils.simpleLog(OfferView.class, "getDataItemCount " + mAdapter.getDataItemCount());
-                    LogUtils.simpleLog(OfferView.class, "getItemCount " + mAdapter.getItemCount());
                     updateIndicator(uriList.size());
+                    mPresenter.compressThenUpload(selectedUri.toString());
                 }
             }
         }
@@ -286,15 +264,25 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
 
     @Override
     public void onParseError(String message) {
+        LogUtils.simpleLog(OfferView.class, "onParseError");
     }
 
     @Override
     public void onVolleyError(String message) {
+        LogUtils.simpleLog(OfferView.class, "onVolleyError");
+    }
 
+
+    @Override
+    public void onCompressError(String message) {
+        LogUtils.simpleLog(OfferView.class, "onCompressError");
     }
 
     @Override
-    public void onUploaded(String url) {
+    public void onUploadedSucceed(String url) {
 
+        indexAndUrlMap.put(String.valueOf(uriList.size()), url);
+        LogUtils.simpleLog(OfferView.class, "index " + String.valueOf(uriList.size()));
+        LogUtils.simpleLog(OfferView.class, "url " + url);
     }
 }

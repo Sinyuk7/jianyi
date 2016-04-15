@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import com.sinyuk.jianyimaterial.api.JUploadResponse;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.application.Jianyi;
+import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.volley.MultipartRequest;
 import com.sinyuk.jianyimaterial.volley.VolleyErrorHelper;
 
@@ -57,16 +58,20 @@ public class ShotModel {
 
 
     /**
-     * @param uriStr      bitmap uri
+     * @param uriStr   bitmap uri
      * @param callback
      */
     public void compressThenUpload(String uriStr, ShotUploadCallback callback) {
+        LogUtils.simpleLog(ShotModel.class, "compressThenUpload");
         Observable.just(uriStr)
                 .map(Uri::parse)
+                .doOnError(parseUri -> callback.onUploadCompressFailed(parseUri.getMessage()))
                 .map(this::getFileDataFromDrawable)
-                .subscribeOn(Schedulers.io()).doOnError(throwable -> {})
-                .map(this::getMultipartBody).subscribeOn(Schedulers.io())
-                .doOnError(throwable -> {})
+                .doOnError(toByte -> callback.onUploadCompressFailed(toByte.getMessage()))
+                .subscribeOn(Schedulers.io())
+                .map(this::getMultipartBody)
+                .subscribeOn(Schedulers.io())
+                .doOnError(transform -> callback.onUploadParseError(transform.getMessage()))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(multipartBody -> {upload(multipartBody, callback);});
     }
@@ -84,21 +89,24 @@ public class ShotModel {
     }
 
     private void upload(byte[] multipartBody, ShotUploadCallback callback) {
-
+        LogUtils.simpleLog(ShotModel.class, "upload");
         MultipartRequest multipartRequest = new MultipartRequest(JianyiApi.uploadImage(), null, mMimeType, multipartBody, response -> {
             try {
                 String jsonString = new String(response.data,
                         HttpHeaderParser.parseCharset(response.headers));
                 JUploadResponse uploadResponse = mGson.fromJson(jsonString, JUploadResponse.class);
+                LogUtils.simpleLog(ShotModel.class, "uploadResponse" + uploadResponse.toString());
                 String url = uploadResponse.getData();
+                LogUtils.simpleLog(ShotModel.class, "getData" + uploadResponse.getData());
                 if (null != url) {
-                    callback.onUploaded(url);
+                    callback.onUploadUploaded(url);
                 }
             } catch (Exception e) {
-                callback.onParseError(e.getMessage());
+                callback.onUploadParseError(e.getMessage());
+                LogUtils.simpleLog(ShotModel.class, "onUploadParseError");
             }
 
-        }, error -> callback.onVolleyError(VolleyErrorHelper.getMessage(error))) {
+        }, error -> callback.onUploadVolleyError(VolleyErrorHelper.getMessage(error))) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 return createBasicAuthHeader(JianyiApi.BASIC_AUTHOR_ACCOUNT, JianyiApi.BASIC_AUTHOR_PASSWORD);
@@ -173,11 +181,13 @@ public class ShotModel {
 
     public interface ShotUploadCallback {
 
-        void onParseError(String message);
+        void onUploadParseError(String message);
 
-        void onVolleyError(String message);
+        void onUploadVolleyError(String message);
 
-        void onUploaded(String url);
+        void onUploadUploaded(String url);
+
+        void onUploadCompressFailed(String message);
     }
 
 }
