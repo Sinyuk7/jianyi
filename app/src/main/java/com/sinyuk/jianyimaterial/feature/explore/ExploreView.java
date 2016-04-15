@@ -19,12 +19,13 @@ import com.sinyuk.jianyimaterial.events.XShelfChangeEvent;
 import com.sinyuk.jianyimaterial.feature.shelf.ShelfView;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 import com.sinyuk.jianyimaterial.ui.InsetViewTransformer;
-import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.widgets.flowlayout.FlowLayout;
 import com.sinyuk.jianyimaterial.widgets.flowlayout.TagAdapter;
 import com.sinyuk.jianyimaterial.widgets.flowlayout.TagFlowLayout;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -78,7 +79,8 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
     private String[] mChildSortArray;
 
     private View mFlowLayout;
-    private String mUrl;
+    private HashMap<String, String> mParams;
+
 
     @Override
     protected boolean isUseEventBus() {
@@ -132,13 +134,13 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
         String toolbarTitle;
         switch (mTitle) {
             case "new":
-                toolbarTitle = "今日上进";
+                toolbarTitle = "上新";
                 break;
             case "free":
-                toolbarTitle = "免费专区";
+                toolbarTitle = "免费";
                 break;
             case "hot":
-                toolbarTitle = "小编推荐";
+                toolbarTitle = "推荐";
                 break;
             default:
                 toolbarTitle = mTitle;
@@ -148,9 +150,9 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
     }
 
     private void initFragment() {
-        mUrl = new JianyiApi.YihuoProfileBuilder(mTitle).addSort("all").getUrl();
         Bundle args = new Bundle();
-        args.putString(ShelfView.URL_WHEN_INIT, mUrl);
+        args.putString(ShelfView.PARAM_SORT, mTitle);
+        mParams = new JianyiApi.ParamsBuilder(mTitle).getParams();
         ShelfView mShelfView = ShelfView.newInstance(args);
         getSupportFragmentManager().beginTransaction().add(R.id.list_fragment_container, mShelfView).commit();
     }
@@ -217,15 +219,15 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
 
 
     public void confirm() {
-        if (!getComposedUrl().equals(mUrl)) {
-            mUrl = getComposedUrl();
-            EventBus.getDefault().post(new XShelfChangeEvent(mUrl));
+        if (!composeParams().equals(mParams)) {
+            mParams = composeParams();
+            EventBus.getDefault().post(new XShelfChangeEvent(mParams));
         }
 
     }
 
-    private String getComposedUrl() {
-        JianyiApi.YihuoProfileBuilder mUrlBuilder = new JianyiApi.YihuoProfileBuilder(mTitle);
+    private HashMap<String, String> composeParams() {
+        JianyiApi.ParamsBuilder mUrlBuilder = new JianyiApi.ParamsBuilder(mTitle);
 
         if (getIntent().getExtras().getBoolean(ENABLE_CHILD_SORT, false)) {
             int mNewChildSortPosition = mChildSortTags.getSelectedList().isEmpty() ? -1 : (int) mChildSortTags.getSelectedList().toArray()[0];
@@ -258,7 +260,7 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
                     break;
             }
         }
-        return mUrlBuilder.getUrl();
+        return mUrlBuilder.getParams();
     }
 
 

@@ -3,6 +3,8 @@ package com.sinyuk.jianyimaterial.api;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import java.util.HashMap;
+
 /**
  * Created by Sinyuk on 15.12.28.
  */
@@ -10,7 +12,9 @@ public class JianyiApi {
     public static final String JIANYI = "http://wx.i-jianyi.com";
     public static final String BASIC_AUTHOR_ACCOUNT = "1202072324";
     public static final String BASIC_AUTHOR_PASSWORD = "1202072322";
-    private static final String GOODS = JIANYI + "/port/goods";
+
+
+    public static final String GOODS = JIANYI + "/port/goods";
     private static final String NEEDS = JIANYI + "/port/needs";
     private static final String SIGN = JIANYI + "/port/sign";
     private static final String ORDER_DESC = "&order=time_desc";
@@ -25,8 +29,8 @@ public class JianyiApi {
         return GOODS + "?title=all" + "&page=" + pageIndex + ORDER_DESC;
     }
 
-    public static String filterYihuoProfile(@Nullable int pageIndex, String url) {
-        return url + "&page=" + pageIndex;
+    public static String filterYihuoProfile(@Nullable int pageIndex) {
+        return GOODS + "?page=" + pageIndex;
 
     }
 
@@ -34,12 +38,6 @@ public class JianyiApi {
     // 大类
     public static String yihuoBySort(@Nullable int pageIndex, String parentSort) {
         return "http://wx.i-jianyi.com/port/goods/index" + "?page=" + pageIndex + "&title=" + parentSort;
-    }
-
-
-    public static String yihuoBySort(@Nullable int pageIndex, String parentSort, String subSort) {
-        return "http://wx.i-jianyi.com/port/goods/index" +
-                "?sort=" + subSort + "&page=" + pageIndex + "&title=" + parentSort;
     }
 
 
@@ -101,58 +99,50 @@ public class JianyiApi {
         return BANNER;
     }
 
-    public static class YihuoProfileBuilder {
-        private StringBuilder mStringBuilder;
-        private boolean hasSort = true;
+    public static class ParamsBuilder {
+        private HashMap<String,String> mBuilder = new HashMap<>();
+        private boolean hasChildSort;
 
-        public YihuoProfileBuilder() {
-            mStringBuilder = new StringBuilder(GOODS + "?title=all");
-            hasSort = false;
+        public ParamsBuilder() {
+            mBuilder.put("title","all");
+            hasChildSort = false;
         }
 
-        public YihuoProfileBuilder(String title) {
-            mStringBuilder = new StringBuilder(GOODS + "?title=" + title);
+        public ParamsBuilder(String title) {
+            mBuilder.put("title",title);
+            hasChildSort = true;
         }
 
-        public YihuoProfileBuilder addSchool(int index) {
-            addParam("&school=" + index);
+        public ParamsBuilder addSchool(int index) {
+            addParam("school", String.valueOf(index));
             return this;
         }
 
-        public YihuoProfileBuilder addSort(String sort) {
-            if (hasSort) { addParam("&sort=" + sort); }
+        public ParamsBuilder addSort(String sort) {
+            if (hasChildSort) { addParam("sort", sort); }
             return this;
         }
 
-        public YihuoProfileBuilder addTimeOrder(boolean isDesc) {
+        public ParamsBuilder addTimeOrder(boolean isDesc) {
             final String order = isDesc ? "time_desc" : "time_asc";
-            addParam("&order=" + order);
+            mBuilder.remove("order");
+            addParam("order" ,order);
             return this;
         }
 
-        public YihuoProfileBuilder addPriceOrder(boolean isAsc) {
+        public ParamsBuilder addPriceOrder(boolean isAsc) {
             final String order = isAsc ? "price_asc" : "price_desc";
-            addParam("&order=" + order);
+            mBuilder.remove("order");
+            addParam("order" ,order);
             return this;
         }
 
-        public YihuoProfileBuilder addPageSize(int size) {
-            addParam("&page_size=" + size);
-            return this;
+        private void addParam(String key , String value) {
+            mBuilder.put(key, value);
         }
 
-        public YihuoProfileBuilder addPageIndex(int index) {
-            addParam("&page=" + index);
-            return this;
-        }
-
-
-        private void addParam(String s) {
-            mStringBuilder.append(s);
-        }
-
-        public String getUrl() {
-            return mStringBuilder.toString();
+        public HashMap<String,String> getParams() {
+            return mBuilder;
         }
 
     }

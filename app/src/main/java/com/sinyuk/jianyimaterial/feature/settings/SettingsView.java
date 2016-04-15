@@ -112,8 +112,13 @@ public class SettingsView extends BaseActivity<SettingsPresenterImpl> implements
     @Override
     protected void onFinishInflate() {
         // whether the user is logged in or not
-        mPresenter.queryCurrentUser();
         setupCacheOption();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.queryCurrentUser();
     }
 
     private void showAlertDialog() {

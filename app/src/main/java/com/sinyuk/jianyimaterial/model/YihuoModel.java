@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
@@ -20,13 +21,16 @@ import com.sinyuk.jianyimaterial.greendao.dao.DaoUtils;
 import com.sinyuk.jianyimaterial.greendao.dao.YihuoDetailsService;
 import com.sinyuk.jianyimaterial.mvp.BaseModel;
 import com.sinyuk.jianyimaterial.utils.PreferencesUtils;
+import com.sinyuk.jianyimaterial.volley.FormDataRequest;
 import com.sinyuk.jianyimaterial.volley.JsonRequest;
 import com.sinyuk.jianyimaterial.volley.VolleyErrorHelper;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import rx.Observable;
 import rx.schedulers.Schedulers;
@@ -107,27 +111,28 @@ public class YihuoModel implements BaseModel {
         Jianyi.getInstance().addRequest(jsonRequest, INDEX_REQUEST);
     }
 
-    public void getProfileByUrl(int pageIndex, String url, RequestYihuoProfileCallback callback) {
+    public void getProfileByParams(int pageIndex, HashMap<String, String> params, RequestYihuoProfileCallback callback) {
         boolean isRefresh = pageIndex == 1;
-        JsonRequest jsonRequest = new JsonRequest
-                (Request.Method.GET, JianyiApi.filterYihuoProfile(pageIndex, url), null, response -> {
+        FormDataRequest jsonRequest = new FormDataRequest
+                (Request.Method.POST, JianyiApi.filterYihuoProfile(pageIndex), response -> {
                     try {
-                        Index index = gson.fromJson(response.toString(), Index.class);
-
+                        Index index = gson.fromJson(response, Index.class);
                         List<Index.Data.Items> items = index.getData().getItems();
-
                         String trans = gson.toJson(items);
-
                         List<YihuoProfile> data = gson.fromJson(trans,
                                 new TypeToken<List<YihuoProfile>>() {
                                 }.getType());
-
                         // do clear
                         if (data != null) { callback.onCompleted(data, isRefresh); }
                     } catch (JsonParseException e) {
                         callback.onParseError(e.getMessage());
                     }
-                }, error -> callback.onVolleyError(VolleyErrorHelper.getMessage(error)));
+                }, error -> callback.onVolleyError(VolleyErrorHelper.getMessage(error))) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                return params;
+            }
+        };
         Jianyi.getInstance().addRequest(jsonRequest, INDEX_REQUEST);
     }
 

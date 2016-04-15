@@ -50,7 +50,7 @@ public class EntryView extends BaseActivity<EntryPresenterImpl> implements IEntr
         FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction().replace(R.id.container_menu, DrawerView.getInstance()).commit();
         fm.beginTransaction().replace(R.id.home_view, HomeView.getInstance()).commit();
-        SchoolModel.getInstance(this).getSchools(this);
+//        SchoolModel.getInstance(this).getSchools(this);
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.sinyuk.jianyimaterial.entity.YihuoProfile;
 import com.sinyuk.jianyimaterial.model.YihuoModel;
 import com.sinyuk.jianyimaterial.mvp.BasePresenter;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -11,8 +12,8 @@ import java.util.List;
  */
 public class ShelfPresenterImpl extends BasePresenter<ShelfView> implements IShelfPresenter, YihuoModel.RequestYihuoProfileCallback {
     @Override
-    public void loadData(int pageIndex, String url) {
-        YihuoModel.getInstance(mView.getContext()).getProfileByUrl(pageIndex, url, this);
+    public void loadData(int pageIndex, HashMap<String,String> params) {
+        YihuoModel.getInstance(mView.getContext()).getProfileByParams(pageIndex, params, this);
     }
 
     @Override

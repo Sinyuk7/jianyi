@@ -148,11 +148,9 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
 
     private void initFragments() {
         final Bundle goodsUrl = new Bundle();
-        goodsUrl.putString(ShelfView.URL_WHEN_INIT, "http://wx.i-jianyi.com/port/goods?title=all&sort=all&order=time_desc");
         fragmentList.add(ShelfView.newInstance(goodsUrl));
 
         final Bundle needUrl = new Bundle();
-        needUrl.putString(ShelfView.URL_WHEN_INIT, "http://wx.i-jianyi.com/port/goods?title=all&sort=all&order=time_desc");
         fragmentList.add(ShelfView.newInstance(needUrl));
     }
 

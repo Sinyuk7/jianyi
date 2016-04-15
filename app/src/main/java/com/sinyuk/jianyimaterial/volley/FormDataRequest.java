@@ -48,4 +48,10 @@ public class FormDataRequest extends StringRequest {
         headerMap.put("Content-Type","application/x-www-form-urlencoded");
         return headerMap;
     }
+
+    @Override
+    public String getBodyContentType() {
+        return "application/x-www-form-urlencoded; charset=UTF-8";
+    }
+
 }

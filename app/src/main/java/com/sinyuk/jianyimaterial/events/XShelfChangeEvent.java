@@ -1,16 +1,18 @@
 package com.sinyuk.jianyimaterial.events;
 
+import java.util.HashMap;
+
 /**
  * Created by Sinyuk on 16.4.7.
  */
 public class XShelfChangeEvent {
-    private String mNewUrl;
+    private HashMap<String,String> mNewParams;
 
-    public XShelfChangeEvent(String newUrl) {
-        mNewUrl = newUrl;
+    public XShelfChangeEvent(HashMap<String,String> newParams) {
+        mNewParams = newParams;
     }
 
-    public String getNewUrl() {
-        return mNewUrl;
+    public HashMap<String,String> getNewParams() {
+        return mNewParams;
     }
 }

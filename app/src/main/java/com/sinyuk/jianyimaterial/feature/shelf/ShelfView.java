@@ -21,6 +21,7 @@ import com.sinyuk.jianyimaterial.events.XShelfChangeEvent;
 import com.sinyuk.jianyimaterial.mvp.BaseFragment;
 import com.sinyuk.jianyimaterial.ui.GridItemSpaceDecoration;
 import com.sinyuk.jianyimaterial.ui.OnLoadMoreListener;
+import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.NetWorkUtils;
 import com.sinyuk.jianyimaterial.widgets.MultiSwipeRefreshLayout;
 
@@ -28,16 +29,23 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Sinyuk on 16.4.2.
  */
 public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShelfView,
         AppBarLayout.OnOffsetChangedListener {
-    public static final String URL_WHEN_INIT = "init_url";
+    public static final String PARAM_SCHOOL = "school";
+    public static final String PARAM_SORT = "sort";
+    public static final String PARAM_ORDER = "order";
+    public static final String PARAM_CHILD_SORT = "child_sort";
     @Bind(R.id.recycler_view)
     RecyclerView mRecyclerView;
     @Bind(R.id.swipe_refresh_layout)
@@ -49,8 +57,8 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
     private View mListHeader;
     private int mPageIndex = 1;
     private List<YihuoProfile> mYihuoProfileList = new ArrayList<>();
+    private HashMap<String, String> mParams;
 
-    private String mUrl;
 
     public static ShelfView newInstance(Bundle args) {
         ShelfView fragment = new ShelfView();
@@ -90,8 +98,32 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
     protected void onFinishInflate() {
         setupSwipeRefreshLayout();
         setupRecyclerView();
-        mUrl = getArguments().getString(URL_WHEN_INIT);
-        mPresenter.loadData(1, mUrl);
+        buildParams(getArguments());
+    }
+
+    private void buildParams(Bundle bundle) {
+        Observable.just(bundle)
+                .map(args -> {
+                    HashMap<String, String> params = new HashMap<>();
+                    if (args.getString(PARAM_SCHOOL) != null) {
+                        params.put("school", args.getString(PARAM_SCHOOL));
+                    }
+                    params.put("title", args.getString(PARAM_SORT, "all"));
+
+                    params.put("sort", args.getString(PARAM_CHILD_SORT, "all"));
+
+                    if (args.getString(PARAM_ORDER) != null) {
+                        params.put("order", args.getString(PARAM_ORDER));
+                    }
+                    return params;
+                })
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(params -> {
+                    mPresenter.loadData(1, params);
+                    mParams = params;
+                });
+
     }
 
     private void setupRecyclerView() {
@@ -171,12 +203,12 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
 
     @Override
     public void refresh() {
-        mPresenter.loadData(1, mUrl);
+        mPresenter.loadData(1, mParams);
     }
 
     @Override
     public void loadData(int pageIndex) {
-        mPresenter.loadData(pageIndex, mUrl);
+        mPresenter.loadData(pageIndex, mParams);
     }
 
     @Override
@@ -204,14 +236,14 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
 
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-        mSwipeRefreshLayout.setEnabled(verticalOffset == 0);
+        if (null != mSwipeRefreshLayout) { mSwipeRefreshLayout.setEnabled(verticalOffset == 0); }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onYihuoChange(XShelfChangeEvent event) {
-        if (!event.getNewUrl().equals(mUrl)) {
-            mUrl = event.getNewUrl();
-            mPresenter.loadData(1, mUrl);
+        if (!event.getNewParams().equals(mParams)) {
+            mParams = event.getNewParams();
+            mPresenter.loadData(1, mParams);
         }
     }
 }
