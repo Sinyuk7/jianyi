@@ -34,6 +34,7 @@
         android:id="@+id/delete_iv"
         android:layout_width="24dp"
         android:layout_height="24dp"
+        android:visibility="gone"
         android:layout_gravity="end|top"
         android:scaleType="centerInside"
         android:src="@drawable/ic_close_circle_red_24dp"/>

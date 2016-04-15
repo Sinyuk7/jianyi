@@ -13,16 +13,13 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
-        android:paddingBottom="@dimen/general_content_space"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/general_content_space">
+        android:padding="@dimen/activity_horizontal_margin">
 
         <!--height = 96 + 32 -->
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="112dp"
+            android:layout_height="@dimen/shot_grid_width"
             android:overScrollMode="never"/>
 
         <LinearLayout
@@ -37,7 +34,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/offer_hint_cover"
+                android:text="@string/offer_hint_delete"
                 android:textColor="@color/grey_600"
                 android:textSize="@dimen/material_text_caption1"/>
 
@@ -49,6 +46,9 @@
                 android:text="0/3"
                 android:textSize="@dimen/material_text_caption1"/>
         </LinearLayout>
+
+        <include layout="@layout/toolbar_shadow_compat"/>
+
     </LinearLayout>
 
 

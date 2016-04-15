@@ -12,9 +12,12 @@ import android.widget.ImageView;
 import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.facebook.rebound.Spring;
+import com.facebook.rebound.SpringSystem;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.events.XShotDropEvent;
 import com.sinyuk.jianyimaterial.widgets.LabelView;
+import com.tumblr.backboard.imitator.ToggleImitator;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -60,6 +63,16 @@ public class ShotsGalleryAdapter extends ExtendedRecyclerViewAdapter<Uri, ShotsG
         } else {
             holder.coverLabelView.setVisibility(View.GONE);
         }
+
+        holder.deleteIv.setVisibility(View.GONE);
+        holder.shotIv.setOnLongClickListener(v -> {
+            if (holder.deleteIv.getVisibility() != View.VISIBLE) {
+                holder.deleteIv.setVisibility(View.VISIBLE);
+            } else {
+                holder.deleteIv.setVisibility(View.GONE);
+            }
+            return true;
+        });
 
         loadRequest.load(uri).into(holder.shotIv);
     }

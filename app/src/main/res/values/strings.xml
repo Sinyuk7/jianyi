@@ -269,7 +269,7 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="entry_recommended">推荐</string>
     <string name="entry_free">免费</string>
     <string name="offer_hint_confirm">确认</string>
-    <string name="offer_hint_cover">第一张照片会被当作封面</string>
+    <string name="offer_hint_delete">长按删除照片</string>
     <string name="offer_hint_uploading">上传中</string>
     <string name="offer_hint_null_title">简介呢</string>
     <string name="offer_hint_null_details">再补充点嘛</string>
