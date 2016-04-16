@@ -20,11 +20,13 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.jakewharton.rxbinding.support.design.widget.RxAppBarLayout;
 import com.jakewharton.rxbinding.view.RxView;
 import com.sinyuk.jianyimaterial.R;
+import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.feature.shelf.ShelfView;
 import com.sinyuk.jianyimaterial.glide.BlurTransformation;
 import com.sinyuk.jianyimaterial.glide.ColorFilterTransformation;
 import com.sinyuk.jianyimaterial.glide.CropCircleTransformation;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
+import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.widgets.MyCircleImageView;
 
 import java.util.ArrayList;
@@ -68,12 +70,14 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
     ImageView mBackIv;
 
     private float mType;
+    private String mUid;
     private String mUserNameStr;
     private String mLocationStr;
     private String mTelStr;
     private String mAvatarUrlStr;
 
     private List<Fragment> fragmentList = new ArrayList<>();
+
 
     @Override
     protected boolean isUseEventBus() {
@@ -92,6 +96,7 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
          * 标题 -> 名字
          */
         if (mType == OTHER) {
+            mUid = extras.getString("uid");
             mUserNameStr = extras.getString("user_name");
             mLocationStr = extras.getString("location");
             mTelStr = extras.getString("tel");
@@ -147,11 +152,15 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
     }
 
     private void initFragments() {
-        final Bundle goodsUrl = new Bundle();
-        fragmentList.add(ShelfView.newInstance(goodsUrl));
+        final Bundle sellArgs = new Bundle();
+        sellArgs.putString(ShelfView.TYPE, ShelfView.PROFILE);
+        sellArgs.putString(ShelfView.USER_ID, mUid);
+        LogUtils.simpleLog(ShelfView.class, "mUid" + mUid);
+        fragmentList.add(ShelfView.newInstance(sellArgs));
 
-        final Bundle needUrl = new Bundle();
-        fragmentList.add(ShelfView.newInstance(needUrl));
+        final Bundle likeUrl = new Bundle();
+        sellArgs.putString(ShelfView.TYPE, ShelfView.PROFILE);
+        fragmentList.add(ShelfView.newInstance(likeUrl));
     }
 
     private void setAppBarLayout() {

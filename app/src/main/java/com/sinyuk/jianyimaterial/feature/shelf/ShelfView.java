@@ -42,6 +42,11 @@ import rx.schedulers.Schedulers;
  */
 public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShelfView,
         AppBarLayout.OnOffsetChangedListener {
+    public static final String TYPE = "type";
+    public static final String INDEX = "index";
+    public static final String PROFILE = "profile";
+
+    public static final String USER_ID = "user_id";
     public static final String PARAM_SCHOOL = "school";
     public static final String PARAM_SORT = "sort";
     public static final String PARAM_ORDER = "order";
@@ -58,6 +63,8 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
     private int mPageIndex = 1;
     private List<YihuoProfile> mYihuoProfileList = new ArrayList<>();
     private HashMap<String, String> mParams;
+    private boolean mIsIndex;
+    private String mUid;
 
 
     public static ShelfView newInstance(Bundle args) {
@@ -102,27 +109,35 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
     }
 
     private void buildParams(Bundle bundle) {
-        Observable.just(bundle)
-                .map(args -> {
-                    HashMap<String, String> params = new HashMap<>();
-                    if (args.getString(PARAM_SCHOOL) != null) {
-                        params.put("school", args.getString(PARAM_SCHOOL));
-                    }
-                    params.put("title", args.getString(PARAM_SORT, "all"));
+        mIsIndex = bundle.getString(TYPE, INDEX).equals(INDEX);
+        if (mIsIndex) {
+            Observable.just(bundle)
+                    .map(args -> {
+                        HashMap<String, String> params = new HashMap<>();
+                        if (args.getString(PARAM_SCHOOL) != null) {
+                            params.put("school", args.getString(PARAM_SCHOOL));
+                        }
+                        params.put("title", args.getString(PARAM_SORT, "all"));
 
-                    params.put("sort", args.getString(PARAM_CHILD_SORT, "all"));
+                        params.put("sort", args.getString(PARAM_CHILD_SORT, "all"));
 
-                    if (args.getString(PARAM_ORDER) != null) {
-                        params.put("order", args.getString(PARAM_ORDER));
-                    }
-                    return params;
-                })
-                .subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(params -> {
-                    mPresenter.loadData(1, params);
-                    mParams = params;
-                });
+                        if (args.getString(PARAM_ORDER) != null) {
+                            params.put("order", args.getString(PARAM_ORDER));
+                        }
+                        return params;
+                    })
+                    .subscribeOn(Schedulers.computation())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(params -> {
+                        mPresenter.loadData(1, params);
+                        mParams = params;
+                    });
+        } else {
+//            mUid = bundle.getString(USER_ID);
+
+            mUid = "37";
+            mPresenter.loadData(1, mUid);
+        }
 
     }
 
@@ -203,12 +218,20 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
 
     @Override
     public void refresh() {
-        mPresenter.loadData(1, mParams);
+        if (mIsIndex) {
+            mPresenter.loadData(1, mParams);
+        } else {
+            mPresenter.loadData(1, mUid);
+        }
     }
 
     @Override
     public void loadData(int pageIndex) {
-        mPresenter.loadData(pageIndex, mParams);
+        if (mIsIndex) {
+            mPresenter.loadData(pageIndex, mParams);
+        } else {
+            mPresenter.loadData(pageIndex, mUid);
+        }
     }
 
     @Override

@@ -7,4 +7,6 @@ import java.util.HashMap;
  */
 public interface IShelfPresenter {
     void loadData(int pageIndex , HashMap<String,String> params);
+
+    void loadData(int pageIndex , String uid);
 }

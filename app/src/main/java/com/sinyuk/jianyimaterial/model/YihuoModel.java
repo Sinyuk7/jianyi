@@ -20,6 +20,7 @@ import com.sinyuk.jianyimaterial.events.XRequestLoginEvent;
 import com.sinyuk.jianyimaterial.greendao.dao.DaoUtils;
 import com.sinyuk.jianyimaterial.greendao.dao.YihuoDetailsService;
 import com.sinyuk.jianyimaterial.mvp.BaseModel;
+import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.PreferencesUtils;
 import com.sinyuk.jianyimaterial.volley.FormDataRequest;
 import com.sinyuk.jianyimaterial.volley.JsonRequest;
@@ -189,6 +190,34 @@ public class YihuoModel implements BaseModel {
         yihuoDetailsService.deleteByKey(detailsData.getId());
         callback.onRemoveFromLikes();
     }
+
+    public void getProfileByUid(int pageIndex, String uid, RequestYihuoProfileCallback callback) {
+        boolean isRefresh = pageIndex == 1;
+        LogUtils.simpleLog(YihuoModel.class, JianyiApi.userSell(uid, pageIndex));
+        JsonRequest jsonRequest = new JsonRequest
+                (Request.Method.GET, JianyiApi.userSell(uid, pageIndex), null, response -> {
+                    try {
+                        LogUtils.simpleLog(YihuoModel.class, response.toString());
+                        Index index = gson.fromJson(response.toString(), Index.class);
+
+                        List<Index.Data.Items> items = index.getData().getItems();
+
+                        String trans = gson.toJson(items);
+
+                        List<YihuoProfile> data = gson.fromJson(trans,
+                                new TypeToken<List<YihuoProfile>>() {
+                                }.getType());
+
+                        // do clear
+                        if (data != null) { callback.onCompleted(data, isRefresh); }
+                    } catch (JsonParseException e) {
+                        callback.onParseError(e.getMessage());
+                    }
+                }, error -> callback.onVolleyError(VolleyErrorHelper.getMessage(error)));
+        Jianyi.getInstance().addRequest(jsonRequest, INDEX_REQUEST);
+
+    }
+
 
     public interface LikesCallback {
         void onAddToLikes();

@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -20,16 +21,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.flipboard.bottomsheet.BottomSheetLayout;
+import com.flipboard.bottomsheet.OnSheetDismissedListener;
 import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.adapters.ShotsGalleryAdapter;
 import com.sinyuk.jianyimaterial.events.XShotDropEvent;
+import com.sinyuk.jianyimaterial.feature.explore.ExploreView;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 import com.sinyuk.jianyimaterial.sweetalert.SweetAlertDialog;
+import com.sinyuk.jianyimaterial.ui.InsetViewTransformer;
 import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;
+import com.sinyuk.jianyimaterial.widgets.flowlayout.FlowLayout;
+import com.sinyuk.jianyimaterial.widgets.flowlayout.TagAdapter;
+import com.sinyuk.jianyimaterial.widgets.flowlayout.TagFlowLayout;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -85,6 +92,9 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
     private HashMap<String, String> indexAndUrlMap = new HashMap<>();
 
     private SweetAlertDialog mDialog;
+    private View mFlowLayout;
+    private TagFlowLayout mSortTags;
+    private TagFlowLayout mChildSortTags;
 
     @Override
     protected boolean isUseEventBus() {
@@ -110,6 +120,53 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
         uriList = new ArrayList<>();
         setupObservers();
         setupRecyclerView();
+        setupBottomSheet();
+        setupFlowLayout();
+    }
+
+    private void setupBottomSheet() {
+        mFlowLayout = LayoutInflater.from(this).inflate(R.layout.offer_view_flow_layout, mBottomSheetLayout, false);
+        mBottomSheetLayout.setUseHardwareLayerWhileAnimating(true);
+        mBottomSheetLayout.setShouldDimContentView(true);
+        mBottomSheetLayout.addOnSheetDismissedListener(bottomSheetLayout -> {
+
+        });
+    }
+
+    private void setupFlowLayout() {
+        final String[] sortArray = getResources().getStringArray(R.array.category_menu_items);
+        mSortTags = (TagFlowLayout) mFlowLayout.findViewById(R.id.sort_tags);
+        mSortTags.setMaxSelectCount(1); // disallowed multiSelected
+        TagAdapter<String> mSortTagAdapter = new TagAdapter<String>(sortArray) {
+            @Override
+            public View getView(FlowLayout parent, int position, String s) {
+                TextView tv = (TextView) getLayoutInflater().inflate(R.layout.item_tag, mSortTags, false);
+                tv.setText(s);
+                return tv;
+            }
+        };
+        mSortTags.setAdapter(mSortTagAdapter);
+        mSortTags.setOnTagClickListener((view, position, parent) -> {
+            if (position >= 0 && position < ExploreView.PARENT_SORT_LIST.length) {
+                switchChildSortTag(position);
+            }
+            return false;
+        });
+    }
+
+    private void switchChildSortTag(int position) {
+        String[] childSortArray = getResources().getStringArray(ExploreView.PARENT_SORT_LIST[position]);
+        mChildSortTags = (TagFlowLayout) mFlowLayout.findViewById(R.id.child_sort_tags);
+        mChildSortTags.setMaxSelectCount(1); // disallowed multiSelected
+        TagAdapter<String> mChildSortTagAdapter = new TagAdapter<String>(childSortArray) {
+            @Override
+            public View getView(FlowLayout parent, int position, String s) {
+                TextView tv = (TextView) getLayoutInflater().inflate(R.layout.item_tag, mChildSortTags, false);
+                tv.setText(s);
+                return tv;
+            }
+        };
+        mChildSortTags.setAdapter(mChildSortTagAdapter);
     }
 
     private void setupObservers() {
@@ -149,19 +206,15 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
         mAdapter = new ShotsGalleryAdapter(this);
 
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+
         mRecyclerView.setLayoutManager(linearLayoutManager);
-
         mRecyclerView.setHasFixedSize(true);
-
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
         mRecyclerView.setAdapter(mAdapter);
-
         // attach to
         mAdapter.setData(uriList);
 
         final View mAddButton = View.inflate(this, R.layout.offer_view_shot_add_button, null);
-
         mAdapter.setFooterView(mAddButton);
 
         mCompositeSubscription.add(
@@ -192,7 +245,11 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
             ToastUtils.toastSlow(this, getString(R.string.offer_hint_null_shot));
             return;
         } else {
-
+            if (mBottomSheetLayout.getSheetView() == null) {
+                mBottomSheetLayout.showWithSheetView(mFlowLayout, new InsetViewTransformer());
+            } else {
+                mBottomSheetLayout.expandSheet();
+            }
         }
 
     }

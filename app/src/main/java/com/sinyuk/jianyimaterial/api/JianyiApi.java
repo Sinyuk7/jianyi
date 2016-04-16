@@ -99,17 +99,22 @@ public class JianyiApi {
         return BANNER;
     }
 
+    public static String userSell(String uid, int pageIndex) {
+        return GOODS + "/sellManage?user_id=" + uid + "&page=" + pageIndex
+                ;
+    }
+
     public static class ParamsBuilder {
-        private HashMap<String,String> mBuilder = new HashMap<>();
+        private HashMap<String, String> mBuilder = new HashMap<>();
         private boolean hasChildSort;
 
         public ParamsBuilder() {
-            mBuilder.put("title","all");
+            mBuilder.put("title", "all");
             hasChildSort = false;
         }
 
         public ParamsBuilder(String title) {
-            mBuilder.put("title",title);
+            mBuilder.put("title", title);
             hasChildSort = true;
         }
 
@@ -126,22 +131,22 @@ public class JianyiApi {
         public ParamsBuilder addTimeOrder(boolean isDesc) {
             final String order = isDesc ? "time_desc" : "time_asc";
             mBuilder.remove("order");
-            addParam("order" ,order);
+            addParam("order", order);
             return this;
         }
 
         public ParamsBuilder addPriceOrder(boolean isAsc) {
             final String order = isAsc ? "price_asc" : "price_desc";
             mBuilder.remove("order");
-            addParam("order" ,order);
+            addParam("order", order);
             return this;
         }
 
-        private void addParam(String key , String value) {
+        private void addParam(String key, String value) {
             mBuilder.put(key, value);
         }
 
-        public HashMap<String,String> getParams() {
+        public HashMap<String, String> getParams() {
             return mBuilder;
         }
 

@@ -294,6 +294,7 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
         Intent intent = new Intent(this, ProfileView.class);
         Bundle bundle = new Bundle();
         bundle.putFloat(ProfileView.PROFILE_TYPE, ProfileView.OTHER);
+        bundle.putString("uid", profileData.getId());
         bundle.putString("user_name", profileData.getUsername());
         bundle.putString("location", profileData.getSchoolname());
         bundle.putString("tel", profileData.getTel());

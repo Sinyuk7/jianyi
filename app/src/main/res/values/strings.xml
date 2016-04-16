@@ -303,6 +303,8 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="settings_hint_has_not_logged">你还没登录呢</string>
     <string name="settings_tel_is">账号: %1$s</string>
     <string name="settings_hint_confirm_logout">你确定要登出吗</string>
+    <string name="tag_sort">标签</string>
+    <string name="offer_choose_sort">选择分类,并点击上方的\"√\"</string>
 
 
 </resources>

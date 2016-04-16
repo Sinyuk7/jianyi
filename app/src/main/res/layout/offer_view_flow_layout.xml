@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+              android:orientation="vertical"
+              android:paddingBottom="24dp"
+              android:paddingTop="@dimen/activity_horizontal_margin">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/general_content_space"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:text="@string/offer_choose_sort"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/material_text_caption1"/>
+
+    <TextView
+        android:id="@+id/sort_title"
+        style="@style/TagLayoutTitle"
+        android:drawableLeft="@drawable/ic_tag_accent_24dp"
+        android:drawableStart="@drawable/ic_tag_accent_24dp"
+        android:text="@string/tag_sort"/>
+
+    <com.sinyuk.jianyimaterial.widgets.flowlayout.TagFlowLayout
+        android:id="@+id/sort_tags"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        app:max_select="1">
+
+    </com.sinyuk.jianyimaterial.widgets.flowlayout.TagFlowLayout>
+
+
+    <TextView
+        android:id="@+id/child_sort_title"
+        style="@style/TagLayoutTitle"
+        android:drawableLeft="@drawable/ic_child_sort_accent_24dp"
+        android:drawableStart="@drawable/ic_child_sort_accent_24dp"
+        android:text="@string/tag_child_sort"/>
+
+    <com.sinyuk.jianyimaterial.widgets.flowlayout.TagFlowLayout
+        android:id="@+id/child_sort_tags"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        app:max_select="1">
+    </com.sinyuk.jianyimaterial.widgets.flowlayout.TagFlowLayout>
+</LinearLayout>

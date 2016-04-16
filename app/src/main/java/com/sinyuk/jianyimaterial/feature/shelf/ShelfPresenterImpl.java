@@ -17,6 +17,11 @@ public class ShelfPresenterImpl extends BasePresenter<ShelfView> implements IShe
     }
 
     @Override
+    public void loadData(int pageIndex, String uid) {
+        YihuoModel.getInstance(mView.getContext()).getProfileByUid(pageIndex, uid, this);
+    }
+
+    @Override
     public void onVolleyError(String message) {
         mView.onVolleyError(message);
     }

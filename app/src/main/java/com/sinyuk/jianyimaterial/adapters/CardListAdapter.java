@@ -141,6 +141,7 @@ public class CardListAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile, C
             Intent intent = new Intent(mContext, ProfileView.class);
             Bundle bundle = new Bundle();
             bundle.putFloat(ProfileView.PROFILE_TYPE, ProfileView.OTHER);
+            bundle.putString("uid", finalItemData1.getId());
             bundle.putString("user_name", finalItemData1.getUsername());
             bundle.putString("location", finalItemData1.getSchoolname());
             bundle.putString("tel", finalItemData1.getTel());
