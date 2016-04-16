@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height"
         android:background="@color/colorPrimary"
-        app:title="@string/activity_register_settings"
+        app:title="@string/info_hint_info"
         app:titleTextColor="@color/white" />
 
     <LinearLayout
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/extra_tiny_content_space"
-            android:text="@string/hint_set_avatar"
+            android:text="@string/hint_info_set_avatar"
             android:textColor="@color/grey_600"
             android:textSize="@dimen/material_text_caption2" />
 

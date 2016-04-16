@@ -84,7 +84,7 @@
                 android:id="@+id/login_btn"
                 style="@style/CustomBackgroundButton.Fill"
                 android:layout_marginBottom="32dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="16dp"
                 android:background="@drawable/rounded_rect_fill_grey"
                 android:text="@string/action_login"/>
 

@@ -161,7 +161,7 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="transition_title">transition_title</string>
     <string name="transition_description">transition_decription</string>
     <string name="transition_wrapper">transition_wrapper</string>
-    <string name="hint_set_avatar">点击设置头像</string>
+    <string name="hint_info_set_avatar">点击设置头像</string>
     <string name="activity_post_want">你的需求</string>
     <string name="hint_post_want">你想要什么?</string>
     <string name="action_post">发布</string>
@@ -210,7 +210,7 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <eat-comment/>
     <string name="action_skip">跳过</string>
     <string name="action_confirm">确认</string>
-    <string name="activity_register_settings">个人信息</string>
+    <string name="info_hint_info">个人信息</string>
     <string name="action_cancel">取消</string>
     <string name="action_ok">确定</string>
 
@@ -312,6 +312,9 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="register_hint_update">修改密码</string>
     <string name="login_hint_confirm">知道了</string>
     <string name="login_hint_contact_with_admin">这种事情找波哥(￢_￢)</string>
+    <string name="info_hint_confirm">提交</string>
+    <string name="info_hint_user_name">昵称</string>
+    <string name="info_hint_school">学校</string>
 
 
 </resources>
