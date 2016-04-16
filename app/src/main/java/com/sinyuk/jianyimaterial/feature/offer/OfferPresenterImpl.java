@@ -21,6 +21,7 @@ public class OfferPresenterImpl extends BasePresenter<OfferView> implements IOff
     @Override
     public void post(@NonNull HashMap<String,String> urls,@NonNull String title, @NonNull String details, @NonNull String price, @NonNull String sort, String childSort) {
         UserModel.getInstance(mView).postGoods(urls,title,details,price,sort,childSort,this);
+        mView.showUploadProgress();
     }
 
     @Override

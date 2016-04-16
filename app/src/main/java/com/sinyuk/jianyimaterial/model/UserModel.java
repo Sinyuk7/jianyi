@@ -32,6 +32,7 @@ import com.sinyuk.jianyimaterial.volley.VolleyErrorHelper;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import rx.Observable;
@@ -279,14 +280,6 @@ public class UserModel implements BaseModel {
         final String tel = mCurrentUser.getTel();
         final String password = PreferencesUtils.getString(mContext, Constants.Prefs_Psw);
 
-        LogUtils.simpleLog(UserModel.class, "url 1" + urls.get("0"));
-        LogUtils.simpleLog(UserModel.class, "url 2" + urls.get("1"));
-        LogUtils.simpleLog(UserModel.class, "url 3" + urls.get("2"));
-        LogUtils.simpleLog(UserModel.class, "title " + title);
-        LogUtils.simpleLog(UserModel.class, "details " + details);
-        LogUtils.simpleLog(UserModel.class, "sort " + sort);
-        LogUtils.simpleLog(UserModel.class, "childSort " + childSort);
-
         if (TextUtils.isEmpty(tel) || TextUtils.isEmpty(password)) {
             callback.onPostGoodsFailed("读取用户信息失败");
             return;
@@ -296,7 +289,7 @@ public class UserModel implements BaseModel {
                         (Response.ErrorListener) error -> callback.onPostGoodsVolleyError(VolleyErrorHelper.getMessage(error))) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
+                LinkedHashMap<String, String> params = new LinkedHashMap<>();
                 params.put("tel", tel);
                 params.put("password", password);
                 params.put("name", title);
@@ -304,9 +297,9 @@ public class UserModel implements BaseModel {
                 params.put("detail", details);
                 params.put("price", price);
                 params.put("sort", childSort);
-                params.put("pic[0]", urls.get("1"));
-                if (urls.size() >= 2) { params.put("pic[1]", urls.get("2")); }
-                if (urls.size() == 3) { params.put("pic[2]", urls.get("3")); }
+                if (!TextUtils.isEmpty(urls.get("1"))) { params.put("pic[0]", urls.get("1")); }
+                if (!TextUtils.isEmpty(urls.get("2"))) { params.put("pic[1]", urls.get("2")); }
+                if (!TextUtils.isEmpty(urls.get("3"))) { params.put("pic[2]", urls.get("3")); }
                 LogUtils.simpleLog(UserModel.class, params.toString());
                 return params;
             }

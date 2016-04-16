@@ -246,7 +246,7 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="activity_error_details">详细信息</string>
     <string name="hint_select_location">学校</string>
     <string name="activity_search">搜索结果</string>
-    <string name="hint_network_error">网络错误</string>
+    <string name="hint_network_error">网络错误╥﹏╥...</string>
     <string name="hint_continue_with_wechat">微信用户</string>
     <string name="activity_sign_in">登录</string>
 
@@ -270,7 +270,7 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="entry_free">免费</string>
     <string name="offer_hint_confirm">确认</string>
     <string name="offer_hint_delete">长按删除照片</string>
-    <string name="offer_hint_uploading">上传中</string>
+    <string name="offer_hint_post_in_process">努力上传中</string>
     <string name="offer_hint_null_title">简介呢</string>
     <string name="offer_hint_null_details">再补充点嘛</string>
     <string name="offer_hint_null_price">不要钱吗= =</string>
@@ -305,6 +305,9 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="settings_hint_confirm_logout">你确定要登出吗</string>
     <string name="tag_sort">标签</string>
     <string name="offer_choose_sort">选择分类,并点击上方的\"√\"</string>
+    <string name="offer_hint_post_succeed">发布成功O(∩_∩)O~~</string>
+    <string name="offer_hint_post_failed">发布失败╥﹏╥...</string>
+    <string name="offer_hint_network_error">网络错误╥﹏╥...</string>
 
 
 </resources>

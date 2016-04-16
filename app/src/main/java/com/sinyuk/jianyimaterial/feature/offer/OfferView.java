@@ -366,7 +366,7 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
     public void showUploadProgress() {
         mDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
         mDialog.getProgressHelper().setBarColor(getResources().getColor(R.color.colorAccent));
-        mDialog.setTitleText(StringUtils.getRes(this, R.string.offer_hint_uploading));
+        mDialog.setTitleText(StringUtils.getRes(this, R.string.offer_hint_post_in_process));
         mDialog.setCancelable(false);
         mDialog.show();
     }
@@ -397,7 +397,6 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
 
     @Override
     public void onShotUploadSucceed(String url) {
-
         indexAndUrlMap.put(String.valueOf(uriList.size()), url);
         LogUtils.simpleLog(OfferView.class, "index " + String.valueOf(uriList.size()));
         LogUtils.simpleLog(OfferView.class, "url " + url);
@@ -406,21 +405,42 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
     @Override
     public void onPostGoodsSucceed(String message) {
         LogUtils.simpleLog(OfferView.class, "onPostGoodsSucceed");
+        mDialog.setCancelable(false);
+        mDialog.setOnDismissListener(dialog -> finish());
+        mDialog.setTitleText(StringUtils.getRes(this, R.string.offer_hint_post_succeed))
+                .setConfirmText(StringUtils.getRes(this, R.string.action_confirm))
+                .setConfirmClickListener(sweetAlertDialog -> finish())
+                .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
     }
 
     @Override
     public void onPostGoodsFailed(String message) {
         LogUtils.simpleLog(OfferView.class, "onPostGoodsFailed");
+        mDialog.setCancelable(false);
+        mDialog.setTitleText(StringUtils.check(this, message, R.string.offer_hint_post_failed))
+                .setConfirmText(StringUtils.getRes(this, R.string.action_confirm))
+                .setConfirmClickListener(sweetAlertDialog -> finish())
+                .changeAlertType(SweetAlertDialog.WARNING_TYPE);
     }
 
     @Override
     public void onPostGoodsVolleyError(String message) {
         LogUtils.simpleLog(OfferView.class, "onPostGoodsVolleyError");
+        mDialog.setCancelable(false);
+        mDialog.setTitleText(StringUtils.check(this, message, R.string.offer_hint_network_error))
+                .setConfirmText(StringUtils.getRes(this, R.string.action_confirm))
+                .setConfirmClickListener(sweetAlertDialog -> finish())
+                .changeAlertType(SweetAlertDialog.ERROR_TYPE);
     }
 
     @Override
     public void onUPostGoodsParseError(String message) {
         LogUtils.simpleLog(OfferView.class, "onUPostGoodsParseError");
+        mDialog.setCancelable(false);
+        mDialog.setTitleText(StringUtils.check(this, message, R.string.offer_hint_post_failed))
+                .setConfirmText(StringUtils.getRes(this, R.string.action_confirm))
+                .setConfirmClickListener(sweetAlertDialog -> finish())
+                .changeAlertType(SweetAlertDialog.WARNING_TYPE);
     }
 
     @Override
