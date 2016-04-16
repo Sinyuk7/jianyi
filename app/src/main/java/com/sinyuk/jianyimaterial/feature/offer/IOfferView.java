@@ -9,11 +9,19 @@ public interface IOfferView {
 
     void hideUploadProgress();
 
-    void onParseError(String message);
+    void onShotUploadParseError(String message);
 
-    void onVolleyError(String message);
+    void onShotUploadVolleyError(String message);
 
-    void onCompressError(String message);
+    void onShotUploadCompressError(String message);
 
-    void onUploadedSucceed(String url);
+    void onShotUploadSucceed(String url);
+
+    void onPostGoodsSucceed(String message);
+
+    void onPostGoodsFailed(String message);
+
+    void onPostGoodsVolleyError(String message);
+
+    void onUPostGoodsParseError(String message);
 }

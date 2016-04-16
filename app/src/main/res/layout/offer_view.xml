@@ -14,7 +14,7 @@
             style="@style/BaseToolbar">
 
             <ImageView
-                android:id="@+id/check_ctn"
+                android:id="@+id/check_btn"
                 style="@style/ClickableImageViewBorderless"
                 android:layout_width="56dp"
                 android:layout_height="56dp"

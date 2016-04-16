@@ -169,7 +169,7 @@ public class ShotModel {
         try {
             byteArrayOutputStream = new ByteArrayOutputStream();
             if (bitmap != null) {
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 70, byteArrayOutputStream);
+                bitmap.compress(Bitmap.CompressFormat.JPEG,40, byteArrayOutputStream);
             }
         } finally {
             if (bitmap != null) {

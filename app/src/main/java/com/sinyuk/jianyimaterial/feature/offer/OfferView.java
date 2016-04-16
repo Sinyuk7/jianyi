@@ -21,7 +21,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.flipboard.bottomsheet.BottomSheetLayout;
-import com.flipboard.bottomsheet.OnSheetDismissedListener;
 import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.sinyuk.jianyimaterial.R;
@@ -31,6 +30,7 @@ import com.sinyuk.jianyimaterial.feature.explore.ExploreView;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 import com.sinyuk.jianyimaterial.sweetalert.SweetAlertDialog;
 import com.sinyuk.jianyimaterial.ui.InsetViewTransformer;
+import com.sinyuk.jianyimaterial.utils.ImeUtils;
 import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;
@@ -55,8 +55,8 @@ import rx.Observable;
  */
 public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOfferView {
     private static final int REQUEST_PICK = 0x01;
-    @Bind(R.id.check_ctn)
-    ImageView mCheckCtn;
+    @Bind(R.id.check_btn)
+    ImageView mCheckBtn;
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
     @Bind(R.id.app_bar_layout)
@@ -93,8 +93,12 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
 
     private SweetAlertDialog mDialog;
     private View mFlowLayout;
-    private TagFlowLayout mSortTags;
+
+
     private TagFlowLayout mChildSortTags;
+    private TagFlowLayout mSortTags;
+    private String mSort;
+    private String mChildSort;
 
     @Override
     protected boolean isUseEventBus() {
@@ -118,10 +122,10 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
     @Override
     protected void onFinishInflate() {
         uriList = new ArrayList<>();
-        setupObservers();
         setupRecyclerView();
         setupBottomSheet();
         setupFlowLayout();
+        setupObservers();
     }
 
     private void setupBottomSheet() {
@@ -137,7 +141,7 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
         final String[] sortArray = getResources().getStringArray(R.array.category_menu_items);
         mSortTags = (TagFlowLayout) mFlowLayout.findViewById(R.id.sort_tags);
         mSortTags.setMaxSelectCount(1); // disallowed multiSelected
-        TagAdapter<String> mSortTagAdapter = new TagAdapter<String>(sortArray) {
+        final TagAdapter<String> mSortTagAdapter = new TagAdapter<String>(sortArray) {
             @Override
             public View getView(FlowLayout parent, int position, String s) {
                 TextView tv = (TextView) getLayoutInflater().inflate(R.layout.item_tag, mSortTags, false);
@@ -158,7 +162,7 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
         String[] childSortArray = getResources().getStringArray(ExploreView.PARENT_SORT_LIST[position]);
         mChildSortTags = (TagFlowLayout) mFlowLayout.findViewById(R.id.child_sort_tags);
         mChildSortTags.setMaxSelectCount(1); // disallowed multiSelected
-        TagAdapter<String> mChildSortTagAdapter = new TagAdapter<String>(childSortArray) {
+        final TagAdapter<String> mChildSortTagAdapter = new TagAdapter<String>(childSortArray) {
             @Override
             public View getView(FlowLayout parent, int position, String s) {
                 TextView tv = (TextView) getLayoutInflater().inflate(R.layout.item_tag, mChildSortTags, false);
@@ -174,13 +178,12 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
                 .map(actionId -> actionId == EditorInfo.IME_ACTION_DONE)
                 .subscribe(done -> {if (done) { onClickConfirm(); }}));
 
-        Observable<CharSequence> titleObservable = RxTextView.textChanges(mTitleEt).skip(1);
-        Observable<CharSequence> detailsObservable = RxTextView.textChanges(mDetailsEt).skip(1);
-        Observable<CharSequence> priceObservable = RxTextView.textChanges(mNewPriceEt).skip(1);
+        final Observable<CharSequence> titleObservable = RxTextView.textChanges(mTitleEt).skip(1);
+        final Observable<CharSequence> detailsObservable = RxTextView.textChanges(mDetailsEt).skip(1);
+        final Observable<CharSequence> priceObservable = RxTextView.textChanges(mNewPriceEt).skip(1);
 
         mCompositeSubscription.add(Observable.combineLatest(titleObservable, detailsObservable, priceObservable,
                 (title, details, price) -> {
-
                     if (TextUtils.isEmpty(title)) {
                         mTitleEt.setError(getString(R.string.offer_hint_null_title));
                         return false;
@@ -200,6 +203,7 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
 
         mConfirmBtn.setEnabled(false);
         mConfirmBtn.setClickable(false);
+
     }
 
     private void setupRecyclerView() {
@@ -231,7 +235,9 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
         mConfirmBtn.setClickable(enable);
         if (enable) {
             mConfirmBtn.setBackground(getResources().getDrawable(R.drawable.rounded_rect_fill_accent));
+            mCheckBtn.setVisibility(View.VISIBLE);
         } else {
+            mCheckBtn.setVisibility(View.GONE);
             mConfirmBtn.setBackground(getResources().getDrawable(R.drawable.rounded_rect_fill_grey));
         }
     }
@@ -243,16 +249,67 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
     public void onClickConfirm() {
         if (uriList.isEmpty()) {
             ToastUtils.toastSlow(this, getString(R.string.offer_hint_null_shot));
-            return;
         } else {
+            ImeUtils.hideIme(mCoordinatorLayout);
+            expandBottomSheet();
+        }
+    }
+
+    @OnClick(R.id.check_btn)
+    public void onAttemptPost() {
+        mCompositeSubscription.add(
+                Observable.combineLatest(getSortTag(), getChildSortTag(), (sort, childSort) -> {
+                    if (!TextUtils.isEmpty(sort) && !TextUtils.isEmpty(childSort)) {
+                        mSort = sort;
+                        mChildSort = childSort;
+                        return true;
+                    }
+                    return false;
+                }).onErrorReturn(throwable -> false)
+                        .subscribe(isTagSelected -> {
+                            if (isTagSelected) {
+                                mPresenter.post(indexAndUrlMap,
+                                        mTitleEt.getText().toString(),
+                                        mDetailsEt.getText().toString(),
+                                        mNewPriceEt.getText().toString(),
+                                        mSort,
+                                        mChildSort);
+                            } else {
+                                // expand bottom sheet let'em select
+                                expandBottomSheet();
+                            }
+                        }));
+
+    }
+
+    private Observable<String> getSortTag() {
+        return Observable
+                .from(mSortTags.getSelectedList())
+                .take(1)
+                .map(index -> getResources().getStringArray(R.array.category_menu_items)[index]);
+    }
+
+    private Observable<String> getChildSortTag() {
+        return Observable.defer(() -> Observable
+                .from(mSortTags.getSelectedList())
+                .take(1)
+                .map(sortIndex -> getResources().getStringArray(ExploreView.PARENT_SORT_LIST[sortIndex]))
+                .flatMap(childSortArray -> Observable
+                        .from(mChildSortTags.getSelectedList())
+                        .take(1)
+                        .map(childSortIndex -> childSortArray[childSortIndex])));
+    }
+
+    public void expandBottomSheet() {
+        if (mBottomSheetLayout.getState() != BottomSheetLayout.State.EXPANDED) {
             if (mBottomSheetLayout.getSheetView() == null) {
                 mBottomSheetLayout.showWithSheetView(mFlowLayout, new InsetViewTransformer());
             } else {
                 mBottomSheetLayout.expandSheet();
             }
         }
-
     }
+
 
     private void hintPermissionDenied() {
         ToastUtils.toastSlow(this, getString(R.string.offer_hint_permission_denied));
@@ -320,26 +377,58 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
     }
 
     @Override
-    public void onParseError(String message) {
-        LogUtils.simpleLog(OfferView.class, "onParseError");
+    public void onShotUploadParseError(String message) {
+        LogUtils.simpleLog(OfferView.class, "onShotUploadParseError");
+        ToastUtils.toastSlow(this, message);
     }
 
     @Override
-    public void onVolleyError(String message) {
-        LogUtils.simpleLog(OfferView.class, "onVolleyError");
+    public void onShotUploadVolleyError(String message) {
+        LogUtils.simpleLog(OfferView.class, "onShotUploadVolleyError");
+        ToastUtils.toastSlow(this, message);
     }
 
 
     @Override
-    public void onCompressError(String message) {
-        LogUtils.simpleLog(OfferView.class, "onCompressError");
+    public void onShotUploadCompressError(String message) {
+        LogUtils.simpleLog(OfferView.class, "onShotUploadCompressError");
+        ToastUtils.toastSlow(this, message);
     }
 
     @Override
-    public void onUploadedSucceed(String url) {
+    public void onShotUploadSucceed(String url) {
 
         indexAndUrlMap.put(String.valueOf(uriList.size()), url);
         LogUtils.simpleLog(OfferView.class, "index " + String.valueOf(uriList.size()));
         LogUtils.simpleLog(OfferView.class, "url " + url);
+    }
+
+    @Override
+    public void onPostGoodsSucceed(String message) {
+        LogUtils.simpleLog(OfferView.class, "onPostGoodsSucceed");
+    }
+
+    @Override
+    public void onPostGoodsFailed(String message) {
+        LogUtils.simpleLog(OfferView.class, "onPostGoodsFailed");
+    }
+
+    @Override
+    public void onPostGoodsVolleyError(String message) {
+        LogUtils.simpleLog(OfferView.class, "onPostGoodsVolleyError");
+    }
+
+    @Override
+    public void onUPostGoodsParseError(String message) {
+        LogUtils.simpleLog(OfferView.class, "onUPostGoodsParseError");
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mBottomSheetLayout.isSheetShowing()) {
+            mBottomSheetLayout.dismissSheet();
+        } else {
+            super.onBackPressed();
+        }
     }
 }

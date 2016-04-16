@@ -23,6 +23,7 @@ import com.sinyuk.jianyimaterial.events.XLogoutEvent;
 import com.sinyuk.jianyimaterial.greendao.dao.DaoUtils;
 import com.sinyuk.jianyimaterial.greendao.dao.UserService;
 import com.sinyuk.jianyimaterial.mvp.BaseModel;
+import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.PreferencesUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
 import com.sinyuk.jianyimaterial.volley.FormDataRequest;
@@ -45,6 +46,7 @@ public class UserModel implements BaseModel {
     public static final String LOGIN_REQUEST = "login";
     public static final String UPDATE_REQUEST = "update";
     public static final String REGISTER = "register";
+    private static final String POST_GOODS = "post_goods";
 
 
     private static UserModel sInstance;
@@ -273,6 +275,46 @@ public class UserModel implements BaseModel {
         Jianyi.getInstance().addRequest(jsonRequest, UPDATE_REQUEST);
     }
 
+    public void postGoods(HashMap<String, String> urls, String title, String details, String price, String sort, String childSort, PostGoodsCallback callback) {
+        final String tel = mCurrentUser.getTel();
+        final String password = PreferencesUtils.getString(mContext, Constants.Prefs_Psw);
+
+        LogUtils.simpleLog(UserModel.class, "url 1" + urls.get("0"));
+        LogUtils.simpleLog(UserModel.class, "url 2" + urls.get("1"));
+        LogUtils.simpleLog(UserModel.class, "url 3" + urls.get("2"));
+        LogUtils.simpleLog(UserModel.class, "title " + title);
+        LogUtils.simpleLog(UserModel.class, "details " + details);
+        LogUtils.simpleLog(UserModel.class, "sort " + sort);
+        LogUtils.simpleLog(UserModel.class, "childSort " + childSort);
+
+        if (TextUtils.isEmpty(tel) || TextUtils.isEmpty(password)) {
+            callback.onPostGoodsFailed("读取用户信息失败");
+            return;
+        }
+        FormDataRequest postRequest = new FormDataRequest
+                (Request.Method.POST, JianyiApi.postFeed(), (Response.Listener<String>) callback::onPostGoodsSucceed,
+                        (Response.ErrorListener) error -> callback.onPostGoodsVolleyError(VolleyErrorHelper.getMessage(error))) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("tel", tel);
+                params.put("password", password);
+                params.put("name", title);
+                params.put("title", sort);
+                params.put("detail", details);
+                params.put("price", price);
+                params.put("sort", childSort);
+                params.put("pic[0]", urls.get("1"));
+                if (urls.size() >= 2) { params.put("pic[1]", urls.get("2")); }
+                if (urls.size() == 3) { params.put("pic[2]", urls.get("3")); }
+                LogUtils.simpleLog(UserModel.class, params.toString());
+                return params;
+            }
+        };
+
+        Jianyi.getInstance().addRequest(postRequest, POST_GOODS);
+    }
+
     public interface LoginCallback {
 
         void onLoginSucceed();
@@ -318,6 +360,17 @@ public class UserModel implements BaseModel {
         void onUpdateVolleyError(String message);
 
         void onUpdateParseError(String message);
+    }
+
+    public interface PostGoodsCallback {
+
+        void onPostGoodsSucceed(String message);
+
+        void onPostGoodsFailed(String message);
+
+        void onPostGoodsVolleyError(String message);
+
+        void onUPostGoodsParseError(String message);
     }
 
 

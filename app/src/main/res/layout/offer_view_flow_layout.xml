@@ -5,7 +5,6 @@
               android:layout_height="wrap_content"
               android:background="@color/white"
               android:orientation="vertical"
-              android:paddingBottom="24dp"
               android:paddingTop="@dimen/activity_horizontal_margin">
 
     <TextView
@@ -45,8 +44,9 @@
     <com.sinyuk.jianyimaterial.widgets.flowlayout.TagFlowLayout
         android:id="@+id/child_sort_tags"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="72dp"
         android:paddingLeft="12dp"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
         android:paddingRight="12dp"
         app:max_select="1">
     </com.sinyuk.jianyimaterial.widgets.flowlayout.TagFlowLayout>
