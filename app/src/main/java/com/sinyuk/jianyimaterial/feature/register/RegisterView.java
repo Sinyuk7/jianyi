@@ -132,18 +132,18 @@ public class RegisterView extends BaseActivity<RegisterPresenterImpl> implements
 
     private void setupHintView() {
         if (mIsRegister) {
-            mHintContinueWithWechat.setVisibility(View.GONE);
-        } else {
             mHintContinueWithWechat.setVisibility(View.VISIBLE);
+        } else {
+            mHintContinueWithWechat.setVisibility(View.GONE);
         }
     }
 
     private void setupToolbar() {
         if (getSupportActionBar() == null) { return; }
         if (mIsRegister) {
-            mToolbar.setTitle(getString(R.string.register_hint_register));
+            getSupportActionBar().setTitle(getString(R.string.register_hint_register));
         } else {
-            mToolbar.setTitle(getString(R.string.register_hint_update));
+            getSupportActionBar().setTitle(getString(R.string.register_hint_update));
         }
     }
 

@@ -139,7 +139,7 @@ public class LoginView extends BaseActivity<LoginPresenterImpl> implements ILogi
     public void clickForgetPsw(View view) {
         SweetAlertDialog dialog = new SweetAlertDialog(this, SweetAlertDialog.CUSTOM_IMAGE_TYPE);
         dialog.setTitleText(getString(R.string.login_hint_contact_with_admin))
-                .setCustomImage(getResources().getDrawable(R.drawable.expression_12))
+                .setCustomImage(getResources().getDrawable(R.drawable.expression_9))
                 .setConfirmText(getString(R.string.login_hint_confirm))
                 .setCancelable(true);
         dialog.setCanceledOnTouchOutside(true);

@@ -311,7 +311,7 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="register_hint_register">注册</string>
     <string name="register_hint_update">修改密码</string>
     <string name="login_hint_confirm">知道了</string>
-    <string name="login_hint_contact_with_admin">请联系波哥</string>
+    <string name="login_hint_contact_with_admin">这种事情找波哥(￢_￢)</string>
 
 
 </resources>
