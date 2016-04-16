@@ -247,7 +247,7 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="hint_select_location">学校</string>
     <string name="activity_search">搜索结果</string>
     <string name="hint_network_error">网络错误╥﹏╥...</string>
-    <string name="hint_continue_with_wechat">微信用户</string>
+    <string name="hint_continue_with_wechat">注册</string>
     <string name="activity_sign_in">登录</string>
 
     <!-- 登录   -->
@@ -308,6 +308,10 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="offer_hint_post_succeed">发布成功O(∩_∩)O~~</string>
     <string name="offer_hint_post_failed">发布失败╥﹏╥...</string>
     <string name="offer_hint_network_error">网络错误╥﹏╥...</string>
+    <string name="register_hint_register">注册</string>
+    <string name="register_hint_update">修改密码</string>
+    <string name="login_hint_confirm">知道了</string>
+    <string name="login_hint_contact_with_admin">请联系波哥</string>
 
 
 </resources>

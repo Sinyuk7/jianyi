@@ -1,6 +1,7 @@
 package com.sinyuk.jianyimaterial.feature.login;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -136,8 +137,13 @@ public class LoginView extends BaseActivity<LoginPresenterImpl> implements ILogi
 
     @OnClick(R.id.forget_psw_tv)
     public void clickForgetPsw(View view) {
-        Intent toRegisterView = new Intent(LoginView.this, RegisterView.class);
-        startActivity(toRegisterView);
+        SweetAlertDialog dialog = new SweetAlertDialog(this, SweetAlertDialog.CUSTOM_IMAGE_TYPE);
+        dialog.setTitleText(getString(R.string.login_hint_contact_with_admin))
+                .setCustomImage(getResources().getDrawable(R.drawable.expression_12))
+                .setConfirmText(getString(R.string.login_hint_confirm))
+                .setCancelable(true);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
     }
 
     @OnClick(R.id.login_btn)
@@ -155,6 +161,9 @@ public class LoginView extends BaseActivity<LoginPresenterImpl> implements ILogi
     @OnClick(R.id.access_wechat)
     public void clickContinueWithWechat() {
         Intent toRegisterView = new Intent(LoginView.this, RegisterView.class);
+        Bundle bundle = new Bundle();
+        bundle.putString(RegisterView.TYPE, RegisterView.REGISTER);
+        toRegisterView.putExtras(bundle);
         startActivity(toRegisterView);
     }
 

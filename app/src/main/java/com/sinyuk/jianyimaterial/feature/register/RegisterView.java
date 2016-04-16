@@ -1,5 +1,6 @@
 package com.sinyuk.jianyimaterial.feature.register;
 
+import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -23,6 +24,9 @@ import rx.Observable;
  */
 public class RegisterView extends BaseActivity<RegisterPresenterImpl> implements IRegisterView {
 
+    public static final String TYPE = "type";
+    public static final String REGISTER = "register";
+    public static final String UPDATE = "update";
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
     @Bind(R.id.phone_number_et)
@@ -43,6 +47,7 @@ public class RegisterView extends BaseActivity<RegisterPresenterImpl> implements
     TextView mHintContinueWithWechat;
     private SweetAlertDialog mDialog;
     private boolean mIsAuthenticated = false;
+    private boolean mIsRegister;
 
     @Override
     protected boolean isUseEventBus() {
@@ -50,7 +55,19 @@ public class RegisterView extends BaseActivity<RegisterPresenterImpl> implements
     }
 
     @Override
-    protected void beforeInflate() {}
+    protected void beforeInflate() {
+        configIntentType(getIntent().getExtras());
+    }
+
+    private void configIntentType(Bundle extras) {
+        try {
+            mIsRegister = extras.getString(TYPE, REGISTER).equals(REGISTER);
+        } catch (Exception e) {
+            mIsRegister = false;
+            e.printStackTrace();
+        }
+
+    }
 
     @Override
     protected RegisterPresenterImpl createPresenter() {
@@ -69,6 +86,9 @@ public class RegisterView extends BaseActivity<RegisterPresenterImpl> implements
 
     @Override
     protected void onFinishInflate() {
+
+        setupToolbar();
+        setupHintView();
 
         Observable<CharSequence> phoneNumObservable = RxTextView.textChanges(mPhoneNumberEt).skip(10);
         Observable<CharSequence> authenticodeObservable = RxTextView.textChanges(mAuthenticodeEt).skip(5);
@@ -106,9 +126,25 @@ public class RegisterView extends BaseActivity<RegisterPresenterImpl> implements
             return true;
         }).subscribe(this::canRegister));
 
-        mHintContinueWithWechat.setVisibility(View.VISIBLE);
         // 还没有验证过
         canGetAuthenticode(false);
+    }
+
+    private void setupHintView() {
+        if (mIsRegister) {
+            mHintContinueWithWechat.setVisibility(View.GONE);
+        } else {
+            mHintContinueWithWechat.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void setupToolbar() {
+        if (getSupportActionBar() == null) { return; }
+        if (mIsRegister) {
+            mToolbar.setTitle(getString(R.string.register_hint_register));
+        } else {
+            mToolbar.setTitle(getString(R.string.register_hint_update));
+        }
     }
 
     private void canGetAuthenticode(Boolean isPhoneNumValid) {
