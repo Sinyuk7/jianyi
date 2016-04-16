@@ -3,6 +3,7 @@ package com.sinyuk.jianyimaterial.feature.offer;
 import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TextInputLayout;
@@ -99,6 +100,7 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
     private TagFlowLayout mSortTags;
     private String mSort;
     private String mChildSort;
+    private Handler handler = new Handler();
 
     @Override
     protected boolean isUseEventBus() {
@@ -310,6 +312,12 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
         }
     }
 
+    public void dismissBottomSheet() {
+        if (mBottomSheetLayout.getState() == BottomSheetLayout.State.EXPANDED) {
+            mBottomSheetLayout.dismissSheet();
+        }
+    }
+
 
     private void hintPermissionDenied() {
         ToastUtils.toastSlow(this, getString(R.string.offer_hint_permission_denied));
@@ -368,7 +376,11 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
         mDialog.getProgressHelper().setBarColor(getResources().getColor(R.color.colorAccent));
         mDialog.setTitleText(StringUtils.getRes(this, R.string.offer_hint_post_in_process));
         mDialog.setCancelable(false);
-        mDialog.show();
+
+        dismissBottomSheet();
+        ImeUtils.hideIme(mCoordinatorLayout);
+        handler.postDelayed(() -> mDialog.show(), 250);
+
     }
 
     @Override
@@ -448,7 +460,14 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
         if (mBottomSheetLayout.isSheetShowing()) {
             mBottomSheetLayout.dismissSheet();
         } else {
+            handler.removeCallbacksAndMessages(null);
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        handler.removeCallbacksAndMessages(null);
     }
 }
