@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
     android:drawablePadding="@dimen/general_content_space"
-    android:drawableTop="@drawable/expression_96"
+    android:drawableTop="@drawable/expression_9"
     android:gravity="center"
     android:paddingBottom="@dimen/general_content_space"
     android:paddingTop="64dp"
