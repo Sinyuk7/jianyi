@@ -26,6 +26,8 @@ public class YihuoProfile implements Parcelable {
 
     public String schoolname;
 
+    public String uid;
+
     public static String getTAG() {
         return TAG;
     }
@@ -66,17 +68,12 @@ public class YihuoProfile implements Parcelable {
         return schoolname;
     }
 
+    public String getUid() {
+        return uid;
+    }
 
-    public YihuoProfile(String id, String name, String schoolname, String price, String tel, String time, String pic, String username, String headImg) {
-        this.id = id;
-        this.name = name;
-        this.schoolname = schoolname;
-        this.price = price;
-        this.tel = tel;
-        this.time = time;
-        this.pic = pic;
-        this.username = username;
-        this.headImg = headImg;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     @Override
@@ -131,6 +128,7 @@ public class YihuoProfile implements Parcelable {
         dest.writeString(this.username);
         dest.writeString(this.headImg);
         dest.writeString(this.schoolname);
+        dest.writeString(this.uid);
     }
 
     public YihuoProfile() {
@@ -146,6 +144,7 @@ public class YihuoProfile implements Parcelable {
         this.username = in.readString();
         this.headImg = in.readString();
         this.schoolname = in.readString();
+        this.uid = in.readString();
     }
 
     public static final Creator<YihuoProfile> CREATOR = new Creator<YihuoProfile>() {
@@ -170,6 +169,7 @@ public class YihuoProfile implements Parcelable {
                 ", username='" + username + '\'' +
                 ", headImg='" + headImg + '\'' +
                 ", schoolname='" + schoolname + '\'' +
+                ", uid='" + uid + '\'' +
                 '}';
     }
 }
