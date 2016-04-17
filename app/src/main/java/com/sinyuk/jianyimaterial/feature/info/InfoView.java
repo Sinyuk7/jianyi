@@ -11,6 +11,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -23,7 +24,9 @@ import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.jakewharton.rxbinding.view.RxView;
+import com.jakewharton.rxbinding.widget.RxTextView;
 import com.sinyuk.jianyimaterial.R;
+import com.sinyuk.jianyimaterial.glide.CropCircleTransformation;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 import com.sinyuk.jianyimaterial.utils.FileUtils;
 import com.sinyuk.jianyimaterial.utils.LogUtils;
@@ -35,6 +38,7 @@ import java.io.File;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import rx.Observable;
 
 /**
  * Created by Sinyuk on 16.4.16.
@@ -74,6 +78,7 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
 
     private int mSelectedGender = CHOOSE_GIRL;
     private String mUploadUrl;
+    private DrawableRequestBuilder<Integer> mResRequest;
 
     @Override
     protected boolean isUseEventBus() {
@@ -102,12 +107,31 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
 
     @Override
     protected void onFinishInflate() {
+        // 加载用户信息
+        mPresenter.loadUserInfo();
         setupViewSwitcher();
         setupGenderToggle();
         setObservers();
+        mResRequest = Glide.with(this).fromResource().dontAnimate();
+        mSelectedGender = CHOOSE_GIRL;
+        mResRequest.load(R.drawable.girl).bitmapTransform(new CropCircleTransformation(this)).into(mAvatarGirl);
     }
 
     private void setObservers() {
+        Observable<CharSequence> nicknameObservable = RxTextView.textChanges(mUserNameEt).skip(1);
+        Observable<CharSequence> schoolObservable = RxTextView.textChanges(mLocationEt);
+
+        mCompositeSubscription.add(Observable.combineLatest(nicknameObservable, schoolObservable, (nickname, school) -> {
+            if (!TextUtils.isEmpty(nickname)) {
+                mUserNameEt.setError("你确定?");
+                return false;
+            }
+            if (!TextUtils.isEmpty(school)) {
+                mLocationEt.setError("你确定?");
+                return false;
+            }
+            return true;
+        }).subscribe(InfoView.this::toggleConfirmButton));
 
         mCompositeSubscription.add(
                 RxView.clicks(mAvatarBoy).compose(RxPermissions.getInstance(this)
@@ -145,21 +169,25 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
     public void toggleGender(View v) {
         switch (v.getId()) {
             case R.id.female_flag:
-                Glide.with(InfoView.this).load(R.drawable.ic_gender_female_accent_24dp).crossFade().into(mFemaleFlag);
-                Glide.with(InfoView.this).load(R.drawable.ic_gender_male_grey600_24dp).crossFade().into(mMaleFlag);
+                if (mSelectedGender == CHOOSE_GIRL) { break; }
+                mResRequest.load(R.drawable.ic_gender_female_accent_24dp).into(mFemaleFlag);
+                mResRequest.load(R.drawable.ic_gender_male_grey600_24dp).into(mMaleFlag);
                 mSelectedGender = CHOOSE_GIRL;
                 mViewSwitcher.showNext();
-                Glide.with(InfoView.this).load(R.drawable.girl).dontAnimate().into(mAvatarGirl);
+                mResRequest.load(R.drawable.girl).bitmapTransform(new CropCircleTransformation(this)).into(mAvatarGirl);
+                mUploadUrl = null;
                 break;
             case R.id.male_flag:
-                Glide.with(InfoView.this).load(R.drawable.ic_gender_female_grey600_24dp).crossFade().into(mFemaleFlag);
-                Glide.with(InfoView.this).load(R.drawable.ic_gender_male_accent_24dp).crossFade().into(mMaleFlag);
-                mSelectedGender = CHOOSE_GIRL;
+                if (mSelectedGender == CHOOSE_BOY) { break; }
+                mResRequest.load(R.drawable.ic_gender_female_grey600_24dp).into(mFemaleFlag);
+                mResRequest.load(R.drawable.ic_gender_male_accent_24dp).into(mMaleFlag);
+                mSelectedGender = CHOOSE_BOY;
                 mViewSwitcher.showPrevious();
-                Glide.with(InfoView.this).load(R.drawable.boy).dontAnimate().into(mAvatarBoy);
+                mResRequest.load(R.drawable.boy).bitmapTransform(new CropCircleTransformation(this)).into(mAvatarBoy);
+                mUploadUrl = null;
                 break;
         }
-        mUploadUrl = null;
+
         LogUtils.simpleLog(InfoView.class, "mSelectedGender " + mSelectedGender);
     }
 
@@ -190,7 +218,7 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
         if (resultUri != null) {
             LogUtils.simpleLog(InfoView.class, "resultUri " + resultUri);
             mPresenter.compressThenUpload(resultUri.toString());
-            final DrawableRequestBuilder<Uri> request = Glide.with(this).load(resultUri).dontAnimate().priority(Priority.IMMEDIATE);
+            final DrawableRequestBuilder<Uri> request = Glide.with(this).load(resultUri).dontAnimate().bitmapTransform(new CropCircleTransformation(this)).priority(Priority.IMMEDIATE);
             if (mSelectedGender == 0) {
                 request.into(mAvatarGirl);
             } else {
@@ -204,9 +232,7 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
 
     private void handleUriFromMediaStore(Uri uri) {
         FileUtils.delete(new File(getCacheDir(), "avatar" + SystemClock.currentThreadTimeMillis()));
-
         Uri saveLocation = Uri.fromFile(new File(getCacheDir(), "avatar" + SystemClock.currentThreadTimeMillis()));
-
         startUCrop(uri, saveLocation);
     }
 
@@ -215,11 +241,26 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
         uCrop.withAspectRatio(1, 1);
         UCrop.Options options = new UCrop.Options();
         options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
+        options.setMaxBitmapSize(500);
         options.setImageToCropBoundsAnimDuration(150);
         options.setMaxScaleMultiplier(5);
         options.setOvalDimmedLayer(true);
         uCrop.withOptions(options);
         uCrop.start(InfoView.this);
+    }
+
+    /**
+     * toggle confirm button
+     */
+    private void toggleConfirmButton(boolean isReady) {
+        isReady = isReady && !TextUtils.isEmpty(mUploadUrl);
+        mConfirmBtn.setEnabled(isReady);
+        mConfirmBtn.setClickable(isReady);
+        if (isReady) {
+            mConfirmBtn.setBackground(getResources().getDrawable(R.drawable.rounded_rect_fill_accent));
+        } else {
+            mConfirmBtn.setBackground(getResources().getDrawable(R.drawable.rounded_rect_fill_grey));
+        }
     }
 
     @Override

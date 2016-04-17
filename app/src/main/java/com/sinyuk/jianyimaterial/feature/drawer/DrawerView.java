@@ -19,6 +19,7 @@ import com.sinyuk.jianyimaterial.entity.User;
 import com.sinyuk.jianyimaterial.events.XLoginEvent;
 import com.sinyuk.jianyimaterial.events.XLogoutEvent;
 import com.sinyuk.jianyimaterial.feature.CategoryView;
+import com.sinyuk.jianyimaterial.feature.info.InfoView;
 import com.sinyuk.jianyimaterial.feature.login.LoginView;
 import com.sinyuk.jianyimaterial.feature.register.RegisterView;
 import com.sinyuk.jianyimaterial.feature.settings.SettingsView;
@@ -126,13 +127,13 @@ public class DrawerView extends BaseFragment<DrawerPresenterImpl> implements IDr
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLogin(XLoginEvent event) {
-        LogUtils.simpleLog(DrawerView.class,"登录登录登录登录登录登录");
+        LogUtils.simpleLog(DrawerView.class, "登录登录登录登录登录登录");
         mPresenter.queryCurrentUser();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLogout(XLogoutEvent event) {
-        LogUtils.simpleLog(DrawerView.class,"登出登出登出登出登出登出");
+        LogUtils.simpleLog(DrawerView.class, "登出登出登出登出登出登出");
         onUserNotLogged();
     }
 
@@ -213,6 +214,7 @@ public class DrawerView extends BaseFragment<DrawerPresenterImpl> implements IDr
             case R.id.drawer_menu_message:
                 break;
             case R.id.drawer_menu_account:
+                mMenuIntent = new Intent(getContext(), InfoView.class);
                 break;
             case R.id.drawer_menu_settings:
                 mMenuIntent = new Intent(getContext(), SettingsView.class);

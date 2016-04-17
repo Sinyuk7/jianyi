@@ -19,8 +19,8 @@
         android:theme="@style/Jianyi">
         <activity
             android:name=".feature.CategoryView"
-            android:theme="@style/Jianyi.Transparent"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop"
+            android:theme="@style/Jianyi.Transparent"/>
         <activity
             android:name=".activities.ProfileActivity"
             android:launchMode="singleTop"/>
@@ -139,6 +139,11 @@
             android:name=".feature.settings.SettingsView"
             android:label="@string/settings_label"
             android:launchMode="singleTop"/>
+
+        <activity
+            android:name=".feature.info.InfoView"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
         <!--MVP-->
     </application>
 
