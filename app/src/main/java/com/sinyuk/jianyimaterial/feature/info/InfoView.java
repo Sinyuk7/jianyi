@@ -78,7 +78,7 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
     @Bind(R.id.coordinator_layout)
     CoordinatorLayout mCoordinatorLayout;
 
-    private int mSelectedGender = CHOOSE_GIRL;
+    private int mSelectedGender ;
     private String mUploadUrl;
     private DrawableRequestBuilder<Integer> mResRequest;
     private SweetAlertDialog mDialog;
@@ -113,23 +113,23 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
         // 加载用户信息
         setupViewSwitcher();
         setupGenderToggle();
-        setObservers();
         mResRequest = Glide.with(this).fromResource().dontAnimate();
         mSelectedGender = CHOOSE_GIRL;
         mResRequest.load(R.drawable.girl).bitmapTransform(new CropCircleTransformation(this)).into(mAvatarGirl);
         mPresenter.loadUserInfo();
+        setObservers();
     }
 
     private void setObservers() {
         Observable<CharSequence> nicknameObservable = RxTextView.textChanges(mUserNameEt).skip(1);
-        Observable<CharSequence> schoolObservable = RxTextView.textChanges(mLocationEt);
+        Observable<CharSequence> schoolObservable = RxTextView.textChanges(mLocationEt).skip(1);
 
         mCompositeSubscription.add(Observable.combineLatest(nicknameObservable, schoolObservable, (nickname, school) -> {
-            if (!TextUtils.isEmpty(nickname)) {
+            if (TextUtils.isEmpty(nickname)) {
                 mUserNameEt.setError("你确定?");
                 return false;
             }
-            if (!TextUtils.isEmpty(school)) {
+            if (TextUtils.isEmpty(school)) {
                 mLocationEt.setError("你确定?");
                 return false;
             }
@@ -282,11 +282,17 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
 
     @Override
     public void showUserAvatar(String url) {
-        Glide.with(this).load(url).diskCacheStrategy(DiskCacheStrategy.RESULT)
+        mUploadUrl = url;
+        DrawableRequestBuilder<String> avatarRequest = Glide.with(this)
+                .load(url).diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .dontAnimate()
-                .error(R.drawable.girl)
                 .priority(Priority.IMMEDIATE)
-                .bitmapTransform(new CropCircleTransformation(this)).into(mAvatarBoy);
+                .bitmapTransform(new CropCircleTransformation(this));
+        if (mSelectedGender == 0) {
+            avatarRequest.error(R.drawable.girl).into(mAvatarGirl);
+        } else {
+            avatarRequest.error(R.drawable.boy).into(mAvatarBoy);
+        }
     }
 
     @Override
@@ -299,12 +305,12 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
         int index = Integer.valueOf(schoolIndex);
         final String[] schoolArray = getResources().getStringArray(R.array.schools_sort);
         try {
-            mLocationEt.setText(schoolArray[index-1]);
+            mLocationEt.setText(schoolArray[index - 1]);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     @Override
     public void onQueryFailed(String message) {
 

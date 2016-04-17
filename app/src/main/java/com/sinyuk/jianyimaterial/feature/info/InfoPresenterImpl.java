@@ -20,7 +20,6 @@ public class InfoPresenterImpl extends BasePresenter<InfoView> implements IInfoP
     @Override
     public void loadUserInfo() {
         UserModel.getInstance(mView).queryCurrentUser(this);
-        mView.showProgressDialog("正在努力加载");
     }
 
     @Override
