@@ -13,6 +13,7 @@ import com.sinyuk.jianyimaterial.feature.register.RegisterView;
 import com.sinyuk.jianyimaterial.fragments.dialogs.LocationSelectDialog;
 import com.sinyuk.jianyimaterial.mvp.BaseFragment;
 import com.sinyuk.jianyimaterial.sweetalert.SweetAlertDialog;
+import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -77,10 +78,17 @@ public class AccountView extends BaseFragment<AccountPresenterImpl> implements I
     }
 
     private void setupSchool(int index) {
+        LogUtils.simpleLog(AccountView.class, "School index" + index);
         final String[] schools = getResources().getStringArray(R.array.schools_sort);
-        if (index >= 0 && index < schools.length) {
-            mSchoolBtn.setText(String.format(getString(R.string.settings_school_is), schools[index]));
+        try {
+            if (schools[index - 1] != null) {
+                mSchoolBtn.setText(String.format(getString(R.string.settings_school_is), schools[index - 1]));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            mSchoolBtn.setText(String.format(getString(R.string.settings_school_is), "加载失败"));
         }
+
     }
 
     @Override
