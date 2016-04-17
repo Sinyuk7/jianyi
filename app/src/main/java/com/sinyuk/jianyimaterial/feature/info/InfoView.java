@@ -23,11 +23,13 @@ import android.widget.ViewSwitcher;
 import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.glide.CropCircleTransformation;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
+import com.sinyuk.jianyimaterial.sweetalert.SweetAlertDialog;
 import com.sinyuk.jianyimaterial.utils.FileUtils;
 import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;
@@ -79,6 +81,7 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
     private int mSelectedGender = CHOOSE_GIRL;
     private String mUploadUrl;
     private DrawableRequestBuilder<Integer> mResRequest;
+    private SweetAlertDialog mDialog;
 
     @Override
     protected boolean isUseEventBus() {
@@ -108,13 +111,13 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
     @Override
     protected void onFinishInflate() {
         // 加载用户信息
-        mPresenter.loadUserInfo();
         setupViewSwitcher();
         setupGenderToggle();
         setObservers();
         mResRequest = Glide.with(this).fromResource().dontAnimate();
         mSelectedGender = CHOOSE_GIRL;
         mResRequest.load(R.drawable.girl).bitmapTransform(new CropCircleTransformation(this)).into(mAvatarGirl);
+        mPresenter.loadUserInfo();
     }
 
     private void setObservers() {
@@ -263,31 +266,45 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
         }
     }
 
-    @Override
-    public void showProgressDialog() {
 
+    @Override
+    public void showProgressDialog(String message) {
+        mDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        mDialog.setTitleText(message)
+                .setCancelable(false);
+        mDialog.show();
+    }
+
+    @Override
+    public void dismissProgressDialog() {
+        if (null != mDialog) { mDialog.dismissWithAnimation(); }
     }
 
     @Override
     public void showUserAvatar(String url) {
-
+        Glide.with(this).load(url).diskCacheStrategy(DiskCacheStrategy.RESULT)
+                .dontAnimate()
+                .error(R.drawable.girl)
+                .priority(Priority.IMMEDIATE)
+                .bitmapTransform(new CropCircleTransformation(this)).into(mAvatarBoy);
     }
 
     @Override
     public void showUserNickname(String nickname) {
-
+        mUserNameEt.setText(nickname);
     }
 
     @Override
     public void showUserSchool(String schoolIndex) {
-
+        int index = Integer.valueOf(schoolIndex);
+        final String[] schoolArray = getResources().getStringArray(R.array.schools_sort);
+        try {
+            mLocationEt.setText(schoolArray[index-1]);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-
-    @Override
-    public void onQuerySucceed() {
-
-    }
-
+    
     @Override
     public void onQueryFailed(String message) {
 

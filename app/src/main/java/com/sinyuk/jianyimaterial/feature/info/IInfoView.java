@@ -4,15 +4,15 @@ package com.sinyuk.jianyimaterial.feature.info;
  * Created by Sinyuk on 16.4.16.
  */
 public interface IInfoView {
-    void showProgressDialog();
+    void showProgressDialog(String message);
+
+    void dismissProgressDialog();
 
     void showUserAvatar(String url);
 
     void showUserNickname(String nickname);
 
     void showUserSchool(String schoolIndex);
-
-    void onQuerySucceed();
 
     void onQueryFailed(String message);
 
