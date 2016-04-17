@@ -275,7 +275,7 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="offer_hint_null_details">再补充点嘛</string>
     <string name="offer_hint_null_price">不要钱吗= =</string>
     <string name="offer_hint_null_shot">没图你…</string>
-    <string name="offer_hint_permission_denied">没有访问相册的权限QAQ</string>
+    <string name="common_hint_permission_denied">没有访问相册的权限QAQ</string>
     <string name="register_hint_phone_num_et">手机号</string>
     <string name="register_hint_authenticode_et">验证码</string>
     <string name="register_hint_psw_et">密码</string>
@@ -315,6 +315,7 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="info_hint_confirm">提交</string>
     <string name="info_hint_user_name">昵称</string>
     <string name="info_hint_school">学校</string>
+    <string name="info_hint_crop_failed">加载失败,请重新选择╥﹏╥...</string>
 
 
 </resources>

@@ -73,7 +73,7 @@
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:layout_margin="@dimen/tiny_content_space"
-                android:src="@drawable/ic_gender_female_white_36dp"
+                android:src="@drawable/ic_gender_male_accent_24dp"
                 android:tint="@color/colorAccent" />
 
             <android.support.v7.widget.SwitchCompat
@@ -88,7 +88,7 @@
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:layout_margin="@dimen/tiny_content_space"
-                android:src="@drawable/ic_gender_male_white_36dp"
+                android:src="@drawable/ic_gender_female_accent_24dp"
                 android:tint="@color/colorAccent" />
         </LinearLayout>
 

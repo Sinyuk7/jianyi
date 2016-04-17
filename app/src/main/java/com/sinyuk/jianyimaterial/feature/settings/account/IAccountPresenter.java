@@ -7,5 +7,6 @@ import java.util.HashMap;
  */
 public interface IAccountPresenter {
     void logout();
+
     void update(HashMap<String,String> params);
 }

@@ -1,27 +1,48 @@
 package com.sinyuk.jianyimaterial.feature.info;
 
-import android.os.Bundle;
+import android.Manifest;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.SystemClock;
+import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
+import com.bumptech.glide.DrawableRequestBuilder;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.jakewharton.rxbinding.view.RxView;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
+import com.sinyuk.jianyimaterial.utils.FileUtils;
+import com.sinyuk.jianyimaterial.utils.LogUtils;
+import com.sinyuk.jianyimaterial.utils.ToastUtils;
+import com.tbruyelle.rxpermissions.RxPermissions;
+import com.yalantis.ucrop.UCrop;
+
+import java.io.File;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Sinyuk on 16.4.16.
  */
 public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoView {
+    private static final int REQUEST_PICK = 0x08;
+    private static final int CHOOSE_BOY = 1;
+    private static final int CHOOSE_GIRL = 0;
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
     @Bind(R.id.app_bar_layout)
@@ -32,8 +53,6 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
     ImageView mAvatarBoy;
     @Bind(R.id.view_switcher)
     ViewSwitcher mViewSwitcher;
-    @Bind(R.id.hint_set_avatar)
-    TextView mHintSetAvatar;
     @Bind(R.id.female_flag)
     ImageView mFemaleFlag;
     @Bind(R.id.male_flag)
@@ -52,6 +71,9 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
     NestedScrollView mNestedScrollView;
     @Bind(R.id.coordinator_layout)
     CoordinatorLayout mCoordinatorLayout;
+
+    private int mSelectedGender = CHOOSE_GIRL;
+    private String mUploadUrl;
 
     @Override
     protected boolean isUseEventBus() {
@@ -74,13 +96,204 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
     }
 
     @Override
-    protected void onFinishInflate() {
-
-    }
-
-    @Override
     protected int getContentViewID() {
         return R.layout.info_view;
     }
 
+    @Override
+    protected void onFinishInflate() {
+        setupViewSwitcher();
+        setupGenderToggle();
+        setObservers();
+    }
+
+    private void setObservers() {
+
+        mCompositeSubscription.add(
+                RxView.clicks(mAvatarBoy).compose(RxPermissions.getInstance(this)
+                        .ensure(Manifest.permission.READ_EXTERNAL_STORAGE))
+                        .subscribe(granted -> {
+                            if (granted) {pickPhoto();} else {hintPermissionDenied();}
+                        }));
+
+        mCompositeSubscription.add(
+                RxView.clicks(mAvatarGirl).compose(RxPermissions.getInstance(this)
+                        .ensure(Manifest.permission.READ_EXTERNAL_STORAGE))
+                        .subscribe(granted -> {
+                            if (granted) {pickPhoto();} else {hintPermissionDenied();}
+                        }));
+    }
+
+    private void hintPermissionDenied() {
+        ToastUtils.toastSlow(this, getString(R.string.common_hint_permission_denied));
+    }
+
+    private void setupViewSwitcher() {
+        final Animation slide_in_left = AnimationUtils.loadAnimation(this,
+                android.R.anim.fade_in);
+        final Animation slide_out_right = AnimationUtils.loadAnimation(this,
+                android.R.anim.fade_out);
+        mViewSwitcher.setInAnimation(slide_in_left);
+        mViewSwitcher.setOutAnimation(slide_out_right);
+    }
+
+    private void setupGenderToggle() {
+
+    }
+
+    @OnClick({R.id.female_flag, R.id.male_flag})
+    public void toggleGender(View v) {
+        switch (v.getId()) {
+            case R.id.female_flag:
+                Glide.with(InfoView.this).load(R.drawable.ic_gender_female_accent_24dp).crossFade().into(mFemaleFlag);
+                Glide.with(InfoView.this).load(R.drawable.ic_gender_male_grey600_24dp).crossFade().into(mMaleFlag);
+                mSelectedGender = CHOOSE_GIRL;
+                mViewSwitcher.showNext();
+                Glide.with(InfoView.this).load(R.drawable.girl).dontAnimate().into(mAvatarGirl);
+                break;
+            case R.id.male_flag:
+                Glide.with(InfoView.this).load(R.drawable.ic_gender_female_grey600_24dp).crossFade().into(mFemaleFlag);
+                Glide.with(InfoView.this).load(R.drawable.ic_gender_male_accent_24dp).crossFade().into(mMaleFlag);
+                mSelectedGender = CHOOSE_GIRL;
+                mViewSwitcher.showPrevious();
+                Glide.with(InfoView.this).load(R.drawable.boy).dontAnimate().into(mAvatarBoy);
+                break;
+        }
+        mUploadUrl = null;
+        LogUtils.simpleLog(InfoView.class, "mSelectedGender " + mSelectedGender);
+    }
+
+    private void pickPhoto() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.offer_hint_pick_from)), REQUEST_PICK);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_PICK) {
+                final Uri selectedUri = data.getData();
+                if (selectedUri != null) {
+                    handleUriFromMediaStore(selectedUri);
+                }
+            } else if (requestCode == UCrop.REQUEST_CROP) {
+                onCropSucceed(data);
+            }
+        }
+    }
+
+    private void onCropSucceed(@NonNull Intent result) {
+        final Uri resultUri = UCrop.getOutput(result);
+        if (resultUri != null) {
+            LogUtils.simpleLog(InfoView.class, "resultUri " + resultUri);
+            mPresenter.compressThenUpload(resultUri.toString());
+            final DrawableRequestBuilder<Uri> request = Glide.with(this).load(resultUri).dontAnimate().priority(Priority.IMMEDIATE);
+            if (mSelectedGender == 0) {
+                request.into(mAvatarGirl);
+            } else {
+                request.into(mAvatarBoy);
+            }
+        } else {
+            ToastUtils.toastSlow(this, getString(R.string.info_hint_crop_failed));
+        }
+    }
+
+
+    private void handleUriFromMediaStore(Uri uri) {
+        FileUtils.delete(new File(getCacheDir(), "avatar" + SystemClock.currentThreadTimeMillis()));
+
+        Uri saveLocation = Uri.fromFile(new File(getCacheDir(), "avatar" + SystemClock.currentThreadTimeMillis()));
+
+        startUCrop(uri, saveLocation);
+    }
+
+    private void startUCrop(Uri uri, Uri saveLocation) {
+        UCrop uCrop = UCrop.of(uri, saveLocation);
+        uCrop.withAspectRatio(1, 1);
+        UCrop.Options options = new UCrop.Options();
+        options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
+        options.setImageToCropBoundsAnimDuration(150);
+        options.setMaxScaleMultiplier(5);
+        options.setOvalDimmedLayer(true);
+        uCrop.withOptions(options);
+        uCrop.start(InfoView.this);
+    }
+
+    @Override
+    public void showProgressDialog() {
+
+    }
+
+    @Override
+    public void showUserAvatar(String url) {
+
+    }
+
+    @Override
+    public void showUserNickname(String nickname) {
+
+    }
+
+    @Override
+    public void showUserSchool(String schoolIndex) {
+
+    }
+
+    @Override
+    public void onQuerySucceed() {
+
+    }
+
+    @Override
+    public void onQueryFailed(String message) {
+
+    }
+
+    @Override
+    public void onUserNotLogged() {
+
+    }
+
+    @Override
+    public void onShotUploadParseError(String message) {
+
+    }
+
+    @Override
+    public void onShotUploadVolleyError(String message) {
+
+    }
+
+    @Override
+    public void onShotUploadCompressError(String message) {
+
+    }
+
+    @Override
+    public void onShotUploadSucceed(String url) {
+
+    }
+
+    @Override
+    public void onUserUpdateSucceed(String message) {
+
+    }
+
+    @Override
+    public void onUserUpdateFailed(String message) {
+
+    }
+
+    @Override
+    public void onUserUpdateVolleyError(String message) {
+
+    }
+
+    @Override
+    public void onUserUpdateParseError(String message) {
+
+    }
 }

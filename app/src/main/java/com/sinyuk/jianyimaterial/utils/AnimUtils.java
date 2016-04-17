@@ -4,14 +4,12 @@ import android.animation.Animator;
 import android.animation.Keyframe;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
-import android.animation.TimeInterpolator;
-import android.support.v4.util.ArrayMap;
-import android.transition.Transition;
 import android.view.View;
+import android.view.ViewPropertyAnimator;
 
 import com.sinyuk.jianyimaterial.R;
 
-import java.util.ArrayList;
+import cimi.com.easeinterpolator.EaseBreathInterpolator;
 
 /**
  * Created by Sinyuk on 15.12.19.
@@ -103,4 +101,5 @@ public class AnimUtils {
         return ObjectAnimator.ofPropertyValuesHolder(view, pvhTranslateX).
                 setDuration(500);
     }
+
 }

@@ -83,15 +83,13 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginRight="32dp"
-                    android:src="@drawable/ic_gender_female_white_36dp"
-                    android:tint="@color/colorAccent"/>
+                    android:src="@drawable/ic_gender_female_accent_24dp"/>
 
                 <ImageView
                     android:id="@+id/male_flag"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_gender_male_white_36dp"
-                    android:tint="@color/grey_600"/>
+                    android:src="@drawable/ic_gender_male_grey600_24dp"/>
             </LinearLayout>
 
 

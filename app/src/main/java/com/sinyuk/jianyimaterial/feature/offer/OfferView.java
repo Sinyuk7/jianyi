@@ -320,7 +320,7 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
 
 
     private void hintPermissionDenied() {
-        ToastUtils.toastSlow(this, getString(R.string.offer_hint_permission_denied));
+        ToastUtils.toastSlow(this, getString(R.string.common_hint_permission_denied));
     }
 
     private void pickPhoto() {

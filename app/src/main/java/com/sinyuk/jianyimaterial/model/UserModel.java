@@ -126,7 +126,7 @@ public class UserModel implements BaseModel {
             User userData = mGson.fromJson(trans, User.class);
             if (userData != null) {
                 // TODO: 这里应该保存数据 然后保存成功在回调onSucceed();
-                loginSucceed(userData, password);
+                saveOrUpdate(userData, password);
                 callback.onLoginSucceed();
             } else {
                 JError error = mGson.fromJson(response, JError.class);
@@ -152,7 +152,7 @@ public class UserModel implements BaseModel {
      * @param userData
      * @param password
      */
-    private void loginSucceed(User userData, String password) {
+    private void saveOrUpdate(User userData, String password) {
         mUserService.saveOrUpdate(userData);
         if (null != mCurrentUser) {
             if (!userData.getId().equals(mCurrentUser.getId())) {
@@ -185,7 +185,10 @@ public class UserModel implements BaseModel {
                     .map(trans -> mGson.fromJson(trans, User.class))
                     .doOnError(error -> callback.onRegisterParseError(error.getMessage()))
                     .subscribe(user -> {
-                        if (user != null) {callback.onRegisterSucceed();} else {
+                        if (user != null) {
+                            saveOrUpdate(user, password);
+                            callback.onRegisterSucceed();
+                        } else {
                             Observable.just(str)
                                     .map(responseStr -> new JsonParser().parse(responseStr).getAsJsonObject())
                                     .map(response -> mGson.fromJson(response, JError.class))
@@ -242,7 +245,7 @@ public class UserModel implements BaseModel {
 
     public void update(Map<String, String> params, UserUpdateCallback callback) {
         if (TextUtils.isEmpty(mCurrentUser.getTel()) || TextUtils.isEmpty(PreferencesUtils.getString(mContext, Constants.Prefs_Psw))) {
-            callback.onUpdateFailed("读取用户信息失败");
+            callback.onUserUpdateFailed("读取用户信息失败");
             return;
         }
 
@@ -255,14 +258,14 @@ public class UserModel implements BaseModel {
                 JResponse jResponse = mGson.fromJson(response, JResponse.class);
 
                 if (jResponse != null && jResponse.getCode() == JResponse.CODE_SUCCEED) {
-                    callback.onUpdateSucceed(jResponse.getData());
+                    callback.onUserUpdateSucceed(jResponse.getData());
                 } else {
-                    callback.onUpdateParseError("更新用户信息失败");
+                    callback.onUserUpdateParseError("更新用户信息失败");
                 }
             } catch (Exception e) {
-                callback.onUpdateParseError("更新用户信息失败");
+                callback.onUserUpdateParseError("更新用户信息失败");
             }
-        }, (Response.ErrorListener) error -> callback.onUpdateVolleyError(VolleyErrorHelper.getMessage(error))) {
+        }, (Response.ErrorListener) error -> callback.onUserUpdateVolleyError(VolleyErrorHelper.getMessage(error))) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> body = new HashMap<>();
@@ -346,13 +349,13 @@ public class UserModel implements BaseModel {
     }
 
     public interface UserUpdateCallback {
-        void onUpdateSucceed(String message);
+        void onUserUpdateSucceed(String message);
 
-        void onUpdateFailed(String message);
+        void onUserUpdateFailed(String message);
 
-        void onUpdateVolleyError(String message);
+        void onUserUpdateVolleyError(String message);
 
-        void onUpdateParseError(String message);
+        void onUserUpdateParseError(String message);
     }
 
     public interface PostGoodsCallback {
