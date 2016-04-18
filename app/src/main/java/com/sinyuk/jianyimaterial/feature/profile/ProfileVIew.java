@@ -20,7 +20,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.jakewharton.rxbinding.support.design.widget.RxAppBarLayout;
 import com.jakewharton.rxbinding.view.RxView;
 import com.sinyuk.jianyimaterial.R;
-import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.feature.shelf.ShelfView;
 import com.sinyuk.jianyimaterial.glide.BlurTransformation;
 import com.sinyuk.jianyimaterial.glide.ColorFilterTransformation;
@@ -153,13 +152,13 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
 
     private void initFragments() {
         final Bundle sellArgs = new Bundle();
-        sellArgs.putString(ShelfView.TYPE, ShelfView.PROFILE);
+        sellArgs.putString(ShelfView.CONTENT, ShelfView.MY_GOODS);
         sellArgs.putString(ShelfView.USER_ID, mUid);
         LogUtils.simpleLog(ShelfView.class, "mUid" + mUid);
         fragmentList.add(ShelfView.newInstance(sellArgs));
 
         final Bundle likeUrl = new Bundle();
-        sellArgs.putString(ShelfView.TYPE, ShelfView.PROFILE);
+        sellArgs.putString(ShelfView.CONTENT, ShelfView.MY_GOODS);
         fragmentList.add(ShelfView.newInstance(likeUrl));
     }
 

@@ -21,7 +21,6 @@ import com.sinyuk.jianyimaterial.events.XShelfChangeEvent;
 import com.sinyuk.jianyimaterial.mvp.BaseFragment;
 import com.sinyuk.jianyimaterial.ui.GridItemSpaceDecoration;
 import com.sinyuk.jianyimaterial.ui.OnLoadMoreListener;
-import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.NetWorkUtils;
 import com.sinyuk.jianyimaterial.widgets.MultiSwipeRefreshLayout;
 
@@ -42,9 +41,10 @@ import rx.schedulers.Schedulers;
  */
 public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShelfView,
         AppBarLayout.OnOffsetChangedListener {
-    public static final String TYPE = "type";
-    public static final String INDEX = "index";
-    public static final String PROFILE = "profile";
+    public static final String CONTENT = "content";
+    public static final String COMMON_GOODS = "common_goods";
+    public static final String MY_GOODS = "my_goods";
+    public static final String THEIR_GOODS = "their_goods";
 
     public static final String USER_ID = "user_id";
     public static final String PARAM_SCHOOL = "school";
@@ -63,8 +63,8 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
     private int mPageIndex = 1;
     private List<YihuoProfile> mYihuoProfileList = new ArrayList<>();
     private HashMap<String, String> mParams;
-    private boolean mIsIndex;
     private String mUid;
+    private String mContentType;
 
 
     public static ShelfView newInstance(Bundle args) {
@@ -109,36 +109,48 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
     }
 
     private void buildParams(Bundle bundle) {
-        mIsIndex = bundle.getString(TYPE, INDEX).equals(INDEX);
-        if (mIsIndex) {
-            Observable.just(bundle)
-                    .map(args -> {
-                        HashMap<String, String> params = new HashMap<>();
-                        if (args.getString(PARAM_SCHOOL) != null) {
-                            params.put("school", args.getString(PARAM_SCHOOL));
-                        }
-                        params.put("title", args.getString(PARAM_SORT, "all"));
-
-                        params.put("sort", args.getString(PARAM_CHILD_SORT, "all"));
-
-                        if (args.getString(PARAM_ORDER) != null) {
-                            params.put("order", args.getString(PARAM_ORDER));
-                        }
-                        return params;
-                    })
-                    .subscribeOn(Schedulers.computation())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(params -> {
-                        mPresenter.loadData(1, params);
-                        mParams = params;
-                    });
+        if (bundle == null || bundle.getString(CONTENT) == null) {
+            getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
         } else {
-//            mUid = bundle.getString(USER_ID);
-
-            mUid = "37";
-            mPresenter.loadData(1, mUid);
+            mContentType = bundle.getString(CONTENT);
+            switch (mContentType) {
+                case COMMON_GOODS:
+                    setupCommonContent(bundle);
+                    break;
+                case MY_GOODS:
+                    break;
+                case THEIR_GOODS:
+                    mUid = bundle.getString(USER_ID);
+                    mPresenter.loadData(1, mUid);
+                    break;
+            }
         }
 
+
+    }
+
+    private void setupCommonContent(Bundle bundle) {
+        Observable.just(bundle)
+                .map(args -> {
+                    HashMap<String, String> params = new HashMap<>();
+                    if (args.getString(PARAM_SCHOOL) != null) {
+                        params.put("school", args.getString(PARAM_SCHOOL));
+                    }
+                    params.put("title", args.getString(PARAM_SORT, "all"));
+
+                    params.put("sort", args.getString(PARAM_CHILD_SORT, "all"));
+
+                    if (args.getString(PARAM_ORDER) != null) {
+                        params.put("order", args.getString(PARAM_ORDER));
+                    }
+                    return params;
+                })
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(params -> {
+                    mPresenter.loadData(1, params);
+                    mParams = params;
+                });
     }
 
     private void setupRecyclerView() {
@@ -218,19 +230,28 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
 
     @Override
     public void refresh() {
-        if (mIsIndex) {
-            mPresenter.loadData(1, mParams);
-        } else {
-            mPresenter.loadData(1, mUid);
+        switch (mContentType){
+            case COMMON_GOODS:
+                mPresenter.loadData(1, mParams);
+                break;
+            case MY_GOODS:
+            case THEIR_GOODS:
+                mPresenter.loadData(1, mUid);
+                break;
         }
     }
 
     @Override
     public void loadData(int pageIndex) {
-        if (mIsIndex) {
-            mPresenter.loadData(pageIndex, mParams);
-        } else {
-            mPresenter.loadData(pageIndex, mUid);
+
+        switch (mContentType){
+            case COMMON_GOODS:
+                mPresenter.loadData(pageIndex, mParams);
+                break;
+            case MY_GOODS:
+            case THEIR_GOODS:
+                mPresenter.loadData(pageIndex, mUid);
+                break;
         }
     }
 
