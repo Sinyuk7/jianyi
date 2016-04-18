@@ -1,6 +1,7 @@
 package com.sinyuk.jianyimaterial.mvp;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.CallSuper;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -23,6 +24,9 @@ public abstract class BaseActivity<P extends BasePresenter>
     protected static String TAG = "";
     protected P mPresenter;
     protected CompositeSubscription mCompositeSubscription;
+
+    protected Handler myHandler = new Handler();
+    private Runnable mUpdateUIRunnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +61,10 @@ public abstract class BaseActivity<P extends BasePresenter>
             }
         }
 
-        onFinishInflate();
+         mUpdateUIRunnable = this::onFinishInflate;
+
+        getWindow().getDecorView().post(() -> myHandler.post(mUpdateUIRunnable));
+
     }
 
     protected abstract boolean isUseEventBus();
@@ -92,6 +99,7 @@ public abstract class BaseActivity<P extends BasePresenter>
         ButterKnife.unbind(this);
         if (!mCompositeSubscription.isUnsubscribed()) { mCompositeSubscription.unsubscribe(); }
         if (isUseEventBus()) { EventBus.getDefault().unregister(this); }
+        myHandler.removeCallbacksAndMessages(null);
     }
 
     @CallSuper
