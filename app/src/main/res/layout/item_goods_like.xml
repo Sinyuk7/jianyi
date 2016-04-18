@@ -7,8 +7,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:stateListAnimator="@drawable/touch_raise"
-    app:contentPaddingBottom="@dimen/general_content_space">
+    android:stateListAnimator="@drawable/touch_raise">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -31,6 +30,7 @@
             android:layout_alignParentRight="true"
             app:lv_background_color="@color/colorPrimary"
             app:lv_gravity="TOP_RIGHT"
+            app:lv_text=" "
             app:lv_text_bold="true"
             app:lv_text_size="@dimen/material_text_caption1"/>
 
@@ -48,7 +48,7 @@
             tools:text="@string/dummy_thrift_description"/>
 
 
-        <com.sinyuk.jianyimaterial.widgets.likebutton.LikeButton
+        <ImageView
             android:id="@+id/like_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,17 +56,9 @@
             android:layout_below="@+id/title_tv"
             android:layout_marginRight="@dimen/general_content_space"
             android:layout_marginTop="@dimen/general_content_space"
-            app:anim_scale_factor="2"
-            app:circle_end_color="@color/colorAccent"
-            app:circle_start_color="@color/colorPrimary"
-            app:dots_primary_color="@color/colorAccent"
-            app:dots_secondary_color="@color/colorPrimary"
-            app:icon_size="32dp"
-            app:icon_type="heart"
-            app:like_drawable="@drawable/ic_heart_accent_24dp"
-            app:liked="false"
-            app:unlike_drawable="@drawable/ic_heart_fill_grey600_24dp"
-            tools:background="#000"/>
+            android:padding="@dimen/general_content_space"
+            android:src="@drawable/ic_heart_fill_grey600_24dp"
+            />
 
         <!--用户名+日期+地点-->
         <TextView
@@ -75,13 +67,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/like_btn"
-            android:layout_marginRight="@dimen/general_content_space"
-            android:layout_marginTop="@dimen/tiny_content_space"
+            android:layout_marginRight="@dimen/tiny_content_space"
+            android:layout_marginTop="12dp"
             android:layout_toLeftOf="@+id/like_btn"
             android:textColor="@color/grey_600"
             android:textSize="@dimen/material_text_caption2"
             android:textStyle="bold"
-            tools:text="@string/user_name"/>
+            tools:text="@string/pubdate"/>
 
     </RelativeLayout>
 

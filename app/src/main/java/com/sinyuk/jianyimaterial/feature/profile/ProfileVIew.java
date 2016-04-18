@@ -152,13 +152,13 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
 
     private void initFragments() {
         final Bundle sellArgs = new Bundle();
-        sellArgs.putString(ShelfView.CONTENT, ShelfView.MY_GOODS);
+        sellArgs.putString(ShelfView.CONTENT, ShelfView.THEIR_GOODS);
         sellArgs.putString(ShelfView.USER_ID, mUid);
         LogUtils.simpleLog(ShelfView.class, "mUid" + mUid);
         fragmentList.add(ShelfView.newInstance(sellArgs));
 
         final Bundle likeArgs = new Bundle();
-        likeArgs.putString(ShelfView.CONTENT, ShelfView.MY_GOODS);
+        likeArgs.putString(ShelfView.CONTENT, ShelfView.THEIR_GOODS);
         likeArgs.putString(ShelfView.USER_ID, mUid);
         fragmentList.add(ShelfView.newInstance(likeArgs));
     }

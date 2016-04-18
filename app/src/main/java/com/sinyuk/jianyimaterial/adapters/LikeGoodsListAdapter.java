@@ -9,10 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.BitmapRequestBuilder;
-import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -20,15 +20,14 @@ import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
 import com.sinyuk.jianyimaterial.feature.details.DetailsView;
-import com.sinyuk.jianyimaterial.glide.CropCircleTransformation;
 import com.sinyuk.jianyimaterial.utils.FormatUtils;
 import com.sinyuk.jianyimaterial.utils.FuzzyDateFormater;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;
 import com.sinyuk.jianyimaterial.widgets.LabelView;
 import com.sinyuk.jianyimaterial.widgets.RatioImageView;
-import com.sinyuk.jianyimaterial.widgets.likebutton.LikeButton;
-import com.sinyuk.jianyimaterial.widgets.likebutton.OnLikeListener;
+
+
 
 import java.text.ParseException;
 
@@ -44,7 +43,7 @@ public class LikeGoodsListAdapter extends ExtendedRecyclerViewAdapter<YihuoProfi
 
     public LikeGoodsListAdapter(Context context) {
         super(context);
-        
+
         shotRequest = Glide.with(mContext).fromString()
                 .asBitmap()
                 .error(mContext.getResources().getDrawable(R.drawable.image_placeholder_icon))
@@ -96,17 +95,7 @@ public class LikeGoodsListAdapter extends ExtendedRecyclerViewAdapter<YihuoProfi
             e.printStackTrace();
         }
 //        holder.locationTv.setText(StringUtils.check(mContext, itemData.getSchoolname(), R.string.unknown_location));
-        holder.mLikeBtn.setOnLikeListener(new OnLikeListener() {
-            @Override
-            public void liked(LikeButton likeButton) {
-                ToastUtils.toastSlow(mContext, "Like");
-            }
 
-            @Override
-            public void unLiked(LikeButton likeButton) {
-                ToastUtils.toastSlow(mContext, "UnLike");
-            }
-        });
 
         shotRequest.load(JianyiApi.shotUrl(itemData.getPic())).into(holder.mShotIv);
         holder.mShotIv.setTag(R.id.shots_cover_tag, position);
@@ -120,7 +109,7 @@ public class LikeGoodsListAdapter extends ExtendedRecyclerViewAdapter<YihuoProfi
         @Bind(R.id.title_tv)
         TextView mTitleTv;
         @Bind(R.id.like_btn)
-        LikeButton mLikeBtn;
+        ImageView mLikeBtn;
         @Bind(R.id.pub_date_tv)
         TextView mPubDateTv;
         @Bind(R.id.card_view)

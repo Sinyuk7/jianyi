@@ -17,6 +17,7 @@ import android.view.View;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.adapters.CommonGoodsListAdapter;
 import com.sinyuk.jianyimaterial.adapters.ExtendedRecyclerViewAdapter;
+import com.sinyuk.jianyimaterial.adapters.LikeGoodsListAdapter;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
 import com.sinyuk.jianyimaterial.events.XShelfChangeEvent;
 import com.sinyuk.jianyimaterial.mvp.BaseFragment;
@@ -160,14 +161,17 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
         // different adapter according to the specific content type
         switch (mContentType) {
             case COMMON_GOODS:
+                mAdapter = new CommonGoodsListAdapter(mContext);
                 break;
             case MY_GOODS:
+                mAdapter = new CommonGoodsListAdapter(mContext);
                 break;
             case THEIR_GOODS:
+                mAdapter = new LikeGoodsListAdapter(mContext);
                 break;
         }
-        mAdapter = new CommonGoodsListAdapter(mContext);
         mRecyclerView.setAdapter(mAdapter);
+
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
