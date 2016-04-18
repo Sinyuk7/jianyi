@@ -117,7 +117,11 @@ public class DrawerView extends BaseFragment<DrawerPresenterImpl> implements IDr
 
     @Override
     protected void onFinishInflate() {
-        mPresenter.queryCurrentUser();
+        if (!getUserVisibleHint()) {
+            sMyHandler.postDelayed(() -> mPresenter.queryCurrentUser(), 2000);
+        } else {
+            mPresenter.queryCurrentUser();
+        }
     }
 
     @Override

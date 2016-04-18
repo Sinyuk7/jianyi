@@ -2,6 +2,7 @@ package com.sinyuk.jianyimaterial.mvp;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -23,6 +24,8 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
     protected P mPresenter;
     protected CompositeSubscription mCompositeSubscription;
     protected Context mContext;
+
+    protected Handler sMyHandler = new Handler();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,6 +87,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
         ButterKnife.unbind(this);
         if (!mCompositeSubscription.isUnsubscribed()) { mCompositeSubscription.unsubscribe(); }
         if (isUseEventBus()) { EventBus.getDefault().unregister(this); }
+        sMyHandler.removeCallbacksAndMessages(null);
     }
 
     void detachPresenter() {
