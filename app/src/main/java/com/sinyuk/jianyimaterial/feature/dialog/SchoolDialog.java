@@ -18,6 +18,7 @@ import com.sinyuk.jianyimaterial.adapters.ExtendedRecyclerViewAdapter;
 import com.sinyuk.jianyimaterial.entity.School;
 import com.sinyuk.jianyimaterial.model.SchoolModel;
 import com.sinyuk.jianyimaterial.ui.DividerItemDecoration;
+import com.sinyuk.jianyimaterial.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,8 +91,6 @@ public class SchoolDialog extends BottomSheetDialogFragment implements SchoolMod
 
     private void setupRecyclerView() {
 
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(getResources().getDrawable(R.drawable.default_divider)));
-
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
@@ -151,15 +150,14 @@ public class SchoolDialog extends BottomSheetDialogFragment implements SchoolMod
         public void onBindDataItemViewHolder(MyViewHolder holder, int position) {
             School data = getData().get(position);
 
-            holder.mIndexTv.setText(data.getId());
-
             holder.mNameTv.setText(data.getName());
+
+            holder.mNameTv.setOnClickListener(v -> LogUtils.simpleLog(SchoolDialog.class, "Select school at: " + (position + 1)));
         }
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.index_tv)
-        TextView mIndexTv;
+
         @Bind(R.id.name_tv)
         TextView mNameTv;
 

@@ -139,12 +139,9 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
         setupSwipeRefreshLayout();
         setupRecyclerView();
         setupBanner();
-        mPresenter.loadBanner();
-        //加载完banner之后在...
-        mScheduleHandler.postDelayed(() -> mPresenter.loadListHeader(), 200);
-        //加载完这个之后在刷新
-        mScheduleHandler.postDelayed(this::refresh, 400);
     }
+
+
 
     private void setupAppBarLayout() {
         mCompositeSubscription.add(RxAppBarLayout.offsetChanges(mAppBarLayout).subscribeOn(AndroidSchedulers.mainThread())
@@ -430,6 +427,12 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     public void onResume() {
         super.onResume();
         mBannerView.startTurning(BANNER_SWITCH_INTERVAL);
+
+        mPresenter.loadBanner();
+        //加载完banner之后在...
+        mScheduleHandler.postDelayed(() -> mPresenter.loadListHeader(), 200);
+        //加载完这个之后在刷新
+        mScheduleHandler.postDelayed(this::refresh, 400);
     }
 
     @Override

@@ -319,6 +319,7 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="home_hint_school_at">在\"%1$s\"附近</string>
     <string name="home_hint_school_switch">切换</string>
     <string name="home_daily_edition_pubdate">﹂ %1$s</string>
+    <string name="common_hint_select_school">请选择</string>
 
 
 </resources>
