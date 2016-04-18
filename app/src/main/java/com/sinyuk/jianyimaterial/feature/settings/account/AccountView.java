@@ -8,18 +8,21 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.sinyuk.jianyimaterial.R;
-import com.sinyuk.jianyimaterial.events.XLocationSelectEvent;
+import com.sinyuk.jianyimaterial.entity.School;
+import com.sinyuk.jianyimaterial.events.XSchoolSelectedEvent;
+import com.sinyuk.jianyimaterial.feature.dialog.SchoolDialog;
 import com.sinyuk.jianyimaterial.feature.register.RegisterView;
 import com.sinyuk.jianyimaterial.fragments.dialogs.LocationSelectDialog;
 import com.sinyuk.jianyimaterial.mvp.BaseFragment;
 import com.sinyuk.jianyimaterial.sweetalert.SweetAlertDialog;
-import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -39,6 +42,7 @@ public class AccountView extends BaseFragment<AccountPresenterImpl> implements I
     TextView mLogoutBtn;
     @Bind(R.id.settings_items)
     LinearLayout mSettingsItems;
+    private List<School> mSchoolList;
 
     public static AccountView getInstance() {
         if (null == instance) { instance = new AccountView(); }
@@ -69,26 +73,8 @@ public class AccountView extends BaseFragment<AccountPresenterImpl> implements I
     protected void onFinishInflate() {
         if (null != getArguments()) {
             mTelTv.setText(String.format(getString(R.string.settings_tel_is), getArguments().getString("tel", "未知")));
-            if (!TextUtils.isEmpty(getArguments().getString("school"))) {
-                final int index = Integer.parseInt(getArguments().getString("school"));
-                setupSchool(index);
-            }
-
+            mPresenter.fetchSchoolList();
         }
-    }
-
-    private void setupSchool(int index) {
-        LogUtils.simpleLog(AccountView.class, "School index" + index);
-        final String[] schools = getResources().getStringArray(R.array.schools_sort);
-        try {
-            if (schools[index - 1] != null) {
-                mSchoolBtn.setText(String.format(getString(R.string.settings_school_is), schools[index - 1]));
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-            mSchoolBtn.setText(String.format(getString(R.string.settings_school_is), "加载失败"));
-        }
-
     }
 
     @Override
@@ -105,11 +91,12 @@ public class AccountView extends BaseFragment<AccountPresenterImpl> implements I
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.password_btn:
-                startActivity(new Intent(mContext, RegisterView.class));
+                /*startActivity(new Intent(mContext, RegisterView.class));*/
+                ToastUtils.toastFast(mContext, getString(R.string.common_hint_feature_not_finished));
                 break;
             case R.id.school_btn:
-                LocationSelectDialog dialog = new LocationSelectDialog();
-                dialog.show(getChildFragmentManager(), LocationSelectDialog.TAG);
+                SchoolDialog dialog = SchoolDialog.getInstance();
+                dialog.show(getChildFragmentManager(),SchoolDialog.TAG);
                 break;
             case R.id.logout_btn:
                 showLogoutAlert();
@@ -133,10 +120,22 @@ public class AccountView extends BaseFragment<AccountPresenterImpl> implements I
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onLocationSelected(XLocationSelectEvent event) {
+    public void onSchoolSelected(XSchoolSelectedEvent event) {
+        updateSchoolTv(event.getSchoolIndex());
         final HashMap<String, String> schoolParam = new HashMap<>();
-        schoolParam.put("school", String.valueOf(event.getWhich() + 1));
+        schoolParam.put("school", event.getSchoolIndex());
         mPresenter.update(schoolParam);
+    }
+
+    private void updateSchoolTv(String schoolIndex) {
+        final int index = Integer.valueOf(schoolIndex);
+        try {
+            mSchoolBtn.setText(String.format(getString(R.string.settings_school_is), mSchoolList.get(index - 1).getName()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            mSchoolBtn.setText(String.format(getString(R.string.settings_school_is), "加载失败"));
+        }
+
     }
 
     @Override
@@ -156,6 +155,23 @@ public class AccountView extends BaseFragment<AccountPresenterImpl> implements I
 
     @Override
     public void onUpdateParseError(String message) {
+        ToastUtils.toastFast(mContext, message);
+    }
+
+    @Override
+    public void onLoadSchoolSucceed(List<School> schoolList) {
+        mSchoolList = schoolList;
+        // 加载列表之后 根据index显示学校
+        updateSchoolTv(getArguments().getString("school"));
+    }
+
+    @Override
+    public void onLoadSchoolParseError(String message) {
+        ToastUtils.toastFast(mContext, message);
+    }
+
+    @Override
+    public void onLoadSchoolVolleyError(String message) {
         ToastUtils.toastFast(mContext, message);
     }
 }
