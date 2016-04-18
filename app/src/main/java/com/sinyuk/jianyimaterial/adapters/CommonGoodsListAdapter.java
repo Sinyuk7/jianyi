@@ -17,8 +17,6 @@ import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
@@ -26,6 +24,7 @@ import com.sinyuk.jianyimaterial.feature.details.DetailsView;
 import com.sinyuk.jianyimaterial.feature.profile.ProfileView;
 import com.sinyuk.jianyimaterial.glide.CropCircleTransformation;
 import com.sinyuk.jianyimaterial.utils.FormatUtils;
+import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
 import com.sinyuk.jianyimaterial.widgets.LabelView;
 import com.sinyuk.jianyimaterial.widgets.RatioImageView;
@@ -37,14 +36,14 @@ import butterknife.ButterKnife;
 /**
  * Created by Sinyuk on 16.1.20.
  */
-public class CardListAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile, CardListAdapter.CardViewHolder> {
+public class CommonGoodsListAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile, CommonGoodsListAdapter.CardViewHolder> {
 
 
     private DrawableRequestBuilder<String> avatarRequest;
 
     private BitmapRequestBuilder<String, Bitmap> shotRequest;
 
-    public CardListAdapter(Context context) {
+    public CommonGoodsListAdapter(Context context) {
         super(context);
         avatarRequest = Glide.with(mContext).fromString()
                 .dontAnimate()
@@ -81,37 +80,30 @@ public class CardListAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile, C
         if (!getData().isEmpty() && getData().get(position) != null) {
             itemData = getData().get(position);
         }
-
         if (itemData == null) { return; }
-        // TODO: initialize cardView
-        if (holder.cardView != null) {
-            final YihuoProfile finalItemData = itemData;
-            holder.cardView.setOnClickListener(v -> {
-                holder.cardView.setClickable(false); // prevent fast double tap
-                Intent intent = new Intent(mContext, DetailsView.class);
-                Bundle bundle = new Bundle();
-                bundle.putParcelable(YihuoProfile.TAG, finalItemData);
-                intent.putExtras(bundle);
-                mContext.startActivity(intent);
-                holder.cardView.postDelayed(() -> holder.cardView.setClickable(true), 300);
-            });
-        }
 
-        // TODO: initialize username;
+        LogUtils.simpleLog(CommonGoodsListAdapter.class, "UID -> " + itemData.getUid());
+        final YihuoProfile finalItemData = itemData;
+        holder.cardView.setOnClickListener(v -> {
+            holder.cardView.setClickable(false); // prevent fast double tap
+            Intent intent = new Intent(mContext, DetailsView.class);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(YihuoProfile.TAG, finalItemData);
+            intent.putExtras(bundle);
+            mContext.startActivity(intent);
+            holder.cardView.postDelayed(() -> holder.cardView.setClickable(true), 300);
+        });
+
         holder.userNameTv.setText(String.format(StringUtils.getRes(mContext, R.string.details_username),
                 StringUtils.check(mContext, itemData.getUsername(), R.string.untable)));
-        // TODO: initialize title;
         holder.titleTv.setText(StringUtils.check(mContext, itemData.getName(), R.string.unknown_title));
-        // TODO: initialize newPrice;
         holder.newPriceLabelView.setText(FormatUtils.formatPrice(itemData.getPrice()));
-        // TODO: initialize pubDate;
     /*    try {
             holder.pubDateTv.setText(FuzzyDateFormater.getParsedDate(mContext, itemData.getTime()));
         } catch (ParseException e) {
             holder.pubDateTv.setText(StringUtils.getRes(mContext, R.string.unknown_date));
             e.printStackTrace();
         }*/
-        // TODO: initialize location;
 //        holder.locationTv.setText(StringUtils.check(mContext, itemData.getSchoolname(), R.string.unknown_location));
 
 
@@ -134,36 +126,20 @@ public class CardListAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile, C
         holder.avatar.setTag(R.id.avatar_tag, position + "_24dp");
 
 
-        // initialize shot
-        final YihuoProfile finalItemData1 = itemData;
-
         holder.avatar.setOnClickListener(avatar -> {
             Intent intent = new Intent(mContext, ProfileView.class);
             Bundle bundle = new Bundle();
             bundle.putFloat(ProfileView.PROFILE_TYPE, ProfileView.OTHER);
-            bundle.putString("uid", finalItemData1.getId());
-            bundle.putString("user_name", finalItemData1.getUsername());
-            bundle.putString("location", finalItemData1.getSchoolname());
-            bundle.putString("tel", finalItemData1.getTel());
-            bundle.putString("avatar", finalItemData1.getHeadImg());
+            bundle.putString("uid", finalItemData.getUid());
+            bundle.putString("user_name", finalItemData.getUsername());
+            bundle.putString("location", finalItemData.getSchoolname());
+            bundle.putString("tel", finalItemData.getTel());
+            bundle.putString("avatar", finalItemData.getHeadImg());
             intent.putExtras(bundle);
             mContext.startActivity(intent);
         });
 
-        shotRequest.load(JianyiApi.shotUrl(itemData.getPic()))
-                .listener(new RequestListener<String, Bitmap>() {
-                    @Override
-                    public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(final Bitmap bitmap, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                        return false;
-                    }
-                })
-                .into(holder.shotIv);
-
+        shotRequest.load(JianyiApi.shotUrl(itemData.getPic())).into(holder.shotIv);
         holder.shotIv.setTag(R.id.shots_cover_tag, position);
 
     }

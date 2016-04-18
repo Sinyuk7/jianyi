@@ -13,7 +13,7 @@ import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.sinyuk.jianyimaterial.R;
-import com.sinyuk.jianyimaterial.adapters.CardListAdapter;
+import com.sinyuk.jianyimaterial.adapters.CommonGoodsListAdapter;
 import com.sinyuk.jianyimaterial.api.Index;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.application.Jianyi;
@@ -40,7 +40,7 @@ public class ExploreListFragment extends SwipeRefreshFragment {
     @Bind(R.id.swipe_refresh_layout)
     MultiSwipeRefreshLayout swipeRefreshLayout;
     private String categoryTitle = "all";
-    private CardListAdapter adapter;
+    private CommonGoodsListAdapter adapter;
 
     private List<YihuoProfile> yihuoProfileList = new ArrayList<>();
     private int pageIndex;
@@ -80,7 +80,7 @@ public class ExploreListFragment extends SwipeRefreshFragment {
     }
 
     private void setupRecyclerView() {
-        adapter = new CardListAdapter(mContext);
+        adapter = new CommonGoodsListAdapter(mContext);
 
         recyclerView.setAdapter(adapter);
 

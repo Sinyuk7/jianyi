@@ -16,7 +16,7 @@ import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.sinyuk.jianyimaterial.R;
-import com.sinyuk.jianyimaterial.adapters.CardListAdapter;
+import com.sinyuk.jianyimaterial.adapters.CommonGoodsListAdapter;
 import com.sinyuk.jianyimaterial.api.Index;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.application.Jianyi;
@@ -47,7 +47,7 @@ public class HomeListFragment extends SwipeRefreshFragment {
     @Bind(R.id.recycler_view)
     RecyclerView recyclerView;
 
-    private CardListAdapter adapter;
+    private CommonGoodsListAdapter adapter;
 
     private List<YihuoProfile> yihuoProfileList = new ArrayList<>();
     private int pageIndex = 1;
@@ -99,7 +99,7 @@ public class HomeListFragment extends SwipeRefreshFragment {
 
     private void setupRecyclerView() {
 
-        adapter = new CardListAdapter(mContext);
+        adapter = new CommonGoodsListAdapter(mContext);
 
         recyclerView.setAdapter(adapter);
 

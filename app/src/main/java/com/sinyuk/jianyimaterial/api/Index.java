@@ -39,22 +39,11 @@ public class Index {
         public int total_items;
         public int limit;
 
-        /**
-         * id : 2826
-         * name : Macbook Pro（15inch ret）
-         * price : 6800.0
-         * tel : 18258211854
-         * time : 2016-01-21 19:04:08
-         * pic : /uploads/goods/poster_56a0bb2998dce.jpg
-         * username : null
-         * headImg : null
-         * schoolname : 浙江传媒学院-下沙校区
-         */
-
         public List<Items> items;
 
         public static class Items {
             public String id;
+            public String uid;
             public String name;
             public String price;
             public String tel;
@@ -63,59 +52,10 @@ public class Index {
             public String username;
             public String headImg;
             public String schoolname;
-
-
-        }
-
-        public int getFirst() {
-            return first;
-        }
-
-        public int getBefore() {
-            return before;
-        }
-
-        public int getNext() {
-            return next;
-        }
-
-        public int getLast() {
-            return last;
-        }
-
-        public int getCurrent() {
-            return current;
-        }
-
-        public int getTotal_pages() {
-            return total_pages;
-        }
-
-        public int getTotal_items() {
-            return total_items;
-        }
-
-        public int getLimit() {
-            return limit;
         }
 
         public List<Items> getItems() {
             return items;
-        }
-
-        @Override
-        public String toString() {
-            return "Data{" +
-                    "first=" + first +
-                    ", before=" + before +
-                    ", next=" + next +
-                    ", last=" + last +
-                    ", current=" + current +
-                    ", total_pages=" + total_pages +
-                    ", total_items=" + total_items +
-                    ", limit=" + limit +
-                    ", items=" + items +
-                    '}';
         }
     }
 
@@ -131,12 +71,4 @@ public class Index {
         return code;
     }
 
-    @Override
-    public String toString() {
-        return "Index{" +
-                "status=" + status +
-                ", data=" + data +
-                ", code=" + code +
-                '}';
-    }
 }

@@ -39,7 +39,7 @@ import com.jakewharton.rxbinding.support.design.widget.RxAppBarLayout;
 import com.jakewharton.rxbinding.support.v7.widget.RxToolbar;
 import com.jakewharton.rxbinding.view.RxView;
 import com.sinyuk.jianyimaterial.R;
-import com.sinyuk.jianyimaterial.adapters.CardListAdapter;
+import com.sinyuk.jianyimaterial.adapters.CommonGoodsListAdapter;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.common.spanbuilder.AndroidSpan;
 import com.sinyuk.jianyimaterial.common.spanbuilder.SpanOptions;
@@ -59,7 +59,6 @@ import com.sinyuk.jianyimaterial.ui.trans.AccordionTransformer;
 import com.sinyuk.jianyimaterial.utils.AnimUtils;
 import com.sinyuk.jianyimaterial.utils.AnimatorLayerListener;
 import com.sinyuk.jianyimaterial.utils.FuzzyDateFormater;
-import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.NetWorkUtils;
 import com.sinyuk.jianyimaterial.utils.ScreenUtils;
 import com.sinyuk.jianyimaterial.widgets.LabelView;
@@ -105,7 +104,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     TextView mEntryCategory;
 
     private boolean mIsRequestDataRefresh;
-    private CardListAdapter mAdapter;
+    private CommonGoodsListAdapter mAdapter;
     private View mListHeader;
     private int mPageIndex = 1;
     private List<YihuoProfile> mYihuoProfileList = new ArrayList<>();
@@ -219,7 +218,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     }
 
     private void setupRecyclerView() {
-        mAdapter = new CardListAdapter(mContext);
+        mAdapter = new CommonGoodsListAdapter(mContext);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
