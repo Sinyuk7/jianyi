@@ -155,6 +155,16 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
 
     private void setupRecyclerView() {
         mAdapter = new CardListAdapter(mContext);
+        // different adapter according to the specific content type
+        switch (mContentType) {
+            case COMMON_GOODS:
+                break;
+            case MY_GOODS:
+                break;
+            case THEIR_GOODS:
+                break;
+        }
+
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
