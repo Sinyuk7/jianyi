@@ -12,7 +12,7 @@ import android.support.graphics.drawable.VectorDrawableCompat;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
-import com.like.view.R;
+import com.sinyuk.jianyimaterial.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +31,9 @@ public class Utils {
 
     public static List<Icon> getIcons() {
         List<Icon> icons = new ArrayList<>();
-        icons.add(new Icon(R.drawable.heart_on, R.drawable.heart_off, IconType.Heart));
-        icons.add(new Icon(R.drawable.star_on, R.drawable.star_off, IconType.Star));
-        icons.add(new Icon(R.drawable.thumb_on, R.drawable.thumb_off, IconType.Thumb));
+        icons.add(new Icon(R.drawable.ic_heart_fill_grey600_24dp, R.drawable.ic_heart_accent_24dp, IconType.Heart));
+        icons.add(new Icon(R.drawable.ic_location_on_grey600_24dp, R.drawable.ic_location_on_grey600_24dp, IconType.Star));
+        icons.add(new Icon(R.drawable.ic_location_on_grey600_24dp, R.drawable.ic_location_on_grey600_24dp, IconType.Thumb));
 
         return icons;
     }

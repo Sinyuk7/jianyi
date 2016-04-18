@@ -20,6 +20,7 @@ import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -371,14 +372,14 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        mLabelView.setText(data.getSort());
+
+        if (!TextUtils.isEmpty(data.getSort())) { mLabelView.setText(data.getSort()); }
 
         mCompositeSubscription.add(RxView.clicks(mShotIv).subscribe(aVoid -> {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(data.getTitle())));
         }));
 
         mSchoolSwitch.setOnClickListener(v -> {
-            LogUtils.simpleLog(HomeView.class, "Click!!!!");
             SchoolDialog schoolDialog = SchoolDialog.getInstance();
             schoolDialog.setCancelable(true);
             schoolDialog.show(getChildFragmentManager(), SchoolDialog.TAG);
