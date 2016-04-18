@@ -15,7 +15,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.sinyuk.jianyimaterial.R;
-import com.sinyuk.jianyimaterial.adapters.CardListAdapter;
+import com.sinyuk.jianyimaterial.adapters.CommonGoodsListAdapter;
+import com.sinyuk.jianyimaterial.adapters.ExtendedRecyclerViewAdapter;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
 import com.sinyuk.jianyimaterial.events.XShelfChangeEvent;
 import com.sinyuk.jianyimaterial.mvp.BaseFragment;
@@ -58,7 +59,7 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
 
 
     private boolean mIsRequestDataRefresh;
-    private CardListAdapter mAdapter;
+    private ExtendedRecyclerViewAdapter mAdapter;
     private View mListHeader;
     private int mPageIndex = 1;
     private List<YihuoProfile> mYihuoProfileList = new ArrayList<>();
@@ -98,38 +99,38 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
 
     @Override
     protected void beforeInflate() {
-
+        if (getArguments().getString(CONTENT) == null) {
+            getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+        } else {
+            mContentType = getArguments().getString(CONTENT);
+        }
     }
 
     @Override
     protected void onFinishInflate() {
         setupSwipeRefreshLayout();
         setupRecyclerView();
-        buildParams(getArguments());
+        loadDataVaryContent();
     }
 
-    private void buildParams(Bundle bundle) {
-        if (bundle == null || bundle.getString(CONTENT) == null) {
-            getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
-        } else {
-            mContentType = bundle.getString(CONTENT);
-            switch (mContentType) {
-                case COMMON_GOODS:
-                    setupCommonContent(bundle);
-                    break;
-                case MY_GOODS:
-                    break;
-                case THEIR_GOODS:
-                    mUid = bundle.getString(USER_ID);
-                    mPresenter.loadData(1, mUid);
-                    break;
-            }
+    private void loadDataVaryContent() {
+        switch (mContentType) {
+            case COMMON_GOODS:
+                loadCommonContent(getArguments());
+                break;
+            case MY_GOODS:
+            case THEIR_GOODS:
+                loadPersonalContent(getArguments());
+                break;
         }
-
-
     }
 
-    private void setupCommonContent(Bundle bundle) {
+    private void loadPersonalContent(Bundle bundle) {
+        mUid = bundle.getString(USER_ID);
+        mPresenter.loadData(1, mUid);
+    }
+
+    private void loadCommonContent(Bundle bundle) {
         Observable.just(bundle)
                 .map(args -> {
                     HashMap<String, String> params = new HashMap<>();
@@ -151,10 +152,11 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
                     mPresenter.loadData(1, params);
                     mParams = params;
                 });
+
     }
 
+
     private void setupRecyclerView() {
-        mAdapter = new CardListAdapter(mContext);
         // different adapter according to the specific content type
         switch (mContentType) {
             case COMMON_GOODS:
@@ -164,7 +166,7 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
             case THEIR_GOODS:
                 break;
         }
-
+        mAdapter = new CommonGoodsListAdapter(mContext);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
@@ -240,7 +242,7 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
 
     @Override
     public void refresh() {
-        switch (mContentType){
+        switch (mContentType) {
             case COMMON_GOODS:
                 mPresenter.loadData(1, mParams);
                 break;
@@ -254,7 +256,7 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
     @Override
     public void loadData(int pageIndex) {
 
-        switch (mContentType){
+        switch (mContentType) {
             case COMMON_GOODS:
                 mPresenter.loadData(pageIndex, mParams);
                 break;

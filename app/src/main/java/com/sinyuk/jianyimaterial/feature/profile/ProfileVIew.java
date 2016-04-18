@@ -157,9 +157,10 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
         LogUtils.simpleLog(ShelfView.class, "mUid" + mUid);
         fragmentList.add(ShelfView.newInstance(sellArgs));
 
-        final Bundle likeUrl = new Bundle();
-        sellArgs.putString(ShelfView.CONTENT, ShelfView.MY_GOODS);
-        fragmentList.add(ShelfView.newInstance(likeUrl));
+        final Bundle likeArgs = new Bundle();
+        likeArgs.putString(ShelfView.CONTENT, ShelfView.MY_GOODS);
+        likeArgs.putString(ShelfView.USER_ID, mUid);
+        fragmentList.add(ShelfView.newInstance(likeArgs));
     }
 
     private void setAppBarLayout() {
