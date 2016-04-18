@@ -113,7 +113,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
 
     private Handler mScheduleHandler = new Handler();
     private TextView mSchoolAt;
-    private BottomSheetBehavior<View> mBottomSheetBehavior;
+    private String mCurrentSchool = "1";
 
     public static HomeView getInstance() {
         if (null == sInstance) { sInstance = new HomeView(); }
@@ -134,7 +134,6 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
 
     @Override
     protected void beforeInflate() {
-
     }
 
     @Override
@@ -324,13 +323,13 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
 
     @Override
     public void refresh() {
-        mPresenter.loadData(1);
+        mPresenter.loadData(mCurrentSchool, 1);
     }
 
 
     @Override
     public void loadData(int pageIndex) {
-        mPresenter.loadData(pageIndex);
+        mPresenter.loadData(mCurrentSchool, pageIndex);
     }
 
     @Override
@@ -387,6 +386,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onSchoolSelected(XSchoolSelectedEvent event) {
         mSchoolAt.setText(new AndroidSpan().drawRelativeSizeSpan("在 ", 0.6f).drawTextAppearanceSpan(event.getSchoolName(), mContext, R.style.SchoolAtText).drawRelativeSizeSpan(" 附近", 0.6f).getSpanText());
+        mCurrentSchool = event.getSchoolIndex();
     }
 
 

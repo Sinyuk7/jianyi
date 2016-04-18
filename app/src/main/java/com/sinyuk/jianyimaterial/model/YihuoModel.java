@@ -88,11 +88,17 @@ public class YihuoModel implements BaseModel {
     }
 
 
-    public void getProfile(int pageIndex, RequestYihuoProfileCallback callback) {
+    public void getGoodsBySchool(String schoolIndex, int pageIndex, RequestYihuoProfileCallback callback) {
+        getGoods(JianyiApi.goodsBySchool(schoolIndex, pageIndex), pageIndex, callback);
+    }
+
+    public void getProfileByUid(int pageIndex, String uid, RequestYihuoProfileCallback callback) {
         boolean isRefresh = pageIndex == 1;
+        LogUtils.simpleLog(YihuoModel.class, JianyiApi.goodsByUser(uid, pageIndex));
         JsonRequest jsonRequest = new JsonRequest
-                (Request.Method.GET, JianyiApi.fetchYihuoProfile(pageIndex), null, response -> {
+                (Request.Method.GET, JianyiApi.goodsByUser(uid, pageIndex), null, response -> {
                     try {
+                        LogUtils.simpleLog(YihuoModel.class, response.toString());
                         Index index = gson.fromJson(response.toString(), Index.class);
 
                         List<Index.Data.Items> items = index.getData().getItems();
@@ -110,7 +116,9 @@ public class YihuoModel implements BaseModel {
                     }
                 }, error -> callback.onVolleyError(VolleyErrorHelper.getMessage(error)));
         Jianyi.getInstance().addRequest(jsonRequest, INDEX_REQUEST);
+
     }
+
 
     public void getProfileByParams(int pageIndex, HashMap<String, String> params, RequestYihuoProfileCallback callback) {
         boolean isRefresh = pageIndex == 1;
@@ -137,6 +145,29 @@ public class YihuoModel implements BaseModel {
         Jianyi.getInstance().addRequest(jsonRequest, INDEX_REQUEST);
     }
 
+    public void getGoods(String url, int pageIndex, RequestYihuoProfileCallback callback) {
+        boolean isRefresh = pageIndex == 1;
+        JsonRequest jsonRequest = new JsonRequest
+                (Request.Method.GET, url, null, response -> {
+                    try {
+                        Index index = gson.fromJson(response.toString(), Index.class);
+
+                        List<Index.Data.Items> items = index.getData().getItems();
+
+                        String trans = gson.toJson(items);
+
+                        List<YihuoProfile> data = gson.fromJson(trans,
+                                new TypeToken<List<YihuoProfile>>() {
+                                }.getType());
+
+                        // do clear
+                        if (data != null) { callback.onCompleted(data, isRefresh); }
+                    } catch (JsonParseException e) {
+                        callback.onParseError(e.getMessage());
+                    }
+                }, error -> callback.onVolleyError(VolleyErrorHelper.getMessage(error)));
+        Jianyi.getInstance().addRequest(jsonRequest, INDEX_REQUEST);
+    }
 
     public void getDetails(@NonNull String yihuoId, RequestYihuoDetailsCallback callback) {
         JsonRequest jsonRequest = new JsonRequest
@@ -168,6 +199,7 @@ public class YihuoModel implements BaseModel {
         }).subscribeOn(Schedulers.io());
     }
 
+
     private Boolean checkLikeState(String yihuoId) {
         YihuoDetails data = (YihuoDetails) yihuoDetailsService.query(yihuoId);
         return null != data;
@@ -185,37 +217,9 @@ public class YihuoModel implements BaseModel {
         }
     }
 
-
     public void removeFromLikes(@NonNull YihuoDetails detailsData, LikesCallback callback) {
         yihuoDetailsService.deleteByKey(detailsData.getId());
         callback.onRemoveFromLikes();
-    }
-
-    public void getProfileByUid(int pageIndex, String uid, RequestYihuoProfileCallback callback) {
-        boolean isRefresh = pageIndex == 1;
-        LogUtils.simpleLog(YihuoModel.class, JianyiApi.userSell(uid, pageIndex));
-        JsonRequest jsonRequest = new JsonRequest
-                (Request.Method.GET, JianyiApi.userSell(uid, pageIndex), null, response -> {
-                    try {
-                        LogUtils.simpleLog(YihuoModel.class, response.toString());
-                        Index index = gson.fromJson(response.toString(), Index.class);
-
-                        List<Index.Data.Items> items = index.getData().getItems();
-
-                        String trans = gson.toJson(items);
-
-                        List<YihuoProfile> data = gson.fromJson(trans,
-                                new TypeToken<List<YihuoProfile>>() {
-                                }.getType());
-
-                        // do clear
-                        if (data != null) { callback.onCompleted(data, isRefresh); }
-                    } catch (JsonParseException e) {
-                        callback.onParseError(e.getMessage());
-                    }
-                }, error -> callback.onVolleyError(VolleyErrorHelper.getMessage(error)));
-        Jianyi.getInstance().addRequest(jsonRequest, INDEX_REQUEST);
-
     }
 
 

@@ -33,8 +33,8 @@ public class HomePresenterImpl extends BasePresenter<HomeView> implements
     }
 
     @Override
-    public void loadData(int pageIndex) {
-        YihuoModel.getInstance(mView.getContext()).getProfile(pageIndex, this);
+    public void loadData(String schoolIndex,int pageIndex) {
+        YihuoModel.getInstance(mView.getContext()).getGoodsBySchool(schoolIndex,pageIndex, this);
     }
 
     @Override

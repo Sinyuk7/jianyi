@@ -1,5 +1,7 @@
 package com.sinyuk.jianyimaterial.feature.home;
 
+import android.support.annotation.NonNull;
+
 /**
  * Created by Sinyuk on 16.3.27.
  */
@@ -11,7 +13,7 @@ public interface IHomePresenter {
 
     void toHeaderHistory();
 
-    void loadData(int pageIndex);
+    void loadData(@NonNull String schoolIndex, int pageIndex);
 
     void attemptToPostView();
 }

@@ -99,9 +99,12 @@ public class JianyiApi {
         return BANNER;
     }
 
-    public static String userSell(String uid, int pageIndex) {
-        return GOODS + "/sellManage?user_id=" + uid + "&page=" + pageIndex
-                ;
+    public static String goodsByUser(String uid, int pageIndex) {
+        return GOODS + "/sellManage?user_id=" + uid + "&page=" + pageIndex;
+    }
+
+    public static String goodsBySchool(String schoolIndex, int pageIndex) {
+        return GOODS + "?title=all" + "&school=" + schoolIndex + "&page=" + pageIndex;
     }
 
     public static class ParamsBuilder {
