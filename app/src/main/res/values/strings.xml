@@ -263,7 +263,7 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="empty" />
     <string name="hint_failed_to_loading_shot">图片加载失败</string>
     <string name="details_view_count">%1$s 看过</string>
-    <string name="details_username">﹂ %1$s</string>
+    <string name="common_prefix_from">﹂ %1$s</string>
     <string name="drawer_menu_login">登录</string>
     <string name="action_filter">筛选</string>
     <string name="entry_recommended">推荐</string>

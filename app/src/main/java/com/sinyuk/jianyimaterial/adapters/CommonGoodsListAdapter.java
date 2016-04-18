@@ -36,9 +36,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Sinyuk on 16.1.20.
  */
-public class CommonGoodsListAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile, CommonGoodsListAdapter.CardViewHolder> {
-
-
+public class CommonGoodsListAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile, CommonGoodsListAdapter.CommonItemViewHolder> {
     private DrawableRequestBuilder<String> avatarRequest;
 
     private BitmapRequestBuilder<String, Bitmap> shotRequest;
@@ -67,15 +65,15 @@ public class CommonGoodsListAdapter extends ExtendedRecyclerViewAdapter<YihuoPro
 
 
     @Override
-    public CardViewHolder onCreateDataItemViewHolder(ViewGroup parent, int viewType) {
+    public CommonItemViewHolder onCreateDataItemViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_goods_common, parent, false);
-        return new CardViewHolder(v);
+        return new CommonItemViewHolder(v);
 
     }
 
     @Override
-    public void onBindDataItemViewHolder(final CardViewHolder holder, final int position) {
+    public void onBindDataItemViewHolder(final CommonItemViewHolder holder, final int position) {
         YihuoProfile itemData = null;
         if (!getData().isEmpty() && getData().get(position) != null) {
             itemData = getData().get(position);
@@ -94,7 +92,7 @@ public class CommonGoodsListAdapter extends ExtendedRecyclerViewAdapter<YihuoPro
             holder.cardView.postDelayed(() -> holder.cardView.setClickable(true), 300);
         });
 
-        holder.userNameTv.setText(String.format(StringUtils.getRes(mContext, R.string.details_username),
+        holder.userNameTv.setText(String.format(StringUtils.getRes(mContext, R.string.common_prefix_from),
                 StringUtils.check(mContext, itemData.getUsername(), R.string.untable)));
         holder.titleTv.setText(StringUtils.check(mContext, itemData.getName(), R.string.unknown_title));
         holder.newPriceLabelView.setText(FormatUtils.formatPrice(itemData.getPrice()));
@@ -145,7 +143,7 @@ public class CommonGoodsListAdapter extends ExtendedRecyclerViewAdapter<YihuoPro
     }
 
 
-    public class CardViewHolder extends RecyclerView.ViewHolder {
+    public class CommonItemViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.shot_iv)
         RatioImageView shotIv;
         @Bind(R.id.new_price_label_view)
@@ -159,7 +157,7 @@ public class CommonGoodsListAdapter extends ExtendedRecyclerViewAdapter<YihuoPro
         @Bind(R.id.card_view)
         CardView cardView;
 
-        public CardViewHolder(View itemView) {
+        public CommonItemViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

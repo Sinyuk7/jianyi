@@ -7,15 +7,12 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.Space;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -193,7 +190,7 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
     }
 
     private void setupUsername() {
-        userNameTv.setText(String.format(StringUtils.getRes(this, R.string.details_username),
+        userNameTv.setText(String.format(StringUtils.getRes(this, R.string.common_prefix_from),
                 StringUtils.check(this, profileData.getUsername(), R.string.untable)));
     }
 
