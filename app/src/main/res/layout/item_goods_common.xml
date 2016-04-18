@@ -46,12 +46,6 @@
             android:textSize="@dimen/material_text_body2"
             tools:text="@string/dummy_thrift_description" />
 
-      <!--  <View
-            android:id="@+id/divider"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@+id/title_tv"
-            android:background="@color/grey_100" />-->
 
 
         <ImageView
@@ -78,38 +72,6 @@
             android:textSize="@dimen/material_text_caption2"
             android:textStyle="bold"
             tools:text="@string/user_name" />
-
-        <!--     <TextView
-                 android:id="@+id/pub_date_tv"
-                 style="@style/SingleLineText"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_alignParentRight="true"
-                 android:layout_alignParentEnd="true"
-                 android:layout_marginRight="@dimen/general_content_space"
-                 android:layout_below="@id/divider"
-                 android:layout_alignBaseline="@+id/user_name_tv"
-                 android:textColor="@color/grey_600"
-                 android:textSize="@dimen/material_text_caption2"
-                 android:textStyle="italic"
-                 tools:text="@string/pubdate" />
-     -->
-
-        <!--地点-->
-        <!--<TextView
-            android:layout_below="@+id/user_name_tv"
-            android:id="@+id/location_tv"
-            android:layout_marginLeft="@dimen/general_content_space"
-            android:layout_toRightOf="@id/avatar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/extra_tiny_content_space"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textColor="@color/grey_600"
-            android:textSize="@dimen/material_text_caption2"
-            tools:text="@string/dummy_user_location" />-->
-
 
     </RelativeLayout>
 

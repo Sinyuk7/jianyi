@@ -12,12 +12,9 @@ import android.widget.ImageView;
 import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.facebook.rebound.Spring;
-import com.facebook.rebound.SpringSystem;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.events.XShotDropEvent;
 import com.sinyuk.jianyimaterial.widgets.LabelView;
-import com.tumblr.backboard.imitator.ToggleImitator;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -46,7 +43,7 @@ public class ShotsGalleryAdapter extends ExtendedRecyclerViewAdapter<Uri, ShotsG
     @Override
     public ShotViewHolder onCreateDataItemViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_feed_cell, parent, false);
+                .inflate(R.layout.item_post_goods_shot, parent, false);
         return new ShotViewHolder(v);
 
     }

@@ -70,7 +70,7 @@ public class CardListAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile, C
     @Override
     public CardViewHolder onCreateDataItemViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_card, parent, false);
+                .inflate(R.layout.item_goods_common, parent, false);
         return new CardViewHolder(v);
 
     }
