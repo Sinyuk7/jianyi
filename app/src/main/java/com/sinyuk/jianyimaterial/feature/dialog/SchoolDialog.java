@@ -16,9 +16,10 @@ import android.widget.TextView;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.adapters.ExtendedRecyclerViewAdapter;
 import com.sinyuk.jianyimaterial.entity.School;
+import com.sinyuk.jianyimaterial.events.XSchoolSelectedEvent;
 import com.sinyuk.jianyimaterial.model.SchoolModel;
-import com.sinyuk.jianyimaterial.ui.DividerItemDecoration;
-import com.sinyuk.jianyimaterial.utils.LogUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,16 +78,16 @@ public class SchoolDialog extends BottomSheetDialogFragment implements SchoolMod
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         setupRecyclerView();
-        SchoolModel.getInstance(mContext).fetchSchools(this);
         showLoadProgress();
+        SchoolModel.getInstance(mContext).fetchSchools(this);
     }
 
     private void showLoadProgress() {
-        mProgressBar.setVisibility(View.VISIBLE);
+        if (null != mProgressBar) { mProgressBar.setVisibility(View.VISIBLE); }
     }
 
     private void dismissLoadProgress() {
-        mProgressBar.setVisibility(View.GONE);
+        if (null != mProgressBar) { mProgressBar.setVisibility(View.GONE); }
     }
 
     private void setupRecyclerView() {
@@ -110,7 +111,6 @@ public class SchoolDialog extends BottomSheetDialogFragment implements SchoolMod
         mAdapter.setData(schoolList);
         mAdapter.notifyDataSetChanged();
         dismissLoadProgress();
-
     }
 
     @Override
@@ -152,7 +152,10 @@ public class SchoolDialog extends BottomSheetDialogFragment implements SchoolMod
 
             holder.mNameTv.setText(data.getName());
 
-            holder.mNameTv.setOnClickListener(v -> LogUtils.simpleLog(SchoolDialog.class, "Select school at: " + (position + 1)));
+            holder.mNameTv.setOnClickListener(v -> {
+                EventBus.getDefault().post(new XSchoolSelectedEvent(data.getId(), data.getName()));
+                dismiss();
+            });
         }
     }
 

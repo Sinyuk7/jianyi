@@ -41,9 +41,11 @@ import com.jakewharton.rxbinding.view.RxView;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.adapters.CardListAdapter;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
+import com.sinyuk.jianyimaterial.common.spanbuilder.AndroidSpan;
 import com.sinyuk.jianyimaterial.entity.Banner;
 import com.sinyuk.jianyimaterial.entity.YihuoDetails;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
+import com.sinyuk.jianyimaterial.events.XSchoolSelectedEvent;
 import com.sinyuk.jianyimaterial.feature.CategoryView;
 import com.sinyuk.jianyimaterial.feature.dialog.SchoolDialog;
 import com.sinyuk.jianyimaterial.feature.explore.ExploreView;
@@ -61,6 +63,9 @@ import com.sinyuk.jianyimaterial.utils.NetWorkUtils;
 import com.sinyuk.jianyimaterial.utils.ScreenUtils;
 import com.sinyuk.jianyimaterial.widgets.LabelView;
 import com.sinyuk.jianyimaterial.widgets.MultiSwipeRefreshLayout;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -117,7 +122,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
 
     @Override
     protected boolean isUseEventBus() {
-        return false;
+        return true;
     }
 
     @Override
@@ -140,7 +145,6 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
         setupRecyclerView();
         setupBanner();
     }
-
 
 
     private void setupAppBarLayout() {
@@ -380,6 +384,11 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
         });
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSchoolSelected(XSchoolSelectedEvent event) {
+        mSchoolAt.setText(new AndroidSpan().drawRelativeSizeSpan("在 ", 0.6f).drawTextAppearanceSpan(event.getSchoolName(), mContext, R.style.SchoolAtText).drawRelativeSizeSpan(" 附近", 0.6f).getSpanText());
+    }
+
 
     @Override
     public void onVolleyError(@NonNull String message) {mSwipeRefreshLayout.setRefreshing(false);}
@@ -430,9 +439,9 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
 
         mPresenter.loadBanner();
         //加载完banner之后在...
-        mScheduleHandler.postDelayed(() -> mPresenter.loadListHeader(), 200);
+        mScheduleHandler.postDelayed(() -> mPresenter.loadListHeader(), 500);
         //加载完这个之后在刷新
-        mScheduleHandler.postDelayed(this::refresh, 400);
+        mScheduleHandler.postDelayed(this::refresh, 1000);
     }
 
     @Override
