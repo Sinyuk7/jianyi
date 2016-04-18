@@ -84,7 +84,7 @@
         <item name="android:drawablePadding">@dimen/general_content_space</item>
         <item name="android:textSize">@dimen/material_text_menu</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:textColor">@drawable/link_text_tint</item>
+        <item name="android:textColor">@drawable/dialog_text_tint</item>
     </style>
 
 

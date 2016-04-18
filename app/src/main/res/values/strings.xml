@@ -316,6 +316,9 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="info_hint_user_name">昵称</string>
     <string name="info_hint_school">学校</string>
     <string name="info_hint_crop_failed">加载失败,请重新选择╥﹏╥...</string>
+    <string name="home_hint_school_at">在\"%1$s\"附近</string>
+    <string name="home_hint_school_switch">切换</string>
+    <string name="home_daily_edition_pubdate">﹂ %1$s</string>
 
 
 </resources>

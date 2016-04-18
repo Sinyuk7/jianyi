@@ -6,9 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
@@ -43,6 +45,7 @@ import com.sinyuk.jianyimaterial.entity.Banner;
 import com.sinyuk.jianyimaterial.entity.YihuoDetails;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
 import com.sinyuk.jianyimaterial.feature.CategoryView;
+import com.sinyuk.jianyimaterial.feature.dialog.SchoolDialog;
 import com.sinyuk.jianyimaterial.feature.explore.ExploreView;
 import com.sinyuk.jianyimaterial.feature.offer.OfferView;
 import com.sinyuk.jianyimaterial.managers.SnackBarFactory;
@@ -53,6 +56,7 @@ import com.sinyuk.jianyimaterial.ui.trans.AccordionTransformer;
 import com.sinyuk.jianyimaterial.utils.AnimUtils;
 import com.sinyuk.jianyimaterial.utils.AnimatorLayerListener;
 import com.sinyuk.jianyimaterial.utils.FuzzyDateFormater;
+import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.NetWorkUtils;
 import com.sinyuk.jianyimaterial.utils.ScreenUtils;
 import com.sinyuk.jianyimaterial.widgets.LabelView;
@@ -102,6 +106,10 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     private List<Banner> mBannerItemList;
     private int mTouchThreshold;
 
+    private Handler mScheduleHandler = new Handler();
+    private TextView mSchoolAt;
+    private BottomSheetBehavior<View> mBottomSheetBehavior;
+
     public static HomeView getInstance() {
         if (null == sInstance) { sInstance = new HomeView(); }
         return sInstance;
@@ -132,6 +140,10 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
         setupRecyclerView();
         setupBanner();
         mPresenter.loadBanner();
+        //加载完banner之后在...
+        mScheduleHandler.postDelayed(() -> mPresenter.loadListHeader(), 200);
+        //加载完这个之后在刷新
+        mScheduleHandler.postDelayed(this::refresh, 400);
     }
 
     private void setupAppBarLayout() {
@@ -221,7 +233,6 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
 
         mListHeader = LayoutInflater.from(mContext).inflate(R.layout.include_home_daily_edition, mRecyclerView, false);
 //
-
         mAdapter.setHeaderViewFullSpan(mListHeader);
 
         mRecyclerView.addOnScrollListener(new OnLoadMoreListener(staggeredGridLayoutManager, mSwipeRefreshLayout) {
@@ -307,8 +318,6 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
                         .map(src -> JianyiApi.JIANYI + src)
                         .toList().toBlocking().single());
         mBannerView.notifyDataSetChanged();
-        //加载完banner之后在...
-        mPresenter.loadListHeader();
     }
 
 
@@ -344,6 +353,8 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
         final TextView mTitleTv = (TextView) mListHeader.findViewById(R.id.title_tv);
         final TextView mDescriptionTv = (TextView) mListHeader.findViewById(R.id.description_tv);
         final TextView mPubDataTv = (TextView) mListHeader.findViewById(R.id.pub_date_tv);
+        final TextView mSchoolSwitch = (TextView) mListHeader.findViewById(R.id.school_switch_tv);
+        mSchoolAt = (TextView) mListHeader.findViewById(R.id.school_at_tv);
 
         Glide.with(mContext).fromString().load(data.getPic())
                 .error(mContext.getResources().getDrawable(R.drawable.image_placeholder_grey300))
@@ -354,7 +365,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
         mTitleTv.setText(data.getName());
         mDescriptionTv.setText(data.getDetail());
         try {
-            mPubDataTv.setText(FuzzyDateFormater.getParsedDate(mContext, data.getTime()));
+            mPubDataTv.setText(String.format(getString(R.string.home_daily_edition_pubdate), FuzzyDateFormater.getParsedDate(mContext, data.getTime())));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -363,8 +374,13 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
         mCompositeSubscription.add(RxView.clicks(mShotIv).subscribe(aVoid -> {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(data.getTitle())));
         }));
-//        加载完这个之后在刷新
-        refresh();
+
+        mSchoolSwitch.setOnClickListener(v -> {
+            LogUtils.simpleLog(HomeView.class, "Click!!!!");
+            SchoolDialog schoolDialog = SchoolDialog.getInstance();
+            schoolDialog.setCancelable(true);
+            schoolDialog.show(getChildFragmentManager(), SchoolDialog.TAG);
+        });
     }
 
 
@@ -420,6 +436,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     public void onPause() {
         super.onPause();
         mBannerView.stopTurning();
+        mScheduleHandler.removeCallbacksAndMessages(null);
     }
 
     public void toRecommended(Void v) {
