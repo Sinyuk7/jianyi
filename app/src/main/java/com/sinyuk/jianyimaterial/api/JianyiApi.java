@@ -36,8 +36,8 @@ public class JianyiApi {
 
 
     // 大类
-    public static String yihuoBySort(@Nullable int pageIndex, String parentSort) {
-        return "http://wx.i-jianyi.com/port/goods/index" + "?page=" + pageIndex + "&title=" + parentSort;
+    public static String goodsBySort(@Nullable int pageIndex, String parentSort) {
+        return GOODS + "?page=" + pageIndex + "&title=" + parentSort;
     }
 
 
@@ -50,7 +50,7 @@ public class JianyiApi {
     }
 
 
-    public static String yihuoByTabs(@NonNull String title, @NonNull int pageIndex) {
+    public static String goodsByTitle(@NonNull String title, @NonNull int pageIndex) {
         return GOODS + ORDER_DESC + "?sort=all" + "&page=" + pageIndex + "&title=" + title;
     }
 

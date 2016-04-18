@@ -10,7 +10,6 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
@@ -42,6 +41,7 @@ import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.adapters.CardListAdapter;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.common.spanbuilder.AndroidSpan;
+import com.sinyuk.jianyimaterial.common.spanbuilder.SpanOptions;
 import com.sinyuk.jianyimaterial.entity.Banner;
 import com.sinyuk.jianyimaterial.entity.YihuoDetails;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
@@ -64,6 +64,7 @@ import com.sinyuk.jianyimaterial.utils.ScreenUtils;
 import com.sinyuk.jianyimaterial.widgets.LabelView;
 import com.sinyuk.jianyimaterial.widgets.MultiSwipeRefreshLayout;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -113,7 +114,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
 
     private Handler mScheduleHandler = new Handler();
     private TextView mSchoolAt;
-    private String mCurrentSchool = "1";
+    private String mCurrentSchool;
 
     public static HomeView getInstance() {
         if (null == sInstance) { sInstance = new HomeView(); }
@@ -324,6 +325,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     @Override
     public void refresh() {
         mPresenter.loadData(mCurrentSchool, 1);
+        mPageIndex = 1;
     }
 
 
@@ -381,12 +383,17 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
             schoolDialog.setCancelable(true);
             schoolDialog.show(getChildFragmentManager(), SchoolDialog.TAG);
         });
+
+        EventBus.getDefault().post(new XSchoolSelectedEvent("1", "浙江传媒学院-下沙校区"));
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onSchoolSelected(XSchoolSelectedEvent event) {
-        mSchoolAt.setText(new AndroidSpan().drawRelativeSizeSpan("在 ", 0.6f).drawTextAppearanceSpan(event.getSchoolName(), mContext, R.style.SchoolAtText).drawRelativeSizeSpan(" 附近", 0.6f).getSpanText());
+        mSchoolAt.setText(new AndroidSpan().drawRelativeSizeSpan("当前查看: ", 1f)
+                .drawWithOptions(event.getSchoolName(), new SpanOptions().addTextAppearanceSpan(mContext, R.style.SchoolAtText)
+                        .addRelativeSizeSpan(0.8f)).getSpanText());
         mCurrentSchool = event.getSchoolIndex();
+        refresh();
     }
 
 

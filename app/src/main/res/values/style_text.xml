@@ -69,5 +69,6 @@
 
     <style name="SchoolAtText">
         <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textStyle">italic</item>
     </style>
 </resources>

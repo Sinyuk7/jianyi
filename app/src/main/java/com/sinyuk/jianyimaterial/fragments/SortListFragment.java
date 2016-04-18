@@ -159,7 +159,7 @@ public class SortListFragment extends SwipeRefreshFragment {
 
         String url = null;
         try {
-            url = JianyiApi.yihuoBySort(pageIndex, URLEncoder.encode(parentSortSelection,"UTF-8"))
+            url = JianyiApi.goodsBySort(pageIndex, URLEncoder.encode(parentSortSelection,"UTF-8"))
                     + "&sort=" + URLEncoder.encode(childSort,"UTF-8")
                     + "&order=" + order
                     + "&school=" + schoolIndex;
@@ -229,7 +229,7 @@ public class SortListFragment extends SwipeRefreshFragment {
     protected void loadListData(int pageIndex) {
         String url = null;
         try {
-            url = JianyiApi.yihuoBySort(pageIndex, URLEncoder.encode(parentSortSelection,"UTF-8"))
+            url = JianyiApi.goodsBySort(pageIndex, URLEncoder.encode(parentSortSelection,"UTF-8"))
                     + "&sort=" + URLEncoder.encode(childSort,"UTF-8")
                     + "&order=" + order
                     + "&school=" + schoolIndex;
