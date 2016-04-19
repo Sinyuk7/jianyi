@@ -48,16 +48,15 @@
             tools:text="@string/dummy_thrift_description"/>
 
 
-        <ImageView
+        <com.sinyuk.jianyimaterial.widgets.CheckableImageView
             android:id="@+id/like_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/title_tv"
             android:layout_marginRight="@dimen/general_content_space"
-            android:layout_marginTop="@dimen/general_content_space"
             android:padding="@dimen/general_content_space"
-            android:src="@drawable/ic_heart_fill_grey600_24dp"
+            android:src="@drawable/ic_heart_checkable_24dp"
             />
 
         <!--用户名+日期+地点-->
@@ -67,7 +66,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/like_btn"
-            android:layout_marginRight="@dimen/tiny_content_space"
             android:layout_marginTop="12dp"
             android:layout_toLeftOf="@+id/like_btn"
             android:textColor="@color/grey_600"

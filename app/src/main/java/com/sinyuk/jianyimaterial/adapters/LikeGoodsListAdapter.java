@@ -1,5 +1,6 @@
 package com.sinyuk.jianyimaterial.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,14 +21,15 @@ import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
 import com.sinyuk.jianyimaterial.feature.details.DetailsView;
+import com.sinyuk.jianyimaterial.ui.smallbang.SmallBang;
+import com.sinyuk.jianyimaterial.ui.smallbang.SmallBangListener;
 import com.sinyuk.jianyimaterial.utils.FormatUtils;
 import com.sinyuk.jianyimaterial.utils.FuzzyDateFormater;
+import com.sinyuk.jianyimaterial.utils.ScreenUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
-import com.sinyuk.jianyimaterial.utils.ToastUtils;
+import com.sinyuk.jianyimaterial.widgets.CheckableImageView;
 import com.sinyuk.jianyimaterial.widgets.LabelView;
 import com.sinyuk.jianyimaterial.widgets.RatioImageView;
-
-
 
 import java.text.ParseException;
 
@@ -39,6 +41,7 @@ import butterknife.ButterKnife;
  */
 public class LikeGoodsListAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile, LikeGoodsListAdapter.LikeItemViewHolder> {
 
+    private final SmallBang mSmallBang;
     private BitmapRequestBuilder<String, Bitmap> shotRequest;
 
     public LikeGoodsListAdapter(Context context) {
@@ -51,6 +54,9 @@ public class LikeGoodsListAdapter extends ExtendedRecyclerViewAdapter<YihuoProfi
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.IMMEDIATE)
                 .thumbnail(0.2f);
+
+        mSmallBang = SmallBang.attach2Window((Activity) mContext);
+
     }
 
     @Override
@@ -66,7 +72,7 @@ public class LikeGoodsListAdapter extends ExtendedRecyclerViewAdapter<YihuoProfi
     }
 
     @Override
-    public void onBindDataItemViewHolder(LikeItemViewHolder holder, int position) {
+    public void onBindDataItemViewHolder(final LikeItemViewHolder holder,final int position) {
         YihuoProfile itemData = null;
         if (!getData().isEmpty() && getData().get(position) != null) {
             itemData = getData().get(position);
@@ -97,6 +103,21 @@ public class LikeGoodsListAdapter extends ExtendedRecyclerViewAdapter<YihuoProfi
 //        holder.locationTv.setText(StringUtils.check(mContext, itemData.getSchoolname(), R.string.unknown_location));
 
 
+        holder.mLikeBtn.setOnClickListener(v -> {
+            mSmallBang.bang(holder.mLikeBtn, ScreenUtils.dpToPxInt(mContext, 36),
+                    new SmallBangListener() {
+                        @Override
+                        public void onAnimationStart() {
+                            holder.mLikeBtn.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+                        }
+
+                        @Override
+                        public void onAnimationEnd() {
+                            holder.mLikeBtn.setLayerType(View.LAYER_TYPE_NONE, null);
+                        }
+                    });
+        });
+
         shotRequest.load(JianyiApi.shotUrl(itemData.getPic())).into(holder.mShotIv);
         holder.mShotIv.setTag(R.id.shots_cover_tag, position);
     }
@@ -109,7 +130,7 @@ public class LikeGoodsListAdapter extends ExtendedRecyclerViewAdapter<YihuoProfi
         @Bind(R.id.title_tv)
         TextView mTitleTv;
         @Bind(R.id.like_btn)
-        ImageView mLikeBtn;
+        CheckableImageView mLikeBtn;
         @Bind(R.id.pub_date_tv)
         TextView mPubDateTv;
         @Bind(R.id.card_view)
