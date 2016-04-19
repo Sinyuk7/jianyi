@@ -13,7 +13,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.adapters.NeedsListAdapter;
-import com.sinyuk.jianyimaterial.entity.Needs;
+import com.sinyuk.jianyimaterial.api.JNeeds;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 import com.sinyuk.jianyimaterial.ui.OnLoadMoreListener;
 import com.sinyuk.jianyimaterial.utils.NetWorkUtils;
@@ -45,7 +45,7 @@ public class NeedsView extends BaseActivity<NeedsPresenterImpl> implements INeed
 
     private NeedsListAdapter mAdapter;
     private int mPageIndex = 1;
-    private List<Needs> mNeedsList = new ArrayList<>();
+    private List<JNeeds.Data.Need> mNeedsList = new ArrayList<>();
     private boolean mIsRequestDataRefresh;
 
     @Override
@@ -74,8 +74,9 @@ public class NeedsView extends BaseActivity<NeedsPresenterImpl> implements INeed
         setupToolbar();
         setupSwipeRefreshLayout();
         setupRecyclerView();
-        loadData(1);
+        refresh();
     }
+
 
     private void setupAppBarLayout() {
         mAppBarLayout.addOnOffsetChangedListener(this);
@@ -120,7 +121,7 @@ public class NeedsView extends BaseActivity<NeedsPresenterImpl> implements INeed
                         mIsRequestDataRefresh = true;
                         setRequestDataRefresh(true);
                         if (NetWorkUtils.isNetworkConnection(NeedsView.this)) {
-                            loadData(1);
+                            refresh();
                         } else {
                             onNeedsVolleyError("你的网络好像出了点问题");
                             setRequestDataRefresh(false);
@@ -144,6 +145,11 @@ public class NeedsView extends BaseActivity<NeedsPresenterImpl> implements INeed
         } else {
             mSwipeRefreshLayout.setRefreshing(true);
         }
+    }
+
+    private void refresh() {
+        loadData(1);
+        mPageIndex = 1;
     }
 
     private void loadData(int pageIndex) {
@@ -174,20 +180,26 @@ public class NeedsView extends BaseActivity<NeedsPresenterImpl> implements INeed
     }
 
     @Override
-    public void showList(List<Needs> newPage, boolean isRefresh) {
+    public void showList(JNeeds data, boolean isRefresh) {
         if (!mNeedsList.isEmpty() && isRefresh) { mNeedsList.clear(); }
-        mNeedsList.addAll(newPage);
+        mNeedsList.addAll(data.getData().getNeedList());
         mAdapter.setData(mNeedsList);
         mAdapter.notifyDataSetChanged();
     }
 
+
     @Override
     public void onNeedsVolleyError(@NonNull String message) {
-        ToastUtils.toastSlow(this,message);
+        ToastUtils.toastSlow(this, message);
     }
 
     @Override
     public void onNeedsParseError(@NonNull String message) {
-        ToastUtils.toastSlow(this,message);
+        ToastUtils.toastSlow(this, message);
+    }
+
+    @Override
+    public void onNeedsReachBottom() {
+        ToastUtils.toastFast(this, getString(R.string.common_hint_reach_list_bottom));
     }
 }

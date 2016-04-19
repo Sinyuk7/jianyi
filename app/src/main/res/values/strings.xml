@@ -321,6 +321,8 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="home_daily_edition_pubdate">﹂ %1$s</string>
     <string name="common_hint_select_school">请选择</string>
     <string name="common_hint_feature_not_finished">努力开发中╥﹏╥...</string>
+    <string name="needs_hint_no_description">什么都没留下</string>
+    <string name="common_hint_reach_list_bottom">已经是最后一页啦</string>
 
 
 </resources>

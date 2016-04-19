@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -21,9 +20,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.sinyuk.jianyimaterial.R;
-import com.sinyuk.jianyimaterial.activities.ProfileActivity;
+import com.sinyuk.jianyimaterial.api.JNeeds;
 import com.sinyuk.jianyimaterial.glide.CropCircleTransformation;
-import com.sinyuk.jianyimaterial.entity.Needs;
 import com.sinyuk.jianyimaterial.utils.AnimUtils;
 import com.sinyuk.jianyimaterial.utils.FormatUtils;
 import com.sinyuk.jianyimaterial.utils.FuzzyDateFormater;
@@ -41,7 +39,7 @@ import cimi.com.easeinterpolator.EaseSineOutInterpolator;
 /**
  * Created by Sinyuk on 16.1.4.
  */
-public class NeedsListAdapter extends ExtendedRecyclerViewAdapter<Needs, NeedsListAdapter.MyViewHolder> {
+public class NeedsListAdapter extends ExtendedRecyclerViewAdapter<JNeeds.Data.Need, NeedsListAdapter.MyViewHolder> {
 
 
     private static long ANIMATION_SCALE;
@@ -75,16 +73,8 @@ public class NeedsListAdapter extends ExtendedRecyclerViewAdapter<Needs, NeedsLi
 
     @Override
     public void onBindDataItemViewHolder(final MyViewHolder holder, final int position) {
-        final Needs data = getData().get(position);
-        /** id
-         * detail
-         * price
-         * tel
-         * time
-         * username
-         * headimg
-         * schoolname
-         */
+        final JNeeds.Data.Need data = getData().get(position);
+
         if (position % 2 == 0) {
             holder.wrapper.setBackgroundColor(ContextCompat.getColor(mContext, R.color.grey_50));
         } else {
@@ -92,7 +82,7 @@ public class NeedsListAdapter extends ExtendedRecyclerViewAdapter<Needs, NeedsLi
         }
 
         holder.mainBodyTv.setText(
-                StringUtils.check(mContext, data.getDetail(), R.string.unknown_needs_description));
+                StringUtils.check(mContext, data.getDetail(), R.string.needs_hint_no_description));
 
 
         if (TextUtils.isEmpty(data.getPrice())) {
@@ -123,7 +113,7 @@ public class NeedsListAdapter extends ExtendedRecyclerViewAdapter<Needs, NeedsLi
         holder.userNameTv.setText(StringUtils.check(mContext, data.getUsername(), R.string.unknown_user_name));
 
         holder.locationIv.setText(
-                StringUtils.check(mContext, data.getSchoolname(), R.string.unknown_location));
+                StringUtils.check(mContext, data.getSchoolName(), R.string.unknown_location));
 
 
         // a little tricky to deal with the scroll bug
@@ -147,7 +137,7 @@ public class NeedsListAdapter extends ExtendedRecyclerViewAdapter<Needs, NeedsLi
         TextDrawable textDrawable = TextDrawable.builder()
                 .buildRound(firstLetter + "", mContext.getResources().getColor(R.color.grey_300));
         // TODO: initialize avatar
-        avatarRequest.load(data.getHeadimg())
+        avatarRequest.load(data.getAvatarUrl())
                 .placeholder(textDrawable)
                 .error(textDrawable)
                 .into(holder.avatar);
@@ -156,36 +146,13 @@ public class NeedsListAdapter extends ExtendedRecyclerViewAdapter<Needs, NeedsLi
         holder.avatar.setTag(R.id.avatar_tag, position + "_36dp");
 
 
-        holder.avatar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, ProfileActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("user_name", data.getUsername());
-                bundle.putString("location", data.getSchoolname());
-                bundle.putString("tel", data.getTel());
-                bundle.putString("avatar", data.getHeadimg());
-                intent.putExtras(bundle);
+        holder.chatIv.setOnClickListener(v -> {});
+
+        holder.phoneCallIv.setOnClickListener(v -> {
+            if (!TextUtils.isEmpty(data.getTel())) {
+                Uri uri = Uri.parse("tel:" + data.getTel());
+                Intent intent = new Intent(Intent.ACTION_DIAL, uri);
                 mContext.startActivity(intent);
-            }
-        });
-
-        holder.chatIv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        holder.phoneCallIv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!TextUtils.isEmpty(data.getTel())) {
-                    Uri uri = Uri.parse("tel:" + data.getTel());
-                    Intent intent = new Intent(Intent.ACTION_DIAL, uri);
-                    mContext.startActivity(intent);
-                }
-
             }
         });
 
@@ -221,18 +188,15 @@ public class NeedsListAdapter extends ExtendedRecyclerViewAdapter<Needs, NeedsLi
             super(itemView);
             ButterKnife.bind(this, itemView);
 
-            wrapper.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View v) {
-                    if (expandView.getVisibility() == View.GONE) {
-                        expandView.setVisibility(View.VISIBLE);
-                        raise(wrapper);
-                    } else {
-                        expandView.setVisibility(View.GONE);
-                        fall(wrapper);
-                    }
-
+            wrapper.setOnClickListener(v -> {
+                if (expandView.getVisibility() == View.GONE) {
+                    expandView.setVisibility(View.VISIBLE);
+                    raise(wrapper);
+                } else {
+                    expandView.setVisibility(View.GONE);
+                    fall(wrapper);
                 }
+
             });
         }
 

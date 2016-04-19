@@ -168,7 +168,7 @@ public class YihuoProfile implements Parcelable {
                 ", pic='" + pic + '\'' +
                 ", username='" + username + '\'' +
                 ", headImg='" + headImg + '\'' +
-                ", schoolname='" + schoolname + '\'' +
+                ", schoolName='" + schoolname + '\'' +
                 ", uid='" + uid + '\'' +
                 '}';
     }

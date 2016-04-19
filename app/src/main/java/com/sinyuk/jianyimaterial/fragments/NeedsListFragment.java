@@ -1,38 +1,10 @@
 package com.sinyuk.jianyimaterial.fragments;
 
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.sinyuk.jianyimaterial.R;
-import com.sinyuk.jianyimaterial.adapters.NeedsListAdapter;
-import com.sinyuk.jianyimaterial.api.JNeeds;
-import com.sinyuk.jianyimaterial.api.JianyiApi;
-import com.sinyuk.jianyimaterial.application.Jianyi;
-import com.sinyuk.jianyimaterial.base.SwipeRefreshFragment;
-import com.sinyuk.jianyimaterial.entity.Needs;
-import com.sinyuk.jianyimaterial.volley.JsonRequest;
-import com.sinyuk.jianyimaterial.ui.OnLoadMoreListener;
-import com.sinyuk.jianyimaterial.widgets.MultiSwipeRefreshLayout;
-
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 /**
  * Created by Sinyuk on 16.2.13.
  */
-public class NeedsListFragment extends SwipeRefreshFragment {
-    private static NeedsListFragment instance;
+public class NeedsListFragment {
+    /*private static NeedsListFragment instance;
 
     @Bind(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -40,7 +12,7 @@ public class NeedsListFragment extends SwipeRefreshFragment {
     MultiSwipeRefreshLayout swipeRefreshLayout;
     private NeedsListAdapter adapter;
     private int pageIndex = 1;
-    private List<Needs> needsList = new ArrayList<>();
+    private List<Need> needsList = new ArrayList<>();
 
     synchronized public static NeedsListFragment getInstance() {
         if (null == instance)
@@ -110,12 +82,12 @@ public class NeedsListFragment extends SwipeRefreshFragment {
                         // 接受最原始的JSON数据
                         JNeeds jNeeds = gson.fromJson(response.toString(), JNeeds.class);
                         // 转换成我的Model
-                        List<JNeeds.Data.Items> items = jNeeds.getData().getItems();
+                        List<JNeeds.Data.Items> needList = jNeeds.getData().getItems();
 
-                        String trans = gson.toJson(items);
+                        String trans = gson.toJson(needList);
 
-                        List<Needs> firstPage = gson.fromJson(trans,
-                                new TypeToken<List<Needs>>() {
+                        List<Need> firstPage = gson.fromJson(trans,
+                                new TypeToken<List<Need>>() {
                                 }.getType());
 
                         // do clear
@@ -139,7 +111,7 @@ public class NeedsListFragment extends SwipeRefreshFragment {
                         refreshFailed(error);
                     }
                 });
-        Jianyi.getInstance().addRequest(jsonRequest, Needs.REFRESH_REQUEST);
+        Jianyi.getInstance().addRequest(jsonRequest, Need.REFRESH_REQUEST);
     }
 
     @Override
@@ -165,12 +137,12 @@ public class NeedsListFragment extends SwipeRefreshFragment {
                         // 接受最原始的JSON数据
                         JNeeds jNeeds = gson.fromJson(response.toString(), JNeeds.class);
                         // 转换成我的Model
-                        List<JNeeds.Data.Items> items = jNeeds.getData().getItems();
+                        List<JNeeds.Data.Items> needList = jNeeds.getData().getItems();
 
-                        String trans = gson.toJson(items);
+                        String trans = gson.toJson(needList);
 
-                        List<Needs> firstPage = gson.fromJson(trans,
-                                new TypeToken<List<Needs>>() {
+                        List<Need> firstPage = gson.fromJson(trans,
+                                new TypeToken<List<Need>>() {
                                 }.getType());
 
                         needsList.addAll(firstPage);
@@ -188,7 +160,7 @@ public class NeedsListFragment extends SwipeRefreshFragment {
                         loadFailed(error);
                     }
                 });
-        Jianyi.getInstance().addRequest(jsonRequest, Needs.LOAD_REQUEST);
+        Jianyi.getInstance().addRequest(jsonRequest, Need.LOAD_REQUEST);
     }
 
     @Override
@@ -205,5 +177,5 @@ public class NeedsListFragment extends SwipeRefreshFragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
-    }
+    }*/
 }

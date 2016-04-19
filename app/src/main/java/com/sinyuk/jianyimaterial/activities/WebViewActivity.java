@@ -98,7 +98,7 @@ public class WebViewActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        // Inflate the menu; this adds needList to the action bar if it is present.
         getMenuInflater().inflate(R.menu.action_bar_web_view, menu);
         return true;
     }

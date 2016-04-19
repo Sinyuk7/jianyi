@@ -70,7 +70,7 @@ public class NeedsActivity extends BaseActivity {
     }
 
     private void initFragments() {
-        getSupportFragmentManager().beginTransaction().add(R.id.list_fragment_container, NeedsListFragment.getInstance()).commit();
+        /*getSupportFragmentManager().beginTransaction().add(R.id.list_fragment_container, NeedsListFragment.getInstance()).commit();*/
     }
 
     @Override

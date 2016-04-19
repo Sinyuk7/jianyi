@@ -21,7 +21,7 @@ import com.sinyuk.jianyimaterial.events.XLogoutEvent;
 import com.sinyuk.jianyimaterial.feature.CategoryView;
 import com.sinyuk.jianyimaterial.feature.info.InfoView;
 import com.sinyuk.jianyimaterial.feature.login.LoginView;
-import com.sinyuk.jianyimaterial.feature.register.RegisterView;
+import com.sinyuk.jianyimaterial.feature.needs.NeedsView;
 import com.sinyuk.jianyimaterial.feature.settings.SettingsView;
 import com.sinyuk.jianyimaterial.glide.BlurTransformation;
 import com.sinyuk.jianyimaterial.glide.ColorFilterTransformation;
@@ -51,7 +51,7 @@ public class DrawerView extends BaseFragment<DrawerPresenterImpl> implements IDr
     LinearLayout mNavigationView;
     @Bind(R.id.drawer_menu_category)
     TextView mDrawerMenuCategory;
-    @Bind(R.id.drawer_menu_want)
+    @Bind(R.id.drawer_menu_needs)
     TextView mDrawerMenuWant;
     @Bind(R.id.drawer_menu_message)
     TextView mDrawerMenuMessage;
@@ -201,7 +201,7 @@ public class DrawerView extends BaseFragment<DrawerPresenterImpl> implements IDr
         mPresenter.onUserInfoClick();
     }
 
-    @OnClick({R.id.drawer_menu_category, R.id.drawer_menu_want, R.id.drawer_menu_message, R.id.drawer_menu_account, R.id.drawer_menu_settings})
+    @OnClick({R.id.drawer_menu_category, R.id.drawer_menu_needs, R.id.drawer_menu_message, R.id.drawer_menu_account, R.id.drawer_menu_settings})
     public void onMenuItemSelected(View view) {
         toMenuItemIntent(view.getId());
     }
@@ -212,8 +212,8 @@ public class DrawerView extends BaseFragment<DrawerPresenterImpl> implements IDr
             case R.id.drawer_menu_category:
                 mMenuIntent = new Intent(getContext(), CategoryView.class);
                 break;
-            case R.id.drawer_menu_want:
-                mMenuIntent = new Intent(getContext(), RegisterView.class);
+            case R.id.drawer_menu_needs:
+                mMenuIntent = new Intent(getContext(), NeedsView.class);
                 break;
             case R.id.drawer_menu_message:
                 break;

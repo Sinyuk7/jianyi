@@ -2,11 +2,9 @@ package com.sinyuk.jianyimaterial.feature.needs;
 
 import android.support.annotation.NonNull;
 
-import com.sinyuk.jianyimaterial.entity.Needs;
+import com.sinyuk.jianyimaterial.api.JNeeds;
 import com.sinyuk.jianyimaterial.model.NeedsModel;
 import com.sinyuk.jianyimaterial.mvp.BasePresenter;
-
-import java.util.List;
 
 /**
  * Created by Sinyuk on 16.4.19.
@@ -15,12 +13,14 @@ public class NeedsPresenterImpl extends BasePresenter<NeedsView> implements INee
     @Override
     public void loadData(int pageIndex) {
         NeedsModel.getInstance(mView).load(null,pageIndex,this);
+        mView.showRefreshProgress();
     }
 
+
     @Override
-    public void onNeedsLoadSucceed(List<Needs> needsList,boolean isRefresh) {
+    public void onNeedsLoadSucceed(@NonNull JNeeds data, @NonNull boolean isRefresh) {
         mView.dismissRefreshProgress();
-        mView.showList(needsList,isRefresh);
+        mView.showList(data,isRefresh);
     }
 
     @Override
@@ -33,5 +33,11 @@ public class NeedsPresenterImpl extends BasePresenter<NeedsView> implements INee
     public void onNeedsParseError(@NonNull String message) {
         mView.dismissRefreshProgress();
         mView.onNeedsParseError(message);
+    }
+
+    @Override
+    public void onNeedsReachBottom() {
+        mView.dismissRefreshProgress();
+        mView.onNeedsReachBottom();
     }
 }

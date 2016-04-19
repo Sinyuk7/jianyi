@@ -254,7 +254,7 @@ public class HomeActivity extends BaseActivity implements
             case R.id.drawer_menu_explore:
                 startActivity(new Intent(HomeActivity.this, ExploreActivity.class));
                 break;
-            case R.id.drawer_menu_want:
+            case R.id.drawer_menu_needs:
                 startActivity(new Intent(HomeActivity.this, NeedsActivity.class));
                 break;
             case R.id.drawer_menu_message:

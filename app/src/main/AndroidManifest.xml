@@ -144,6 +144,11 @@
             android:name=".feature.info.InfoView"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustPan|stateHidden"/>
+
+        <activity
+            android:name=".feature.needs.NeedsView"
+            android:launchMode="singleTop"
+            />
         <!--MVP-->
     </application>
 
