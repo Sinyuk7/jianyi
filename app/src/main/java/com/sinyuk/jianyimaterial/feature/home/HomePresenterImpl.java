@@ -38,7 +38,7 @@ public class HomePresenterImpl extends BasePresenter<HomeView> implements
     }
 
     @Override
-    public void attemptToPostView() {
+    public void attemptToOfferView() {
         if (UserModel.getInstance(mView.getContext()).isLoggedIn()) {
             mView.toPostView();
         } else {

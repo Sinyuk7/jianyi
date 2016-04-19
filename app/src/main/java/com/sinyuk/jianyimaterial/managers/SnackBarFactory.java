@@ -21,7 +21,7 @@ public class SnackBarFactory {
 
     public static Snackbar requestLogin(final Activity context, View view) {
         Snackbar snackbar = Snackbar.make(view,
-                StringUtils.getRes(context, R.string.hint_plz_login_first), Snackbar.LENGTH_LONG);
+                StringUtils.getRes(context, R.string.common_hint_plz_login_first), Snackbar.LENGTH_SHORT);
         Snackbar.SnackbarLayout layout = (Snackbar.SnackbarLayout) snackbar.getView();
         layout.setBackgroundColor(context.getResources().getColor(R.color.white));
         snackbar.setActionTextColor(context.getResources().getColor(R.color.colorAccent));

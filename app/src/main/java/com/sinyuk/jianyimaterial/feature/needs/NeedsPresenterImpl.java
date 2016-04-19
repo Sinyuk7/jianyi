@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.sinyuk.jianyimaterial.api.JNeed;
 import com.sinyuk.jianyimaterial.model.NeedsModel;
+import com.sinyuk.jianyimaterial.model.UserModel;
 import com.sinyuk.jianyimaterial.mvp.BasePresenter;
 
 /**
@@ -12,15 +13,24 @@ import com.sinyuk.jianyimaterial.mvp.BasePresenter;
 public class NeedsPresenterImpl extends BasePresenter<NeedsView> implements INeedsPresenter, NeedsModel.NeedsLoadCallback {
     @Override
     public void loadData(int pageIndex) {
-        NeedsModel.getInstance(mView).load(null,pageIndex,this);
+        NeedsModel.getInstance(mView).load(null, pageIndex, this);
         mView.showRefreshProgress();
+    }
+
+    @Override
+    public void attemptToWantView() {
+        if (UserModel.getInstance(mView).isLoggedIn()) {
+            mView.toWantView();
+        } else {
+            mView.toLoginView();
+        }
     }
 
 
     @Override
     public void onNeedsLoadSucceed(@NonNull JNeed data, @NonNull boolean isRefresh) {
         mView.dismissRefreshProgress();
-        mView.showList(data,isRefresh);
+        mView.showList(data, isRefresh);
     }
 
     @Override

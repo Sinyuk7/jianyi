@@ -1,10 +1,14 @@
 package com.sinyuk.jianyimaterial.feature.needs;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,8 +18,12 @@ import android.support.v7.widget.Toolbar;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.adapters.NeedsListAdapter;
 import com.sinyuk.jianyimaterial.api.JNeed;
+import com.sinyuk.jianyimaterial.feature.offer.OfferView;
+import com.sinyuk.jianyimaterial.managers.SnackBarFactory;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 import com.sinyuk.jianyimaterial.ui.OnLoadMoreListener;
+import com.sinyuk.jianyimaterial.utils.AnimUtils;
+import com.sinyuk.jianyimaterial.utils.AnimatorLayerListener;
 import com.sinyuk.jianyimaterial.utils.NetWorkUtils;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;
 import com.sinyuk.jianyimaterial.widgets.MultiSwipeRefreshLayout;
@@ -162,7 +170,44 @@ public class NeedsView extends BaseActivity<NeedsPresenterImpl> implements INeed
     }
 
     @OnClick(R.id.fab)
-    public void onClick() {}
+    public void onClickFab() {
+        mPresenter.attemptToWantView();
+    }
+
+    @Override
+    public void toWantView() {
+        startActivity(new Intent(this, OfferView.class));
+    }
+
+    @Override
+    public void toLoginView() {
+        // shake the fab
+        mFab.setClickable(false);
+        ObjectAnimator nopeFab = AnimUtils.nope(mFab).setDuration(AnimUtils.ANIMATION_TIME_SHORT);
+        final float finalFabX = mFab.getX();
+        final float finalFabY = mFab.getY();
+        nopeFab.addListener(new AnimatorLayerListener(mFab) {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mFab.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        SnackBarFactory.requestLogin(NeedsView.this, mCoordinatorLayout).setCallback(new Snackbar.Callback() {
+                            @Override
+                            public void onDismissed(Snackbar snackbar, int event) {
+                                super.onDismissed(snackbar, event);
+                                mFab.setClickable(true);
+                                mFab.setX(finalFabX);// for the scroll bug a little tricky
+                                mFab.setY(finalFabY);
+                            }
+                        }).show();
+                    }
+                }, AnimUtils.ANIMATION_TIME_SHORT);
+
+            }
+        });
+        nopeFab.start();
+    }
 
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {

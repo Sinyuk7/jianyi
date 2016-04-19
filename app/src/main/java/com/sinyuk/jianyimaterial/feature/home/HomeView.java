@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
@@ -102,6 +103,8 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     TextView mEntryFree;
     @Bind(R.id.entry_category)
     TextView mEntryCategory;
+    @Bind(R.id.coordinator_layout)
+    CoordinatorLayout mCoordinatorLayout;
 
     private boolean mIsRequestDataRefresh;
     private CommonGoodsListAdapter mAdapter;
@@ -413,7 +416,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
 
     @OnClick(R.id.fab)
     public void onClickFab() {
-        mPresenter.attemptToPostView();
+        mPresenter.attemptToOfferView();
     }
 
     @Override
@@ -431,15 +434,21 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
         nopeFab.addListener(new AnimatorLayerListener(mFab) {
             @Override
             public void onAnimationEnd(Animator animation) {
-                SnackBarFactory.requestLogin(getActivity(), getView()).setCallback(new Snackbar.Callback() {
+                mFab.postDelayed(new Runnable() {
                     @Override
-                    public void onDismissed(Snackbar snackbar, int event) {
-                        super.onDismissed(snackbar, event);
-                        mFab.setClickable(true);
-                        mFab.setX(finalFabX);// for the scroll bug a little tricky
-                        mFab.setY(finalFabY);
+                    public void run() {
+                        SnackBarFactory.requestLogin(getActivity(), mCoordinatorLayout).setCallback(new Snackbar.Callback() {
+                            @Override
+                            public void onDismissed(Snackbar snackbar, int event) {
+                                super.onDismissed(snackbar, event);
+                                mFab.setClickable(true);
+                                mFab.setX(finalFabX);// for the scroll bug a little tricky
+                                mFab.setY(finalFabY);
+                            }
+                        }).show();
                     }
-                }).show();
+                }, AnimUtils.ANIMATION_TIME_SHORT);
+
             }
         });
         nopeFab.start();

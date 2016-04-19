@@ -221,7 +221,7 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="toast_cannot_retrieve_selected_image">选择的图片无法被检测到</string>
     <string name="action_login">登录</string>
     <string name="hint_forget_password">忘记密码</string>
-    <string name="hint_plz_login_first">请先登录</string>
+    <string name="common_hint_plz_login_first">请先登录</string>
     <string name="hint_click_to_login">点击登录</string>
     <string name="hint_his_yihuo">他的易货</string>
     <string name="hint_his_needs">他的需求</string>

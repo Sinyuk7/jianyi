@@ -20,4 +20,8 @@ public interface INeedsView {
     void onNeedsParseError(@NonNull String message);
 
     void onNeedsReachBottom();
+
+    void toWantView();
+
+    void toLoginView();
 }

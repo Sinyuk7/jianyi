@@ -15,5 +15,5 @@ public interface IHomePresenter {
 
     void loadData(@NonNull String schoolIndex, int pageIndex);
 
-    void attemptToPostView();
+    void attemptToOfferView();
 }

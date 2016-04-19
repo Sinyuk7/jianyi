@@ -5,4 +5,6 @@ package com.sinyuk.jianyimaterial.feature.needs;
  */
 public interface INeedsPresenter {
     void loadData(int pageIndex);
+
+    void attemptToWantView();
 }
