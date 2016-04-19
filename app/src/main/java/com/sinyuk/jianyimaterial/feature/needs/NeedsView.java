@@ -13,7 +13,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.adapters.NeedsListAdapter;
-import com.sinyuk.jianyimaterial.api.JNeeds;
+import com.sinyuk.jianyimaterial.api.JNeed;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 import com.sinyuk.jianyimaterial.ui.OnLoadMoreListener;
 import com.sinyuk.jianyimaterial.utils.NetWorkUtils;
@@ -45,7 +45,7 @@ public class NeedsView extends BaseActivity<NeedsPresenterImpl> implements INeed
 
     private NeedsListAdapter mAdapter;
     private int mPageIndex = 1;
-    private List<JNeeds.Data.Need> mNeedsList = new ArrayList<>();
+    private List<JNeed.Data.Need> mNeedsList = new ArrayList<>();
     private boolean mIsRequestDataRefresh;
 
     @Override
@@ -180,7 +180,7 @@ public class NeedsView extends BaseActivity<NeedsPresenterImpl> implements INeed
     }
 
     @Override
-    public void showList(JNeeds data, boolean isRefresh) {
+    public void showList(JNeed data, boolean isRefresh) {
         if (!mNeedsList.isEmpty() && isRefresh) { mNeedsList.clear(); }
         mNeedsList.addAll(data.getData().getNeedList());
         mAdapter.setData(mNeedsList);

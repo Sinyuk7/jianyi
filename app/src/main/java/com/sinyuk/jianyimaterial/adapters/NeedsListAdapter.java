@@ -20,7 +20,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.sinyuk.jianyimaterial.R;
-import com.sinyuk.jianyimaterial.api.JNeeds;
+import com.sinyuk.jianyimaterial.api.JNeed;
 import com.sinyuk.jianyimaterial.glide.CropCircleTransformation;
 import com.sinyuk.jianyimaterial.utils.AnimUtils;
 import com.sinyuk.jianyimaterial.utils.FormatUtils;
@@ -39,7 +39,7 @@ import cimi.com.easeinterpolator.EaseSineOutInterpolator;
 /**
  * Created by Sinyuk on 16.1.4.
  */
-public class NeedsListAdapter extends ExtendedRecyclerViewAdapter<JNeeds.Data.Need, NeedsListAdapter.MyViewHolder> {
+public class NeedsListAdapter extends ExtendedRecyclerViewAdapter<JNeed.Data.Need, NeedsListAdapter.MyViewHolder> {
 
 
     private static long ANIMATION_SCALE;
@@ -73,7 +73,7 @@ public class NeedsListAdapter extends ExtendedRecyclerViewAdapter<JNeeds.Data.Ne
 
     @Override
     public void onBindDataItemViewHolder(final MyViewHolder holder, final int position) {
-        final JNeeds.Data.Need data = getData().get(position);
+        final JNeed.Data.Need data = getData().get(position);
 
         if (position % 2 == 0) {
             holder.wrapper.setBackgroundColor(ContextCompat.getColor(mContext, R.color.grey_50));

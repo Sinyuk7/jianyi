@@ -2,7 +2,7 @@ package com.sinyuk.jianyimaterial.feature.needs;
 
 import android.support.annotation.NonNull;
 
-import com.sinyuk.jianyimaterial.api.JNeeds;
+import com.sinyuk.jianyimaterial.api.JNeed;
 import com.sinyuk.jianyimaterial.model.NeedsModel;
 import com.sinyuk.jianyimaterial.mvp.BasePresenter;
 
@@ -18,7 +18,7 @@ public class NeedsPresenterImpl extends BasePresenter<NeedsView> implements INee
 
 
     @Override
-    public void onNeedsLoadSucceed(@NonNull JNeeds data, @NonNull boolean isRefresh) {
+    public void onNeedsLoadSucceed(@NonNull JNeed data, @NonNull boolean isRefresh) {
         mView.dismissRefreshProgress();
         mView.showList(data,isRefresh);
     }

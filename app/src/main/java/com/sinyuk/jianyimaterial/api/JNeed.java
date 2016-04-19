@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by Sinyuk on 16.2.14.
  */
-public class JNeeds {
+public class JNeed {
 
     /**
      * status : 1

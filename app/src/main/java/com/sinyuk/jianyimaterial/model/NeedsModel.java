@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.android.volley.Request;
 import com.google.gson.Gson;
-import com.sinyuk.jianyimaterial.api.JNeeds;
+import com.sinyuk.jianyimaterial.api.JNeed;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.application.Jianyi;
 import com.sinyuk.jianyimaterial.utils.LogUtils;
@@ -44,7 +44,7 @@ public class NeedsModel {
                 (Request.Method.GET, url, null, response -> {
                     try {
                         LogUtils.simpleLog(NeedsModel.class, "response -> " + response.toString());
-                        JNeeds data = mGson.fromJson(response.toString(), JNeeds.class);
+                        JNeed data = mGson.fromJson(response.toString(), JNeed.class);
                         if (data.getData().getCurrent() > data.getData().getTotalPages()) {
                             callback.onNeedsReachBottom();
                         } else {
@@ -59,7 +59,7 @@ public class NeedsModel {
 
     public interface NeedsLoadCallback {
 
-        void onNeedsLoadSucceed(@NonNull JNeeds data, boolean isRefresh);
+        void onNeedsLoadSucceed(@NonNull JNeed data, boolean isRefresh);
 
         void onNeedsVolleyError(@NonNull String message);
 

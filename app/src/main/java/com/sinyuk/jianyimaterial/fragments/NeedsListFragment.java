@@ -80,9 +80,9 @@ public class NeedsListFragment {
                         // the response is already constructed as a JSONObject!
                         final Gson gson = new Gson();
                         // 接受最原始的JSON数据
-                        JNeeds jNeeds = gson.fromJson(response.toString(), JNeeds.class);
+                        JNeed jNeeds = gson.fromJson(response.toString(), JNeed.class);
                         // 转换成我的Model
-                        List<JNeeds.Data.Items> needList = jNeeds.getData().getItems();
+                        List<JNeed.Data.Items> needList = jNeeds.getData().getItems();
 
                         String trans = gson.toJson(needList);
 
@@ -135,9 +135,9 @@ public class NeedsListFragment {
                         // the response is already constructed as a JSONObject!
                         final Gson gson = new Gson();
                         // 接受最原始的JSON数据
-                        JNeeds jNeeds = gson.fromJson(response.toString(), JNeeds.class);
+                        JNeed jNeeds = gson.fromJson(response.toString(), JNeed.class);
                         // 转换成我的Model
-                        List<JNeeds.Data.Items> needList = jNeeds.getData().getItems();
+                        List<JNeed.Data.Items> needList = jNeeds.getData().getItems();
 
                         String trans = gson.toJson(needList);
 
