@@ -26,7 +26,7 @@
                 style="@style/DefaultEditText"
                 android:background="@drawable/rounded_rect_white"
                 android:gravity="start"
-                android:hint="@string/hint_post_want"
+                android:hint="@string/want_hint_what_you_want"
                 android:maxHeight="96dp"
                 android:minHeight="96dp"
                 android:nestedScrollingEnabled="true"
@@ -69,7 +69,7 @@
                 style="@style/DefaultEditText.SingleLine"
                 android:drawableLeft="@drawable/ic_call_accent_24dp"
                 android:drawableStart="@drawable/ic_call_accent_24dp"
-                android:hint="@string/hint_leave_contact_info"
+                android:hint="@string/want_hint_contact_info"
                 android:imeActionLabel="@string/action_post"
                 android:inputType="phone" />
 
@@ -85,7 +85,7 @@
                 style="@style/DefaultEditText.SingleLine"
                 android:drawableLeft="@drawable/ic_heart_accent_24dp"
                 android:drawableStart="@drawable/ic_heart_accent_24dp"
-                android:hint="@string/hint_want_price"
+                android:hint="@string/want_hint_price"
                 android:imeActionLabel="@string/action_post"
                 android:imeOptions="actionDone"
                 android:inputType="numberDecimal" />

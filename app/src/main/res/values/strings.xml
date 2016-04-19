@@ -162,10 +162,10 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="transition_description">transition_decription</string>
     <string name="transition_wrapper">transition_wrapper</string>
     <string name="hint_info_set_avatar">点击设置头像</string>
-    <string name="activity_post_want">你的需求</string>
-    <string name="hint_post_want">你想要什么?</string>
+    <string name="activity_want">需求</string>
+    <string name="want_hint_what_you_want">你想要什么?</string>
     <string name="action_post">发布</string>
-    <string name="hint_leave_contact_info">手机号</string>
+    <string name="want_hint_contact_info">联系方式</string>
     <string name="hint_set_location">学校</string>
     <string name="hint_set_user_alias">昵称</string>
     <string name="hint_share_on_wechat">分享到微信</string>
@@ -233,7 +233,7 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="offer_hint_details">详细…</string>
     <string name="hint_select_category">分类</string>
     <string name="offer_hint_price">转让价…</string>
-    <string name="hint_want_price">心动价</string>
+    <string name="want_hint_price">价位</string>
     <string name="splash_for_beta">\t\tThis build is on the bleeding edge,it does need heavy tested,and it\'s subject to bugs.So all your feedback and
         suggestions can be sent to \"sinyuk.7@gmail.com\". \n\t\t这只是一个测试版本,所以如果它出了问题,
         你可以…多喝热水重启试试,出了问题记得反馈给我: \"80998062@qq.com\".

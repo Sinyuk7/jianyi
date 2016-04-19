@@ -19,6 +19,7 @@ import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.adapters.NeedsListAdapter;
 import com.sinyuk.jianyimaterial.api.JNeed;
 import com.sinyuk.jianyimaterial.feature.offer.OfferView;
+import com.sinyuk.jianyimaterial.feature.want.WantView;
 import com.sinyuk.jianyimaterial.managers.SnackBarFactory;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 import com.sinyuk.jianyimaterial.ui.OnLoadMoreListener;
@@ -176,7 +177,7 @@ public class NeedsView extends BaseActivity<NeedsPresenterImpl> implements INeed
 
     @Override
     public void toWantView() {
-        startActivity(new Intent(this, OfferView.class));
+        startActivity(new Intent(this, WantView.class));
     }
 
     @Override
