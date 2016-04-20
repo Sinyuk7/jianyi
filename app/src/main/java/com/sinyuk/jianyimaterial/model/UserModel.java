@@ -311,6 +311,16 @@ public class UserModel implements BaseModel {
         Jianyi.getInstance().addRequest(postRequest, POST_GOODS);
     }
 
+    /**
+     * 发布一个需求
+     * @param detail 内容
+     * @param tel 联系方式
+     * @param price 价格
+     */
+    public void postNeed(String detail, String tel, String price, PostNeedCallback callback) {
+
+    }
+
     public interface LoginCallback {
 
         void onLoginSucceed();
@@ -370,4 +380,14 @@ public class UserModel implements BaseModel {
     }
 
 
+    public interface PostNeedCallback {
+
+        void onPostNeedSucceed(String message);
+
+        void onPostNeedFailed(String message);
+
+        void onPostNeedVolleyError(String message);
+
+        void onUPostNeedParseError(String message);
+    }
 }
