@@ -20,18 +20,21 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.jakewharton.rxbinding.support.design.widget.RxAppBarLayout;
 import com.jakewharton.rxbinding.view.RxView;
 import com.sinyuk.jianyimaterial.R;
+import com.sinyuk.jianyimaterial.entity.School;
 import com.sinyuk.jianyimaterial.feature.shelf.ShelfView;
 import com.sinyuk.jianyimaterial.glide.BlurTransformation;
 import com.sinyuk.jianyimaterial.glide.ColorFilterTransformation;
 import com.sinyuk.jianyimaterial.glide.CropCircleTransformation;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 import com.sinyuk.jianyimaterial.utils.LogUtils;
+import com.sinyuk.jianyimaterial.utils.ToastUtils;
 import com.sinyuk.jianyimaterial.widgets.MyCircleImageView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -68,6 +71,7 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
     @Bind(R.id.back_iv)
     ImageView mBackIv;
 
+
     private float mType;
     private String mUid;
     private String mUserNameStr;
@@ -76,6 +80,7 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
     private String mAvatarUrlStr;
 
     private List<Fragment> fragmentList = new ArrayList<>();
+    private Integer mSchoolIndex;
 
 
     @Override
@@ -125,7 +130,9 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
             showBackdrop(mAvatarUrlStr);
             showLocation(mLocationStr);
             showUsername(mUserNameStr);
-//            showToolbarTitle(mUserNameStr);
+        } else {
+            mPresenter.queryCurrentUser();
+            mPresenter.fetchSchoolList();
         }
         setupLayerType();
         setupToolbar();
@@ -133,6 +140,23 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
         initFragments();
         setupViewPager();
         setupTabLayout();
+        setupActionBtn();
+    }
+
+    private void setupActionBtn() {
+        if (mType == OTHER) {
+            mAcionIv.setImageResource(R.drawable.ic_chat_white_48dp);
+        } else if (mType == MINE) {
+            mAcionIv.setImageResource(R.drawable.ic_mode_edit_white_24dp);
+        }
+    }
+
+    @OnClick(R.id.action_iv)
+    public void onClick() {
+        if (mType == OTHER) {
+        } else if (mType == MINE) {
+
+        }
     }
 
     private void setupLayerType() {
@@ -241,13 +265,43 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
     }
 
     @Override
-    public void showLocation(@NonNull String schoolName) {
-        mLocationTv.setText(schoolName);
+    public void showLocation(@NonNull String nameOrIndex) {
+        if (mType == OTHER) {
+            mLocationTv.setText(nameOrIndex);
+        } else {
+            mPresenter.fetchSchoolList();
+            mSchoolIndex = Integer.valueOf(nameOrIndex);
+        }
     }
 
     @Override
     public void showToolbarTitle(@NonNull String username) {
 //        mCollapsingToolbarLayout.setTitle(username);
+    }
+
+    @Override
+    public void onQueryFailed(String message) {
+        ToastUtils.toastFast(this,message);
+    }
+
+    @Override
+    public void onUserNotLogged() {
+
+    }
+
+    @Override
+    public void onLoadSchoolSucceed(List<School> schoolList) {
+        mLocationTv.setText(schoolList.get(mSchoolIndex).getName());
+    }
+
+    @Override
+    public void onLoadSchoolParseError(String message) {
+        ToastUtils.toastFast(this,message);
+    }
+
+    @Override
+    public void onLoadSchoolVolleyError(String message) {
+        ToastUtils.toastFast(this,message);
     }
 
 }
