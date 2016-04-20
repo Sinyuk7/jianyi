@@ -1,4 +1,4 @@
-package com.sinyuk.jianyimaterial.base;
+package com.sinyuk.jianyimaterial.activities;
 
 import android.content.Context;
 import android.os.Bundle;

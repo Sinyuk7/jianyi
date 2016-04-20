@@ -27,13 +27,6 @@
     </style>
 
 
-    <!--正文文字样式-->
-    <style name="BodyTextStyle">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/material_text_body1</item>
-    </style>
-
     <!--说明文字-->
     <style name="CaptionTextStyle" parent="SingleLineText">
         <item name="android:layout_width">wrap_content</item>

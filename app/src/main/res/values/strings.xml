@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- ============================================== -->
     <!--Title -->
@@ -8,9 +8,7 @@
 
     <string name="activity_category">全部类别</string>
     <string name="activity_product_details">商品详情</string>
-    <string name="action_about">关于</string>
     <string name="activity_comments">评论</string>
-    <string name="activity_profile">用户资料</string>
 
     <!-- ============================================== -->
     <!--Action Bar Icon -->
@@ -28,10 +26,7 @@
     <!--侧滑菜单-->
     <!-- ============================================== -->
     <eat-comment />
-    <string name="navigation_drawer_open">打开抽屉</string>
-    <string name="navigation_drawer_close">关闭抽屉</string>
     <string name="drawer_menu_home">首页</string>
-    <string name="drawer_menu_explode">专区</string>
     <string name="drawer_menu_want">需求</string>
     <string name="drawer_menu_category">分类</string>
     <string name="drawer_menu_message">消息</string>
@@ -189,7 +184,7 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="unknown_tel">未填写</string>
     <string name="unknown_location">未填写</string>
     <string name="unknown_yihuo_description">未填写</string>
-    <string name="activity_login">开始你的简易</string>
+    <string name="activity_login" tools:ignore="UnusedResources">开始你的简易</string>
     <string name="hint_share_yihuo">将它分享到</string>
     <string name="hint_share_content">快来看!我在\"简易\"上发现了</string>
     <string name="action_open_url_in_chrome">在浏览器中打开</string>
@@ -264,7 +259,7 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="hint_failed_to_loading_shot">图片加载失败</string>
     <string name="details_view_count">%1$s 看过</string>
     <string name="common_prefix_from">﹂ %1$s</string>
-    <string name="drawer_menu_login">登录</string>
+    <string name="drawer_menu_login" tools:ignore="UnusedResources">登录</string>
     <string name="action_filter">筛选</string>
     <string name="entry_recommended">推荐</string>
     <string name="entry_free">免费</string>

@@ -15,7 +15,7 @@ import android.view.View;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.activities.SearchActivity;
 import com.sinyuk.jianyimaterial.adapters.CategoryMenuAdapter;
-import com.sinyuk.jianyimaterial.base.BaseActivity;
+import com.sinyuk.jianyimaterial.activities.BaseActivity;
 import com.sinyuk.jianyimaterial.feature.explore.ExploreView;
 import com.sinyuk.jianyimaterial.utils.ImeUtils;
 import com.sinyuk.jianyimaterial.utils.LogUtils;

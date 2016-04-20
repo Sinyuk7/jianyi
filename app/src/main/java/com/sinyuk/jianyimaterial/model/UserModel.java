@@ -77,7 +77,7 @@ public class UserModel implements BaseModel {
     }
 
     public boolean isLoggedIn() {
-        return PreferencesUtils.getBoolean(mContext, StringUtils.getRes(mContext, R.string.key_login_state));
+        return PreferencesUtils.getBoolean(mContext, Constants.Prefs_Login_State);
     }
 
     /**
@@ -86,7 +86,7 @@ public class UserModel implements BaseModel {
      * @return current user if has logged in
      */
     public void queryCurrentUser(QueryCurrentUserCallback callback) {
-        String uId = PreferencesUtils.getString(mContext, StringUtils.getRes(mContext, R.string.key_user_id));
+        String uId = PreferencesUtils.getString(mContext, Constants.Prefs_Uid);
         if (TextUtils.isEmpty(uId)) {
             callback.onUserNotLogged();
             return;
@@ -162,10 +162,10 @@ public class UserModel implements BaseModel {
             }
         }
 
-        PreferencesUtils.putString(mContext, StringUtils.getRes(mContext, R.string.key_user_id), userData.getId());
-        PreferencesUtils.putBoolean(mContext, StringUtils.getRes(mContext, R.string.key_login_state), true);
+        PreferencesUtils.putString(mContext, Constants.Prefs_Uid, userData.getId());
+        PreferencesUtils.putBoolean(mContext, Constants.Prefs_Login_State, true);
         // post event first  in case they clean up the prefs
-        PreferencesUtils.putString(mContext, StringUtils.getRes(mContext, R.string.key_psw), password);
+        PreferencesUtils.putString(mContext, Constants.Prefs_Psw, password);
         // 发送事件
         EventBus.getDefault().post(new XLoginEvent());
 

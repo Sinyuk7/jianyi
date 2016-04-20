@@ -1,20 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-
-    <string-array name="explore_tab_titles">
-        <item>今日上新</item>
-        <item>精选推荐</item>
-        <item>免费易货</item>
-    </string-array>
-
-
-    <string-array name="thrift_details_nested_tabs">
-        <item>评论</item>
-        <item>收藏</item>
-        <item>赞</item>
-    </string-array>
-
     <array name="category_menu_items">
         <item>鞋服配饰</item>
         <item>文具娱乐</item>

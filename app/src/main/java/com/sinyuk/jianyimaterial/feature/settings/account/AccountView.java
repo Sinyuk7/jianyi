@@ -11,8 +11,6 @@ import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.entity.School;
 import com.sinyuk.jianyimaterial.events.XSchoolSelectedEvent;
 import com.sinyuk.jianyimaterial.feature.dialog.SchoolDialog;
-import com.sinyuk.jianyimaterial.feature.register.RegisterView;
-import com.sinyuk.jianyimaterial.fragments.dialogs.LocationSelectDialog;
 import com.sinyuk.jianyimaterial.mvp.BaseFragment;
 import com.sinyuk.jianyimaterial.sweetalert.SweetAlertDialog;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;

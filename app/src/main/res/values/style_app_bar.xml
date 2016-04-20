@@ -31,29 +31,6 @@
         <item name="titleTextColor">@color/white</item>
     </style>
 
-    <!--Tab Layout-->
-    <style name="DefaultTabLayout">
-        <item name="android:id">@id/tab_layout</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="tabIndicatorColor">@color/colorPrimary</item>
-        <item name="tabIndicatorHeight">4dp</item>
-        <item name="tabMinWidth">@dimen/tab_min_width</item>
-        <item name="tabPadding">@dimen/general_content_space</item>
-        <item name="tabSelectedTextColor">@color/textColorDark</item>
-        <item name="tabTextAppearance">@style/TabTextAppearance</item>
-        <item name="tabTextColor">@color/textColorLight</item>
-    </style>
-
-    <style name="DefaultTabLayout.Fixed" parent="DefaultTabLayout">
-        <item name="tabGravity">fill</item>
-        <item name="tabMode">fixed</item>
-    </style>
-
-    <style name="DefaultTabLayout.Scrollable" parent="DefaultTabLayout">
-        <item name="tabGravity">fill</item>
-        <item name="tabMode">scrollable</item>
-    </style>
 
     <!-- ============================ -->
     <!-- Toolbar 样式 -->

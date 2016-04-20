@@ -32,7 +32,6 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.sinyuk.jianyimaterial.R;
-import com.sinyuk.jianyimaterial.base.BaseActivity;
 import com.sinyuk.jianyimaterial.common.Constants;
 import com.sinyuk.jianyimaterial.utils.FileUtils;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;

@@ -169,10 +169,10 @@ public class DrawerView extends BaseFragment<DrawerPresenterImpl> implements IDr
                 .thumbnail(0.2f).error(R.drawable.ic_avatar_placeholder).priority(Priority.IMMEDIATE).into(mAvatar);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             requestBuilder.load(user.getHeading()).bitmapTransform(new BlurTransformation(mContext))
-                    .crossFade().priority(Priority.HIGH).error(R.drawable.backdrop_2).thumbnail(0.5f).into(mBackdrop);
+                    .crossFade().priority(Priority.HIGH).error(R.drawable.header_backdrop).thumbnail(0.5f).into(mBackdrop);
         } else {
             requestBuilder.load(user.getHeading()).bitmapTransform(new ColorFilterTransformation(mContext, getResources().getColor(R.color.colorPrimary_50pct)))
-                    .crossFade().priority(Priority.HIGH).error(R.drawable.backdrop_2).thumbnail(0.5f).into(mBackdrop);
+                    .crossFade().priority(Priority.HIGH).error(R.drawable.header_backdrop).thumbnail(0.5f).into(mBackdrop);
         }
         mUserNameTv.setText(StringUtils.check(mContext, user.getName(), R.string.unknown_user_name));
     }

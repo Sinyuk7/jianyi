@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- ============================ -->
     <!-- 头像 -->
     <!-- Default Avatar -->
@@ -150,7 +150,7 @@
     <!-- ================ -->
     <eat-comment />
 
-    <style name="CategoryIcon">
+    <style name="CategoryIcon" tools:ignore="UnusedResources" tools:keep="@style/CategoryIcon">
         <item name="android:tint">@color/colorPrimaryDark</item>
     </style>
 
