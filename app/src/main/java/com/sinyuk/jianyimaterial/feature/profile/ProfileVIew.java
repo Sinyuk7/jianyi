@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -26,7 +27,6 @@ import com.sinyuk.jianyimaterial.glide.BlurTransformation;
 import com.sinyuk.jianyimaterial.glide.ColorFilterTransformation;
 import com.sinyuk.jianyimaterial.glide.CropCircleTransformation;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
-import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;
 import com.sinyuk.jianyimaterial.widgets.MyCircleImageView;
 
@@ -71,13 +71,9 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
     @Bind(R.id.back_iv)
     ImageView mBackIv;
 
-
+    @Bind(R.id.fab)
+    FloatingActionButton mFab;
     private float mType;
-    private String mUid;
-    private String mUserNameStr;
-    private String mLocationStr;
-    private String mTelStr;
-    private String mAvatarUrlStr;
 
     private List<Fragment> fragmentList = new ArrayList<>();
     private Integer mSchoolIndex;
@@ -90,22 +86,7 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
 
     @Override
     protected void beforeInflate() {
-        configType(getIntent().getExtras());
-    }
-
-    private void configType(Bundle extras) {
-        mType = extras.getFloat(PROFILE_TYPE, OTHER);
-        /**别人的
-         * 按钮 -> chat
-         * 标题 -> 名字
-         */
-        if (mType == OTHER) {
-            mUid = extras.getString("uid");
-            mUserNameStr = extras.getString("user_name");
-            mLocationStr = extras.getString("location");
-            mTelStr = extras.getString("tel");
-            mAvatarUrlStr = extras.getString("avatar");
-        }
+        mType = getIntent().getExtras().getFloat(PROFILE_TYPE, OTHER);
     }
 
     @Override
@@ -125,28 +106,37 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
 
     @Override
     protected void onFinishInflate() {
+        final Bundle extras = getIntent().getExtras();
+        mType = extras.getFloat(PROFILE_TYPE, OTHER);
+        setupLayerType();
+        setupToolbar();
+        setAppBarLayout();
+        setupActionBtn();
+
         if (mType == OTHER) {
-            showAvatar(mAvatarUrlStr);
-            showBackdrop(mAvatarUrlStr);
-            showLocation(mLocationStr);
-            showUsername(mUserNameStr);
+            final String uid = extras.getString("uid");
+            final String username = extras.getString("user_name");
+            final String schoolName = extras.getString("location");
+            final String tel = extras.getString("tel");
+            final String avatarUrl = extras.getString("avatar");
+
+            showAvatar(avatarUrl);
+            showBackdrop(avatarUrl);
+            showLocation(schoolName != null ? schoolName : getString(R.string.untable));
+            showUsername(username != null ? username : getString(R.string.untable));
+            initFragments(uid);
         } else {
             mPresenter.queryCurrentUser();
             mPresenter.fetchSchoolList();
         }
-        setupLayerType();
-        setupToolbar();
-        setAppBarLayout();
-        initFragments();
-        setupViewPager();
-        setupTabLayout();
-        setupActionBtn();
     }
 
     private void setupActionBtn() {
         if (mType == OTHER) {
+            mFab.setImageResource(R.drawable.ic_chat_white_48dp);
             mAcionIv.setImageResource(R.drawable.ic_chat_white_48dp);
         } else if (mType == MINE) {
+            mFab.setImageResource(R.drawable.ic_mode_edit_white_24dp);
             mAcionIv.setImageResource(R.drawable.ic_mode_edit_white_24dp);
         }
     }
@@ -174,17 +164,21 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
         mCompositeSubscription.add(RxView.clicks(mBackIv).subscribe(aVoid -> onBackPressed()));
     }
 
-    private void initFragments() {
+    public void initFragments(String uid) {
         final Bundle sellArgs = new Bundle();
         sellArgs.putString(ShelfView.CONTENT, ShelfView.THEIR_GOODS);
-        sellArgs.putString(ShelfView.USER_ID, mUid);
-        LogUtils.simpleLog(ShelfView.class, "mUid" + mUid);
+        sellArgs.putString(ShelfView.USER_ID, uid);
+
         fragmentList.add(ShelfView.newInstance(sellArgs));
 
         final Bundle likeArgs = new Bundle();
         likeArgs.putString(ShelfView.CONTENT, ShelfView.THEIR_GOODS);
-        likeArgs.putString(ShelfView.USER_ID, mUid);
+        likeArgs.putString(ShelfView.USER_ID, uid);
         fragmentList.add(ShelfView.newInstance(likeArgs));
+
+        // after init fragments
+        setupViewPager();
+        setupTabLayout();
     }
 
     private void setAppBarLayout() {
@@ -202,6 +196,11 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
                     mAvatar.setScaleX(fraction);
                     mAcionIv.setAlpha(fraction);
                     mBackIv.setAlpha(fraction);
+                    if (fraction < 0.28f) {
+                        mFab.show();
+                    } else {
+                        mFab.hide();
+                    }
                 }));
     }
 
@@ -281,7 +280,7 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
 
     @Override
     public void onQueryFailed(String message) {
-        ToastUtils.toastFast(this,message);
+        ToastUtils.toastFast(this, message);
     }
 
     @Override
@@ -296,12 +295,12 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
 
     @Override
     public void onLoadSchoolParseError(String message) {
-        ToastUtils.toastFast(this,message);
+        ToastUtils.toastFast(this, message);
     }
 
     @Override
     public void onLoadSchoolVolleyError(String message) {
-        ToastUtils.toastFast(this,message);
+        ToastUtils.toastFast(this, message);
     }
 
 }

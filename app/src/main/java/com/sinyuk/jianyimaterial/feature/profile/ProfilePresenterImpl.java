@@ -30,6 +30,7 @@ public class ProfilePresenterImpl extends BasePresenter<ProfileView> implements 
         mView.showLocation(currentUser.getSchool());
         mView.showAvatar(currentUser.getHeading());
         mView.showBackdrop(currentUser.getHeading());
+        mView.initFragments(currentUser.getId());
     }
 
     @Override

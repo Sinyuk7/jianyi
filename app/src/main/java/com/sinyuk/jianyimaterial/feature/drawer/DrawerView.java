@@ -3,6 +3,7 @@ package com.sinyuk.jianyimaterial.feature.drawer;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,9 +20,9 @@ import com.sinyuk.jianyimaterial.entity.User;
 import com.sinyuk.jianyimaterial.events.XLoginEvent;
 import com.sinyuk.jianyimaterial.events.XLogoutEvent;
 import com.sinyuk.jianyimaterial.feature.CategoryView;
-import com.sinyuk.jianyimaterial.feature.info.InfoView;
 import com.sinyuk.jianyimaterial.feature.login.LoginView;
 import com.sinyuk.jianyimaterial.feature.needs.NeedsView;
+import com.sinyuk.jianyimaterial.feature.profile.ProfileView;
 import com.sinyuk.jianyimaterial.feature.settings.SettingsView;
 import com.sinyuk.jianyimaterial.glide.BlurTransformation;
 import com.sinyuk.jianyimaterial.glide.ColorFilterTransformation;
@@ -218,7 +219,10 @@ public class DrawerView extends BaseFragment<DrawerPresenterImpl> implements IDr
             case R.id.drawer_menu_message:
                 break;
             case R.id.drawer_menu_account:
-                mMenuIntent = new Intent(getContext(), InfoView.class);
+                mMenuIntent = new Intent(getContext(), ProfileView.class);
+                Bundle bundle = new Bundle();
+                bundle.putFloat(ProfileView.PROFILE_TYPE, ProfileView.MINE);
+                mMenuIntent.putExtras(bundle);
                 break;
             case R.id.drawer_menu_settings:
                 mMenuIntent = new Intent(getContext(), SettingsView.class);
