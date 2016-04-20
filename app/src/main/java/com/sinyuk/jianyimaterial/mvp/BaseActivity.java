@@ -95,11 +95,11 @@ public abstract class BaseActivity<P extends BasePresenter>
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        detachPresenter();
         ButterKnife.unbind(this);
         if (!mCompositeSubscription.isUnsubscribed()) { mCompositeSubscription.unsubscribe(); }
         if (isUseEventBus()) { EventBus.getDefault().unregister(this); }
         myHandler.removeCallbacksAndMessages(null);
+        detachPresenter();
     }
 
     @CallSuper

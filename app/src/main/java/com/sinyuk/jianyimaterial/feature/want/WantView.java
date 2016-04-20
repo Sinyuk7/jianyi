@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -180,11 +181,14 @@ public class WantView extends BaseActivity<WantPresenterImpl> implements IWantVi
     }
 
     public void toggleFunctionButton(boolean isReady) {
+
         mPostBtn.setEnabled(isReady);
         mPostBtn.setClickable(isReady);
         if (isReady) {
+            mCheckBtn.setVisibility(View.VISIBLE);
             mPostBtn.setBackground(getResources().getDrawable(R.drawable.rounded_rect_fill_accent));
         } else {
+            mCheckBtn.setVisibility(View.GONE);
             mPostBtn.setBackground(getResources().getDrawable(R.drawable.rounded_rect_fill_grey));
         }
     }
