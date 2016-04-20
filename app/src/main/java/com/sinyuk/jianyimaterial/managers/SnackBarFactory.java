@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.sinyuk.jianyimaterial.R;
-import com.sinyuk.jianyimaterial.activities.WidgetDemo;
 import com.sinyuk.jianyimaterial.feature.login.LoginView;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
 
@@ -100,7 +99,6 @@ public class SnackBarFactory {
         layout.setBackgroundColor(context.getResources().getColor(R.color.white));
         snackbar.setActionTextColor(context.getResources().getColor(R.color.colorAccent));
         snackbar.setAction("获取帮助", v -> {
-            context.startActivity(new Intent(context, WidgetDemo.class));
         });
         return snackbar;
     }

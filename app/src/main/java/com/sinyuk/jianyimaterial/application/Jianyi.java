@@ -7,7 +7,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.sinyuk.jianyimaterial.R;
-import com.sinyuk.jianyimaterial.activities.HomeActivity;
+import com.sinyuk.jianyimaterial.feature.entry.EntryView;
 import com.sinyuk.jianyimaterial.greendao.dao.DaoCore;
 
 
@@ -31,7 +31,7 @@ public class Jianyi extends Application {
         DaoCore.init(this);
 //        refWatcher = LeakCanary.install(this);
         CustomActivityOnCrash.install(this);
-        CustomActivityOnCrash.setRestartActivityClass(HomeActivity.class);
+        CustomActivityOnCrash.setRestartActivityClass(EntryView.class);
         CustomActivityOnCrash.setDefaultErrorActivityDrawable(R.drawable.turtle_lost404);
     }
 
