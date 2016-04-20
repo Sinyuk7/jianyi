@@ -15,13 +15,16 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 import com.sinyuk.jianyimaterial.utils.ImeUtils;
+import com.sinyuk.jianyimaterial.utils.ToastUtils;
+
+import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
-import butterknife.OnClick;
 import rx.Observable;
 
 /**
@@ -78,7 +81,8 @@ public class WantView extends BaseActivity<WantPresenterImpl> implements IWantVi
     protected void onFinishInflate() {
         setupTextWatcher();
         setupObservers();
-        toggleMainButton(false);
+        toggleFunctionButton(false);
+        mPresenter.queryCurrentUser();
     }
 
     private void setupObservers() {
@@ -107,8 +111,11 @@ public class WantView extends BaseActivity<WantPresenterImpl> implements IWantVi
                 return false;
             }
             return true;
-        }).subscribe(WantView.this::toggleMainButton));
+        }).subscribe(WantView.this::toggleFunctionButton));
 
+        mCompositeSubscription.add(RxView.clicks(mPostBtn).throttleFirst(4, TimeUnit.SECONDS).subscribe(aVoid -> attemptToPost()));
+
+        mCompositeSubscription.add(RxView.clicks(mCheckBtn).throttleFirst(4, TimeUnit.SECONDS).subscribe(aVoid -> attemptToPost()));
     }
 
     private void setupTextWatcher() {
@@ -172,7 +179,7 @@ public class WantView extends BaseActivity<WantPresenterImpl> implements IWantVi
         return Math.round(len);
     }
 
-    public void toggleMainButton(boolean isReady) {
+    public void toggleFunctionButton(boolean isReady) {
         mPostBtn.setEnabled(isReady);
         mPostBtn.setClickable(isReady);
         if (isReady) {
@@ -182,7 +189,6 @@ public class WantView extends BaseActivity<WantPresenterImpl> implements IWantVi
         }
     }
 
-    @OnClick(R.id.post_btn)
     public void attemptToPost() {
         mWantContentEt.setError(null);
         mContactInfoEt.setError(null);
@@ -215,22 +221,23 @@ public class WantView extends BaseActivity<WantPresenterImpl> implements IWantVi
     }
 
     @Override
-    public void onPostNeedSucceed(String message) {
-
+    public void onPostNeedSucceed() {
+        ToastUtils.toastSlow(this, getString(R.string.want_hint_post_succeed));
+        finish();
     }
 
     @Override
     public void onPostNeedFailed(String message) {
-
+        ToastUtils.toastSlow(this, message);
     }
 
     @Override
     public void onPostNeedVolleyError(String message) {
-
+        ToastUtils.toastSlow(this, message);
     }
 
     @Override
-    public void onUPostNeedParseError(String message) {
-
+    public void onPostNeedParseError(String message) {
+        ToastUtils.toastSlow(this, message);
     }
 }

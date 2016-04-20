@@ -12,6 +12,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.api.JError;
+import com.sinyuk.jianyimaterial.api.JPostResponse;
 import com.sinyuk.jianyimaterial.api.JResponse;
 import com.sinyuk.jianyimaterial.api.JUser;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
@@ -48,6 +49,7 @@ public class UserModel implements BaseModel {
     public static final String UPDATE_REQUEST = "update";
     public static final String REGISTER = "register";
     private static final String POST_GOODS = "post_goods";
+    private static final String POST_NEED = "post_need";
 
 
     private static UserModel sInstance;
@@ -313,12 +315,46 @@ public class UserModel implements BaseModel {
 
     /**
      * 发布一个需求
+     *
      * @param detail 内容
-     * @param tel 联系方式
-     * @param price 价格
+     * @param tel    联系方式
+     * @param price  价格
      */
     public void postNeed(String detail, String tel, String price, PostNeedCallback callback) {
+        final String password = PreferencesUtils.getString(mContext, Constants.Prefs_Psw);
 
+        if (TextUtils.isEmpty(password)) {
+            callback.onPostNeedParseError("读取用户信息失败");
+            return;
+        }
+        FormDataRequest formDataRequest = new FormDataRequest(Request.Method.POST, JianyiApi.postNeeds(), (Response.Listener<String>) str -> {
+            try {
+                JsonParser parser = new JsonParser();
+                final JsonObject response = parser.parse(str).getAsJsonObject();
+                JPostResponse result = mGson.fromJson(response, JPostResponse.class);
+                if (result.getCode() == 2001) {
+                    callback.onPostNeedSucceed();
+                } else {
+                    JError error = mGson.fromJson(response, JError.class);
+                    callback.onPostNeedFailed(error.getError_msg());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                callback.onPostNeedParseError(e.getMessage());
+            }
+        }, (Response.ErrorListener) error -> callback.onPostNeedVolleyError(VolleyErrorHelper.getMessage(error))) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("tel", tel);
+                params.put("password", password);
+                params.put("detail", detail);
+                params.put("price", price);
+                return params;
+            }
+        };
+
+        Jianyi.getInstance().addRequest(formDataRequest, POST_NEED);
     }
 
     public interface LoginCallback {
@@ -382,12 +418,12 @@ public class UserModel implements BaseModel {
 
     public interface PostNeedCallback {
 
-        void onPostNeedSucceed(String message);
+        void onPostNeedSucceed();
 
         void onPostNeedFailed(String message);
 
         void onPostNeedVolleyError(String message);
 
-        void onUPostNeedParseError(String message);
+        void onPostNeedParseError(String message);
     }
 }

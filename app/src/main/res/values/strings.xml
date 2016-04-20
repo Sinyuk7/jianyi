@@ -323,6 +323,7 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="common_hint_feature_not_finished">努力开发中╥﹏╥...</string>
     <string name="needs_hint_no_description">什么都没留下</string>
     <string name="common_hint_reach_list_bottom">已经是最后一页啦</string>
+    <string name="want_hint_post_succeed">发布成功</string>
 
 
 </resources>

@@ -12,11 +12,11 @@ public interface IWantView {
 
     void onUserNotLogged();
 
-    void onPostNeedSucceed(String message);
+    void onPostNeedSucceed();
 
     void onPostNeedFailed(String message);
 
     void onPostNeedVolleyError(String message);
 
-    void onUPostNeedParseError(String message);
+    void onPostNeedParseError(String message);
 }

@@ -31,31 +31,31 @@ public class WantPresenterImpl extends BasePresenter<WantView> implements IWantP
 
     @Override
     public void onQueryFailed(String message) {
-
+        mView.onQueryFailed(message);
     }
 
     @Override
     public void onUserNotLogged() {
-
+        mView.onUserNotLogged();
     }
 
     @Override
-    public void onPostNeedSucceed(String message) {
-
+    public void onPostNeedSucceed() {
+        mView.onPostNeedSucceed();
     }
 
     @Override
     public void onPostNeedFailed(String message) {
-
+        mView.onPostNeedFailed(message);
     }
 
     @Override
     public void onPostNeedVolleyError(String message) {
-
+        mView.onPostNeedVolleyError(message);
     }
 
     @Override
-    public void onUPostNeedParseError(String message) {
-
+    public void onPostNeedParseError(String message) {
+        mView.onPostNeedParseError(message);
     }
 }
