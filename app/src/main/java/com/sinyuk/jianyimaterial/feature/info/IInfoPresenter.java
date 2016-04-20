@@ -9,7 +9,5 @@ public interface IInfoPresenter {
 
     void compressThenUpload(String uri);
 
-    void loadUserInfo();
-
     void updateUser(HashMap<String,String> params);
 }

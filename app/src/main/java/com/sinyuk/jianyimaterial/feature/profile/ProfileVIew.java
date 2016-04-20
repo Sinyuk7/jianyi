@@ -1,5 +1,6 @@
 package com.sinyuk.jianyimaterial.feature.profile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
@@ -22,11 +23,13 @@ import com.jakewharton.rxbinding.support.design.widget.RxAppBarLayout;
 import com.jakewharton.rxbinding.view.RxView;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.entity.School;
+import com.sinyuk.jianyimaterial.feature.info.InfoView;
 import com.sinyuk.jianyimaterial.feature.shelf.ShelfView;
 import com.sinyuk.jianyimaterial.glide.BlurTransformation;
 import com.sinyuk.jianyimaterial.glide.ColorFilterTransformation;
 import com.sinyuk.jianyimaterial.glide.CropCircleTransformation;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
+import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;
 import com.sinyuk.jianyimaterial.widgets.MyCircleImageView;
 
@@ -77,6 +80,9 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
 
     private List<Fragment> fragmentList = new ArrayList<>();
     private Integer mSchoolIndex;
+    private String mSchoolName;
+    private String mUsername;
+    private String mAvatarUrl;
 
 
     @Override
@@ -114,18 +120,18 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
         setupActionBtn();
 
         if (mType == OTHER) {
-            final String uid = extras.getString("uid");
-            final String username = extras.getString("user_name");
-            final String schoolName = extras.getString("location");
-            final String tel = extras.getString("tel");
-            final String avatarUrl = extras.getString("avatar");
+            showAvatar(extras.getString("avatar"));
+            showBackdrop(extras.getString("avatar"));
+            showLocation(extras.getString("location", getString(R.string.untable)));
+            showUsername(extras.getString("user_name", getString(R.string.untable)));
+            initFragments(extras.getString("uid"));
+        }
+    }
 
-            showAvatar(avatarUrl);
-            showBackdrop(avatarUrl);
-            showLocation(schoolName != null ? schoolName : getString(R.string.untable));
-            showUsername(username != null ? username : getString(R.string.untable));
-            initFragments(uid);
-        } else {
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mType == MINE) {
             mPresenter.queryCurrentUser();
             mPresenter.fetchSchoolList();
         }
@@ -141,11 +147,18 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
         }
     }
 
-    @OnClick(R.id.action_iv)
+    @OnClick({R.id.action_iv, R.id.fab})
     public void onClick() {
         if (mType == OTHER) {
-        } else if (mType == MINE) {
 
+        } else if (mType == MINE) {
+            Bundle bundle = new Bundle();
+            bundle.putString(InfoView.USERNAME, mUsername);
+            bundle.putString(InfoView.SCHOOL_NAME, mSchoolName);
+            bundle.putString(InfoView.AVATAR_URL, mAvatarUrl);
+            Intent toMyInfoView = new Intent(ProfileView.this, InfoView.class);
+            toMyInfoView.putExtras(bundle);
+            startActivity(toMyInfoView);
         }
     }
 
@@ -232,10 +245,12 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
     @Override
     public void showUsername(@NonNull String username) {
         mUserNameEt.setText(username);
+        mUsername = username;
     }
 
     @Override
     public void showAvatar(@NonNull String url) {
+        mAvatarUrl = url;
         Glide.with(this).load(url)
                 .dontAnimate()
                 .priority(Priority.IMMEDIATE)
@@ -267,7 +282,9 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
     public void showLocation(@NonNull String nameOrIndex) {
         if (mType == OTHER) {
             mLocationTv.setText(nameOrIndex);
+            mSchoolName = nameOrIndex;
         } else {
+            LogUtils.simpleLog(ProfileView.class, "showLocation " + nameOrIndex);
             mPresenter.fetchSchoolList();
             mSchoolIndex = Integer.valueOf(nameOrIndex);
         }
@@ -275,7 +292,7 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
 
     @Override
     public void showToolbarTitle(@NonNull String username) {
-//        mCollapsingToolbarLayout.setTitle(username);
+//        mCollapsingToolbarLayout.setTitle(mUsername);
     }
 
     @Override
@@ -290,7 +307,11 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
 
     @Override
     public void onLoadSchoolSucceed(List<School> schoolList) {
-        mLocationTv.setText(schoolList.get(mSchoolIndex).getName());
+        if (mSchoolIndex >= 1) {
+            mSchoolName = schoolList.get(mSchoolIndex - 1).getName();
+            mLocationTv.setText(mSchoolName);
+        }
+        LogUtils.simpleLog(ProfileView.class, schoolList.get(mSchoolIndex - 1).getName());
     }
 
     @Override

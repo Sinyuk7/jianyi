@@ -45,16 +45,16 @@ public class ProfilePresenterImpl extends BasePresenter<ProfileView> implements 
 
     @Override
     public void onLoadSchoolSucceed(List<School> schoolList) {
-
+        mView.onLoadSchoolSucceed(schoolList);
     }
 
     @Override
     public void onLoadSchoolParseError(String message) {
-
+        mView.onLoadSchoolParseError(message);
     }
 
     @Override
     public void onLoadSchoolVolleyError(String message) {
-
+        mView.onLoadSchoolVolleyError(message);
     }
 }

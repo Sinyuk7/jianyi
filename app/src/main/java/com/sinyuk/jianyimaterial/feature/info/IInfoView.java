@@ -8,16 +8,6 @@ public interface IInfoView {
 
     void dismissProgressDialog();
 
-    void showUserAvatar(String url);
-
-    void showUserNickname(String nickname);
-
-    void showUserSchool(String schoolIndex);
-
-    void onQueryFailed(String message);
-
-    void onUserNotLogged();
-
     void onShotUploadParseError(String message);
 
     void onShotUploadVolleyError(String message);

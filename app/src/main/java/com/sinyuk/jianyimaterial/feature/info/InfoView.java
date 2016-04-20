@@ -4,12 +4,10 @@ import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.TextInputLayout;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
@@ -46,6 +44,9 @@ import rx.Observable;
  * Created by Sinyuk on 16.4.16.
  */
 public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoView {
+    public static final String AVATAR_URL = "avatar_url";
+    public static final String SCHOOL_NAME = "school_name";
+    public static final String USERNAME = "username";
     private static final int REQUEST_PICK = 0x08;
     private static final int CHOOSE_BOY = 1;
     private static final int CHOOSE_GIRL = 0;
@@ -65,23 +66,17 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
     ImageView mMaleFlag;
     @Bind(R.id.user_name_et)
     EditText mUserNameEt;
-    @Bind(R.id.user_name_input_area)
-    TextInputLayout mUserNameInputArea;
     @Bind(R.id.location_et)
     EditText mLocationEt;
-    @Bind(R.id.school_input_area)
-    TextInputLayout mSchoolInputArea;
     @Bind(R.id.confirm_btn)
     Button mConfirmBtn;
-    @Bind(R.id.nested_scroll_view)
-    NestedScrollView mNestedScrollView;
-    @Bind(R.id.coordinator_layout)
-    CoordinatorLayout mCoordinatorLayout;
 
-    private int mSelectedGender ;
-    private String mUploadUrl;
+    private int mSelectedGender;
+
     private DrawableRequestBuilder<Integer> mResRequest;
     private SweetAlertDialog mDialog;
+    private String mOriginalUrl;
+    private String mUploadUrl;
 
     @Override
     protected boolean isUseEventBus() {
@@ -116,8 +111,11 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
         mResRequest = Glide.with(this).fromResource().dontAnimate();
         mSelectedGender = CHOOSE_GIRL;
         mResRequest.load(R.drawable.girl).bitmapTransform(new CropCircleTransformation(this)).into(mAvatarGirl);
-        mPresenter.loadUserInfo();
         setObservers();
+        final Bundle extra = getIntent().getExtras();
+        showAvatar(extra.getString(AVATAR_URL));
+        showSchoolName(extra.getString(SCHOOL_NAME));
+        showUserNickname(extra.getString(USERNAME));
     }
 
     private void setObservers() {
@@ -280,9 +278,8 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
         if (null != mDialog) { mDialog.dismissWithAnimation(); }
     }
 
-    @Override
-    public void showUserAvatar(String url) {
-        mUploadUrl = url;
+    public void showAvatar(String url) {
+        mOriginalUrl = url;
         DrawableRequestBuilder<String> avatarRequest = Glide.with(this)
                 .load(url).diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .dontAnimate()
@@ -295,50 +292,34 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
         }
     }
 
-    @Override
     public void showUserNickname(String nickname) {
         mUserNameEt.setText(nickname);
     }
 
-    @Override
-    public void showUserSchool(String schoolIndex) {
-        int index = Integer.valueOf(schoolIndex);
-        final String[] schoolArray = getResources().getStringArray(R.array.schools_sort);
-        try {
-            mLocationEt.setText(schoolArray[index - 1]);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void showSchoolName(String schoolName) {
+        mLocationEt.setText(schoolName);
     }
 
-    @Override
-    public void onQueryFailed(String message) {
-
-    }
-
-    @Override
-    public void onUserNotLogged() {
-
-    }
 
     @Override
     public void onShotUploadParseError(String message) {
-
+        ToastUtils.toastSlow(this, message);
     }
 
     @Override
     public void onShotUploadVolleyError(String message) {
-
+        ToastUtils.toastSlow(this, message);
     }
 
     @Override
     public void onShotUploadCompressError(String message) {
-
+        ToastUtils.toastSlow(this, message);
     }
 
     @Override
     public void onShotUploadSucceed(String url) {
-
+        mUploadUrl = url;
+        LogUtils.simpleLog(InfoView.class, "upload url -> " + url);
     }
 
     @Override
