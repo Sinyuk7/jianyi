@@ -36,26 +36,33 @@ dependencies {
     compile 'com.android.support:palette-v7:23.3.0'
     compile 'com.android.support:recyclerview-v7:23.3.0'
     compile 'com.android.support:design:23.3.0'
-    compile 'com.google.code.gson:gson:2.6.2'
+    //
     compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.google.code.gson:gson:2.6.2'
+    //
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'com.bigkoo:convenientbanner:2.0.5'
-    compile files('libs/ease-interpolator-1.1.jar')
+    compile 'de.greenrobot:greendao:2.1.0'
+    //
     compile 'com.commit451:PhotoView:1.2.4'
     compile project(':ucrop')
-    compile 'de.greenrobot:greendao:2.1.0'
+    //
     compile project(':library')
+    //
     compile 'io.reactivex:rxjava:1.1.1'
     compile 'io.reactivex:rxandroid:1.1.0'
     compile 'com.jakewharton.rxbinding:rxbinding-recyclerview-v7:0.4.0'
     compile 'com.jakewharton.rxbinding:rxbinding-appcompat-v7:0.4.0'
     compile 'com.jakewharton.rxbinding:rxbinding-design:0.4.0'
     compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
+    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.7.0@aar'
+    //
     compile 'com.flipboard:bottomsheet-core:1.5.0'
     compile 'com.flipboard:bottomsheet-commons:1.5.0' // optional
-    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.7.0@aar'
-    compile 'com.facebook.rebound:rebound:0.3.8'
     compile 'com.tumblr:backboard:0.1.0'
+    compile 'com.facebook.rebound:rebound:0.3.8'
+    compile 'com.facebook.shimmer:shimmer:0.1.0@aar'
+    compile 'com.bigkoo:convenientbanner:2.0.5'
+    compile files('libs/ease-interpolator-1.1.jar')
 //    compile 'com.squareup.leakcanary:leakcanary-android:1.4-beta1' // or 1.4-beta1
 }
