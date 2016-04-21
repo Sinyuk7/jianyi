@@ -1,26 +1,21 @@
 package com.sinyuk.jianyimaterial.feature.entry;
 
-import android.os.Handler;
+import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.FragmentManager;
 
 import com.sinyuk.jianyimaterial.R;
-import com.sinyuk.jianyimaterial.entity.School;
 import com.sinyuk.jianyimaterial.feature.drawer.DrawerView;
 import com.sinyuk.jianyimaterial.feature.home.HomeView;
 import com.sinyuk.jianyimaterial.managers.SnackBarFactory;
-import com.sinyuk.jianyimaterial.model.SchoolModel;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
-import com.sinyuk.jianyimaterial.utils.LogUtils;
-
-import java.util.List;
 
 import butterknife.Bind;
 
 /**
  * Created by Sinyuk on 16.3.30.
  */
-public class EntryView extends BaseActivity<EntryPresenterImpl> implements IEntryView, SchoolModel.LoadSchoolsCallback {
+public class EntryView extends BaseActivity<EntryPresenterImpl> implements IEntryView {
     @Bind(R.id.home_view)
     CoordinatorLayout mHomeView;
     private long attemptExitTime;
@@ -46,10 +41,17 @@ public class EntryView extends BaseActivity<EntryPresenterImpl> implements IEntr
     }
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState == null) {
+            FragmentManager fm = getSupportFragmentManager();
+            fm.beginTransaction().replace(R.id.container_menu, DrawerView.getInstance()).commit();
+            fm.beginTransaction().replace(R.id.home_view, HomeView.getInstance()).commit();
+        }
+    }
+
+    @Override
     protected void onFinishInflate() {
-        FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction().replace(R.id.container_menu, DrawerView.getInstance()).commit();
-        fm.beginTransaction().replace(R.id.home_view, HomeView.getInstance()).commit();
 //        SchoolModel.getInstance(this).getSchools(this);
     }
 
@@ -72,22 +74,5 @@ public class EntryView extends BaseActivity<EntryPresenterImpl> implements IEntr
             return false;
         }
         return true;
-    }
-
-    @Override
-    public void onLoadSchoolSucceed(List<School> schoolList) {
-        for (int i = 0; i < schoolList.size(); i++) {
-            LogUtils.simpleLog(EntryView.class, schoolList.get(i).getName());
-        }
-    }
-
-    @Override
-    public void onLoadSchoolParseError(String message) {
-        LogUtils.simpleLog(EntryView.class, message);
-    }
-
-    @Override
-    public void onLoadSchoolVolleyError(String message) {
-        LogUtils.simpleLog(EntryView.class, message);
     }
 }
