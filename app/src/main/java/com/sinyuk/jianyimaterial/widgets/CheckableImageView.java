@@ -19,13 +19,14 @@ public class CheckableImageView extends ImageView implements Checkable {
     public CheckableImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setClickable(true);
-
     }
 
+    @Override
     public boolean isChecked() {
         return isChecked;
     }
 
+    @Override
     public void setChecked(boolean isChecked) {
         if (this.isChecked != isChecked) {
             this.isChecked = isChecked;

@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.BitmapRequestBuilder;
@@ -22,7 +21,6 @@ import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
 import com.sinyuk.jianyimaterial.feature.details.DetailsView;
 import com.sinyuk.jianyimaterial.ui.smallbang.SmallBang;
-import com.sinyuk.jianyimaterial.ui.smallbang.SmallBangListener;
 import com.sinyuk.jianyimaterial.utils.FormatUtils;
 import com.sinyuk.jianyimaterial.utils.FuzzyDateFormater;
 import com.sinyuk.jianyimaterial.utils.ScreenUtils;
@@ -68,11 +66,19 @@ public class LikeGoodsListAdapter extends ExtendedRecyclerViewAdapter<YihuoProfi
     public LikeItemViewHolder onCreateDataItemViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_goods_like, parent, false);
-        return new LikeItemViewHolder(v);
+        final LikeItemViewHolder holder = new LikeItemViewHolder(v);
+        holder.mLikeBtn.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        holder.mLikeBtn.setOnClickListener(aVoid ->
+        {
+            if (holder.mLikeBtn.isChecked()) { // 取消的时候就不要那个动画了
+                mSmallBang.bang(holder.mLikeBtn, ScreenUtils.dpToPxInt(mContext, 36), null);
+            }
+        });
+        return holder;
     }
 
     @Override
-    public void onBindDataItemViewHolder(final LikeItemViewHolder holder,final int position) {
+    public void onBindDataItemViewHolder(final LikeItemViewHolder holder, final int position) {
         YihuoProfile itemData = null;
         if (!getData().isEmpty() && getData().get(position) != null) {
             itemData = getData().get(position);
@@ -101,22 +107,6 @@ public class LikeGoodsListAdapter extends ExtendedRecyclerViewAdapter<YihuoProfi
             e.printStackTrace();
         }
 //        holder.locationTv.setText(StringUtils.check(mContext, itemData.getSchoolname(), R.string.unknown_location));
-
-
-        holder.mLikeBtn.setOnClickListener(v -> {
-            mSmallBang.bang(holder.mLikeBtn, ScreenUtils.dpToPxInt(mContext, 36),
-                    new SmallBangListener() {
-                        @Override
-                        public void onAnimationStart() {
-                            holder.mLikeBtn.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-                        }
-
-                        @Override
-                        public void onAnimationEnd() {
-                            holder.mLikeBtn.setLayerType(View.LAYER_TYPE_NONE, null);
-                        }
-                    });
-        });
 
         shotRequest.load(JianyiApi.shotUrl(itemData.getPic())).into(holder.mShotIv);
         holder.mShotIv.setTag(R.id.shots_cover_tag, position);
