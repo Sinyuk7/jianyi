@@ -22,6 +22,7 @@ import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.common.dialog.UnShelfDialog;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
+import com.sinyuk.jianyimaterial.events.XClickUnShelfEvent;
 import com.sinyuk.jianyimaterial.feature.details.DetailsView;
 import com.sinyuk.jianyimaterial.utils.FormatUtils;
 import com.sinyuk.jianyimaterial.utils.FuzzyDateFormater;
@@ -29,6 +30,8 @@ import com.sinyuk.jianyimaterial.utils.StringUtils;
 import com.sinyuk.jianyimaterial.widgets.CheckableImageView;
 import com.sinyuk.jianyimaterial.widgets.LabelView;
 import com.sinyuk.jianyimaterial.widgets.RatioImageView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.text.ParseException;
 
@@ -41,11 +44,9 @@ import butterknife.ButterKnife;
 public class DeleteGoodsAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile, DeleteGoodsAdapter.DeleteItemViewHolder> {
 
     private BitmapRequestBuilder<String, Bitmap> colorfulRequest;
-
+    
     public DeleteGoodsAdapter(Context context) {
         super(context);
-
-
         colorfulRequest = Glide.with(mContext).fromString()
                 .asBitmap()
                 .error(mContext.getResources().getDrawable(R.drawable.image_placeholder_icon))
@@ -108,8 +109,10 @@ public class DeleteGoodsAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile
             }
             ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
             holder.mShotIv.setColorFilter(filter);*/
-            UnShelfDialog dialog = new UnShelfDialog(mContext);
-            dialog.show();
+         /*   UnShelfDialog dialog = new UnShelfDialog(mContext);
+
+            dialog.show();*/
+            EventBus.getDefault().post(new XClickUnShelfEvent(holder.mDeleteOrUndoBtn,position));
         });
 
         colorfulRequest.load(JianyiApi.shotUrl(itemData.getPic())).into(holder.mShotIv);

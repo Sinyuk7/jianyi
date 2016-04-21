@@ -23,6 +23,7 @@ import com.jakewharton.rxbinding.support.design.widget.RxAppBarLayout;
 import com.jakewharton.rxbinding.view.RxView;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.entity.School;
+import com.sinyuk.jianyimaterial.events.XUnShelfOptionEvent;
 import com.sinyuk.jianyimaterial.feature.info.InfoView;
 import com.sinyuk.jianyimaterial.feature.shelf.ShelfView;
 import com.sinyuk.jianyimaterial.glide.BlurTransformation;
@@ -32,6 +33,9 @@ import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;
 import com.sinyuk.jianyimaterial.widgets.MyCircleImageView;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -325,6 +329,11 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
     @Override
     public void onLoadSchoolVolleyError(String message) {
         ToastUtils.toastFast(this, message);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAttemptUnShelf(XUnShelfOptionEvent event){
+      switch ()
     }
 
 }
