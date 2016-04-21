@@ -16,6 +16,7 @@ import android.view.View;
 
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.adapters.CommonGoodsListAdapter;
+import com.sinyuk.jianyimaterial.adapters.DeleteGoodsAdapter;
 import com.sinyuk.jianyimaterial.adapters.ExtendedRecyclerViewAdapter;
 import com.sinyuk.jianyimaterial.adapters.LikeGoodsListAdapter;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
@@ -46,7 +47,10 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
     public static final String CONTENT = "content";
     public static final String COMMON_GOODS = "common_goods";
     public static final String MY_GOODS = "my_goods";
+    public static final String MY_LIKES = "my_likes";
     public static final String THEIR_GOODS = "their_goods";
+    public static final String THEIR_LIKES = "their_likes";
+
 
     public static final String USER_ID = "user_id";
     public static final String PARAM_SCHOOL = "school";
@@ -111,23 +115,37 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
     protected void onFinishInflate() {
         setupSwipeRefreshLayout();
         setupRecyclerView();
-        loadDataVaryContent();
+        loadVaryFromType();
     }
 
-    private void loadDataVaryContent() {
+    private void loadVaryFromType() {
         switch (mContentType) {
             case COMMON_GOODS:
+                // params
                 loadCommonContent(getArguments());
+                mAdapter = new CommonGoodsListAdapter(mContext);
                 break;
             case MY_GOODS:
-            case THEIR_GOODS:
-                loadPersonalContent(getArguments());
+                mAdapter = new DeleteGoodsAdapter(mContext);
+                loadPostedGoods(getArguments().getString(USER_ID));
                 break;
+            case THEIR_GOODS:
+                mAdapter = new LikeGoodsListAdapter(mContext);
+                loadPostedGoods(getArguments().getString(USER_ID));
+                break;
+            case MY_LIKES:
+            case THEIR_LIKES:
+                mAdapter = new LikeGoodsListAdapter(mContext);
+                loadLikeContent(getArguments().getString(USER_ID));
         }
     }
 
-    private void loadPersonalContent(Bundle bundle) {
-        mUid = bundle.getString(USER_ID);
+    private void loadLikeContent(String uid) {
+        mUid = uid;
+    }
+
+    private void loadPostedGoods(String uid) {
+        mUid = uid;
         mPresenter.loadData(1, mUid);
     }
 
@@ -158,18 +176,7 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
 
 
     private void setupRecyclerView() {
-        // different adapter according to the specific content type
-        switch (mContentType) {
-            case COMMON_GOODS:
-                mAdapter = new CommonGoodsListAdapter(mContext);
-                break;
-            case MY_GOODS:
-                mAdapter = new CommonGoodsListAdapter(mContext);
-                break;
-            case THEIR_GOODS:
-                mAdapter = new LikeGoodsListAdapter(mContext);
-                break;
-        }
+
         mRecyclerView.setAdapter(mAdapter);
 
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -254,12 +261,15 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
             case THEIR_GOODS:
                 mPresenter.loadData(1, mUid);
                 break;
+            case MY_LIKES:
+            case THEIR_LIKES:
+//                mPresenter.loadLikeData(1,mUid)
+                break;
         }
     }
 
     @Override
     public void loadData(int pageIndex) {
-
         switch (mContentType) {
             case COMMON_GOODS:
                 mPresenter.loadData(pageIndex, mParams);
@@ -267,6 +277,10 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
             case MY_GOODS:
             case THEIR_GOODS:
                 mPresenter.loadData(pageIndex, mUid);
+                break;
+            case MY_LIKES:
+            case THEIR_LIKES:
+//                mPresenter.loadLikeData(pageIndex,mUid)
                 break;
         }
     }
