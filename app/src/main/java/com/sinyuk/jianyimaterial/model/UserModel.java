@@ -10,10 +10,8 @@ import com.android.volley.Response;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.api.JError;
 import com.sinyuk.jianyimaterial.api.JPostResponse;
-import com.sinyuk.jianyimaterial.api.JResponse;
 import com.sinyuk.jianyimaterial.api.JUser;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.application.Jianyi;
@@ -26,7 +24,6 @@ import com.sinyuk.jianyimaterial.greendao.dao.UserService;
 import com.sinyuk.jianyimaterial.mvp.BaseModel;
 import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.PreferencesUtils;
-import com.sinyuk.jianyimaterial.utils.StringUtils;
 import com.sinyuk.jianyimaterial.volley.FormDataRequest;
 import com.sinyuk.jianyimaterial.volley.VolleyErrorHelper;
 
@@ -39,6 +36,7 @@ import java.util.Map;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -123,9 +121,7 @@ public class UserModel implements BaseModel {
             JsonParser parser = new JsonParser();
             final JsonObject response = parser.parse(str).getAsJsonObject();
             JUser jsonData = mGson.fromJson(response, JUser.class);
-            JUser.Data data = jsonData.getData();
-            String trans = mGson.toJson(data);
-            User userData = mGson.fromJson(trans, User.class);
+            User userData = jsonData.getData();
             if (userData != null) {
                 // TODO: 这里应该保存数据 然后保存成功在回调onSucceed();
                 saveOrUpdate(userData, password);
@@ -183,8 +179,7 @@ public class UserModel implements BaseModel {
             Observable.just(str)
                     .map(responseStr -> new JsonParser().parse(responseStr).getAsJsonObject())
                     .map(jsonObject -> mGson.fromJson(jsonObject, JUser.class))
-                    .map(jUser -> mGson.toJson(jUser.getData()))
-                    .map(trans -> mGson.fromJson(trans, User.class))
+                    .map(JUser::getData)
                     .doOnError(error -> callback.onRegisterParseError(error.getMessage()))
                     .subscribe(user -> {
                         if (user != null) {
@@ -257,10 +252,11 @@ public class UserModel implements BaseModel {
             try {
                 JsonParser parser = new JsonParser();
                 final JsonObject response = parser.parse(str).getAsJsonObject();
-                JResponse jResponse = mGson.fromJson(response, JResponse.class);
-
-                if (jResponse != null && jResponse.getCode() == JResponse.CODE_SUCCEED) {
-                    callback.onUserUpdateSucceed(jResponse.getData());
+                JUser jsonData = mGson.fromJson(response, JUser.class);
+                User userData = jsonData.getData();
+                if (userData != null) {
+                    saveOrUpdate(userData, password);
+                    callback.onUserUpdateSucceed("更新用户信息成功");
                 } else {
                     callback.onUserUpdateParseError("更新用户信息失败");
                 }

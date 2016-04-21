@@ -9,6 +9,7 @@ import com.sinyuk.jianyimaterial.feature.drawer.DrawerView;
 import com.sinyuk.jianyimaterial.feature.home.HomeView;
 import com.sinyuk.jianyimaterial.managers.SnackBarFactory;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
+import com.sinyuk.jianyimaterial.utils.ToastUtils;
 
 import butterknife.Bind;
 
@@ -52,7 +53,6 @@ public class EntryView extends BaseActivity<EntryPresenterImpl> implements IEntr
 
     @Override
     protected void onFinishInflate() {
-//        SchoolModel.getInstance(this).getSchools(this);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class EntryView extends BaseActivity<EntryPresenterImpl> implements IEntr
 
     private boolean confirmExit() {
         if ((System.currentTimeMillis() - attemptExitTime) > 1000) {
-            SnackBarFactory.succeedNoAction(this, mHomeView, "再按一次退出").show();
+            ToastUtils.toastFast(this,getString(R.string.common_confirm_exit_application));
             attemptExitTime = System.currentTimeMillis();
             return false;
         }
