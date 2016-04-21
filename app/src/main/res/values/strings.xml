@@ -323,13 +323,14 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="unshelf_hint_dont_want">不想出手了…</string>
     <string name="unshelf_hint_other_reason">其他理由…</string>
     <string name="unshelf_title">为什么要下架它╥﹏╥...</string>
-    <string name="unshelf_hint_rate_us">这次交易你觉得怎么样(*^__^*)</string>
-    <string name="unshelf_hint_just_soso">一般般啦</string>
+    <string name="unshelf_hint_rate_us">你觉得用简易怎么样(*^__^*)</string>
+    <string name="unshelf_hint_just_soso">一般般</string>
     <string name="unshelf_hint_nice">还可以</string>
     <string name="unshelf_hint_unshelf_succeed">下架成功</string>
-    <string name="unshelf_hint_beg">祈求</string>
+    <string name="unshelf_hint_beg">你的任何捐助都会为简易提供帮助</string>
     <string name="unshelf_hint_next_time">下次吧</string>
-    <string name="unshelf_hint_ok">好的</string>
+    <string name="unshelf_hint_ok">给五毛</string>
+    <string name="unshelf_hint_re_shelf">重新上架</string>
 
 
 </resources>

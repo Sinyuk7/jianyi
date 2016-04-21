@@ -25,6 +25,7 @@ import com.sinyuk.jianyimaterial.feature.details.DetailsView;
 import com.sinyuk.jianyimaterial.utils.FormatUtils;
 import com.sinyuk.jianyimaterial.utils.FuzzyDateFormater;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
+import com.sinyuk.jianyimaterial.utils.ToastUtils;
 import com.sinyuk.jianyimaterial.widgets.CheckableImageView;
 import com.sinyuk.jianyimaterial.widgets.LabelView;
 import com.sinyuk.jianyimaterial.widgets.RatioImageView;
@@ -79,7 +80,7 @@ public class DeleteGoodsAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile
             holder.mCardView.setClickable(false); // prevent fast double tap
             Intent intent = new Intent(mContext, DetailsView.class);
             Bundle bundle = new Bundle();
-            bundle.putParcelable("ss", finalItemData);
+            bundle.putParcelable(DetailsView.YihuoProfile, finalItemData);
             intent.putExtras(bundle);
             mContext.startActivity(intent);
             holder.mCardView.postDelayed(() -> holder.mCardView.setClickable(true), 300);
@@ -114,9 +115,12 @@ public class DeleteGoodsAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile
                 UnShelfDialog dialog = new UnShelfDialog(mContext);
                 dialog.show();
                 mMatrix.setSaturation(0);
-                ColorMatrixColorFilter filter1 = new ColorMatrixColorFilter(mMatrix);
-                holder.mShotIv.setColorFilter(filter1);
+            } else {
+                mMatrix.setSaturation(1);
+                ToastUtils.toastSlow(mContext,mContext.getString(R.string.unshelf_hint_re_shelf));
             }
+            ColorMatrixColorFilter filter1 = new ColorMatrixColorFilter(mMatrix);
+            holder.mShotIv.setColorFilter(filter1);
             // toggle
             holder.mDeleteOrUndoBtn.setChecked(!holder.mDeleteOrUndoBtn.isChecked());
             finalItemData.setOnSell(!finalItemData.isOnSell());

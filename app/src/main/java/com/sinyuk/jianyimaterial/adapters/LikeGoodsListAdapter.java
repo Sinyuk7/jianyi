@@ -90,7 +90,7 @@ public class LikeGoodsListAdapter extends ExtendedRecyclerViewAdapter<YihuoProfi
             holder.mCardView.setClickable(false); // prevent fast double tap
             Intent intent = new Intent(mContext, DetailsView.class);
             Bundle bundle = new Bundle();
-            bundle.putParcelable("ss", finalItemData);
+            bundle.putParcelable(DetailsView.YihuoProfile, finalItemData);
             intent.putExtras(bundle);
             mContext.startActivity(intent);
             holder.mCardView.postDelayed(() -> holder.mCardView.setClickable(true), 300);

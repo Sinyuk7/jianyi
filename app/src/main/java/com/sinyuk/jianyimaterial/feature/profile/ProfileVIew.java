@@ -1,6 +1,7 @@
 package com.sinyuk.jianyimaterial.feature.profile;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
@@ -134,16 +135,17 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
             showLocation(extras.getString("location", getString(R.string.untable)));
             showUsername(extras.getString("user_name", getString(R.string.untable)));
             initFragments(extras.getString("uid"));
+        } else if (mType == MINE) {
+            mPresenter.queryCurrentUser();
+            mPresenter.fetchSchoolList();
         }
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (mType == MINE) {
-            mPresenter.queryCurrentUser();
-            mPresenter.fetchSchoolList();
-        }
+
     }
 
     private void setupActionBtn() {
@@ -361,16 +363,23 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
 
     private void showBegDialog() {
         mDialog.changeAlertType(SweetAlertDialog.CUSTOM_IMAGE_TYPE);
-        mDialog.setCustomImage(getResources().getDrawable(R.drawable.expression_6))
-                .setTitleText(getString(R.string.unshelf_hint_beg))
-                .setContentText(null)
+        mDialog.setCustomImage(getResources().getDrawable(R.drawable.ex6))
+                .setTitleText("")
+                .setContentText(getString(R.string.unshelf_hint_beg))
                 .setCancelText(getString(R.string.unshelf_hint_next_time))
                 .setConfirmText(getString(R.string.unshelf_hint_ok))
                 .setConfirmClickListener(sweetAlertDialog -> {
-                    ToastUtils.toastSlow(ProfileView.this, "打钱啦");
+                    gotoAlipay();
                     sweetAlertDialog.dismissWithAnimation();
                 });
 
+    }
+
+    private void gotoAlipay() {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("https://ds.alipay.com/?from=mobilecodec&scheme=alipayqr%3A%2F%2Fplatformapi%2Fstartapp%3FsaId%3D10000007%26clientVersion%3D3.7.0.0718%26qrcode%3Dhttps%253A%252F%252Fqr.alipay.com%252Faex02962ehdallsjjszohe5%253F_s%253Dweb-other"));//设置一个URI地址
+        startActivity(intent);
     }
 
 

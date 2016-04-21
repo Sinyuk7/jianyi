@@ -143,6 +143,8 @@ public class YihuoProfile implements Parcelable {
         dest.writeString(this.headImg);
         dest.writeString(this.schoolname);
         dest.writeString(this.uid);
+        dest.writeByte((byte) (isOnSell ? 1 : 0));
+        dest.writeByte((byte) (isLiked ? 1 : 0));
     }
 
     public YihuoProfile() {
@@ -159,6 +161,8 @@ public class YihuoProfile implements Parcelable {
         this.headImg = in.readString();
         this.schoolname = in.readString();
         this.uid = in.readString();
+        this.isOnSell = in.readByte() != 0;
+        this.isLiked = in.readByte() != 0;
     }
 
     public static final Creator<YihuoProfile> CREATOR = new Creator<YihuoProfile>() {
