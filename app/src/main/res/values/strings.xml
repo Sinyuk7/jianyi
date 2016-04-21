@@ -327,9 +327,10 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="unshelf_hint_just_soso">一般般</string>
     <string name="unshelf_hint_nice">还可以</string>
     <string name="unshelf_hint_unshelf_succeed">下架成功</string>
-    <string name="unshelf_hint_beg">你的任何捐助都会为简易提供帮助</string>
-    <string name="unshelf_hint_next_time">下次吧</string>
-    <string name="unshelf_hint_ok">给五毛</string>
+    <string name="unshelf_hint_beg_title">愿意捐助简易么</string>
+    <string name="unshelf_hint_beg">再小的力量也是一种支持</string>
+    <string name="unshelf_hint_next_time">吃土去吧</string>
+    <string name="unshelf_hint_ok">五毛拿好</string>
     <string name="unshelf_hint_re_shelf">重新上架</string>
 
 

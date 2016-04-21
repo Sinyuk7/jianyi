@@ -364,7 +364,7 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
     private void showBegDialog() {
         mDialog.changeAlertType(SweetAlertDialog.CUSTOM_IMAGE_TYPE);
         mDialog.setCustomImage(getResources().getDrawable(R.drawable.ex6))
-                .setTitleText("")
+                .setTitleText(getString(R.string.unshelf_hint_beg_title))
                 .setContentText(getString(R.string.unshelf_hint_beg))
                 .setCancelText(getString(R.string.unshelf_hint_next_time))
                 .setConfirmText(getString(R.string.unshelf_hint_ok))
