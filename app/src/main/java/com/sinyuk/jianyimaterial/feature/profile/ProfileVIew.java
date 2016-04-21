@@ -30,6 +30,7 @@ import com.sinyuk.jianyimaterial.glide.BlurTransformation;
 import com.sinyuk.jianyimaterial.glide.ColorFilterTransformation;
 import com.sinyuk.jianyimaterial.glide.CropCircleTransformation;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
+import com.sinyuk.jianyimaterial.sweetalert.SweetAlertDialog;
 import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;
 import com.sinyuk.jianyimaterial.widgets.MyCircleImageView;
@@ -90,11 +91,12 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
     private View mItemView;
     private int mPosition;
     private String mItemId;
+    private SweetAlertDialog mDialog;
 
 
     @Override
     protected boolean isUseEventBus() {
-        return false;
+        return true;
     }
 
     @Override
@@ -334,7 +336,42 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
         ToastUtils.toastFast(this, message);
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUnShelfOptionSelect(XUnShelfOptionEvent event) {
+        switch (event.getOption()) {
+            case 0:
+                // do something
+                mDialog = new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE);
+                mDialog.setTitleText(getString(R.string.unshelf_hint_unshelf_succeed))
+                        .setContentText(getString(R.string.unshelf_hint_rate_us))
+                        .setCancelText(getString(R.string.unshelf_hint_just_soso))
+                        .setConfirmText(getString(R.string.unshelf_hint_nice))
+                        .setConfirmClickListener(sweetAlertDialog -> {
+                            showBegDialog();
+                        });
+                mDialog.setCancelable(true);
+                mDialog.setCanceledOnTouchOutside(true);
+                mDialog.show();
+                break;
+            case 1: // 不卖了
+            case 2: // 其他理由
+                break;
+        }
+    }
 
+    private void showBegDialog() {
+        mDialog.changeAlertType(SweetAlertDialog.CUSTOM_IMAGE_TYPE);
+        mDialog.setCustomImage(getResources().getDrawable(R.drawable.expression_6))
+                .setTitleText(getString(R.string.unshelf_hint_beg))
+                .setContentText(null)
+                .setCancelText(getString(R.string.unshelf_hint_next_time))
+                .setConfirmText(getString(R.string.unshelf_hint_ok))
+                .setConfirmClickListener(sweetAlertDialog -> {
+                    ToastUtils.toastSlow(ProfileView.this, "打钱啦");
+                    sweetAlertDialog.dismissWithAnimation();
+                });
+
+    }
 
 
 }
