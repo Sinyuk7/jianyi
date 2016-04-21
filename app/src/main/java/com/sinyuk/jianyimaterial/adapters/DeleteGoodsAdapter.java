@@ -19,7 +19,7 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
-import com.sinyuk.jianyimaterial.common.dialog.UnShelfDialog;
+import com.sinyuk.jianyimaterial.feature.dialog.UnShelfDialog;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
 import com.sinyuk.jianyimaterial.feature.details.DetailsView;
 import com.sinyuk.jianyimaterial.utils.FormatUtils;

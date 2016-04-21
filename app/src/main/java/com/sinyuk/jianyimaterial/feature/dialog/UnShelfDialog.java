@@ -1,4 +1,4 @@
-package com.sinyuk.jianyimaterial.common.dialog;
+package com.sinyuk.jianyimaterial.feature.dialog;
 
 import android.content.Context;
 import android.os.Bundle;

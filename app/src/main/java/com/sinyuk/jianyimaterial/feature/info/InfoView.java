@@ -25,6 +25,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.sinyuk.jianyimaterial.R;
+import com.sinyuk.jianyimaterial.events.XSchoolSelectedEvent;
+import com.sinyuk.jianyimaterial.feature.dialog.SchoolDialog;
 import com.sinyuk.jianyimaterial.glide.CropCircleTransformation;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 import com.sinyuk.jianyimaterial.sweetalert.SweetAlertDialog;
@@ -34,7 +36,11 @@ import com.sinyuk.jianyimaterial.utils.ToastUtils;
 import com.tbruyelle.rxpermissions.RxPermissions;
 import com.yalantis.ucrop.UCrop;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.io.File;
+import java.util.LinkedHashMap;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -77,6 +83,7 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
     private SweetAlertDialog mDialog;
     private String mOriginalUrl;
     private String mUploadUrl;
+    private String mSchoolIndex;
 
     @Override
     protected boolean isUseEventBus() {
@@ -254,7 +261,8 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
      * toggle confirm button
      */
     private void toggleConfirmButton(boolean isReady) {
-        isReady = isReady && !TextUtils.isEmpty(mUploadUrl);
+        // 原来头像的链接和新设置的有其中一个就好了
+        isReady = isReady && (!TextUtils.isEmpty(mUploadUrl) || !TextUtils.isEmpty(mOriginalUrl));
         mConfirmBtn.setEnabled(isReady);
         mConfirmBtn.setClickable(isReady);
         if (isReady) {
@@ -262,6 +270,29 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
         } else {
             mConfirmBtn.setBackground(getResources().getDrawable(R.drawable.rounded_rect_fill_grey));
         }
+    }
+
+    @OnClick(R.id.confirm_btn)
+    public void onConfirmUpdate() {
+        LinkedHashMap<String, String> params = new LinkedHashMap<>();
+        if (!TextUtils.isEmpty(mUploadUrl)) { params.put("headimg", mUploadUrl); }
+        params.put("name", mUserNameEt.getText().toString());
+        // 不能根据学校名字判断 因为那个一开始就有
+        if (!TextUtils.isEmpty(mSchoolIndex)) { params.put("school", mSchoolIndex); }
+        mPresenter.updateUser(params);
+    }
+
+    @OnClick(R.id.location_et)
+    public void onSelectSchool() {
+        SchoolDialog schoolDialog = SchoolDialog.getInstance();
+        schoolDialog.setCancelable(true);
+        schoolDialog.show(getSupportFragmentManager(), SchoolDialog.TAG);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSchoolSelected(XSchoolSelectedEvent event) {
+        mLocationEt.setText(event.getSchoolName());
+        mSchoolIndex = event.getSchoolIndex();
     }
 
 

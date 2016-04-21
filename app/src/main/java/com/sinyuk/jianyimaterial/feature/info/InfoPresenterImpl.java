@@ -12,7 +12,7 @@ import java.util.HashMap;
 /**
  * Created by Sinyuk on 16.4.16.
  */
-public class InfoPresenterImpl extends BasePresenter<InfoView> implements IInfoPresenter, ShotModel.ShotUploadCallback {
+public class InfoPresenterImpl extends BasePresenter<InfoView> implements IInfoPresenter, ShotModel.ShotUploadCallback, UserModel.UserUpdateCallback {
     @Override
     public void compressThenUpload(String uri) {
         ShotModel.getInstance(mView).compressThenUpload(uri,this);
@@ -20,7 +20,7 @@ public class InfoPresenterImpl extends BasePresenter<InfoView> implements IInfoP
 
     @Override
     public void updateUser(HashMap<String, String> params) {
-
+//        UserModel.getInstance(mView).update(params,this);
     }
 
     @Override
@@ -41,5 +41,25 @@ public class InfoPresenterImpl extends BasePresenter<InfoView> implements IInfoP
     @Override
     public void onUploadCompressFailed(String message) {
         mView.onShotUploadCompressError(message);
+    }
+
+    @Override
+    public void onUserUpdateSucceed(String message) {
+        mView.onUserUpdateSucceed(message);
+    }
+
+    @Override
+    public void onUserUpdateFailed(String message) {
+        mView.onUserUpdateFailed(message);
+    }
+
+    @Override
+    public void onUserUpdateVolleyError(String message) {
+        mView.onUserUpdateVolleyError(message);
+    }
+
+    @Override
+    public void onUserUpdateParseError(String message) {
+        mView.onUserUpdateParseError(message);
     }
 }
