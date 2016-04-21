@@ -21,9 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/anchor"
-            android:foreground="@color/backdrop_scrim"
-            android:scaleType="centerCrop"
-            tools:src="@drawable/backdrop_2"/>
+            android:scaleType="centerCrop"/>
 
         <ImageView
             android:id="@+id/avatar"

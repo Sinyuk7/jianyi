@@ -2,7 +2,6 @@ package com.sinyuk.jianyimaterial.feature.drawer;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
@@ -16,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.sinyuk.jianyimaterial.R;
+import com.sinyuk.jianyimaterial.common.Constants;
 import com.sinyuk.jianyimaterial.entity.User;
 import com.sinyuk.jianyimaterial.events.XLoginEvent;
 import com.sinyuk.jianyimaterial.events.XLogoutEvent;
@@ -25,7 +25,6 @@ import com.sinyuk.jianyimaterial.feature.needs.NeedsView;
 import com.sinyuk.jianyimaterial.feature.profile.ProfileView;
 import com.sinyuk.jianyimaterial.feature.settings.SettingsView;
 import com.sinyuk.jianyimaterial.glide.BlurTransformation;
-import com.sinyuk.jianyimaterial.glide.ColorFilterTransformation;
 import com.sinyuk.jianyimaterial.glide.CropCircleTransformation;
 import com.sinyuk.jianyimaterial.mvp.BaseFragment;
 import com.sinyuk.jianyimaterial.utils.LogUtils;
@@ -168,13 +167,10 @@ public class DrawerView extends BaseFragment<DrawerPresenterImpl> implements IDr
         requestBuilder = Glide.with(mContext).fromString().diskCacheStrategy(DiskCacheStrategy.RESULT);
         requestBuilder.load(user.getHeading()).bitmapTransform(new CropCircleTransformation(mContext))
                 .thumbnail(0.2f).error(R.drawable.ic_avatar_placeholder).priority(Priority.IMMEDIATE).into(mAvatar);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            requestBuilder.load(user.getHeading()).bitmapTransform(new BlurTransformation(mContext))
-                    .crossFade().priority(Priority.HIGH).error(R.drawable.header_backdrop).thumbnail(0.5f).into(mBackdrop);
-        } else {
-            requestBuilder.load(user.getHeading()).bitmapTransform(new ColorFilterTransformation(mContext, getResources().getColor(R.color.colorPrimary_50pct)))
-                    .crossFade().priority(Priority.HIGH).error(R.drawable.header_backdrop).thumbnail(0.5f).into(mBackdrop);
-        }
+
+        requestBuilder.load(user.getHeading()).bitmapTransform(new BlurTransformation(mContext, Constants.BLUR_RADIUS, Constants.BLUR_SAMPLING))
+                .crossFade(2000).priority(Priority.HIGH).error(R.drawable.header_backdrop).thumbnail(0.5f).into(mBackdrop);
+
         mUserNameTv.setText(StringUtils.check(mContext, user.getName(), R.string.unknown_user_name));
     }
 

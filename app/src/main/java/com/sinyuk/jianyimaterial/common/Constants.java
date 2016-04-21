@@ -16,4 +16,6 @@ public class Constants {
      * Request_code
      */
     public static final int Request_Code_Page_Index = 0x01;
+    public static final int BLUR_RADIUS = 20;
+    public static final int BLUR_SAMPLING = 8;
 }

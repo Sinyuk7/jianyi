@@ -23,9 +23,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.jakewharton.rxbinding.support.design.widget.RxAppBarLayout;
 import com.jakewharton.rxbinding.view.RxView;
 import com.sinyuk.jianyimaterial.R;
+import com.sinyuk.jianyimaterial.common.Constants;
 import com.sinyuk.jianyimaterial.entity.School;
 import com.sinyuk.jianyimaterial.events.XLoginEvent;
-import com.sinyuk.jianyimaterial.events.XLogoutEvent;
 import com.sinyuk.jianyimaterial.events.XUnShelfOptionEvent;
 import com.sinyuk.jianyimaterial.feature.info.InfoView;
 import com.sinyuk.jianyimaterial.feature.shelf.ShelfView;
@@ -279,7 +279,7 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
                     .crossFade(2000)
                     .priority(Priority.IMMEDIATE)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .bitmapTransform(new BlurTransformation(this, 20, 8))
+                    .bitmapTransform(new BlurTransformation(this, Constants.BLUR_RADIUS, Constants.BLUR_SAMPLING))
                     .into(mRevealView);
         } else {
             Glide.with(this).load(url)
