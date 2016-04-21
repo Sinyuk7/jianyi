@@ -20,7 +20,7 @@ public class InfoPresenterImpl extends BasePresenter<InfoView> implements IInfoP
 
     @Override
     public void updateUser(HashMap<String, String> params) {
-//        UserModel.getInstance(mView).update(params,this);
+        UserModel.getInstance(mView).update(params,this);
     }
 
     @Override

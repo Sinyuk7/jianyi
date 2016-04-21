@@ -99,7 +99,7 @@ public class ShotModel {
                 String url = uploadResponse.getData();
                 LogUtils.simpleLog(ShotModel.class, "getData" + uploadResponse.getData());
                 if (null != url) {
-                    callback.onUploadUploaded(url);
+                    callback.onUploadUploaded(JianyiApi.JIANYI + url);
                 }
             } catch (Exception e) {
                 callback.onUploadParseError(e.getMessage());
@@ -169,7 +169,7 @@ public class ShotModel {
         try {
             byteArrayOutputStream = new ByteArrayOutputStream();
             if (bitmap != null) {
-                bitmap.compress(Bitmap.CompressFormat.JPEG,40, byteArrayOutputStream);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 40, byteArrayOutputStream);
             }
         } finally {
             if (bitmap != null) {

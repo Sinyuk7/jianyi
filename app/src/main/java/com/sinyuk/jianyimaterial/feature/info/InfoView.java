@@ -81,18 +81,25 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
 
     private DrawableRequestBuilder<Integer> mResRequest;
     private SweetAlertDialog mDialog;
-    private String mOriginalUrl;
+
     private String mUploadUrl;
     private String mSchoolIndex;
+    // 原始数据
+    private String mOriginalUrl;
+    private String mOriginalUserName;
+    private String mOriginalSchoolName;
 
     @Override
     protected boolean isUseEventBus() {
-        return false;
+        return true;
     }
 
     @Override
     protected void beforeInflate() {
-
+        final Bundle extra = getIntent().getExtras();
+        mOriginalUrl = extra.getString(AVATAR_URL);
+        mOriginalUserName = extra.getString(USERNAME, getString(R.string.untable));
+        mOriginalSchoolName = extra.getString(SCHOOL_NAME, getString(R.string.untable));
     }
 
     @Override
@@ -118,11 +125,13 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
         mResRequest = Glide.with(this).fromResource().dontAnimate();
         mSelectedGender = CHOOSE_GIRL;
         mResRequest.load(R.drawable.girl).bitmapTransform(new CropCircleTransformation(this)).into(mAvatarGirl);
+
+        toggleConfirmButton(false);
         setObservers();
-        final Bundle extra = getIntent().getExtras();
-        showAvatar(extra.getString(AVATAR_URL));
-        showSchoolName(extra.getString(SCHOOL_NAME));
-        showUserNickname(extra.getString(USERNAME));
+        showAvatar(mOriginalUrl);
+        showSchoolName(mOriginalSchoolName);
+        showUserNickname(mOriginalUserName);
+
     }
 
     private void setObservers() {
@@ -138,7 +147,9 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
                 mLocationEt.setError("你确定?");
                 return false;
             }
+            // 如果未做更改
             return true;
+
         }).subscribe(InfoView.this::toggleConfirmButton));
 
         mCompositeSubscription.add(
@@ -186,7 +197,7 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
                 mUploadUrl = null;
                 break;
             case R.id.male_flag:
-                if (mSelectedGender == CHOOSE_BOY) { break; }
+                if (mSelectedGender == CHOOSE_BOY) { break; } // 本来选的就是男的
                 mResRequest.load(R.drawable.ic_gender_female_grey600_24dp).into(mFemaleFlag);
                 mResRequest.load(R.drawable.ic_gender_male_accent_24dp).into(mMaleFlag);
                 mSelectedGender = CHOOSE_BOY;
@@ -261,7 +272,6 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
      * toggle confirm button
      */
     private void toggleConfirmButton(boolean isReady) {
-        // 原来头像的链接和新设置的有其中一个就好了
         isReady = isReady && (!TextUtils.isEmpty(mUploadUrl) || !TextUtils.isEmpty(mOriginalUrl));
         mConfirmBtn.setEnabled(isReady);
         mConfirmBtn.setClickable(isReady);
@@ -275,7 +285,7 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
     @OnClick(R.id.confirm_btn)
     public void onConfirmUpdate() {
         LinkedHashMap<String, String> params = new LinkedHashMap<>();
-        if (!TextUtils.isEmpty(mUploadUrl)) { params.put("headimg", mUploadUrl); }
+        if (!TextUtils.isEmpty(mUploadUrl)) { params.put("heading", mUploadUrl); }
         params.put("name", mUserNameEt.getText().toString());
         // 不能根据学校名字判断 因为那个一开始就有
         if (!TextUtils.isEmpty(mSchoolIndex)) { params.put("school", mSchoolIndex); }
@@ -310,7 +320,7 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
     }
 
     public void showAvatar(String url) {
-        mOriginalUrl = url;
+        if (TextUtils.isEmpty(url)) { return; }
         DrawableRequestBuilder<String> avatarRequest = Glide.with(this)
                 .load(url).diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .dontAnimate()
@@ -355,21 +365,21 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
 
     @Override
     public void onUserUpdateSucceed(String message) {
-
+        LogUtils.simpleLog(InfoView.class, message);
     }
 
     @Override
     public void onUserUpdateFailed(String message) {
-
+        LogUtils.simpleLog(InfoView.class, message);
     }
 
     @Override
     public void onUserUpdateVolleyError(String message) {
-
+        LogUtils.simpleLog(InfoView.class, message);
     }
 
     @Override
     public void onUserUpdateParseError(String message) {
-
+        LogUtils.simpleLog(InfoView.class, message);
     }
 }

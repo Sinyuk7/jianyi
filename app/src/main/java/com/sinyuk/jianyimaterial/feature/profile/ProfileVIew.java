@@ -24,6 +24,8 @@ import com.jakewharton.rxbinding.support.design.widget.RxAppBarLayout;
 import com.jakewharton.rxbinding.view.RxView;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.entity.School;
+import com.sinyuk.jianyimaterial.events.XLoginEvent;
+import com.sinyuk.jianyimaterial.events.XLogoutEvent;
 import com.sinyuk.jianyimaterial.events.XUnShelfOptionEvent;
 import com.sinyuk.jianyimaterial.feature.info.InfoView;
 import com.sinyuk.jianyimaterial.feature.shelf.ShelfView;
@@ -89,9 +91,6 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
     private String mSchoolName;
     private String mUsername;
     private String mAvatarUrl;
-    private View mItemView;
-    private int mPosition;
-    private String mItemId;
     private SweetAlertDialog mDialog;
 
 
@@ -291,6 +290,13 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
                     .into(mRevealView);
         }
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLogin(XLoginEvent event) {
+        LogUtils.simpleLog(ProfileView.class, "登录登录登录登录登录登录");
+        mPresenter.queryCurrentUser();
+    }
+
 
     @Override
     public void showLocation(@NonNull String nameOrIndex) {
