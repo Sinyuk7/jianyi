@@ -49,14 +49,14 @@
 
 
         <com.sinyuk.jianyimaterial.widgets.CheckableImageView
-            android:id="@+id/like_btn"
+            android:id="@+id/delete_or_undo_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/title_tv"
             android:layout_marginRight="@dimen/general_content_space"
             android:padding="@dimen/general_content_space"
-            android:src="@drawable/ic_heart_checkable_24dp"
+            android:src="@drawable/ic_delete_variant_grey600_24dp"
             />
 
         <!--用户名+日期+地点-->
@@ -65,9 +65,9 @@
             style="@style/SingleLineText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/like_btn"
+            android:layout_alignTop="@+id/delete_or_undo_btn"
             android:layout_marginTop="12dp"
-            android:layout_toLeftOf="@+id/like_btn"
+            android:layout_toLeftOf="@+id/delete_or_undo_btn"
             android:textColor="@color/grey_600"
             android:textSize="@dimen/material_text_caption2"
             android:textStyle="bold"
