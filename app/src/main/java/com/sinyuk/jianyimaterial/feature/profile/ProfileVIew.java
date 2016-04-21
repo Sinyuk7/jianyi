@@ -87,6 +87,9 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
     private String mSchoolName;
     private String mUsername;
     private String mAvatarUrl;
+    private View mItemView;
+    private int mPosition;
+    private String mItemId;
 
 
     @Override
@@ -331,9 +334,7 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
         ToastUtils.toastFast(this, message);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onAttemptUnShelf(XUnShelfOptionEvent event){
-      switch ()
-    }
+
+
 
 }

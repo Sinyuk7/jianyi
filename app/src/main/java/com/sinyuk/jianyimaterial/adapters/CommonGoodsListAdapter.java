@@ -86,7 +86,7 @@ public class CommonGoodsListAdapter extends ExtendedRecyclerViewAdapter<YihuoPro
             holder.cardView.setClickable(false); // prevent fast double tap
             Intent intent = new Intent(mContext, DetailsView.class);
             Bundle bundle = new Bundle();
-            bundle.putParcelable(YihuoProfile.TAG, finalItemData);
+            bundle.putParcelable("ss", finalItemData);
             intent.putExtras(bundle);
             mContext.startActivity(intent);
             holder.cardView.postDelayed(() -> holder.cardView.setClickable(true), 300);

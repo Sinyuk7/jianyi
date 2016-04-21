@@ -365,7 +365,7 @@ public class SearchActivity extends BaseActivity {
                     }
                 });
 
-        Jianyi.getInstance().addRequest(formDataRequest, YihuoProfile.REFRESH_REQUEST);
+        Jianyi.getInstance().addRequest(formDataRequest, "ss");
     }
 
     private void refreshFailed(VolleyError error) {
@@ -415,7 +415,7 @@ public class SearchActivity extends BaseActivity {
                         loadFailed(error);
                     }
                 });
-        Jianyi.getInstance().addRequest(formDataRequest, YihuoProfile.LOAD_REQUEST);
+        Jianyi.getInstance().addRequest(formDataRequest, "ss");
     }
 
 
@@ -470,7 +470,7 @@ public class SearchActivity extends BaseActivity {
                         holder.cardView.setClickable(false); // prevent fast double tap
                         Intent intent = new Intent(mContext, DetailsView.class);
                         Bundle bundle = new Bundle();
-                        bundle.putParcelable(YihuoProfile.TAG, finalItemData);
+                        bundle.putParcelable("", finalItemData);
                         intent.putExtras(bundle);
                         mContext.startActivity(intent);
                         holder.cardView.postDelayed(new Runnable() {

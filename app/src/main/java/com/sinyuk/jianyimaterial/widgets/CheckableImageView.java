@@ -40,7 +40,6 @@ public class CheckableImageView extends ImageView implements Checkable {
 
     @Override // borrowed from CompoundButton#performClick()
     public boolean performClick() {
-        toggle();
         final boolean handled = super.performClick();
         if (!handled) {
             // View only makes a sound effect if the onClickListener was

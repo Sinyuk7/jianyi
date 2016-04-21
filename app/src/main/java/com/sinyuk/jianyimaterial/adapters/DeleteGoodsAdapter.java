@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
-import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,7 +21,6 @@ import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.common.dialog.UnShelfDialog;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
-import com.sinyuk.jianyimaterial.events.XClickUnShelfEvent;
 import com.sinyuk.jianyimaterial.feature.details.DetailsView;
 import com.sinyuk.jianyimaterial.utils.FormatUtils;
 import com.sinyuk.jianyimaterial.utils.FuzzyDateFormater;
@@ -30,8 +28,6 @@ import com.sinyuk.jianyimaterial.utils.StringUtils;
 import com.sinyuk.jianyimaterial.widgets.CheckableImageView;
 import com.sinyuk.jianyimaterial.widgets.LabelView;
 import com.sinyuk.jianyimaterial.widgets.RatioImageView;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.text.ParseException;
 
@@ -43,8 +39,9 @@ import butterknife.ButterKnife;
  */
 public class DeleteGoodsAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile, DeleteGoodsAdapter.DeleteItemViewHolder> {
 
+    private final ColorMatrix mMatrix;
     private BitmapRequestBuilder<String, Bitmap> colorfulRequest;
-    
+
     public DeleteGoodsAdapter(Context context) {
         super(context);
         colorfulRequest = Glide.with(mContext).fromString()
@@ -54,6 +51,7 @@ public class DeleteGoodsAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.IMMEDIATE)
                 .thumbnail(0.2f);
+        mMatrix = new ColorMatrix();
     }
 
     @Override
@@ -81,7 +79,7 @@ public class DeleteGoodsAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile
             holder.mCardView.setClickable(false); // prevent fast double tap
             Intent intent = new Intent(mContext, DetailsView.class);
             Bundle bundle = new Bundle();
-            bundle.putParcelable(YihuoProfile.TAG, finalItemData);
+            bundle.putParcelable("ss", finalItemData);
             intent.putExtras(bundle);
             mContext.startActivity(intent);
             holder.mCardView.postDelayed(() -> holder.mCardView.setClickable(true), 300);
@@ -100,19 +98,28 @@ public class DeleteGoodsAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile
 //        holder.locationTv.setText(StringUtils.check(mContext, itemData.getSchoolname(), R.string.unknown_location));
 
 
-        holder.mDeleteOrUndoBtn.setOnClickListener(v -> {
-            /*ColorMatrix matrix = new ColorMatrix();
-            if (holder.mDeleteOrUndoBtn.isChecked()) {
-                matrix.setSaturation(0);
-            } else {
-                matrix.setSaturation(1);
-            }
-            ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
-            holder.mShotIv.setColorFilter(filter);*/
-         /*   UnShelfDialog dialog = new UnShelfDialog(mContext);
+        if (itemData.isOnSell()) {
+            holder.mDeleteOrUndoBtn.setChecked(false);
+            mMatrix.setSaturation(1);
+        } else {
+            mMatrix.setSaturation(0);
+            holder.mDeleteOrUndoBtn.setChecked(true);
+        }
+        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(mMatrix);
+        holder.mShotIv.setColorFilter(filter);
 
-            dialog.show();*/
-            EventBus.getDefault().post(new XClickUnShelfEvent(holder.mDeleteOrUndoBtn,position));
+
+        holder.mDeleteOrUndoBtn.setOnClickListener(v -> {
+            if (finalItemData.isOnSell()) {
+                UnShelfDialog dialog = new UnShelfDialog(mContext);
+                dialog.show();
+                mMatrix.setSaturation(0);
+                ColorMatrixColorFilter filter1 = new ColorMatrixColorFilter(mMatrix);
+                holder.mShotIv.setColorFilter(filter1);
+            }
+            // toggle
+            holder.mDeleteOrUndoBtn.setChecked(!holder.mDeleteOrUndoBtn.isChecked());
+            finalItemData.setOnSell(!finalItemData.isOnSell());
         });
 
         colorfulRequest.load(JianyiApi.shotUrl(itemData.getPic())).into(holder.mShotIv);

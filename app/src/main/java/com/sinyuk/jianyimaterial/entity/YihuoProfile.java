@@ -8,9 +8,6 @@ import android.os.Parcelable;
  */
 public class YihuoProfile implements Parcelable {
 
-    public static final String TAG = "YihuoProfile";
-    public static final String LOAD_REQUEST = "load_" + TAG;
-    public static final String REFRESH_REQUEST = "refresh_" + TAG;
     public String id;
     // 商品名
     public String name;
@@ -28,9 +25,26 @@ public class YihuoProfile implements Parcelable {
 
     public String uid;
 
-    public static String getTAG() {
-        return TAG;
+    public boolean isOnSell = true;
+
+    public boolean isLiked = true;
+
+    public boolean isLiked() {
+        return isLiked;
     }
+
+    public void setLiked(boolean liked) {
+        isLiked = liked;
+    }
+
+    public boolean isOnSell() {
+        return isOnSell;
+    }
+
+    public void setOnSell(boolean onSell) {
+        isOnSell = onSell;
+    }
+
 
     public String getId() {
         return id;
@@ -156,20 +170,4 @@ public class YihuoProfile implements Parcelable {
             return new YihuoProfile[size];
         }
     };
-
-    @Override
-    public String toString() {
-        return "YihuoProfile{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", price='" + price + '\'' +
-                ", tel='" + tel + '\'' +
-                ", time='" + time + '\'' +
-                ", pic='" + pic + '\'' +
-                ", username='" + username + '\'' +
-                ", headImg='" + headImg + '\'' +
-                ", schoolName='" + schoolname + '\'' +
-                ", uid='" + uid + '\'' +
-                '}';
-    }
 }
