@@ -19,6 +19,7 @@ import com.sinyuk.jianyimaterial.events.XShelfChangeEvent;
 import com.sinyuk.jianyimaterial.feature.shelf.ShelfView;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 import com.sinyuk.jianyimaterial.ui.InsetViewTransformer;
+import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.widgets.flowlayout.FlowLayout;
 import com.sinyuk.jianyimaterial.widgets.flowlayout.TagAdapter;
 import com.sinyuk.jianyimaterial.widgets.flowlayout.TagFlowLayout;
@@ -151,7 +152,9 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
 
     private void initFragment() {
         Bundle args = new Bundle();
+        args.putString(ShelfView.CONTENT, ShelfView.COMMON_GOODS);
         args.putString(ShelfView.PARAM_SORT, mTitle);
+        LogUtils.simpleLog(ExploreView.class, "Title " + mTitle);
         mParams = new JianyiApi.ParamsBuilder(mTitle).getParams();
         ShelfView mShelfView = ShelfView.newInstance(args);
         getSupportFragmentManager().beginTransaction().add(R.id.list_fragment_container, mShelfView).commit();

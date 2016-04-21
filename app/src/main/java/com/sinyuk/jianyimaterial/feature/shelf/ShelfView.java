@@ -24,6 +24,7 @@ import com.sinyuk.jianyimaterial.events.XShelfChangeEvent;
 import com.sinyuk.jianyimaterial.mvp.BaseFragment;
 import com.sinyuk.jianyimaterial.ui.GridItemSpaceDecoration;
 import com.sinyuk.jianyimaterial.ui.OnLoadMoreListener;
+import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.NetWorkUtils;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;
 import com.sinyuk.jianyimaterial.widgets.MultiSwipeRefreshLayout;
@@ -109,6 +110,7 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
             getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
         } else {
             mContentType = getArguments().getString(CONTENT);
+            LogUtils.simpleLog(ShelfView.class, "ContentType " + mContentType);
         }
     }
 
@@ -122,21 +124,16 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
     private void loadVaryFromType() {
         switch (mContentType) {
             case COMMON_GOODS:
-                // params
                 loadCommonContent(getArguments());
-                mAdapter = new CommonGoodsListAdapter(mContext);
                 break;
             case MY_GOODS:
-                mAdapter = new DeleteGoodsAdapter(mContext);
                 loadPostedGoods(getArguments().getString(USER_ID));
                 break;
             case THEIR_GOODS:
-                mAdapter = new LikeGoodsListAdapter(mContext);
                 loadPostedGoods(getArguments().getString(USER_ID));
                 break;
             case MY_LIKES:
             case THEIR_LIKES:
-                mAdapter = new LikeGoodsListAdapter(mContext);
                 loadLikeContent(getArguments().getString(USER_ID));
         }
     }
@@ -171,15 +168,29 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
                 .subscribe(params -> {
                     mPresenter.loadData(1, params);
                     mParams = params;
+                    LogUtils.simpleLog(ShelfView.class, "Explore params" + params.toString());
                 });
 
     }
 
 
     private void setupRecyclerView() {
+        switch (mContentType) {
+            case COMMON_GOODS:
+                mAdapter = new CommonGoodsListAdapter(mContext);
+                break;
+            case MY_GOODS:
+                mAdapter = new DeleteGoodsAdapter(mContext);
+                break;
+            case THEIR_GOODS:
+                mAdapter = new LikeGoodsListAdapter(mContext);
+                break;
+            case MY_LIKES:
+            case THEIR_LIKES:
+                mAdapter = new LikeGoodsListAdapter(mContext);
+        }
 
         mRecyclerView.setAdapter(mAdapter);
-
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -295,7 +306,6 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
                 break;
         }
     }
-
 
 
     @Override

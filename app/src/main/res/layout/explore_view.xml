@@ -11,6 +11,7 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
+            app:navigationIcon="@drawable/ic_arrow_back_primary_24dp"
             style="@style/BaseToolbar.Light">
 
             <ImageView
