@@ -25,6 +25,7 @@ import com.sinyuk.jianyimaterial.mvp.BaseFragment;
 import com.sinyuk.jianyimaterial.ui.GridItemSpaceDecoration;
 import com.sinyuk.jianyimaterial.ui.OnLoadMoreListener;
 import com.sinyuk.jianyimaterial.utils.NetWorkUtils;
+import com.sinyuk.jianyimaterial.utils.ToastUtils;
 import com.sinyuk.jianyimaterial.widgets.MultiSwipeRefreshLayout;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -252,6 +253,16 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
     }
 
     @Override
+    public void showLoadingProgress() {
+        setRequestDataRefresh(true);
+    }
+
+    @Override
+    public void dismissLoadingProgress() {
+        setRequestDataRefresh(false);
+    }
+
+    @Override
     public void refresh() {
         switch (mContentType) {
             case COMMON_GOODS:
@@ -285,10 +296,7 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
         }
     }
 
-    @Override
-    public void onDataLoaded() {
-        mSwipeRefreshLayout.setRefreshing(false);
-    }
+
 
     @Override
     public void showList(List<YihuoProfile> newPage, boolean isRefresh) {
@@ -300,12 +308,12 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
 
     @Override
     public void onVolleyError(@NonNull String message) {
-        mSwipeRefreshLayout.setRefreshing(false);
+        ToastUtils.toastSlow(mContext, message);
     }
 
     @Override
     public void onParseError(@NonNull String message) {
-        mSwipeRefreshLayout.setRefreshing(false);
+        ToastUtils.toastSlow(mContext, message);
     }
 
     @Override

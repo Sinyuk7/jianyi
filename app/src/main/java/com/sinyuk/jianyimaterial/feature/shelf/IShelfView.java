@@ -10,12 +10,13 @@ import java.util.List;
  * Created by Sinyuk on 16.4.2.
  */
 public interface IShelfView {
+    void showLoadingProgress();
+
+    void dismissLoadingProgress();
 
     void refresh();
 
     void loadData(int pageIndex);
-
-    void onDataLoaded();
 
     void showList(List<YihuoProfile> newPage,boolean isRefresh);
 

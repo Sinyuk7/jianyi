@@ -14,26 +14,30 @@ public class ShelfPresenterImpl extends BasePresenter<ShelfView> implements IShe
     @Override
     public void loadData(int pageIndex, HashMap<String,String> params) {
         YihuoModel.getInstance(mView.getContext()).getProfileByParams(pageIndex, params, this);
+        mView.showLoadingProgress();
     }
 
     @Override
     public void loadData(int pageIndex, String uid) {
         YihuoModel.getInstance(mView.getContext()).getProfileByUid(pageIndex, uid, this);
-    }
-
-    @Override
-    public void onVolleyError(String message) {
-        mView.onVolleyError(message);
+        mView.showLoadingProgress();
     }
 
     @Override
     public void onCompleted(List<YihuoProfile> data, boolean isRefresh) {
         mView.showList(data, isRefresh);
-        mView.onDataLoaded();
+        mView.dismissLoadingProgress();
+    }
+
+    @Override
+    public void onVolleyError(String message) {
+        mView.onVolleyError(message);
+        mView.dismissLoadingProgress();
     }
 
     @Override
     public void onParseError(String message) {
         mView.onParseError(message);
+        mView.dismissLoadingProgress();
     }
 }
