@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <TextView
+        style="@style/ClickableSingleLineText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_horizontal_margin"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/material_text_subhead"
+        android:text="@string/unshelf_title"/>
+
+    <TextView
+        style="@style/ClickableSingleLineText"
+        android:id="@+id/option_has_sold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_horizontal_margin"
+        android:textColor="@drawable/dialog_text_tint"
+        android:textSize="@dimen/material_text_subhead"
+        android:text="@string/unshelf_hint_has_sold"/>
+
+    <TextView
+        style="@style/ClickableSingleLineText"
+        android:id="@+id/option_dont_want"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_horizontal_margin"
+        android:textColor="@drawable/dialog_text_tint"
+        android:textSize="@dimen/material_text_subhead"
+        android:text="@string/unshelf_hint_dont_want"/>
+
+    <TextView
+        style="@style/ClickableSingleLineText"
+        android:id="@+id/option_other_reason"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_horizontal_margin"
+        android:textColor="@drawable/dialog_text_tint"
+        android:textSize="@dimen/material_text_subhead"
+        android:text="@string/unshelf_hint_other_reason"/>
+
+</LinearLayout>

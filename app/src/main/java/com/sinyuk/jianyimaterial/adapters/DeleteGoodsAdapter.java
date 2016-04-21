@@ -3,7 +3,10 @@ package com.sinyuk.jianyimaterial.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,19 +15,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bumptech.glide.BitmapRequestBuilder;
-import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
+import com.sinyuk.jianyimaterial.common.dialog.UnShelfDialog;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
 import com.sinyuk.jianyimaterial.feature.details.DetailsView;
-import com.sinyuk.jianyimaterial.glide.CropCircleTransformation;
-import com.sinyuk.jianyimaterial.ui.smallbang.SmallBangListener;
 import com.sinyuk.jianyimaterial.utils.FormatUtils;
 import com.sinyuk.jianyimaterial.utils.FuzzyDateFormater;
-import com.sinyuk.jianyimaterial.utils.ScreenUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
 import com.sinyuk.jianyimaterial.widgets.CheckableImageView;
 import com.sinyuk.jianyimaterial.widgets.LabelView;
@@ -40,19 +40,13 @@ import butterknife.ButterKnife;
  */
 public class DeleteGoodsAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile, DeleteGoodsAdapter.DeleteItemViewHolder> {
 
-    private DrawableRequestBuilder<String> avatarRequest;
-
-    private BitmapRequestBuilder<String, Bitmap> shotRequest;
+    private BitmapRequestBuilder<String, Bitmap> colorfulRequest;
 
     public DeleteGoodsAdapter(Context context) {
         super(context);
-        avatarRequest = Glide.with(mContext).fromString()
-                .dontAnimate()
-                .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                .priority(Priority.HIGH)
-                .bitmapTransform(new CropCircleTransformation(mContext));
 
-        shotRequest = Glide.with(mContext).fromString()
+
+        colorfulRequest = Glide.with(mContext).fromString()
                 .asBitmap()
                 .error(mContext.getResources().getDrawable(R.drawable.image_placeholder_icon))
                 .placeholder(mContext.getResources().getDrawable(R.drawable.image_placeholder_grey300))
@@ -106,10 +100,19 @@ public class DeleteGoodsAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile
 
 
         holder.mDeleteOrUndoBtn.setOnClickListener(v -> {
-
+            /*ColorMatrix matrix = new ColorMatrix();
+            if (holder.mDeleteOrUndoBtn.isChecked()) {
+                matrix.setSaturation(0);
+            } else {
+                matrix.setSaturation(1);
+            }
+            ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+            holder.mShotIv.setColorFilter(filter);*/
+            UnShelfDialog dialog = new UnShelfDialog(mContext);
+            dialog.show();
         });
 
-        shotRequest.load(JianyiApi.shotUrl(itemData.getPic())).into(holder.mShotIv);
+        colorfulRequest.load(JianyiApi.shotUrl(itemData.getPic())).into(holder.mShotIv);
         holder.mShotIv.setTag(R.id.shots_cover_tag, position);
     }
 
@@ -126,6 +129,7 @@ public class DeleteGoodsAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile
         TextView mPubDateTv;
         @Bind(R.id.card_view)
         CardView mCardView;
+
         public DeleteItemViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

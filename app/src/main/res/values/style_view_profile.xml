@@ -30,4 +30,5 @@
         <item name="android:focusableInTouchMode">false</item>
         <item name="android:inputType">text</item>
     </style>
+
 </resources>

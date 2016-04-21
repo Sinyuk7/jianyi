@@ -13,14 +13,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.sinyuk.jianyimaterial.widgets.RatioImageView
-            android:id="@+id/shot_iv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            app:ratio="1.28"
-            tools:src="@drawable/expression_5"/>
+            <com.sinyuk.jianyimaterial.widgets.RatioImageView
+                android:id="@+id/shot_iv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                app:ratio="1.28"
+                tools:src="@drawable/expression_5"/>
 
         <com.sinyuk.jianyimaterial.widgets.LabelView
             android:id="@+id/new_price_label_view"
@@ -56,8 +56,7 @@
             android:layout_below="@+id/title_tv"
             android:layout_marginRight="@dimen/general_content_space"
             android:padding="@dimen/general_content_space"
-            android:src="@drawable/ic_delete_variant_grey600_24dp"
-            />
+            android:src="@drawable/delete_or_undo"/>
 
         <!--用户名+日期+地点-->
         <TextView

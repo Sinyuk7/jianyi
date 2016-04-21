@@ -319,6 +319,10 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="needs_hint_no_description">什么都没留下</string>
     <string name="common_hint_reach_list_bottom">已经是最后一页啦</string>
     <string name="want_hint_post_succeed">发布成功</string>
+    <string name="unshelf_hint_has_sold">已经交易~</string>
+    <string name="unshelf_hint_dont_want">不想出手了…</string>
+    <string name="unshelf_hint_other_reason">其他理由…</string>
+    <string name="unshelf_title">为什么要下架它╥﹏╥...</string>
 
 
 </resources>
