@@ -7,7 +7,9 @@
               android:background="@color/white"
               android:orientation="horizontal">
 
-    <FrameLayout style="@style/SocialActions">
+    <FrameLayout
+        android:id="@+id/like_btn_wrapper"
+        style="@style/SocialActions">
 
         <com.sinyuk.jianyimaterial.widgets.CheckableImageView
             android:id="@+id/like_btn"

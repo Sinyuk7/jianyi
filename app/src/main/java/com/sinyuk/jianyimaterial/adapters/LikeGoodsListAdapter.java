@@ -73,7 +73,7 @@ public class LikeGoodsListAdapter extends ExtendedRecyclerViewAdapter<YihuoProfi
             if (!holder.mLikeBtn.isChecked()) { // 取消的时候就不要那个动画了
                 mSmallBang.bang(holder.mLikeBtn, ScreenUtils.dpToPxInt(mContext, 36), null);
             }
-            
+
             holder.mLikeBtn.setChecked(!holder.mLikeBtn.isChecked());
         });
         return holder;

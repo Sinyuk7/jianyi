@@ -94,7 +94,7 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
     @Bind(R.id.pub_date_tv)
     TextView pubDateTv;
     @Bind(R.id.like_btn)
-    CheckableImageView likeCheckableIv;
+    CheckableImageView likeBtn;
     @Bind(R.id.view_count_tv)
     TextView viewCountTv;
     @Bind(R.id.share_tv)
@@ -276,7 +276,7 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
 
     @Override
     public void setupLikeButton(boolean isAdded) {
-        likeCheckableIv.setChecked(isAdded);
+        likeBtn.setChecked(isAdded);
     }
 
 
@@ -285,13 +285,13 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
         descriptionTv.setText(StringUtils.check(this, description, R.string.untable));
     }
 
-    @OnClick(R.id.like_btn)
-    public void addToLikes(CheckableImageView view) {
+    @OnClick(R.id.like_btn_wrapper)
+    public void addToLikes() {
         final SmallBang smallBang = SmallBang.attach2Window(this);
-        if (!view.isChecked()) { // 取消的时候就不要那个动画了
-            smallBang.bang(view, ScreenUtils.dpToPxInt(this, 36), null);
+        if (!likeBtn.isChecked()) { // 取消的时候就不要那个动画了
+            smallBang.bang(likeBtn, ScreenUtils.dpToPxInt(this, 36), null);
         }
-        view.setChecked(!view.isChecked());
+        likeBtn.setChecked(!likeBtn.isChecked());
     }
 
     @OnClick(R.id.avatar)
