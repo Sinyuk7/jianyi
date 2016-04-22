@@ -6,7 +6,6 @@ import android.support.annotation.CallSuper;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import com.jakewharton.rxbinding.support.v7.widget.RxToolbar;
 import com.sinyuk.jianyimaterial.R;
 
 import org.greenrobot.eventbus.EventBus;
@@ -57,11 +56,11 @@ public abstract class BaseActivity<P extends BasePresenter>
             // TODO: Set back arrow as default navigation button
             if (isNavAsBack()) {
                 setSupportActionBar(toolbar);
-                mCompositeSubscription.add(RxToolbar.navigationClicks(toolbar).subscribe(this::onNavigationClick));
+                mCompositeSubscription.add(com.jakewharton.rxbinding.support.v7.widget.RxToolbar.navigationClicks(toolbar).subscribe(this::onNavigationClick));
             }
         }
 
-         mUpdateUIRunnable = this::onFinishInflate;
+        mUpdateUIRunnable = this::onFinishInflate;
 
         getWindow().getDecorView().post(() -> myHandler.post(mUpdateUIRunnable));
 
