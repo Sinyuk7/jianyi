@@ -48,7 +48,6 @@ import com.sinyuk.jianyimaterial.utils.FormatUtils;
 import com.sinyuk.jianyimaterial.utils.FuzzyDateFormater;
 import com.sinyuk.jianyimaterial.utils.HtmlUtils;
 import com.sinyuk.jianyimaterial.utils.ImeUtils;
-import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.NetWorkUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
 import com.sinyuk.jianyimaterial.utils.SuggestionProvider;
@@ -66,8 +65,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class SearchActivity extends BaseActivity {
-
-
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.recycler_view)
@@ -94,8 +91,7 @@ public class SearchActivity extends BaseActivity {
             SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
                     SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
             suggestions.saveRecentQuery(queryStr, null);
-            if (TextUtils.isEmpty(queryStr))
-                queryEmpty();
+            if (TextUtils.isEmpty(queryStr)) { queryEmpty(); }
         }
 
 
@@ -118,8 +114,7 @@ public class SearchActivity extends BaseActivity {
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconified(false);
         searchView.onActionViewExpanded();
-        if (!TextUtils.isEmpty(queryStr))
-            searchView.setQueryHint(queryStr);
+        if (!TextUtils.isEmpty(queryStr)) { searchView.setQueryHint(queryStr); }
         searchView.setQueryRefinementEnabled(true); //Query refinement for search suggestions
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -144,7 +139,7 @@ public class SearchActivity extends BaseActivity {
 
     @Override
     protected int getContentViewID() {
-        return R.layout.activity_search;
+        return R.layout.search_view;
     }
 
     @Override
@@ -249,14 +244,12 @@ public class SearchActivity extends BaseActivity {
     }
 
     private void onToolbarDoubleTap() {
-        if (recyclerView == null)
-            return;
+        if (recyclerView == null) { return; }
         recyclerView.smoothScrollToPosition(0);
     }
 
     private void setupSwipeRefreshLayout() {
-        if (mSwipeRefreshLayout == null)
-            return;
+        if (mSwipeRefreshLayout == null) { return; }
         mSwipeRefreshLayout.setColorSchemeResources(
                 R.color.colorAccent,
                 R.color.colorPrimary,
@@ -323,20 +316,14 @@ public class SearchActivity extends BaseActivity {
                 (Request.Method.GET, JianyiApi.search(pageIndex, query), new Response.Listener<String>() {
                     @Override
                     public void onResponse(String str) {
-                        LogUtils.simpleLog(SearchActivity.class, "String -> " + str);
-
-                        LogUtils.simpleLog(SearchActivity.class, "Convert -> " + HtmlUtils.removeHtml(str));
                         // the response is already constructed as a JSONObject!
                         final Gson gson = new Gson();
                         JsonParser parser = new JsonParser();
-
                         final JsonObject response = parser.parse(HtmlUtils.removeHtml(str)).getAsJsonObject();
-
 //                        // 接受最原始的JSON数据
                         Index index = gson.fromJson(response.toString(), Index.class);
                         // 转换成我的Model
                         List<Index.Data.Items> items = index.getData().getItems();
-
                         String trans = gson.toJson(items);
 
                         List<YihuoProfile> firstPage = gson.fromJson(trans,
@@ -344,8 +331,7 @@ public class SearchActivity extends BaseActivity {
                                 }.getType());
 
                         // do clear
-                        if (!yihuoProfileList.isEmpty())
-                            yihuoProfileList.clear();
+                        if (!yihuoProfileList.isEmpty()) { yihuoProfileList.clear(); }
 //
                         yihuoProfileList.addAll(firstPage);
 //
@@ -431,9 +417,6 @@ public class SearchActivity extends BaseActivity {
 
     public class QueryListAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile, QueryListAdapter.QueryItemViewHolder> {
 
-
-
-
         public QueryListAdapter(Context context) {
             super(context);
         }
@@ -453,11 +436,11 @@ public class SearchActivity extends BaseActivity {
         @Override
         public void onBindDataItemViewHolder(final QueryItemViewHolder holder, int position) {
             YihuoProfile itemData = null;
-            if (!getData().isEmpty() && getData().get(position) != null)
+            if (!getData().isEmpty() && getData().get(position) != null) {
                 itemData = getData().get(position);
+            }
 
-            if (itemData == null)
-                return;
+            if (itemData == null) { return; }
 
 
             // TODO: initialize cardView
@@ -470,20 +453,13 @@ public class SearchActivity extends BaseActivity {
                         holder.cardView.setClickable(false); // prevent fast double tap
                         Intent intent = new Intent(mContext, DetailsView.class);
                         Bundle bundle = new Bundle();
-                        bundle.putParcelable("", finalItemData);
+                        bundle.putParcelable(DetailsView.YihuoProfile, finalItemData);
                         intent.putExtras(bundle);
                         mContext.startActivity(intent);
-                        holder.cardView.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                holder.cardView.setClickable(true);
-                            }
-                        }, 300);
+                        holder.cardView.postDelayed(() -> holder.cardView.setClickable(true), 300);
                     }
                 });
             }
-
-
             // TODO: initialize title;
             holder.detailsTv.setText(StringUtils.check(mContext, itemData.getName(), R.string.unknown_title));
             // TODO: initialize newPrice;

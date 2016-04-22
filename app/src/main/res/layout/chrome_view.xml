@@ -1,0 +1,27 @@
+<android.support.design.widget.CoordinatorLayout
+    android:id="@+id/coordinator_layout"
+    style="@style/DefaultCoordinatorLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.design.widget.AppBarLayout
+        style="@style/DefaultAppBarLayout">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/BaseToolbar.Light"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:navigationIcon="@drawable/ic_arrow_back_primary_24dp"/>
+
+        <include layout="@layout/toolbar_shadow_compat"/>
+    </android.support.design.widget.AppBarLayout>
+
+    <FrameLayout
+        android:id="@+id/web_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    </FrameLayout>
+</android.support.design.widget.CoordinatorLayout>
+

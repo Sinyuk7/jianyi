@@ -30,6 +30,7 @@ import com.sinyuk.jianyimaterial.feature.dialog.SchoolDialog;
 import com.sinyuk.jianyimaterial.glide.CropCircleTransformation;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 import com.sinyuk.jianyimaterial.sweetalert.SweetAlertDialog;
+import com.sinyuk.jianyimaterial.utils.AnimUtils;
 import com.sinyuk.jianyimaterial.utils.FileUtils;
 import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;
@@ -325,8 +326,9 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
         mDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
         mDialog.setTitleText(message).setConfirmText(getString(R.string.info_hint_confirm)).setConfirmClickListener(sweetAlertDialog -> {
             sweetAlertDialog.dismissWithAnimation();
-            finish();
-        });
+            myHandler.postDelayed(this::finish, AnimUtils.ANIMATION_TIME_MEDIUM);
+
+    });
     }
 
     @Override
@@ -335,7 +337,7 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
         mDialog.changeAlertType(SweetAlertDialog.WARNING_TYPE);
         mDialog.setTitleText(message).setConfirmText(getString(R.string.info_hint_confirm)).setConfirmClickListener(sweetAlertDialog -> {
             sweetAlertDialog.dismissWithAnimation();
-            finish();
+            myHandler.postDelayed(this::finish, AnimUtils.ANIMATION_TIME_MEDIUM);
         });
     }
 
@@ -345,7 +347,7 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
         mDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
         mDialog.setTitleText(message).setConfirmText(getString(R.string.info_hint_confirm)).setConfirmClickListener(sweetAlertDialog -> {
             sweetAlertDialog.dismissWithAnimation();
-            finish();
+            myHandler.postDelayed(this::finish, AnimUtils.ANIMATION_TIME_MEDIUM);
         });
     }
 

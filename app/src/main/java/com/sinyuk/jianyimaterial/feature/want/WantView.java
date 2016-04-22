@@ -20,6 +20,7 @@ import com.jakewharton.rxbinding.view.RxView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
+import com.sinyuk.jianyimaterial.utils.AnimUtils;
 import com.sinyuk.jianyimaterial.utils.ImeUtils;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;
 
@@ -227,8 +228,7 @@ public class WantView extends BaseActivity<WantPresenterImpl> implements IWantVi
     @Override
     public void onPostNeedSucceed() {
         ToastUtils.toastSlow(this, getString(R.string.want_hint_post_succeed));
-        finish();
-    }
+        myHandler.postDelayed(this::finish, AnimUtils.ANIMATION_TIME_MEDIUM);    }
 
     @Override
     public void onPostNeedFailed(String message) {

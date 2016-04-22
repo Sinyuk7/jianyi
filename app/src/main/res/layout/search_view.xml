@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.design.widget.CoordinatorLayout
     android:id="@+id/coordinator_layout"
     style="@style/DefaultCoordinatorLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.sinyuk.jianyimaterial.activities.SearchActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -12,11 +13,14 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
-            style="@style/BaseToolbar"
-            app:title="@string/activity_search"
-            app:layout_scrollFlags="scroll|enterAlways|snap">
+            style="@style/BaseToolbar.Light"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:navigationIcon="@drawable/ic_arrow_back_primary_24dp"
+            app:title="@string/activity_search">
 
         </android.support.v7.widget.Toolbar>
+
+        <include layout="@layout/toolbar_shadow_compat"/>
     </android.support.design.widget.AppBarLayout>
 
     <com.sinyuk.jianyimaterial.widgets.MultiSwipeRefreshLayout
@@ -30,7 +34,7 @@
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:overScrollMode="never" />
+            android:overScrollMode="never"/>
     </com.sinyuk.jianyimaterial.widgets.MultiSwipeRefreshLayout>
 
 

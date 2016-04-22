@@ -1,8 +1,7 @@
 package com.sinyuk.jianyimaterial.feature.settings.account;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.os.Handler;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,7 +14,6 @@ import com.sinyuk.jianyimaterial.mvp.BaseFragment;
 import com.sinyuk.jianyimaterial.sweetalert.SweetAlertDialog;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -94,7 +92,7 @@ public class AccountView extends BaseFragment<AccountPresenterImpl> implements I
                 break;
             case R.id.school_btn:
                 SchoolDialog dialog = SchoolDialog.getInstance();
-                dialog.show(getChildFragmentManager(),SchoolDialog.TAG);
+                dialog.show(getChildFragmentManager(), SchoolDialog.TAG);
                 break;
             case R.id.logout_btn:
                 showLogoutAlert();
@@ -109,7 +107,7 @@ public class AccountView extends BaseFragment<AccountPresenterImpl> implements I
                 .setConfirmClickListener(sweetAlertDialog -> {
                     mPresenter.logout();
                     sweetAlertDialog.dismissWithAnimation();
-                    getActivity().finish();
+                    new Handler().postDelayed(() -> getActivity().finish(), 300);
                 })
                 .setTitleText(getString(R.string.settings_hint_confirm_logout))
                 .setCanceledOnTouchOutside(true);

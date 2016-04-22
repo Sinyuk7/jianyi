@@ -18,6 +18,7 @@ import com.sinyuk.jianyimaterial.entity.User;
 import com.sinyuk.jianyimaterial.feature.info.InfoView;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 import com.sinyuk.jianyimaterial.sweetalert.SweetAlertDialog;
+import com.sinyuk.jianyimaterial.utils.AnimUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
 
 import java.util.List;
@@ -243,7 +244,7 @@ public class RegisterView extends BaseActivity<RegisterPresenterImpl> implements
                     }
                     toInfoView.putExtras(extras);
                     startActivity(toInfoView);
-                    finish();
+                    myHandler.postDelayed(this::finish, AnimUtils.ANIMATION_TIME_MEDIUM);
                 })
                 .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
         mDialog.setCancelable(false);

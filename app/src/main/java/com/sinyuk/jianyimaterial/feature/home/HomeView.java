@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
@@ -40,6 +41,7 @@ import com.jakewharton.rxbinding.support.design.widget.RxAppBarLayout;
 import com.jakewharton.rxbinding.support.v7.widget.RxToolbar;
 import com.jakewharton.rxbinding.view.RxView;
 import com.sinyuk.jianyimaterial.R;
+import com.sinyuk.jianyimaterial.activities.WebViewActivity;
 import com.sinyuk.jianyimaterial.adapters.CommonGoodsListAdapter;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.common.spanbuilder.AndroidSpan;
@@ -384,7 +386,11 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
         if (!TextUtils.isEmpty(data.getSort())) { mLabelView.setText(data.getSort()); }
 
         mCompositeSubscription.add(RxView.clicks(mShotIv).subscribe(aVoid -> {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(data.getTitle())));
+            Intent intent = new Intent(mContext, WebViewActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("url", data.getReason());
+            intent.putExtras(bundle);
+            startActivity(intent);
         }));
 
         mSchoolSwitch.setOnClickListener(v -> {
