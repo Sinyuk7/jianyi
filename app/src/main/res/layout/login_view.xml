@@ -13,8 +13,8 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
-            style="@style/BaseToolbar.Light"
-            app:navigationIcon="@drawable/ic_arrow_back_primary_24dp"
+            style="@style/BaseToolbar.Primary"
+            app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
             app:title="@string/activity_sign_in"/>
 
         <include layout="@layout/toolbar_shadow_compat"/>
@@ -93,13 +93,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
+                android:layout_marginRight="@dimen/general_content_space"
                 android:drawableLeft="@drawable/ic_wechat_grey600_24dp"
                 android:drawablePadding="@dimen/general_content_space"
                 android:drawableStart="@drawable/ic_wechat_grey600_24dp"
                 android:gravity="center_vertical"
                 android:text="@string/hint_continue_with_wechat"
                 android:textColor="@color/grey_600"
-                android:textSize="@dimen/material_text_caption1"/>
+                android:textSize="@dimen/material_text_body2"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>
