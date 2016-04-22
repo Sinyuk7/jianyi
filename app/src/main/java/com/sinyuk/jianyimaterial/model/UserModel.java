@@ -184,7 +184,7 @@ public class UserModel implements BaseModel {
                     .subscribe(user -> {
                         if (user != null) {
                             saveOrUpdate(user, password);
-                            callback.onRegisterSucceed();
+                            callback.onRegisterSucceed(user);
                         } else {
                             Observable.just(str)
                                     .map(responseStr -> new JsonParser().parse(responseStr).getAsJsonObject())
@@ -363,7 +363,7 @@ public class UserModel implements BaseModel {
     }
 
     public interface RegisterCallback {
-        void onRegisterSucceed();
+        void onRegisterSucceed(User user);
 
         void onRegisterFailed(String message);
 

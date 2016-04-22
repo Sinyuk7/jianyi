@@ -12,4 +12,6 @@ public interface IRegisterPresenter {
 
     void attemptRegister(@NonNull String tel, @NonNull String password);
 
+    void fetchSchools();
+
 }

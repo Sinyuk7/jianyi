@@ -1,8 +1,10 @@
 package com.sinyuk.jianyimaterial.feature.register;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,9 +13,14 @@ import android.widget.TextView;
 
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.sinyuk.jianyimaterial.R;
+import com.sinyuk.jianyimaterial.entity.School;
+import com.sinyuk.jianyimaterial.entity.User;
+import com.sinyuk.jianyimaterial.feature.info.InfoView;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 import com.sinyuk.jianyimaterial.sweetalert.SweetAlertDialog;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -48,6 +55,7 @@ public class RegisterView extends BaseActivity<RegisterPresenterImpl> implements
     private SweetAlertDialog mDialog;
     private boolean mIsAuthenticated = false;
     private boolean mIsRegister;
+    private List<School> mSchoolList;
 
     @Override
     protected boolean isUseEventBus() {
@@ -128,6 +136,8 @@ public class RegisterView extends BaseActivity<RegisterPresenterImpl> implements
 
         // 还没有验证过
         canGetAuthenticode(false);
+
+        mPresenter.fetchSchools();
     }
 
     private void setupHintView() {
@@ -189,7 +199,7 @@ public class RegisterView extends BaseActivity<RegisterPresenterImpl> implements
     }
 
     @Override
-    public void hintRegisterProcessing() {
+    public void showProgressDialog() {
         mDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
         mDialog.getProgressHelper().setBarColor(getResources().getColor(R.color.colorAccent));
         mDialog.setTitleText(getString(R.string.register_hint_register_processing));
@@ -197,7 +207,7 @@ public class RegisterView extends BaseActivity<RegisterPresenterImpl> implements
     }
 
     @Override
-    public void hintRegisterError(String message) {
+    public void showErrorDialog(String message) {
         mDialog.setTitleText(message)
                 .setConfirmText(StringUtils.getRes(this, R.string.action_confirm))
                 .setConfirmClickListener(null)
@@ -205,7 +215,7 @@ public class RegisterView extends BaseActivity<RegisterPresenterImpl> implements
     }
 
     @Override
-    public void hintRegisterFailed(String message) {
+    public void showWarningDialog(String message) {
         mDialog.setTitleText(message)
                 .setConfirmText(StringUtils.getRes(this, R.string.action_confirm))
                 .setConfirmClickListener(null)
@@ -213,19 +223,40 @@ public class RegisterView extends BaseActivity<RegisterPresenterImpl> implements
     }
 
     @Override
-    public void hintRegisterSucceed() {
+    public void showSucceedDialog(User user) {
         mDialog.setTitleText(getString(R.string.register_hint_register_succeed))
                 .setConfirmText(getString(R.string.action_confirm))
                 .setConfirmClickListener(sweetAlertDialog -> {
                     // TODO: 进入设置页面
+                    Intent toInfoView = new Intent(RegisterView.this, InfoView.class);
+                    Bundle extras = new Bundle();
+                    extras.putString(InfoView.AVATAR_URL, user.getHeading());
+                    extras.putString(InfoView.USERNAME, user.getName());
+                    if (!TextUtils.isEmpty(user.getSchool()) && !mSchoolList.isEmpty()) {
+                        final int index = Integer.valueOf(user.getSchool());
+                        try {
+                            extras.putString(InfoView.SCHOOL_NAME, mSchoolList.get(index).getName());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            extras.putString(InfoView.SCHOOL_NAME, "浙江传媒学院-下沙校区");
+                        }
+                    }
+                    toInfoView.putExtras(extras);
+                    startActivity(toInfoView);
                     finish();
                 })
                 .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+        mDialog.setCancelable(false);
     }
 
     @Override
     public void hintRegisterCompleted() {
         mDialog.dismissWithAnimation();
+    }
+
+    @Override
+    public void onLoadSchoolSucceed(List<School> schoolList) {
+        mSchoolList = schoolList;
     }
 
     @OnClick(R.id.register_btn)
