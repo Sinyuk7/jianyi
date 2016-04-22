@@ -256,7 +256,7 @@ public class BitmapUtils {
         try {
             File file = new File(context.getCacheDir(), fileName + ".jpg");
             FileOutputStream fOut = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 40, fOut);
             fOut.flush();
             fOut.close();
             file.setReadable(true, true);
