@@ -165,6 +165,7 @@ public class LoginView extends BaseActivity<LoginPresenterImpl> implements ILogi
         bundle.putString(RegisterView.TYPE, RegisterView.REGISTER);
         toRegisterView.putExtras(bundle);
         startActivity(toRegisterView);
+        finish();
     }
 
     private void toggleLoginButton(boolean hasInput) {
