@@ -110,8 +110,8 @@
             <Button
                 android:id="@+id/register_btn"
                 style="@style/CustomBackgroundButton.Fill"
-                android:layout_marginBottom="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_marginBottom="@dimen/general_content_space"
                 android:background="@drawable/rounded_rect_fill_grey"
                 android:text="@string/hint_register_authenticate"/>
 
@@ -120,12 +120,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:drawableTop="@drawable/expression_81"
+                android:drawableTop="@drawable/ex_greeting"
                 android:gravity="center"
+                android:textSize="@dimen/material_text_caption1"
                 android:text="@string/register_hint_wechat"
                 android:textColor="@color/grey_600"
-                android:visibility="gone"
+                android:visibility="visible"
                 />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

@@ -275,7 +275,7 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="register_hint_authenticode_et">验证码</string>
     <string name="register_hint_psw_et">密码</string>
     <string name="register_hint_get_authenticode">输123456</string>
-    <string name="register_hint_wechat">-用同一个号码,就能关联简易微信端啦\n\n-什么号码啊(⊙o⊙)…\n-去微信端-个人中心里设置啦</string>
+    <string name="register_hint_wechat">-用同一个号码,就能关联简易微信端啦\n-什么号码啊(⊙o⊙)…\n-去微信端-个人中心里设置啦</string>
     <string name="register_hint_register_processing">正在注册</string>
     <string name="register_hint_register_succeed">注册成功</string>
     <string name="hint_register_authenticate">验证</string>
