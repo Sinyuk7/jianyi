@@ -333,6 +333,9 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="unshelf_hint_ok">五毛拿好</string>
     <string name="unshelf_hint_re_shelf">重新上架</string>
     <string name="common_confirm_exit_application">再按一次退出</string>
+    <string name="details_share">分享</string>
+    <string name="details_like">喜欢</string>
+    <string name="details_view_count_null">还没人</string>
 
 
 </resources>

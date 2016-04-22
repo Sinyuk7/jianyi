@@ -13,6 +13,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -39,10 +40,12 @@ import com.sinyuk.jianyimaterial.feature.profile.ProfileView;
 import com.sinyuk.jianyimaterial.glide.CropCircleTransformation;
 import com.sinyuk.jianyimaterial.managers.SnackBarFactory;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
+import com.sinyuk.jianyimaterial.ui.smallbang.SmallBang;
 import com.sinyuk.jianyimaterial.ui.trans.AccordionTransformer;
 import com.sinyuk.jianyimaterial.utils.AnimatorLayerListener;
 import com.sinyuk.jianyimaterial.utils.FormatUtils;
 import com.sinyuk.jianyimaterial.utils.FuzzyDateFormater;
+import com.sinyuk.jianyimaterial.utils.ScreenUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;
 import com.sinyuk.jianyimaterial.widgets.CheckableImageView;
@@ -90,7 +93,7 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
     TextView userNameTv;
     @Bind(R.id.pub_date_tv)
     TextView pubDateTv;
-    @Bind(R.id.like_checkable_iv)
+    @Bind(R.id.like_btn)
     CheckableImageView likeCheckableIv;
     @Bind(R.id.view_count_tv)
     TextView viewCountTv;
@@ -276,22 +279,27 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
         likeCheckableIv.setChecked(isAdded);
     }
 
-    @OnClick(R.id.like_checkable_iv)
-    public void onClickLikeBtn() {
-
-    }
 
     @Override
     public void showDescription(String description) {
         descriptionTv.setText(StringUtils.check(this, description, R.string.untable));
     }
 
+    @OnClick(R.id.like_btn)
+    public void addToLikes(CheckableImageView view) {
+        final SmallBang smallBang = SmallBang.attach2Window(this);
+        if (!view.isChecked()) { // 取消的时候就不要那个动画了
+            smallBang.bang(view, ScreenUtils.dpToPxInt(this, 36), null);
+        }
+        view.setChecked(!view.isChecked());
+    }
+
     @OnClick(R.id.avatar)
-    public void toProfileView(){
+    public void toProfileView() {
         Intent intent = new Intent(this, ProfileView.class);
         Bundle bundle = new Bundle();
         bundle.putFloat(ProfileView.PROFILE_TYPE, ProfileView.OTHER);
-        bundle.putString("uid", profileData.getId());
+        bundle.putString("uid", profileData.getUid());
         bundle.putString("user_name", profileData.getUsername());
         bundle.putString("location", profileData.getSchoolname());
         bundle.putString("tel", profileData.getTel());
@@ -322,6 +330,7 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
 
     @Override
     public void showViewCount(@NonNull String count) {
+        if (TextUtils.isEmpty(count)) { count = getString(R.string.details_view_count_null); }
         viewCountTv.setText(String.format(StringUtils.getRes(this, R.string.details_view_count), count));
     }
 

@@ -13,6 +13,7 @@ import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.feature.register.RegisterView;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 import com.sinyuk.jianyimaterial.sweetalert.SweetAlertDialog;
+import com.sinyuk.jianyimaterial.utils.AnimUtils;
 import com.sinyuk.jianyimaterial.utils.ImeUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
 
@@ -114,7 +115,7 @@ public class LoginView extends BaseActivity<LoginPresenterImpl> implements ILogi
                 .setConfirmText(StringUtils.getRes(this, R.string.action_confirm))
                 .setConfirmClickListener(sweetAlertDialog -> {
                     sweetAlertDialog.dismiss();
-                    finish();
+                    myHandler.postDelayed(this::finish, AnimUtils.ANIMATION_TIME_MEDIUM);
                 })
                 .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
     }
@@ -165,7 +166,7 @@ public class LoginView extends BaseActivity<LoginPresenterImpl> implements ILogi
         bundle.putString(RegisterView.TYPE, RegisterView.REGISTER);
         toRegisterView.putExtras(bundle);
         startActivity(toRegisterView);
-        finish();
+        myHandler.postDelayed(this::finish, AnimUtils.ANIMATION_TIME_MEDIUM);
     }
 
     private void toggleLoginButton(boolean hasInput) {

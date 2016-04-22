@@ -10,7 +10,7 @@
     <FrameLayout style="@style/SocialActions">
 
         <com.sinyuk.jianyimaterial.widgets.CheckableImageView
-            android:id="@+id/like_checkable_iv"
+            android:id="@+id/like_btn"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="center_horizontal"
@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
             android:padding="0dp"
-            android:text="收藏"/>
+            android:text="@string/details_like"/>
     </FrameLayout>
 
     <TextView
@@ -36,5 +36,5 @@
         android:id="@+id/share_tv"
         style="@style/SocialActions.Text"
         android:drawableTop="@drawable/ic_share_grey600_24dp"
-        android:text="分享"/>
+        android:text="@string/details_share"/>
 </LinearLayout>
