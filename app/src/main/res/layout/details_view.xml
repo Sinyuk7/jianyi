@@ -20,6 +20,7 @@
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
+                android:background="@drawable/profile_toolbar_scrim"
                 style="@style/Toolbar.Details"/>
         </android.support.design.widget.CollapsingToolbarLayout>
 

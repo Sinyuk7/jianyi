@@ -16,8 +16,8 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
-            style="@style/BaseToolbar.Light"
-            app:navigationIcon="@drawable/ic_arrow_back_primary_24dp"
+            style="@style/BaseToolbar.Primary"
+            app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
             app:title="@string/info_hint_info"/>
 
         <include layout="@layout/toolbar_shadow_compat"/>

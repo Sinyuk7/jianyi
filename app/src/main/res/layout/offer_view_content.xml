@@ -47,8 +47,6 @@
                 android:textSize="@dimen/material_text_caption1"/>
         </LinearLayout>
 
-        <include layout="@layout/toolbar_shadow_compat"/>
-
     </LinearLayout>
 
 
