@@ -41,12 +41,9 @@ public class CustomErrorActivity extends AppCompatActivity{
 
         if (restartActivityClass != null) {
             restartButton.setText(R.string.customactivityoncrash_error_activity_restart_app);
-            restartButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(CustomErrorActivity.this, restartActivityClass);
-                    CustomActivityOnCrash.restartApplicationWithIntent(CustomErrorActivity.this, intent);
-                }
+            restartButton.setOnClickListener(v -> {
+                Intent intent = new Intent(CustomErrorActivity.this, restartActivityClass);
+                CustomActivityOnCrash.restartApplicationWithIntent(CustomErrorActivity.this, intent);
             });
         } else {
             restartButton.setOnClickListener(v -> CustomActivityOnCrash.closeApplication(CustomErrorActivity.this));

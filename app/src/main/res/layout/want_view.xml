@@ -86,8 +86,8 @@
                 <EditText
                     android:id="@+id/contact_info_et"
                     style="@style/DefaultEditText.SingleLine"
-                    android:drawableLeft="@drawable/ic_phone_classic_accent_24dp"
-                    android:drawableStart="@drawable/ic_phone_classic_accent_24dp"
+                    android:drawableLeft="@drawable/ic_cellphone_android_accent_24dp"
+                    android:drawableStart="@drawable/ic_cellphone_android_accent_24dp"
                     android:hint="@string/want_hint_contact_info"
                     android:imeOptions="actionNext"
                     android:inputType="phone"/>
