@@ -21,6 +21,7 @@ public class InfoPresenterImpl extends BasePresenter<InfoView> implements IInfoP
     @Override
     public void updateUser(HashMap<String, String> params) {
         UserModel.getInstance(mView).update(params,this);
+        mView.showProgressDialog("努力上传ing");
     }
 
     @Override
@@ -46,20 +47,24 @@ public class InfoPresenterImpl extends BasePresenter<InfoView> implements IInfoP
     @Override
     public void onUserUpdateSucceed(String message) {
         mView.onUserUpdateSucceed(message);
+        mView.showSucceedDialog(message);
     }
 
     @Override
     public void onUserUpdateFailed(String message) {
         mView.onUserUpdateFailed(message);
+        mView.showWarningDialog(message);
     }
 
     @Override
     public void onUserUpdateVolleyError(String message) {
         mView.onUserUpdateVolleyError(message);
+        mView.showErrorDialog(message);
     }
 
     @Override
     public void onUserUpdateParseError(String message) {
         mView.onUserUpdateParseError(message);
+        mView.showErrorDialog(message);
     }
 }

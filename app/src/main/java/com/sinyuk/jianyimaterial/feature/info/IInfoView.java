@@ -6,6 +6,12 @@ package com.sinyuk.jianyimaterial.feature.info;
 public interface IInfoView {
     void showProgressDialog(String message);
 
+    void showErrorDialog(String message);
+
+    void showWarningDialog(String message);
+
+    void showSucceedDialog(String message);
+
     void dismissProgressDialog();
 
     void onShotUploadParseError(String message);

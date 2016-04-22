@@ -319,6 +319,36 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
         if (null != mDialog) { mDialog.dismissWithAnimation(); }
     }
 
+    @Override
+    public void showErrorDialog(String message) {
+        if (mDialog == null) { mDialog = new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE); }
+        mDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+        mDialog.setTitleText(message).setConfirmText(getString(R.string.info_hint_confirm)).setConfirmClickListener(sweetAlertDialog -> {
+            sweetAlertDialog.dismissWithAnimation();
+            finish();
+        });
+    }
+
+    @Override
+    public void showWarningDialog(String message) {
+        if (mDialog == null) { mDialog = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE); }
+        mDialog.changeAlertType(SweetAlertDialog.WARNING_TYPE);
+        mDialog.setTitleText(message).setConfirmText(getString(R.string.info_hint_confirm)).setConfirmClickListener(sweetAlertDialog -> {
+            sweetAlertDialog.dismissWithAnimation();
+            finish();
+        });
+    }
+
+    @Override
+    public void showSucceedDialog(String message) {
+        if (mDialog == null) { mDialog = new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE); }
+        mDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+        mDialog.setTitleText(message).setConfirmText(getString(R.string.info_hint_confirm)).setConfirmClickListener(sweetAlertDialog -> {
+            sweetAlertDialog.dismissWithAnimation();
+            finish();
+        });
+    }
+
     public void showAvatar(String url) {
         if (TextUtils.isEmpty(url)) { return; }
         DrawableRequestBuilder<String> avatarRequest = Glide.with(this)
