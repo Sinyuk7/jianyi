@@ -9,10 +9,11 @@
     <!--<color name="colorPrimary">#FFFFFF</color>-->
     <color name="colorPrimary_50pct">#7f01d8a9</color>
     <color name="colorPrimaryDark">#019B79</color>
-    <color name="colorPrimaryLight">#e042eaaf</color>
+    <color name="colorPrimaryDarkLight">#5ae4c5</color>
+    <color name="colorPrimaryLight">#50f9b2</color>
     <color name="colorAccent">#25c4ec</color>
     <color name="colorAccentLight">#45daff</color>
-    <color name="colorAccentDark">#25c4ec</color>
+    <color name="colorAccentDark">#02acd7</color>
 
     <color name="textColorDark">#333333</color>
     <color name="textColorLight">#019B79</color>
@@ -21,6 +22,7 @@
 
     <color name="themeRed">#F65306</color>
     <color name="themeRedDark">#e14c05</color>
+    <color name="themeRedLight">#fbfc7844</color>
     <color name="themeYellow">#faf73b</color>
     <color name="themeGreen">#01D8A9</color>
     <color name="themeBlue">#27D4FF</color>
