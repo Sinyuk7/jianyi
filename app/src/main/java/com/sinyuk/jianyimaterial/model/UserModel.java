@@ -36,7 +36,6 @@ import java.util.Map;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -46,9 +45,10 @@ public class UserModel implements BaseModel {
     public static final String LOGIN_REQUEST = "login";
     public static final String UPDATE_REQUEST = "update";
     public static final String REGISTER = "register";
-    private static final String POST_GOODS = "post_goods";
-    private static final String POST_NEED = "post_need";
-
+    public static final String POST_GOODS = "post_goods";
+    public static final String POST_NEED = "post_need";
+    public static final String UNSHELF = "unshelf";
+    public static final String SHELF = "shelf";
 
     private static UserModel sInstance;
     private final Context mContext;
@@ -353,6 +353,69 @@ public class UserModel implements BaseModel {
         Jianyi.getInstance().addRequest(formDataRequest, POST_NEED);
     }
 
+    public void unShelf(@NonNull String gid, @NonNull String reason, UnShelfCallback callback) {
+        final String uid = PreferencesUtils.getString(mContext, Constants.Prefs_Uid);
+        if (TextUtils.isEmpty(uid)) { callback.onUnShelfFailed("读取用户信息失败"); }
+        FormDataRequest formDataRequest = new FormDataRequest(Request.Method.POST, JianyiApi.unShelf(), (Response.Listener<String>) str -> {
+            try {
+                JsonParser parser = new JsonParser();
+                final JsonObject response = parser.parse(str).getAsJsonObject();
+                JPostResponse result = mGson.fromJson(response, JPostResponse.class);
+                if (result.getCode() == 2001) {
+                    callback.onUnShelfSucceed();
+                } else {
+                    JError error = mGson.fromJson(response, JError.class);
+                    callback.onUnShelfFailed(error.getError_msg());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                callback.onUnShelfParseError(e.getMessage());
+            }
+        }, (Response.ErrorListener) error -> callback.onUnShelfVolleyError(VolleyErrorHelper.getMessage(error))) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("user_id", uid);
+                params.put("id", gid);
+                params.put("reason", reason);
+                return params;
+            }
+        };
+
+        Jianyi.getInstance().addRequest(formDataRequest, UNSHELF);
+    }
+
+    public void shelf(@NonNull String gid,ShelfCallback callback) {
+        final String uid = PreferencesUtils.getString(mContext, Constants.Prefs_Uid);
+        if (TextUtils.isEmpty(uid)) { callback.onShelfFailed("读取用户信息失败"); }
+        FormDataRequest formDataRequest = new FormDataRequest(Request.Method.POST, JianyiApi.unShelf(), (Response.Listener<String>) str -> {
+            try {
+                JsonParser parser = new JsonParser();
+                final JsonObject response = parser.parse(str).getAsJsonObject();
+                JPostResponse result = mGson.fromJson(response, JPostResponse.class);
+                if (result.getCode() == 2001) {
+                    callback.onShelfSucceed();
+                } else {
+                    JError error = mGson.fromJson(response, JError.class);
+                    callback.onShelfParseError(error.getError_msg());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                callback.onShelfParseError(e.getMessage());
+            }
+        }, (Response.ErrorListener) error -> callback.onShelfVolleyError(VolleyErrorHelper.getMessage(error))) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("user_id", uid);
+                params.put("id", gid);
+                return params;
+            }
+        };
+
+        Jianyi.getInstance().addRequest(formDataRequest, UNSHELF);
+    }
+
     public interface LoginCallback {
 
         void onLoginSucceed();
@@ -422,4 +485,27 @@ public class UserModel implements BaseModel {
 
         void onPostNeedParseError(String message);
     }
+
+    public interface UnShelfCallback {
+
+        void onUnShelfSucceed();
+
+        void onUnShelfFailed(String message);
+
+        void onUnShelfVolleyError(String message);
+
+        void onUnShelfParseError(String message);
+    }
+
+    public interface ShelfCallback {
+
+        void onShelfSucceed();
+
+        void onShelfFailed(String message);
+
+        void onShelfVolleyError(String message);
+
+        void onShelfParseError(String message);
+    }
+
 }

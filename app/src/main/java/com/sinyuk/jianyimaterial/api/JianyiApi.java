@@ -107,6 +107,14 @@ public class JianyiApi {
         return GOODS + "?title=all" + "&school=" + schoolIndex + "&page=" + pageIndex;
     }
 
+    public static String unShelf() {
+        return JIANYI+"/port/goods/sellManageOffPost";
+    }
+
+    public static String shelf() {
+        return JIANYI+"/port/goods/sellManageOnPost";
+    }
+
     public static class ParamsBuilder {
         private HashMap<String, String> mBuilder = new HashMap<>();
         private boolean hasChildSort;
