@@ -99,7 +99,7 @@ public class ShotModel {
                 String url = uploadResponse.getData();
                 LogUtils.simpleLog(ShotModel.class, "getData" + uploadResponse.getData());
                 if (null != url) {
-                    callback.onUploadUploaded(JianyiApi.JIANYI + url);
+                    callback.onUploadUploaded(url);
                 }
             } catch (Exception e) {
                 callback.onUploadParseError(e.getMessage());

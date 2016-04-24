@@ -41,7 +41,6 @@ import com.jakewharton.rxbinding.support.design.widget.RxAppBarLayout;
 import com.jakewharton.rxbinding.support.v7.widget.RxToolbar;
 import com.jakewharton.rxbinding.view.RxView;
 import com.sinyuk.jianyimaterial.R;
-import com.sinyuk.jianyimaterial.activities.WebViewActivity;
 import com.sinyuk.jianyimaterial.adapters.CommonGoodsListAdapter;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.common.spanbuilder.AndroidSpan;
@@ -71,6 +70,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.net.URI;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -210,14 +210,14 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     }
 
     private void onBannerShotClick(int position) {
-        Observable.just(position)
+       mCompositeSubscription.add(Observable.just(position)
                 .map(mBannerItemList::get)
                 .map(Banner::getLink)
                 .doOnError(throwable -> {})
                 .map(Uri::parse)
                 .doOnError(throwable -> {})
                 .map(uri -> new Intent(Intent.ACTION_VIEW, uri))
-                .subscribe(this::startActivity);
+                .subscribe(this::startActivity));
     }
 
     private void toggleDrawerView() {
@@ -386,10 +386,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
         if (!TextUtils.isEmpty(data.getSort())) { mLabelView.setText(data.getSort()); }
 
         mCompositeSubscription.add(RxView.clicks(mShotIv).subscribe(aVoid -> {
-            Intent intent = new Intent(mContext, WebViewActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putString("url", data.getReason());
-            intent.putExtras(bundle);
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(data.getReason()));
             startActivity(intent);
         }));
 

@@ -25,14 +25,7 @@
             android:name=".activities.PhotoViewActivity"
             android:launchMode="singleTop"
             android:theme="@style/Jianyi.FullScreenBlack"/>
-        <activity
-            android:name=".activities.WebViewActivity"
-            android:launchMode="singleTop"/>
 
-        <activity
-            android:name=".activities.AboutPage"
-            android:launchMode="singleTop"
-            android:theme="@style/Jianyi.Transparent"/>
         <activity
             android:name=".activities.CustomErrorActivity"
             android:process=":error_activity">
