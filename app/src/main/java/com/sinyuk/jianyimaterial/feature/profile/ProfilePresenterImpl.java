@@ -32,13 +32,13 @@ public class ProfilePresenterImpl extends BasePresenter<ProfileView> implements
     @Override
     public void unShelf(@NonNull String goodsId, @NonNull String reason) {
         UserModel.getInstance(mView).unShelf(goodsId, reason, this);
-        mView.showProgressDialog("努力搬下货架ing");
+        mView.showProgressDialog("搬下货架中");
     }
 
     @Override
     public void onShelf(@NonNull String goodsId) {
         UserModel.getInstance(mView).onShelf(goodsId, this);
-        mView.showProgressDialog("努力搬上货架ing");
+        mView.showProgressDialog("搬上货架中");
     }
 
     @Override
@@ -78,7 +78,7 @@ public class ProfilePresenterImpl extends BasePresenter<ProfileView> implements
 
     @Override
     public void onUnShelfSucceed() {
-        mView.showSucceedDialog("");
+        mView.showSucceedDialog("已下架");
     }
 
     @Override
@@ -98,21 +98,21 @@ public class ProfilePresenterImpl extends BasePresenter<ProfileView> implements
 
     @Override
     public void onOnShelfSucceed() {
-
+        mView.showSucceedDialog("已上架");
     }
 
     @Override
     public void onOnShelfFailed(String message) {
-
+        mView.showWarningDialog(message);
     }
 
     @Override
     public void onOnShelfVolleyError(String message) {
-
+        mView.showErrorDialog(message);
     }
 
     @Override
     public void onOnShelfParseError(String message) {
-
+        mView.showErrorDialog(message);
     }
 }

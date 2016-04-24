@@ -368,13 +368,18 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
     @Override
     public void showSucceedDialog(@NonNull String message) {
         mDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-        mDialog.setTitleText(getString(R.string.unshelf_hint_unshelf_succeed))
-                .setContentText(getString(R.string.unshelf_hint_rate_us))
-                .setCancelText(getString(R.string.unshelf_hint_just_soso))
-                .setConfirmText(getString(R.string.unshelf_hint_nice))
-                .setConfirmClickListener(sweetAlertDialog -> {
-                    showBegDialog();
-                });
+        mDialog.setTitleText(message);
+
+        if (message.equals("已下架")) {
+            mDialog.setContentText(getString(R.string.unshelf_hint_rate_us))
+                    .setCancelText(getString(R.string.unshelf_hint_just_soso))
+                    .setConfirmText(getString(R.string.unshelf_hint_nice))
+                    .setConfirmClickListener(sweetAlertDialog -> showBegDialog());
+        } else {
+            mDialog.setContentText("")
+                    .setConfirmText(getString(R.string.unshelf_confirm))
+                    .setConfirmClickListener(null);
+        }
         mDialog.setCancelable(true);
         mDialog.setCanceledOnTouchOutside(true);
     }
