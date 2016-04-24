@@ -204,7 +204,7 @@ public class DrawerView extends BaseFragment<DrawerPresenterImpl> implements IDr
     }
 
     private void toMenuItemIntent(int selected) {
-        mDrawerLayout.closeDrawers();
+        if (null != mDrawerLayout) { mDrawerLayout.closeDrawers(); }
         switch (selected) {
             case R.id.drawer_menu_category:
                 mMenuIntent = new Intent(getContext(), CategoryView.class);

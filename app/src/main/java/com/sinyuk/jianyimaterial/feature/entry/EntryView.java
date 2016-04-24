@@ -44,15 +44,13 @@ public class EntryView extends BaseActivity<EntryPresenterImpl> implements IEntr
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState == null) {
-            FragmentManager fm = getSupportFragmentManager();
-            fm.beginTransaction().replace(R.id.container_menu, DrawerView.getInstance()).commit();
-            fm.beginTransaction().replace(R.id.home_view, HomeView.getInstance()).commit();
-        }
     }
 
     @Override
     protected void onFinishInflate() {
+        FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction().replace(R.id.container_menu, DrawerView.getInstance()).commit();
+        fm.beginTransaction().replace(R.id.home_view, HomeView.getInstance()).commit();
     }
 
     @Override
