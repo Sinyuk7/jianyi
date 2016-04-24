@@ -361,7 +361,7 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
         uriList.remove(event.getPosition());
         updateIndicator(uriList.size());
         mAdapter.setData(uriList);
-        indexAndUrlMap.remove(String.valueOf(event.getPosition()));
+        indexAndUrlMap.remove(String.valueOf(event.getPosition() + 1));
     }
 
     @Override
@@ -376,10 +376,8 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
         mDialog.setTitleText(StringUtils.getRes(this, R.string.offer_hint_post_in_process));
         mDialog.setCancelable(false);
 
-        dismissBottomSheet();
         ImeUtils.hideIme(mCoordinatorLayout);
-        myHandler.postDelayed(() -> mDialog.show(), 250);
-
+        mDialog.show();
     }
 
     @Override
@@ -462,4 +460,6 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
             super.onBackPressed();
         }
     }
+
+
 }
