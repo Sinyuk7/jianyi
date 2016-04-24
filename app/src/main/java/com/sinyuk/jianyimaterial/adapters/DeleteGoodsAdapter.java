@@ -19,14 +19,13 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
-import com.sinyuk.jianyimaterial.events.XOnShelfEvent;
-import com.sinyuk.jianyimaterial.feature.dialog.UnShelfDialog;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
+import com.sinyuk.jianyimaterial.events.XOnShelfEvent;
 import com.sinyuk.jianyimaterial.feature.details.DetailsView;
+import com.sinyuk.jianyimaterial.feature.dialog.UnShelfDialog;
 import com.sinyuk.jianyimaterial.utils.FormatUtils;
 import com.sinyuk.jianyimaterial.utils.FuzzyDateFormater;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
-import com.sinyuk.jianyimaterial.utils.ToastUtils;
 import com.sinyuk.jianyimaterial.widgets.CheckableImageView;
 import com.sinyuk.jianyimaterial.widgets.LabelView;
 import com.sinyuk.jianyimaterial.widgets.RatioImageView;
@@ -102,19 +101,19 @@ public class DeleteGoodsAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile
         }
 
         if (itemData.isOnShelf()) {
-            setOnShelfState(holder,finalItemData);
+            setOnShelfState(holder, finalItemData);
 
         } else {
-            setUnShelfState(holder,finalItemData);
+            setUnShelfState(holder, finalItemData);
         }
 
         holder.mDeleteOrUndoBtn.setOnClickListener(v -> {
             if (finalItemData.isOnShelf()) {
                 UnShelfDialog dialog = new UnShelfDialog(mContext, finalItemData.getId());
                 dialog.show();
-                setUnShelfState(holder,finalItemData);
+                setUnShelfState(holder, finalItemData);
             } else {
-                setOnShelfState(holder,finalItemData);
+                setOnShelfState(holder, finalItemData);
                 EventBus.getDefault().post(new XOnShelfEvent(finalItemData.getId()));
             }
 
@@ -133,6 +132,7 @@ public class DeleteGoodsAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile
         holder.mNewPriceLabelView.setText(mContext.getString(R.string.unshelf_unshelf));
         ColorMatrixColorFilter filter = new ColorMatrixColorFilter(mMatrix);
         holder.mShotIv.setColorFilter(filter);
+        itemData.setOnShelf(false);
     }
 
     public void setOnShelfState(final DeleteItemViewHolder holder, final YihuoProfile itemData) {
@@ -142,6 +142,8 @@ public class DeleteGoodsAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile
         holder.mNewPriceLabelView.setBgColor(mContext.getResources().getColor(R.color.colorPrimary));
         ColorMatrixColorFilter filter = new ColorMatrixColorFilter(mMatrix);
         holder.mShotIv.setColorFilter(filter);
+
+        itemData.setOnShelf(true);
     }
 
 
