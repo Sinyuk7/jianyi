@@ -24,6 +24,7 @@ public class JianyiApi {
     private static final String POST_FEED = JIANYI + "/port/goods/create";
     private static final String SCHOOLS = JIANYI + "/port/school";
     private static final String BANNER = JIANYI + "/port/img/index";
+    private static final String SHARE = JIANYI + "/goods/detail/id=";
 
     public static String fetchYihuoProfile(@Nullable int pageIndex) {
         return GOODS + "?title=all" + "&page=" + pageIndex + ORDER_DESC;
@@ -108,11 +109,15 @@ public class JianyiApi {
     }
 
     public static String unShelf() {
-        return JIANYI+"/port/goods/sellManageOffPost";
+        return JIANYI + "/port/goods/sellManageOffPost";
     }
 
     public static String onShelf() {
-        return JIANYI+"/port/goods/sellManageOnPost";
+        return JIANYI + "/port/goods/sellManageOnPost";
+    }
+
+    public static String shareById(@NonNull String goodsId) {
+        return SHARE + goodsId;
     }
 
     public static class ParamsBuilder {

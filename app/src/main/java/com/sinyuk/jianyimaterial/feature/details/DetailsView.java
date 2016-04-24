@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -45,10 +44,8 @@ import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 import com.sinyuk.jianyimaterial.ui.smallbang.SmallBang;
 import com.sinyuk.jianyimaterial.ui.trans.AccordionTransformer;
 import com.sinyuk.jianyimaterial.utils.AnimatorLayerListener;
-import com.sinyuk.jianyimaterial.utils.BitmapUtils;
 import com.sinyuk.jianyimaterial.utils.FormatUtils;
 import com.sinyuk.jianyimaterial.utils.FuzzyDateFormater;
-import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.ScreenUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;
@@ -66,9 +63,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 import cimi.com.easeinterpolator.EaseSineInInterpolator;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by Sinyuk on 16.3.19.
@@ -309,11 +303,13 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
             shareIntent.putExtra(Intent.EXTRA_STREAM, mFirstShotUri);
             shareIntent.setType("image/*");
             //当用户选择短信时使用sms_body取得文字
-            shareIntent.putExtra("sms_body", getString(R.string.details_share_prefix) + profileData.getName());
+            shareIntent.putExtra("sms_body", getString(R.string.details_share_prefix)
+                    + profileData.getName() + ".(" + JianyiApi.shareById(profileData.getId()) + ")");
         } else {
             shareIntent.setType("text/plain");
         }
-        shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.details_share_prefix) + profileData.getName());
+        shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.details_share_prefix)
+                + profileData.getName() + ".(" + JianyiApi.shareById(profileData.getId()) + ")");
         //自定义选择框的标题
         startActivity(Intent.createChooser(shareIntent, getString(R.string.details_share_to_hint)));
         //系统默认标题
