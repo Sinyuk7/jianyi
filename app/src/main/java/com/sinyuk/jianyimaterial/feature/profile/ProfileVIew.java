@@ -344,26 +344,69 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
         ToastUtils.toastFast(this, message);
     }
 
+    @Override
+    public void showWarningDialog(@NonNull String message) {
+        mDialog.changeAlertType(SweetAlertDialog.WARNING_TYPE);
+        mDialog.setTitleText(message)
+                .setContentText("")
+                .setConfirmText(getString(R.string.unshelf_confirm));
+        mDialog.setCancelable(false);
+        mDialog.setCanceledOnTouchOutside(false);
+    }
+
+    @Override
+    public void showErrorDialog(@NonNull String message) {
+        mDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+        mDialog.setTitleText(message)
+                .setContentText("")
+                .setConfirmText(getString(R.string.unshelf_confirm));
+        mDialog.setCancelable(false);
+        mDialog.setCanceledOnTouchOutside(false);
+    }
+
+    @Override
+    public void showSucceedDialog(@NonNull String message) {
+        mDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+        mDialog.setTitleText(getString(R.string.unshelf_hint_unshelf_succeed))
+                .setContentText(getString(R.string.unshelf_hint_rate_us))
+                .setCancelText(getString(R.string.unshelf_hint_just_soso))
+                .setConfirmText(getString(R.string.unshelf_hint_nice))
+                .setConfirmClickListener(sweetAlertDialog -> {
+                    showBegDialog();
+                });
+        mDialog.setCancelable(true);
+        mDialog.setCanceledOnTouchOutside(true);
+    }
+
+    @Override
+    public void showProgressDialog(@NonNull String message) {
+        mDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        mDialog.setTitleText(message);
+        mDialog.setCancelable(false);
+        mDialog.setCanceledOnTouchOutside(false);
+        mDialog.show();
+    }
+
+    @Override
+    public void dismissDialog() {
+        mDialog.dismissWithAnimation();
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUnShelfOptionSelect(XUnShelfOptionEvent event) {
+        String reason = null;
         switch (event.getOption()) {
-            case 0:
-                // do something
-                mDialog = new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE);
-                mDialog.setTitleText(getString(R.string.unshelf_hint_unshelf_succeed))
-                        .setContentText(getString(R.string.unshelf_hint_rate_us))
-                        .setCancelText(getString(R.string.unshelf_hint_just_soso))
-                        .setConfirmText(getString(R.string.unshelf_hint_nice))
-                        .setConfirmClickListener(sweetAlertDialog -> {
-                            showBegDialog();
-                        });
-                mDialog.setCancelable(true);
-                mDialog.setCanceledOnTouchOutside(true);
-                mDialog.show();
+            case 0: // do something
+                reason = getString(R.string.unshelf_hint_has_sold);
                 break;
             case 1: // 不卖了
+                reason = getString(R.string.unshelf_hint_dont_want);
             case 2: // 其他理由
+                reason = getString(R.string.unshelf_hint_other_reason);
                 break;
+        }
+        if (reason != null) {
+            mPresenter.unShelf(event.getId(), reason);
         }
     }
 

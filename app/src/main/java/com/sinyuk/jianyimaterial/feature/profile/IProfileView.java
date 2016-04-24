@@ -31,4 +31,15 @@ public interface IProfileView {
     void onLoadSchoolParseError(String message);
 
     void onLoadSchoolVolleyError(String message);
+
+    void showWarningDialog(@NonNull String message);
+
+    void showErrorDialog(@NonNull String message);
+
+    void showSucceedDialog(@NonNull String message);
+
+    void showProgressDialog(@NonNull String message);
+
+    void dismissDialog();
+
 }

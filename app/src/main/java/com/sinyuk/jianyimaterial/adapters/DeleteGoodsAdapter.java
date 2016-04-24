@@ -112,7 +112,7 @@ public class DeleteGoodsAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile
 
         holder.mDeleteOrUndoBtn.setOnClickListener(v -> {
             if (finalItemData.isOnSell()) {
-                UnShelfDialog dialog = new UnShelfDialog(mContext);
+                UnShelfDialog dialog = new UnShelfDialog(mContext,finalItemData.getId());
                 dialog.show();
                 mMatrix.setSaturation(0);
             } else {

@@ -5,11 +5,18 @@ package com.sinyuk.jianyimaterial.events;
  */
 public class XUnShelfOptionEvent {
     private int mOption;
-    public XUnShelfOptionEvent(int option) {
+    private String mId;
+
+    public XUnShelfOptionEvent(int option, String id) {
         this.mOption = option;
+        this.mId = id;
     }
 
     public int getOption() {
         return mOption;
+    }
+
+    public String getId() {
+        return mId;
     }
 }

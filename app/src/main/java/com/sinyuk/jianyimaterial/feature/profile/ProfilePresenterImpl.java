@@ -1,5 +1,7 @@
 package com.sinyuk.jianyimaterial.feature.profile;
 
+import android.support.annotation.NonNull;
+
 import com.sinyuk.jianyimaterial.entity.School;
 import com.sinyuk.jianyimaterial.entity.User;
 import com.sinyuk.jianyimaterial.model.SchoolModel;
@@ -11,7 +13,7 @@ import java.util.List;
 /**
  * Created by Sinyuk on 16.4.10.
  */
-public class ProfilePresenterImpl extends BasePresenter<ProfileView> implements IProfilePresenter, UserModel.QueryCurrentUserCallback, SchoolModel.LoadSchoolsCallback {
+public class ProfilePresenterImpl extends BasePresenter<ProfileView> implements IProfilePresenter, UserModel.QueryCurrentUserCallback, SchoolModel.LoadSchoolsCallback, UserModel.UnShelfCallback {
 
     @Override
     public void queryCurrentUser() {
@@ -21,6 +23,12 @@ public class ProfilePresenterImpl extends BasePresenter<ProfileView> implements 
     @Override
     public void fetchSchoolList() {
         SchoolModel.getInstance(mView).fetchSchools(this);
+    }
+
+    @Override
+    public void unShelf(@NonNull String goodsId, @NonNull String reason) {
+        UserModel.getInstance(mView).unShelf(goodsId,reason,this);
+        mView.showProgressDialog("努力下架中");
     }
 
     @Override
@@ -56,5 +64,25 @@ public class ProfilePresenterImpl extends BasePresenter<ProfileView> implements 
     @Override
     public void onLoadSchoolVolleyError(String message) {
         mView.onLoadSchoolVolleyError(message);
+    }
+
+    @Override
+    public void onUnShelfSucceed() {
+        mView.showSucceedDialog("");
+    }
+
+    @Override
+    public void onUnShelfFailed(String message) {
+        mView.showWarningDialog(message);
+    }
+
+    @Override
+    public void onUnShelfVolleyError(String message) {
+        mView.showErrorDialog(message);
+    }
+
+    @Override
+    public void onUnShelfParseError(String message) {
+        mView.showErrorDialog(message);
     }
 }
