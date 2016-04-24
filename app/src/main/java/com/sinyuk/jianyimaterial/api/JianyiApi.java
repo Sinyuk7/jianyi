@@ -111,7 +111,7 @@ public class JianyiApi {
         return JIANYI+"/port/goods/sellManageOffPost";
     }
 
-    public static String shelf() {
+    public static String onShelf() {
         return JIANYI+"/port/goods/sellManageOnPost";
     }
 

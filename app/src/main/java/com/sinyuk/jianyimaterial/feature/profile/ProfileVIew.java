@@ -26,6 +26,7 @@ import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.common.Constants;
 import com.sinyuk.jianyimaterial.entity.School;
 import com.sinyuk.jianyimaterial.events.XLoginEvent;
+import com.sinyuk.jianyimaterial.events.XOnShelfEvent;
 import com.sinyuk.jianyimaterial.events.XUnShelfOptionEvent;
 import com.sinyuk.jianyimaterial.feature.info.InfoView;
 import com.sinyuk.jianyimaterial.feature.shelf.ShelfView;
@@ -408,6 +409,12 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
         if (reason != null) {
             mPresenter.unShelf(event.getId(), reason);
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onOnShelfEvent(XOnShelfEvent event) {
+        LogUtils.simpleLog(ProfileView.class, event.getId() + "");
+        mPresenter.onShelf(event.getId());
     }
 
     private void showBegDialog() {

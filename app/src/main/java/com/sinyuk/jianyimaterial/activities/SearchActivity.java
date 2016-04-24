@@ -321,19 +321,15 @@ public class SearchActivity extends BaseActivity {
                         JsonParser parser = new JsonParser();
                         final JsonObject response = parser.parse(HtmlUtils.removeHtml(str)).getAsJsonObject();
 //                        // 接受最原始的JSON数据
-                        Index index = gson.fromJson(response.toString(), Index.class);
-                        // 转换成我的Model
-                        List<Index.Data.Items> items = index.getData().getItems();
-                        String trans = gson.toJson(items);
-
-                        List<YihuoProfile> firstPage = gson.fromJson(trans,
+                        Index index = gson.fromJson(response, Index.class);
+                        List<YihuoProfile> data = gson.fromJson(index.getData().getItems().toString(),
                                 new TypeToken<List<YihuoProfile>>() {
                                 }.getType());
 
                         // do clear
                         if (!yihuoProfileList.isEmpty()) { yihuoProfileList.clear(); }
 //
-                        yihuoProfileList.addAll(firstPage);
+                        yihuoProfileList.addAll(data);
 //
                         adapter.setData(yihuoProfileList);
                         adapter.notifyDataSetChanged();
@@ -375,17 +371,13 @@ public class SearchActivity extends BaseActivity {
 
                         final JsonObject response = parser.parse(HtmlUtils.removeHtml(str)).getAsJsonObject();
 
-                        Index index = gson.fromJson(response.toString(), Index.class);
-
-                        List<Index.Data.Items> items = index.getData().getItems();
-
-                        String trans = gson.toJson(items);
-
-                        List<YihuoProfile> newPage = gson.fromJson(trans,
+                        Index index = gson.fromJson(response, Index.class);
+                        List<YihuoProfile> data = gson.fromJson(index.getData().getItems().toString(),
                                 new TypeToken<List<YihuoProfile>>() {
                                 }.getType());
 
-                        yihuoProfileList.addAll(newPage);
+
+                        yihuoProfileList.addAll(data);
 
                         //
                         adapter.setData(yihuoProfileList);

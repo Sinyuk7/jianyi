@@ -13,7 +13,11 @@ import java.util.List;
 /**
  * Created by Sinyuk on 16.4.10.
  */
-public class ProfilePresenterImpl extends BasePresenter<ProfileView> implements IProfilePresenter, UserModel.QueryCurrentUserCallback, SchoolModel.LoadSchoolsCallback, UserModel.UnShelfCallback {
+public class ProfilePresenterImpl extends BasePresenter<ProfileView> implements
+        IProfilePresenter, UserModel.QueryCurrentUserCallback,
+        SchoolModel.LoadSchoolsCallback,
+        UserModel.UnShelfCallback,
+        UserModel.OnShelfCallback {
 
     @Override
     public void queryCurrentUser() {
@@ -27,8 +31,14 @@ public class ProfilePresenterImpl extends BasePresenter<ProfileView> implements 
 
     @Override
     public void unShelf(@NonNull String goodsId, @NonNull String reason) {
-        UserModel.getInstance(mView).unShelf(goodsId,reason,this);
-        mView.showProgressDialog("努力下架中");
+        UserModel.getInstance(mView).unShelf(goodsId, reason, this);
+        mView.showProgressDialog("努力搬下货架ing");
+    }
+
+    @Override
+    public void onShelf(@NonNull String goodsId) {
+        UserModel.getInstance(mView).onShelf(goodsId, this);
+        mView.showProgressDialog("努力搬上货架ing");
     }
 
     @Override
@@ -84,5 +94,25 @@ public class ProfilePresenterImpl extends BasePresenter<ProfileView> implements 
     @Override
     public void onUnShelfParseError(String message) {
         mView.showErrorDialog(message);
+    }
+
+    @Override
+    public void onOnShelfSucceed() {
+
+    }
+
+    @Override
+    public void onOnShelfFailed(String message) {
+
+    }
+
+    @Override
+    public void onOnShelfVolleyError(String message) {
+
+    }
+
+    @Override
+    public void onOnShelfParseError(String message) {
+
     }
 }

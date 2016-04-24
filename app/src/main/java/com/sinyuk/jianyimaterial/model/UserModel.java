@@ -48,7 +48,7 @@ public class UserModel implements BaseModel {
     public static final String POST_GOODS = "post_goods";
     public static final String POST_NEED = "post_need";
     public static final String UNSHELF = "unshelf";
-    public static final String SHELF = "shelf";
+    public static final String ONSHELF = "onShelf";
 
     private static UserModel sInstance;
     private final Context mContext;
@@ -385,25 +385,25 @@ public class UserModel implements BaseModel {
         Jianyi.getInstance().addRequest(formDataRequest, UNSHELF);
     }
 
-    public void shelf(@NonNull String gid,ShelfCallback callback) {
+    public void onShelf(@NonNull String gid, OnShelfCallback callback) {
         final String uid = PreferencesUtils.getString(mContext, Constants.Prefs_Uid);
-        if (TextUtils.isEmpty(uid)) { callback.onShelfFailed("读取用户信息失败"); }
-        FormDataRequest formDataRequest = new FormDataRequest(Request.Method.POST, JianyiApi.unShelf(), (Response.Listener<String>) str -> {
+        if (TextUtils.isEmpty(uid)) { callback.onOnShelfFailed("读取用户信息失败"); }
+        FormDataRequest formDataRequest = new FormDataRequest(Request.Method.POST, JianyiApi.onShelf(), (Response.Listener<String>) str -> {
             try {
                 JsonParser parser = new JsonParser();
                 final JsonObject response = parser.parse(str).getAsJsonObject();
                 JPostResponse result = mGson.fromJson(response, JPostResponse.class);
                 if (result.getCode() == 2001) {
-                    callback.onShelfSucceed();
+                    callback.onOnShelfSucceed();
                 } else {
                     JError error = mGson.fromJson(response, JError.class);
-                    callback.onShelfParseError(error.getError_msg());
+                    callback.onOnShelfParseError(error.getError_msg());
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                callback.onShelfParseError(e.getMessage());
+                callback.onOnShelfParseError(e.getMessage());
             }
-        }, (Response.ErrorListener) error -> callback.onShelfVolleyError(VolleyErrorHelper.getMessage(error))) {
+        }, (Response.ErrorListener) error -> callback.onOnShelfVolleyError(VolleyErrorHelper.getMessage(error))) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
@@ -413,7 +413,7 @@ public class UserModel implements BaseModel {
             }
         };
 
-        Jianyi.getInstance().addRequest(formDataRequest, UNSHELF);
+        Jianyi.getInstance().addRequest(formDataRequest, ONSHELF);
     }
 
     public interface LoginCallback {
@@ -497,15 +497,15 @@ public class UserModel implements BaseModel {
         void onUnShelfParseError(String message);
     }
 
-    public interface ShelfCallback {
+    public interface OnShelfCallback {
 
-        void onShelfSucceed();
+        void onOnShelfSucceed();
 
-        void onShelfFailed(String message);
+        void onOnShelfFailed(String message);
 
-        void onShelfVolleyError(String message);
+        void onOnShelfVolleyError(String message);
 
-        void onShelfParseError(String message);
+        void onOnShelfParseError(String message);
     }
 
 }

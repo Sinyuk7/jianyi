@@ -98,18 +98,12 @@ public class YihuoModel implements BaseModel {
         JsonRequest jsonRequest = new JsonRequest
                 (Request.Method.GET, JianyiApi.goodsByUser(uid, pageIndex), null, response -> {
                     try {
-                        LogUtils.simpleLog(YihuoModel.class, response.toString());
                         Index index = mGson.fromJson(response.toString(), Index.class);
-
-                        List<YihuoProfile> items = index.getData().getItems();
-
-                        String trans = mGson.toJson(items);
-
+                        String trans = mGson.toJson(index.getData().getItems());
                         List<YihuoProfile> data = mGson.fromJson(trans,
                                 new TypeToken<List<YihuoProfile>>() {
                                 }.getType());
 
-                        // do clear
                         if (data != null) { callback.onCompleted(data, isRefresh); }
                     } catch (JsonParseException e) {
                         callback.onParseError(e.getMessage());
@@ -126,8 +120,7 @@ public class YihuoModel implements BaseModel {
                 (Request.Method.POST, JianyiApi.filterYihuoProfile(pageIndex), response -> {
                     try {
                         Index index = mGson.fromJson(response, Index.class);
-                        List<YihuoProfile> items = index.getData().getItems();
-                        String trans = mGson.toJson(items);
+                        String trans = mGson.toJson(index.getData().getItems());
                         List<YihuoProfile> data = mGson.fromJson(trans,
                                 new TypeToken<List<YihuoProfile>>() {
                                 }.getType());
@@ -151,11 +144,7 @@ public class YihuoModel implements BaseModel {
                 (Request.Method.GET, url, null, response -> {
                     try {
                         Index index = mGson.fromJson(response.toString(), Index.class);
-
-                        List<Index.Data.Items> items = index.getData().getItems();
-
-                        String trans = mGson.toJson(items);
-
+                        String trans = mGson.toJson(index.getData().getItems());
                         List<YihuoProfile> data = mGson.fromJson(trans,
                                 new TypeToken<List<YihuoProfile>>() {
                                 }.getType());

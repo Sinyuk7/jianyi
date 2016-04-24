@@ -45,6 +45,7 @@ public class DeleteGoodsAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile
 
     private final ColorMatrix mMatrix;
     private BitmapRequestBuilder<String, Bitmap> colorfulRequest;
+    private DeleteItemViewHolder onShelfState;
 
     public DeleteGoodsAdapter(Context context) {
         super(context);
@@ -100,39 +101,49 @@ public class DeleteGoodsAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile
             e.printStackTrace();
         }
 
-        if (itemData.isOnShelf()){
-            mMatrix.setSaturation(1);
-            holder.mDeleteOrUndoBtn.setChecked(false);
-            holder.mNewPriceLabelView.setText(FormatUtils.formatPrice(itemData.getPrice()));
-        }else {
-            mMatrix.setSaturation(0);
-            holder.mDeleteOrUndoBtn.setChecked(true);
-            holder.mNewPriceLabelView.setText(mContext.getString(R.string.unshelf_unshelf));
-        }
+        if (itemData.isOnShelf()) {
+            setOnShelfState(holder,finalItemData);
 
-        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(mMatrix);
-        holder.mShotIv.setColorFilter(filter);
+        } else {
+            setUnShelfState(holder,finalItemData);
+        }
 
         holder.mDeleteOrUndoBtn.setOnClickListener(v -> {
             if (finalItemData.isOnShelf()) {
-                UnShelfDialog dialog = new UnShelfDialog(mContext,finalItemData.getId());
+                UnShelfDialog dialog = new UnShelfDialog(mContext, finalItemData.getId());
                 dialog.show();
-                mMatrix.setSaturation(0);
+                setUnShelfState(holder,finalItemData);
             } else {
-                mMatrix.setSaturation(1);
-                ToastUtils.toastSlow(mContext,mContext.getString(R.string.unshelf_hint_re_shelf));
+                setOnShelfState(holder,finalItemData);
                 EventBus.getDefault().post(new XOnShelfEvent(finalItemData.getId()));
             }
-            ColorMatrixColorFilter filter1 = new ColorMatrixColorFilter(mMatrix);
-            holder.mShotIv.setColorFilter(filter1);
-            // toggle
-            holder.mDeleteOrUndoBtn.setChecked(!holder.mDeleteOrUndoBtn.isChecked());
 
         });
 
         colorfulRequest.load(JianyiApi.shotUrl(itemData.getPic())).into(holder.mShotIv);
         holder.mShotIv.setTag(R.id.shots_cover_tag, position);
+
+
     }
+
+    private void setUnShelfState(DeleteItemViewHolder holder, YihuoProfile itemData) {
+        mMatrix.setSaturation(0);
+        holder.mDeleteOrUndoBtn.setChecked(true);
+        holder.mNewPriceLabelView.setBgColor(mContext.getResources().getColor(R.color.grey_600));
+        holder.mNewPriceLabelView.setText(mContext.getString(R.string.unshelf_unshelf));
+        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(mMatrix);
+        holder.mShotIv.setColorFilter(filter);
+    }
+
+    public void setOnShelfState(final DeleteItemViewHolder holder, final YihuoProfile itemData) {
+        mMatrix.setSaturation(1);
+        holder.mDeleteOrUndoBtn.setChecked(false);
+        holder.mNewPriceLabelView.setText(FormatUtils.formatPrice(itemData.getPrice()));
+        holder.mNewPriceLabelView.setBgColor(mContext.getResources().getColor(R.color.colorPrimary));
+        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(mMatrix);
+        holder.mShotIv.setColorFilter(filter);
+    }
+
 
     public class DeleteItemViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.shot_iv)

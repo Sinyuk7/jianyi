@@ -11,4 +11,6 @@ public interface IProfilePresenter {
     void fetchSchoolList();
 
     void unShelf(@NonNull String goodsId, @NonNull String reason);
+
+    void onShelf(@NonNull String goodsId);
 }
