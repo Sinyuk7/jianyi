@@ -67,6 +67,11 @@ public class YihuoProfile implements Parcelable {
         return isOnShelf.equals("0");
     }
 
+    public void setOnShelf(boolean isOnShelf) {
+        final String value = isOnShelf ? "0" : "1";
+        this.isOnShelf = value;
+    }
+
     public String getId() {
         return id;
     }
