@@ -49,12 +49,12 @@ public class YihuoModel implements BaseModel {
     private static YihuoModel instance;
     private final Context mContext;
     private YihuoDetailsService yihuoDetailsService;
-    private Gson gson;
+    private Gson mGson;
 
     private YihuoModel(Context context) {
         this.mContext = context;
         yihuoDetailsService = DaoUtils.getYihuoDetailsService();
-        gson = new Gson();
+        mGson = new Gson();
     }
 
 
@@ -73,10 +73,10 @@ public class YihuoModel implements BaseModel {
         JsonRequest jsonRequest = new JsonRequest
                 (Request.Method.GET, JianyiApi.yihuoDetails(HEADLINE_INDEX), null, response -> {
                     try {
-                        Show show = gson.fromJson(response.toString(), Show.class);
+                        Show show = mGson.fromJson(response.toString(), Show.class);
                         Show.Data jsonData = show.getData();
-                        String trans = gson.toJson(jsonData);
-                        YihuoDetails data = gson.fromJson(trans,
+                        String trans = mGson.toJson(jsonData);
+                        YihuoDetails data = mGson.fromJson(trans,
                                 YihuoDetails.class);
                         if (data != null) { callback.onCompleted(data); }
                     } catch (JsonParseException e) {
@@ -99,13 +99,13 @@ public class YihuoModel implements BaseModel {
                 (Request.Method.GET, JianyiApi.goodsByUser(uid, pageIndex), null, response -> {
                     try {
                         LogUtils.simpleLog(YihuoModel.class, response.toString());
-                        Index index = gson.fromJson(response.toString(), Index.class);
+                        Index index = mGson.fromJson(response.toString(), Index.class);
 
-                        List<Index.Data.Items> items = index.getData().getItems();
+                        List<YihuoProfile> items = index.getData().getItems();
 
-                        String trans = gson.toJson(items);
+                        String trans = mGson.toJson(items);
 
-                        List<YihuoProfile> data = gson.fromJson(trans,
+                        List<YihuoProfile> data = mGson.fromJson(trans,
                                 new TypeToken<List<YihuoProfile>>() {
                                 }.getType());
 
@@ -125,10 +125,10 @@ public class YihuoModel implements BaseModel {
         FormDataRequest jsonRequest = new FormDataRequest
                 (Request.Method.POST, JianyiApi.filterYihuoProfile(pageIndex), response -> {
                     try {
-                        Index index = gson.fromJson(response, Index.class);
-                        List<Index.Data.Items> items = index.getData().getItems();
-                        String trans = gson.toJson(items);
-                        List<YihuoProfile> data = gson.fromJson(trans,
+                        Index index = mGson.fromJson(response, Index.class);
+                        List<YihuoProfile> items = index.getData().getItems();
+                        String trans = mGson.toJson(items);
+                        List<YihuoProfile> data = mGson.fromJson(trans,
                                 new TypeToken<List<YihuoProfile>>() {
                                 }.getType());
                         // do clear
@@ -150,13 +150,13 @@ public class YihuoModel implements BaseModel {
         JsonRequest jsonRequest = new JsonRequest
                 (Request.Method.GET, url, null, response -> {
                     try {
-                        Index index = gson.fromJson(response.toString(), Index.class);
+                        Index index = mGson.fromJson(response.toString(), Index.class);
 
                         List<Index.Data.Items> items = index.getData().getItems();
 
-                        String trans = gson.toJson(items);
+                        String trans = mGson.toJson(items);
 
-                        List<YihuoProfile> data = gson.fromJson(trans,
+                        List<YihuoProfile> data = mGson.fromJson(trans,
                                 new TypeToken<List<YihuoProfile>>() {
                                 }.getType());
 
@@ -173,10 +173,10 @@ public class YihuoModel implements BaseModel {
         JsonRequest jsonRequest = new JsonRequest
                 (Request.Method.GET, JianyiApi.yihuoDetails(yihuoId), null, response -> {
                     try {
-                        Show show = gson.fromJson(response.toString(), Show.class);
+                        Show show = mGson.fromJson(response.toString(), Show.class);
                         Show.Data jsonData = show.getData();
-                        String trans = gson.toJson(jsonData);
-                        YihuoDetails data = gson.fromJson(trans,
+                        String trans = mGson.toJson(jsonData);
+                        YihuoDetails data = mGson.fromJson(trans,
                                 YihuoDetails.class);
                         if (data != null) { callback.onCompleted(data); }
                     } catch (JsonParseException e) {

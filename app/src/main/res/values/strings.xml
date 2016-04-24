@@ -320,6 +320,7 @@
     <string name="details_share_prefix">快来看!我在简易上发现了~</string>
     <string name="details_share_to_hint">想把它分享到…</string>
     <string name="unshelf_confirm">确定</string>
+    <string name="unshelf_unshelf">已下架</string>
 
 
 </resources>

@@ -1,5 +1,7 @@
 package com.sinyuk.jianyimaterial.api;
 
+import com.sinyuk.jianyimaterial.entity.YihuoProfile;
+
 import java.util.List;
 
 /**
@@ -29,36 +31,6 @@ public class Index {
     public Data data;
     public int code;
 
-    public static class Data {
-        public int first;
-        public int before;
-        public int next;
-        public int last;
-        public int current;
-        public int total_pages;
-        public int total_items;
-        public int limit;
-
-        public List<Items> items;
-
-        public static class Items {
-            public String id;
-            public String uid;
-            public String name;
-            public String price;
-            public String tel;
-            public String time;
-            public String pic;
-            public String username;
-            public String headImg;
-            public String schoolname;
-        }
-
-        public List<Items> getItems() {
-            return items;
-        }
-    }
-
     public int getStatus() {
         return status;
     }
@@ -69,6 +41,23 @@ public class Index {
 
     public int getCode() {
         return code;
+    }
+
+    public static class Data {
+        public int first;
+        public int before;
+        public int next;
+        public int last;
+        public int current;
+        public int total_pages;
+        public int total_items;
+        public int limit;
+
+        public List<YihuoProfile> items;
+
+        public List<YihuoProfile> getItems() {
+            return items;
+        }
     }
 
 }

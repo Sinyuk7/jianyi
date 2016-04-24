@@ -19,6 +19,7 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
+import com.sinyuk.jianyimaterial.events.XOnShelfEvent;
 import com.sinyuk.jianyimaterial.feature.dialog.UnShelfDialog;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
 import com.sinyuk.jianyimaterial.feature.details.DetailsView;
@@ -29,6 +30,8 @@ import com.sinyuk.jianyimaterial.utils.ToastUtils;
 import com.sinyuk.jianyimaterial.widgets.CheckableImageView;
 import com.sinyuk.jianyimaterial.widgets.LabelView;
 import com.sinyuk.jianyimaterial.widgets.RatioImageView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.text.ParseException;
 
@@ -87,7 +90,7 @@ public class DeleteGoodsAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile
         });
 
         holder.mTitleTv.setText(StringUtils.check(mContext, itemData.getName(), R.string.unknown_title));
-        holder.mNewPriceLabelView.setText(FormatUtils.formatPrice(itemData.getPrice()));
+
         try {
             holder.mPubDateTv.setText(String.format(mContext.getString(R.string.common_prefix_from),
                     FuzzyDateFormater.getParsedDate(mContext, itemData.getTime())));
@@ -96,34 +99,35 @@ public class DeleteGoodsAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile
             holder.mPubDateTv.setText(mContext.getString(R.string.unknown_date));
             e.printStackTrace();
         }
-//        holder.locationTv.setText(StringUtils.check(mContext, itemData.getSchoolname(), R.string.unknown_location));
 
-
-        if (itemData.isOnSell()) {
-            holder.mDeleteOrUndoBtn.setChecked(false);
+        if (itemData.isOnShelf()){
             mMatrix.setSaturation(1);
-        } else {
+            holder.mDeleteOrUndoBtn.setChecked(false);
+            holder.mNewPriceLabelView.setText(FormatUtils.formatPrice(itemData.getPrice()));
+        }else {
             mMatrix.setSaturation(0);
             holder.mDeleteOrUndoBtn.setChecked(true);
+            holder.mNewPriceLabelView.setText(mContext.getString(R.string.unshelf_unshelf));
         }
+
         ColorMatrixColorFilter filter = new ColorMatrixColorFilter(mMatrix);
         holder.mShotIv.setColorFilter(filter);
 
-
         holder.mDeleteOrUndoBtn.setOnClickListener(v -> {
-            if (finalItemData.isOnSell()) {
+            if (finalItemData.isOnShelf()) {
                 UnShelfDialog dialog = new UnShelfDialog(mContext,finalItemData.getId());
                 dialog.show();
                 mMatrix.setSaturation(0);
             } else {
                 mMatrix.setSaturation(1);
                 ToastUtils.toastSlow(mContext,mContext.getString(R.string.unshelf_hint_re_shelf));
+                EventBus.getDefault().post(new XOnShelfEvent(finalItemData.getId()));
             }
             ColorMatrixColorFilter filter1 = new ColorMatrixColorFilter(mMatrix);
             holder.mShotIv.setColorFilter(filter1);
             // toggle
             holder.mDeleteOrUndoBtn.setChecked(!holder.mDeleteOrUndoBtn.isChecked());
-            finalItemData.setOnSell(!finalItemData.isOnSell());
+
         });
 
         colorfulRequest.load(JianyiApi.shotUrl(itemData.getPic())).into(holder.mShotIv);
