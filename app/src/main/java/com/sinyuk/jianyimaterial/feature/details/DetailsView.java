@@ -304,12 +304,12 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
             shareIntent.setType("image/*");
             //当用户选择短信时使用sms_body取得文字
             shareIntent.putExtra("sms_body", getString(R.string.details_share_prefix)
-                    + profileData.getName() + ".(" + JianyiApi.shareById(profileData.getId()) + ")");
+                    + profileData.getName() + JianyiApi.shareById(profileData.getId()));
         } else {
             shareIntent.setType("text/plain");
         }
         shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.details_share_prefix)
-                + profileData.getName() + ".(" + JianyiApi.shareById(profileData.getId()) + ")");
+                + profileData.getName() + JianyiApi.shareById(profileData.getId()));
         //自定义选择框的标题
         startActivity(Intent.createChooser(shareIntent, getString(R.string.details_share_to_hint)));
         //系统默认标题
