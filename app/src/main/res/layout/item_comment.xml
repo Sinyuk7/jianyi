@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    style="@style/ClickableArea"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:orientation="horizontal"
-    android:paddingTop="@dimen/activity_horizontal_margin"
-    android:paddingBottom="@dimen/activity_horizontal_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin">
+<LinearLayout style="@style/ClickableArea"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+              android:orientation="horizontal"
+              android:paddingBottom="@dimen/activity_horizontal_margin"
+              android:paddingLeft="@dimen/activity_horizontal_margin"
+              android:paddingRight="@dimen/activity_horizontal_margin"
+              android:paddingTop="@dimen/activity_horizontal_margin">
 
-    <com.sinyuk.jianyimaterial.widgets.MyCircleImageView
+    <ImageView
         android:id="@+id/avatar"
-        style="@style/Avatar"
-        tools:src="@drawable/expression_65" />
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/ex_greeting"/>
 
 
     <LinearLayout
@@ -25,9 +27,9 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:gravity="bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="bottom"
             android:orientation="horizontal">
 
             <TextView
@@ -37,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/material_text_body1"
                 android:textStyle="bold"
-                tools:text="@string/user_name" />
+                tools:text="@string/user_name"/>
 
             <TextView
                 android:id="@+id/pub_date_tv"
@@ -48,19 +50,19 @@
                 android:gravity="end"
                 android:textColor="@color/grey_600"
                 android:textSize="@dimen/material_text_caption1"
-                tools:text="@string/pubdate" />
+                tools:text="@string/pubdate"/>
 
         </LinearLayout>
 
         <TextView
             android:id="@+id/content_tv"
-            android:gravity="start"
-            android:textColor="@color/textColorDark"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/tiny_content_space"
+            android:gravity="start"
+            android:textColor="@color/textColorDark"
             android:textSize="@dimen/material_text_body2"
-            tools:text="@string/dummy_post_main_body" />
+            tools:text="@string/dummy_comment"/>
 
     </LinearLayout>
 

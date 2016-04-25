@@ -13,7 +13,7 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        tools:src="@drawable/expression_65" />
+        tools:src="@drawable/ex_greeting" />
 
     <TextView
         android:id="@+id/user_name_tv"

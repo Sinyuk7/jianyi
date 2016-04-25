@@ -1,61 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- ============================ -->
-    <!-- 头像 -->
-    <!-- Default Avatar -->
-    <!-- ========================== -->
-    <eat-comment />
 
-
-    <!-- ================ -->
-    <!--  List Item -->
-    <!-- 列表 -->
-    <!-- ================ -->
-    <eat-comment />
-    <!--Avatar-->
-    <!--头像-->
     <style name="Avatar">
         <item name="android:layout_width">@dimen/image_size_3</item>
         <item name="android:layout_height">@dimen/image_size_3</item>
         <item name="border_color">@color/grey_30_pct</item>
         <item name="border_width">@dimen/divider_height</item>
-    </style>
-    <!--Level Icon-->
-    <!--等级图标-->
-    <style name="ItemLevel" parent="ClickableImageView">
-        <item name="android:contentDescription">等级</item>
-        <item name="android:layout_width">@dimen/icon_size_1</item>
-        <item name="android:layout_height">@dimen/icon_size_1</item>
-        <item name="android:tint">@color/colorPrimary</item>
-        <item name="android:scaleType">centerInside</item>
-    </style>
-
-    <!--用户名-->
-    <!--<UserName-->
-    <style name="ItemUserName" parent="SingleLineText">
-        <item name="android:textSize">@dimen/material_text_menu</item>
-        <item name="android:textColor">@color/textColorLight</item>
-    </style>
-
-    <!--发布日期-->
-    <!--Pulish Date-->
-    <style name="ItemPubData" parent="SingleLineText">
-        <item name="android:textSize">@dimen/material_text_caption2</item>
-        <item name="android:textColor">@color/textColorLight</item>
-    </style>
-
-    <!--标题-->
-    <style name="ItemTitle" parent="ClickableTextStyle">
-        <item name="android:singleLine">true</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:textSize">@dimen/material_text_menu</item>
-    </style>
-    <!--货物描述-->
-    <style name="ItemDescription">
-        <item name="android:maxLines">3</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:textColor">@color/textColorLight</item>
-        <item name="android:textSize">@dimen/material_text_caption2</item>
     </style>
 
     <!--价格-->
@@ -71,51 +21,6 @@
 
     <style name="PriceOld" parent="Price">
         <item name="android:textColor">@color/textColorLight</item>
-    </style>
-
-    <!--Footer Action Button-->
-    <!--底部工具栏图标-->
-    <style name="ItemFooterActions" parent="ClickableImageViewBorderless">
-        <item name="android:layout_width">40dp</item>
-        <item name="android:layout_height">40dp</item>
-        <item name="android:padding">8dp</item>
-        <item name="android:adjustViewBounds">true</item>
-        <item name="android:scaleType">centerInside</item>
-        <item name="android:tint">@color/controlNormal</item>
-    </style>
-
-    <!--接上面 图标后面的文字-->
-    <!--Badges After Actions-->
-    <style name="ItemFooterBadge" parent="SingleLineText">
-        <item name="android:paddingRight">@dimen/general_content_space</item>
-        <item name="android:textSize">@dimen/material_text_subhead</item>
-        <item name="android:textColor">@color/textColorLight</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <!--在有些地方用到的location-->
-    <style name="ItemLocation" parent="SingleLineText">
-        <item name="android:textSize">@dimen/material_text_caption2</item>
-        <item name="android:textColor">@color/textColorLight</item>
-    </style>
-
-
-
-    <!-- ================ -->
-    <!--  Item Context Menu Items -->
-    <!-- 项目的上下文菜单 选项-->
-    <!-- ================ -->
-    <eat-comment />
-
-    <style name="ItemContextMenuItem" parent="ClickableTextStyle">
-        <item name="android:textSize">@dimen/material_text_subhead</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/textColorLight</item>
-        <item name="android:gravity">left|center_vertical</item>
-        <item name="android:paddingLeft">@dimen/activity_horizontal_margin</item>
-        <item name="android:paddingTop">@dimen/activity_horizontal_margin</item>
-        <item name="android:paddingBottom">@dimen/activity_horizontal_margin</item>
     </style>
 
     <!-- ================ -->

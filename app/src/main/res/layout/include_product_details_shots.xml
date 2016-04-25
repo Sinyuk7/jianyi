@@ -95,6 +95,7 @@
             android:layout_below="@+id/new_price_tv"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:textSize="@dimen/material_text_menu"
+            android:layout_marginTop="@dimen/tiny_content_space"
             android:textStyle="bold"
             tools:text="@string/dummy_item_title"/>
 
@@ -104,13 +105,14 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/title_tv"
             android:layout_marginTop="@dimen/extra_tiny_content_space"
-            app:animDuration="100"
+            app:animDuration="200"
             app:maxCollapsedLines="2">
 
             <TextView
                 android:id="@id/expandable_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:lineSpacingExtra="2dp"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:background="@android:color/transparent"
