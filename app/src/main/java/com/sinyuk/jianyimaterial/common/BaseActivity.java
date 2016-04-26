@@ -67,7 +67,6 @@ public abstract class BaseActivity extends AppCompatActivity {
             // TODO: Set back arrow as default navigation button
             if (isNavAsBack()) {
                 setSupportActionBar(toolbar);
-                toolbar.setNavigationIcon(R.drawable.ic_arrow_back_primary_24dp);
                 toolbar.setNavigationOnClickListener(v -> onBackPressed());
             }
         }
