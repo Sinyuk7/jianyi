@@ -38,6 +38,15 @@ public class DetailsPresenterImpl extends BasePresenter<DetailsView> implements 
         YihuoModel.getInstance(mView).removeFromLikes(data, this);
     }
 
+    @Override
+    public void loadComments() {
+        if (/*应该在回调里面写*/true){
+            mView.showComments();
+        }else {
+            mView.hintNoComment();
+        }
+    }
+
     //** callbacks for loading Yihuo details **//
     @Override
     public void onVolleyError(String message) {

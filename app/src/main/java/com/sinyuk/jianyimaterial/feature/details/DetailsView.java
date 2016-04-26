@@ -13,6 +13,8 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.MotionEvent;
@@ -32,9 +34,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.sinyuk.jianyimaterial.R;
-import com.sinyuk.jianyimaterial.common.PhotoViewActivity;
+import com.sinyuk.jianyimaterial.adapters.CommentsAdapter;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.common.Constants;
+import com.sinyuk.jianyimaterial.common.PhotoViewActivity;
 import com.sinyuk.jianyimaterial.entity.YihuoDetails;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
 import com.sinyuk.jianyimaterial.feature.profile.ProfileView;
@@ -70,6 +73,7 @@ import cimi.com.easeinterpolator.EaseSineInInterpolator;
 public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements IDetailsView {
 
     public static final String YihuoProfile = "YihuoProfile";
+    private static final long LOAD_COMMENT_DELAY = 3000;
     @Bind(R.id.view_pager)
     ViewPager viewPager;
     @Bind(R.id.scrim)
@@ -101,7 +105,7 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
     @Bind(R.id.share_tv)
     TextView shareTv;
     @Bind(R.id.recycler_view)
-    RecyclerView recyclerView;
+    RecyclerView commentList;
     @Bind(R.id.comment_et)
     EditText commentEt;
     @Bind(R.id.comment_input_layout)
@@ -121,6 +125,7 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
     private DrawableRequestBuilder<String> avatarRequest;
     private BitmapRequestBuilder<String, Bitmap> shotRequest;
     private Uri mFirstShotUri;
+    private CommentsAdapter mCommentAdapter;
 
     @Override
     protected boolean isUseEventBus() {
@@ -188,6 +193,8 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
         setupPrice();
         setupViewPager();
 
+        setupCommentList();
+        myHandler.postDelayed(() -> mPresenter.loadComments(), LOAD_COMMENT_DELAY);
     }
 
     private void setYihuoTitle() {
@@ -355,9 +362,22 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
         viewCountTv.setText(String.format(StringUtils.getRes(this, R.string.details_view_count), count));
     }
 
+    private void setupCommentList() {
+        mCommentAdapter = new CommentsAdapter(this);
+        commentList.setAdapter(mCommentAdapter);
+        commentList.setItemAnimator(new DefaultItemAnimator());
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        commentList.setLayoutManager(layoutManager);
+    }
+
     @Override
     public void showComments() {
-
+        List<String> comments = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            comments.add("");
+        }
+        mCommentAdapter.setData(comments);
+        mCommentAdapter.notifyDataSetChanged();
     }
 
     @Override
