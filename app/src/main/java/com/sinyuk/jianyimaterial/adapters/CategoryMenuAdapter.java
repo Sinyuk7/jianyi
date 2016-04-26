@@ -3,16 +3,20 @@ package com.sinyuk.jianyimaterial.adapters;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.DrawableRequestBuilder;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.sinyuk.jianyimaterial.R;
+import com.sinyuk.jianyimaterial.glide.ColorFilterTransformation;
 import com.sinyuk.jianyimaterial.utils.AnimUtils;
 import com.sinyuk.jianyimaterial.utils.ScreenUtils;
 
@@ -26,7 +30,7 @@ import cimi.com.easeinterpolator.EaseSineOutInterpolator;
 public class CategoryMenuAdapter extends RecyclerView.Adapter<CategoryMenuAdapter.CategoryItemViewHolder> implements View.OnClickListener {
 
 
-    private String[] titles;
+    private static final float ANIM_SCALE_FACTOR = 1;
     public final int[] iconResIds = new int[]{
             R.drawable.ic_hanger_white_48dp,//1
             R.drawable.ic_android_studio_white_48dp,
@@ -40,27 +44,23 @@ public class CategoryMenuAdapter extends RecyclerView.Adapter<CategoryMenuAdapte
             R.drawable.ic_wallet_travel_white_48dp,
             R.drawable.ic_food_white_48dp,
     };
+    private final DrawableRequestBuilder<Integer> iconRequest;
+    private String[] titles;
     private Context context;
 
     private OnCategoryMenuItemClickListener onCategoryMenuItemClickListener;
-    private boolean iconsAnimationLocked = false;
-    private int lastAnimatedItem = -1;
+    private int lastAnimatedPosition = -1;
 
-    public boolean isIconsAnimationLocked() {
-        return iconsAnimationLocked;
-    }
-
-    public void setIconsAnimationLocked(boolean iconsAnimationLocked) {
-        this.iconsAnimationLocked = iconsAnimationLocked;
+    public CategoryMenuAdapter(Context context) {
+        this.context = context;
+        iconRequest = Glide.with(context).fromResource()
+                .bitmapTransform(new ColorFilterTransformation(context, context.getResources().getColor(R.color.colorPrimary)))
+                .dontAnimate().diskCacheStrategy(DiskCacheStrategy.RESULT);
+        initData();
     }
 
     public void setOnCategoryMenuItemClickListener(OnCategoryMenuItemClickListener onCategoryMenuItemClickListener) {
         this.onCategoryMenuItemClickListener = onCategoryMenuItemClickListener;
-    }
-
-    public CategoryMenuAdapter(Context context) {
-        this.context = context;
-        initData();
     }
 
     private void initData() {
@@ -76,17 +76,13 @@ public class CategoryMenuAdapter extends RecyclerView.Adapter<CategoryMenuAdapte
     @Override
     public void onBindViewHolder(CategoryMenuAdapter.CategoryItemViewHolder holder, int position) {
         holder.title.setText(titles[position]);
-        holder.icon.setImageResource(iconResIds[position]);
+        iconRequest.load(iconResIds[position]).into(holder.icon);
         holder.wrapper.setOnClickListener(this);
 
         holder.title.setTag(position);
-        holder.icon.setTag(position);
         holder.wrapper.setTag(position);
 
-
-        animateIcons(holder);
-        if (lastAnimatedItem < position)
-            lastAnimatedItem = position;
+        runEnterAnimation(holder.wrapper, position);
     }
 
 
@@ -98,38 +94,39 @@ public class CategoryMenuAdapter extends RecyclerView.Adapter<CategoryMenuAdapte
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.item_wrapper) {
-            if (onCategoryMenuItemClickListener != null)
+            if (onCategoryMenuItemClickListener != null) {
                 onCategoryMenuItemClickListener.onCategoryMenuItemClick(v, (Integer) v.getTag());
+            }
         }
     }
 
-    private void animateIcons(final CategoryItemViewHolder viewHolder) {
-        if (!iconsAnimationLocked) {
-            if (lastAnimatedItem == viewHolder.getAdapterPosition()) {
-                setIconsAnimationLocked(true);
-            }
-
-            long animationDelay = (long) (viewHolder.getAdapterPosition() * 50 + AnimUtils.ACTIVITY_TRANSITION_DELAY * 1.5);
-
-
-            viewHolder.wrapper.setTranslationY(ScreenUtils.dpToPx(context, 100));
-            viewHolder.wrapper.setAlpha(0f);
-            viewHolder.wrapper.animate()
-                    .translationY(0)
-                    .alpha(1.f)
-                    .setDuration(AnimUtils.ANIMATION_TIME_SHORT_EXTRA)
+    private void runEnterAnimation(final View view, int position) {
+        if (position > lastAnimatedPosition) {
+            lastAnimatedPosition = position;
+            view.setTranslationY(ScreenUtils.dpToPx(context, 56));
+            view.setPivotX(0);
+            view.setPivotY(0);
+            view.setRotation(5);
+            view.setAlpha(0.f);
+            view.animate()
+                    .translationY(0).alpha(1.f).rotation(0)
+                    .setStartDelay((long) (ANIM_SCALE_FACTOR * 80 * position))
                     .setInterpolator(new EaseSineOutInterpolator())
-                    .setStartDelay(animationDelay)
+                    .setDuration(AnimUtils.ANIMATION_TIME_SHORT)
                     .setListener(new AnimatorListenerAdapter() {
                         @Override
                         public void onAnimationEnd(Animator animation) {
-                            iconsAnimationLocked = true;
-                            viewHolder.wrapper.setTranslationY(0);
-                            viewHolder.wrapper.setAlpha(1.f);
+                            ViewCompat.setTranslationY(view, 0);
+                            ViewCompat.setAlpha(view, 1.f);
+                            ViewCompat.setRotation(view, 0);
                         }
                     })
                     .start();
         }
+    }
+
+    public interface OnCategoryMenuItemClickListener {
+        void onCategoryMenuItemClick(View view, int position);
     }
 
     public class CategoryItemViewHolder extends RecyclerView.ViewHolder {
@@ -144,10 +141,6 @@ public class CategoryMenuAdapter extends RecyclerView.Adapter<CategoryMenuAdapte
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
-    }
-
-    public interface OnCategoryMenuItemClickListener {
-        void onCategoryMenuItemClick(View view, int position);
     }
 
 }

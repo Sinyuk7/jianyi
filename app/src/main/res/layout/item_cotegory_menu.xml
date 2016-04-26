@@ -14,9 +14,8 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_centerHorizontal="true"
-        android:scaleType="centerInside"
-        android:tint="@color/colorPrimary"
-        tools:src="@drawable/expression_65"/>
+        android:scaleType="fitCenter"
+        tools:src="@drawable/ex_greeting"/>
 
     <TextView
         android:id="@+id/title_tv"

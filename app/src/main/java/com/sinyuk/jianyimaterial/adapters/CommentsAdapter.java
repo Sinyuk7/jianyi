@@ -17,7 +17,6 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.glide.CropCircleTransformation;
-import com.sinyuk.jianyimaterial.utils.AnimUtils;
 import com.sinyuk.jianyimaterial.utils.FuzzyDateFormater;
 import com.sinyuk.jianyimaterial.utils.NameGenerator;
 import com.sinyuk.jianyimaterial.utils.ScreenUtils;
@@ -121,9 +120,9 @@ public class CommentsAdapter extends ExtendedRecyclerViewAdapter<String, Comment
             view.setAlpha(0.f);
             view.animate()
                     .translationY(0).alpha(1.f).rotation(0)
-                    .setStartDelay(delayEnterAnimation ? (long) (ANIM_SCALE_FACTOR * 80 * position) : 0)
+                    .setStartDelay(delayEnterAnimation ? (long) (ANIM_SCALE_FACTOR * 50 * position) : 0)
                     .setInterpolator(new EaseSineOutInterpolator())
-                    .setDuration(AnimUtils.ANIMATION_TIME_SHORT)
+                    .setDuration(150)
                     .setListener(new AnimatorListenerAdapter() {
                         @Override
                         public void onAnimationEnd(Animator animation) {

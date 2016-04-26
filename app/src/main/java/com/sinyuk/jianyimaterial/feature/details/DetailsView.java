@@ -78,7 +78,7 @@ import rx.schedulers.Schedulers;
 public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements IDetailsView {
 
     public static final String YihuoProfile = "YihuoProfile";
-    private static final long LOAD_COMMENT_DELAY = 3000;
+    private static final long LOAD_COMMENT_DELAY = 1213;
     @Bind(R.id.view_pager)
     ViewPager viewPager;
     @Bind(R.id.scrim)
@@ -518,19 +518,6 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
                         }).start();
                         isEnterActivity = false;
                     }
-
-              /*      if (position == 0) {
-                        LogUtils.simpleLog(DetailsView.class, "onResourceReady");
-                        mCompositeSubscription.add(Observable.just(bitmap)
-                                .map(pic -> BitmapUtils.getBitmapCacheUri(DetailsView.this, pic, SystemClock.currentThreadTimeMillis() + ""))
-                                .subscribeOn(Schedulers.io())
-                                .doOnError(Throwable::printStackTrace)
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(uri -> {
-                                    LogUtils.simpleLog(DetailsView.class, "Save Uri");
-                                    mFirstShotUri = uri;
-                                }));
-                    }*/
                     return false;
                 }
             }).into(imageView);
