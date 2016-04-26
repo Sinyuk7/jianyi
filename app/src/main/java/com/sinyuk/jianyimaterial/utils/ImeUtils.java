@@ -1,11 +1,14 @@
 package com.sinyuk.jianyimaterial.utils;
 
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.ResultReceiver;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import java.lang.reflect.Method;
 
@@ -41,5 +44,11 @@ public class ImeUtils {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-
+    public static void copyToClipBoard(Context context, String text, String success) {
+        ClipData clipData = ClipData.newPlainText("jianyi_copy", text);
+        ClipboardManager manager = (ClipboardManager) context.getSystemService(
+                Context.CLIPBOARD_SERVICE);
+        manager.setPrimaryClip(clipData);
+        Toast.makeText(context, success, Toast.LENGTH_SHORT).show();
+    }
 }

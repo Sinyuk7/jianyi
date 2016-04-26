@@ -40,19 +40,43 @@
     <style name="BaseToolbar">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/toolbar_height</item>
-        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
     </style>
 
-    <style name="BaseToolbar.Primary">
+    <style name="BaseToolbar.Primary" parent="BaseToolbar">
         <item name="titleTextColor">@color/white</item>
         <item name="android:background">@color/colorPrimary</item>
+        <item name="theme">@style/MyActionBar.Primary</item>>
     </style>
 
-    <style name="BaseToolbar.Light">
-        <item name="theme">@style/MyActionBar</item>
+    <style name="BaseToolbar.Light" parent="BaseToolbar">
+        <item name="theme">@style/MyActionBar.Light</item>>
         <item name="titleTextColor">@color/colorPrimary</item>
         <item name="android:background">@color/white</item>
     </style>
 
     <dimen name="app_bar_shadow">4dp</dimen>
+
+    <style name="MyActionBar.Light" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:actionOverflowButtonStyle">@style/MyOverflowButtonStyle.Light</item>
+        <item name="android:actionOverflowMenuStyle">@style/MyOverflowButtonStyle.Light</item>
+    </style>
+
+    <style name="MyActionBar.Primary" parent="Theme.AppCompat.Light">
+        <item name="android:actionOverflowButtonStyle">@style/MyOverflowButtonStyle.Primary</item>
+        <item name="android:actionOverflowMenuStyle">@style/MyOverflowButtonStyle.Primary</item>
+    </style>
+
+    <style name="MyOverflowButtonStyle" parent="Base.Widget.AppCompat.ActionButton.Overflow"/>
+
+    <style name="MyOverflowButtonStyle.Light" parent="MyOverflowButtonStyle">
+        <item name="android:tint">@color/colorPrimary</item>
+        <item name="android:color">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
+    <style name="MyOverflowButtonStyle.Primary" parent="MyOverflowButtonStyle">
+        <item name="android:tint">@color/white</item>
+        <item name="android:color">@color/white</item>
+        <item name="colorAccent">@color/white</item>
+    </style>
 </resources>
