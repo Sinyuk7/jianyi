@@ -22,19 +22,19 @@
             android:launchMode="singleTop"
             android:theme="@style/Jianyi.Transparent"/>
         <activity
-            android:name=".activities.PhotoViewActivity"
+            android:name=".common.PhotoViewActivity"
             android:launchMode="singleTop"
             android:theme="@style/Jianyi.FullScreenBlack"/>
 
         <activity
-            android:name=".activities.CustomErrorActivity"
+            android:name=".common.CustomErrorActivity"
             android:process=":error_activity">
             <intent-filter>
                 <action android:name="cat.ereza.customactivityoncrash.ERROR"/>
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.SearchActivity"
+            android:name=".common.SearchActivity"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH"/>

@@ -32,7 +32,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.sinyuk.jianyimaterial.R;
-import com.sinyuk.jianyimaterial.activities.PhotoViewActivity;
+import com.sinyuk.jianyimaterial.common.PhotoViewActivity;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.common.Constants;
 import com.sinyuk.jianyimaterial.entity.YihuoDetails;

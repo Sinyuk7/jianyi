@@ -1,4 +1,4 @@
-package com.sinyuk.jianyimaterial.activities;
+package com.sinyuk.jianyimaterial.common;
 
 import android.app.Activity;
 import android.content.ClipData;
