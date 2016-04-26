@@ -3,7 +3,6 @@ package com.sinyuk.jianyimaterial.common;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -13,7 +12,6 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.GeolocationPermissions;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -32,7 +30,6 @@ import butterknife.ButterKnife;
  */
 public class WebViewActivity extends AppCompatActivity {
     private static final String EXTRA_URL = "extra_url";
-    private static final String EXTRA_TITLE = "extra_title";
     @Bind(R.id.toolbar_title)
     TextSwitcher mTextSwitcher;
     @Bind(R.id.toolbar)
@@ -41,7 +38,7 @@ public class WebViewActivity extends AppCompatActivity {
     NumberProgressBar mProgressbar;
     @Bind(R.id.web_view)
     WebView mWebView;
-    private String mUrl, mTitle;
+
 
 
     /**
@@ -51,10 +48,10 @@ public class WebViewActivity extends AppCompatActivity {
      *
      * @return Intent to start WebActivity
      */
-    public static Intent newIntent(Context context, String extraURL, String extraTitle) {
+    public static Intent newIntent(Context context, String extraURL ) {
         Intent intent = new Intent(context, WebViewActivity.class);
         intent.putExtra(EXTRA_URL, extraURL);
-        intent.putExtra(EXTRA_TITLE, extraTitle);
+
         return intent;
     }
 
@@ -63,10 +60,12 @@ public class WebViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.web_view);
         ButterKnife.bind(this);
 
-        mUrl = getIntent().getStringExtra(EXTRA_URL);
-        mTitle = getIntent().getStringExtra(EXTRA_TITLE);
+        String mUrl = getIntent().getStringExtra(EXTRA_URL);
+
+        setupToolbar();
 
         WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);
@@ -87,14 +86,11 @@ public class WebViewActivity extends AppCompatActivity {
         });
 
         mWebView.loadUrl(mUrl);
-
-        setupToolbar();
-
     }
 
     private void setupToolbar() {
         setSupportActionBar(mToolbar);
-
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         mToolbar.setNavigationOnClickListener(v -> onBackPressed());
 
         mTextSwitcher.setFactory(() -> {
@@ -107,12 +103,9 @@ public class WebViewActivity extends AppCompatActivity {
         });
         mTextSwitcher.setInAnimation(this, android.R.anim.fade_in);
         mTextSwitcher.setOutAnimation(this, android.R.anim.fade_out);
-        if (mTitle != null) { setTitle(mTitle); }
     }
 
-    @Override
-    public void setTitle(CharSequence title) {
-        super.setTitle(title);
+    private void setToolbarTitle(CharSequence title) {
         mTextSwitcher.setText(title);
     }
 
@@ -126,7 +119,6 @@ public class WebViewActivity extends AppCompatActivity {
             mWebView.goBack();
             return true;
         }
-
         return super.onKeyDown(keyCode, event);
     }
 
@@ -174,7 +166,7 @@ public class WebViewActivity extends AppCompatActivity {
         @Override
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
-            setTitle(title);
+            setToolbarTitle(title);
         }
 
         //=========HTML5定位==========================================================

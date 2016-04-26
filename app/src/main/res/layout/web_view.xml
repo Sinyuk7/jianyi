@@ -9,12 +9,15 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             style="@style/BaseToolbar.Primary"
+            android:gravity="center_vertical"
             app:navigationIcon="@drawable/ic_arrow_back_white_24dp">
 
             <TextSwitcher
                 android:id="@+id/toolbar_title"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"/>
         </android.support.v7.widget.Toolbar>
 
         <include layout="@layout/toolbar_shadow_compat"/>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="TabTextAppearance" >
+
+    <style name="TabTextAppearance">
         <item name="android:textSize">@dimen/material_text_subhead</item>
         <item name="android:gravity">center</item>
         <item name="android:textStyle">bold</item>
@@ -67,5 +68,7 @@
 
     <style name="WebViewTitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_gravity">center_vertical</item>
     </style>
 </resources>

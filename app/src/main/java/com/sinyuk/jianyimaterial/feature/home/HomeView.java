@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
@@ -43,6 +42,7 @@ import com.jakewharton.rxbinding.view.RxView;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.adapters.CommonGoodsListAdapter;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
+import com.sinyuk.jianyimaterial.common.WebViewActivity;
 import com.sinyuk.jianyimaterial.common.spanbuilder.AndroidSpan;
 import com.sinyuk.jianyimaterial.common.spanbuilder.SpanOptions;
 import com.sinyuk.jianyimaterial.entity.Banner;
@@ -70,7 +70,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.net.URI;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -210,7 +209,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     }
 
     private void onBannerShotClick(int position) {
-       mCompositeSubscription.add(Observable.just(position)
+        mCompositeSubscription.add(Observable.just(position)
                 .map(mBannerItemList::get)
                 .map(Banner::getLink)
                 .doOnError(throwable -> {})
@@ -386,8 +385,9 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
         if (!TextUtils.isEmpty(data.getSort())) { mLabelView.setText(data.getSort()); }
 
         mCompositeSubscription.add(RxView.clicks(mShotIv).subscribe(aVoid -> {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(data.getReason()));
-            startActivity(intent);
+          /*  Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(data.getReason()));
+            startActivity(intent);*/
+            startActivity(WebViewActivity.newIntent(mContext, data.getReason()));
         }));
 
         mSchoolSwitch.setOnClickListener(v -> {

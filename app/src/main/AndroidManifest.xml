@@ -17,39 +17,12 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/Jianyi">
+
+        <!--MVP-->
         <activity
             android:name=".feature.CategoryView"
             android:launchMode="singleTop"
             android:theme="@style/Jianyi.Transparent"/>
-        <activity
-            android:name=".common.PhotoViewActivity"
-            android:launchMode="singleTop"
-            android:theme="@style/Jianyi.FullScreenBlack"/>
-
-        <activity
-            android:name=".common.CustomErrorActivity"
-            android:process=":error_activity">
-            <intent-filter>
-                <action android:name="cat.ereza.customactivityoncrash.ERROR"/>
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".common.SearchActivity"
-            android:launchMode="singleTop">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH"/>
-            </intent-filter>
-
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable"/>
-        </activity>
-
-        <provider
-            android:name=".utils.SuggestionProvider"
-            android:authorities="com.sinyuk.jianyimaterial.utils.SuggestionProvider"/>
-
-        <!--MVP-->
         <activity
             android:name=".feature.login.LoginView"
             android:launchMode="singleTop"
@@ -107,6 +80,43 @@
             android:windowSoftInputMode="adjustPan|stateHidden"
             />
         <!--MVP-->
+
+        <!--common-->
+        <activity
+            android:name=".common.WebViewActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            />
+        <activity
+            android:name=".common.PhotoViewActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/Jianyi.FullScreenBlack"/>
+
+        <activity
+            android:name=".common.CustomErrorActivity"
+            android:process=":error_activity">
+            <intent-filter>
+                <action android:name="cat.ereza.customactivityoncrash.ERROR"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".common.SearchActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan|stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
+        </activity>
+
+        <provider
+            android:name=".utils.SuggestionProvider"
+            android:authorities="com.sinyuk.jianyimaterial.utils.SuggestionProvider"/>
+        <!--common-->
+
     </application>
 
 </manifest>
