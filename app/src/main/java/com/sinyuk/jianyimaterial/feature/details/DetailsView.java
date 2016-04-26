@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TextInputLayout;
@@ -16,6 +17,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
@@ -33,6 +35,7 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.jakewharton.rxbinding.support.design.widget.RxAppBarLayout;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.adapters.CommentsAdapter;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
@@ -66,6 +69,8 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 import cimi.com.easeinterpolator.EaseSineInInterpolator;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Sinyuk on 16.3.19.
@@ -114,6 +119,10 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
     CheckableImageView commentBtn;
     @Bind(R.id.coordinator_layout)
     CoordinatorLayout coordinatorLayout;
+    @Bind(R.id.app_bar_layout)
+    AppBarLayout appBarLayout;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
 
     private YihuoProfile profileData;
 
@@ -185,6 +194,7 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
                 .priority(Priority.IMMEDIATE)
                 .thumbnail(0.2f);
 
+        setupAppBarLayout();
         setupUsername();
         setupAvatar();
         setupToolbarTitle();
@@ -195,6 +205,30 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
 
         setupCommentList();
         myHandler.postDelayed(() -> mPresenter.loadComments(), LOAD_COMMENT_DELAY);
+    }
+
+    private void setupAppBarLayout() {
+        viewPager.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        newPriceTv.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        titleTv.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        descriptionTv.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        mCompositeSubscription.add(RxAppBarLayout.offsetChanges(appBarLayout)
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .map(dy -> 1 - (-dy / (appBarLayout.getTotalScrollRange() * 1f)))
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(fraction -> {
+                    if (fraction < 0) { fraction = 0f; }
+                    viewPager.setAlpha(fraction);
+                    newPriceTv.setAlpha(fraction);
+                    titleTv.setAlpha(fraction);
+                    descriptionTv.setAlpha(fraction);
+                    if (fraction < 0.1f) {
+                        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_primary_24dp);
+                    } else if (fraction > 0.8f) {
+                        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+                    }
+                }));
     }
 
     private void setYihuoTitle() {
@@ -234,7 +268,6 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
         pageIndicator.setVisibility(View.GONE);
         viewPager.setPageTransformer(false, new AccordionTransformer());
         viewPager.setOnTouchListener((v, ev) -> {
-
             switch (ev.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     oldX = (int) ev.getX();

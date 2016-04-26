@@ -18,10 +18,16 @@
 
             <include layout="@layout/include_product_details_shots"/>
 
+            <View
+                android:id="@+id/toolbar_scrim"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/toolbar_height"
+                android:background="@drawable/profile_toolbar_scrim"/>
+
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
-                style="@style/Toolbar.Details"
-                android:background="@drawable/profile_toolbar_scrim"/>
+                style="@style/Toolbar.Details"/>
+
         </android.support.design.widget.CollapsingToolbarLayout>
 
         <include
@@ -46,12 +52,12 @@
             <include layout="@layout/include_product_details_socials"/>
 
             <android.support.v7.widget.RecyclerView
-                android:overScrollMode="never"
-                android:nestedScrollingEnabled="false"
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never"/>
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
