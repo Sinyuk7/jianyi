@@ -1,69 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout style="@style/ClickableArea"
-              xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:background="@color/white"
-              android:orientation="horizontal"
-              android:paddingBottom="@dimen/activity_horizontal_margin"
-              android:paddingLeft="@dimen/activity_horizontal_margin"
-              android:paddingRight="@dimen/activity_horizontal_margin"
-              android:paddingTop="@dimen/activity_horizontal_margin">
+<RelativeLayout
+    android:id="@+id/comment_view"
+    style="@style/ClickableArea"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:paddingBottom="12dp"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="12dp">
 
-    <ImageView
+    <com.sinyuk.jianyimaterial.widgets.MyCircleImageView
         android:id="@+id/avatar"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:scaleType="centerCrop"
+        app:border_color="@color/grey_30_pct"
+        app:border_width="1dp"
         tools:src="@drawable/ex_greeting"/>
 
 
-    <LinearLayout
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/user_name_tv"
+        style="@style/SingleLineText"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/avatar"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_marginTop="@dimen/tiny_content_space"
+        android:layout_toRightOf="@+id/avatar"
+        android:textSize="@dimen/material_text_body2"
+        android:textStyle="bold"
+        tools:text="@string/user_name"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="bottom"
-            android:orientation="horizontal">
+    <TextView
+        android:id="@+id/pub_date_tv"
+        style="@style/SingleLineText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/user_name_tv"
+        android:layout_marginLeft="@dimen/general_content_space"
+        android:gravity="end"
+        android:textColor="@color/grey_600"
+        android:textSize="@dimen/material_text_caption1"
+        tools:text="@string/pubdate"/>
 
-            <TextView
-                android:id="@+id/user_name_tv"
-                style="@style/SingleLineText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/material_text_body1"
-                android:textStyle="bold"
-                tools:text="@string/user_name"/>
 
-            <TextView
-                android:id="@+id/pub_date_tv"
-                style="@style/SingleLineText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/general_content_space"
-                android:gravity="end"
-                android:textColor="@color/grey_600"
-                android:textSize="@dimen/material_text_caption1"
-                tools:text="@string/pubdate"/>
+    <TextView
+        android:id="@+id/content_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_name_tv"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/tiny_content_space"
+        android:layout_toRightOf="@+id/avatar"
+        android:textColor="@color/grey_600"
+        android:textSize="@dimen/material_text_caption1"
+        tools:text="@string/dummy_comment"/>
 
-        </LinearLayout>
 
-        <TextView
-            android:id="@+id/content_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/tiny_content_space"
-            android:gravity="start"
-            android:textColor="@color/textColorDark"
-            android:textSize="@dimen/material_text_body2"
-            tools:text="@string/dummy_comment"/>
-
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>
