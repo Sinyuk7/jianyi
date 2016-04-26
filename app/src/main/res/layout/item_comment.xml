@@ -8,10 +8,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:paddingBottom="12dp"
+    android:paddingBottom="@dimen/activity_horizontal_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="12dp">
+    android:paddingTop="@dimen/activity_horizontal_margin">
 
     <com.sinyuk.jianyimaterial.widgets.MyCircleImageView
         android:id="@+id/avatar"
@@ -53,13 +53,14 @@
         android:id="@+id/content_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginRight="56dp"
         android:layout_below="@+id/user_name_tv"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/tiny_content_space"
         android:layout_toRightOf="@+id/avatar"
+        android:text="@string/dummy_comment"
         android:textColor="@color/grey_600"
-        android:textSize="@dimen/material_text_caption1"
-        tools:text="@string/dummy_comment"/>
+        android:textSize="@dimen/material_text_caption1"/>
 
 
 </RelativeLayout>

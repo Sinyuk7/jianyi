@@ -19,6 +19,7 @@ import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.glide.CropCircleTransformation;
 import com.sinyuk.jianyimaterial.utils.AnimUtils;
 import com.sinyuk.jianyimaterial.utils.FuzzyDateFormater;
+import com.sinyuk.jianyimaterial.utils.NameGenerator;
 import com.sinyuk.jianyimaterial.utils.ScreenUtils;
 import com.sinyuk.jianyimaterial.widgets.MyCircleImageView;
 
@@ -35,21 +36,59 @@ import cimi.com.easeinterpolator.EaseSineOutInterpolator;
  */
 public class CommentsAdapter extends ExtendedRecyclerViewAdapter<String, CommentsAdapter.CommentItemViewHolder> {
 
-    private static final float ANIM_SCALE_FACTOR = 1f;
-    private final static String[] avatarUrls = new String[]{
-            "http://ww2.sinaimg.cn/square/b29e155agw1eylork6523j20zk0npjvg.jpg",
-            "http://ww4.sinaimg.cn/square/b29e155agw1eylorl860fj21hc0u078o.jpg",
-            "http://ww4.sinaimg.cn/square/b29e155agw1eylork32y7j211y0lcju0.jpg",
-            "http://ww1.sinaimg.cn/square/b29e155agw1eylore72c5j20c80c8jst.jpg",
-            "http://ww3.sinaimg.cn/square/b29e155agw1eylordr8lzj20dl0h6dh9.jpg",
-
-
-            "http://ww2.sinaimg.cn/mw690/69352c30gw1ev3w6ewp08j21hi0zh1kx.jpg",
-            "http://ww3.sinaimg.cn/mw690/b29e155agw1eyfew5ncdoj209j0b4t93.jpg",
-            "http://ww1.sinaimg.cn/mw690/b29e155agw1eyfew4gxwej20e60amgow.jpg",
-            "http://ww4.sinaimg.cn/mw690/b29e155agw1eyfew3f622j20e60amae5.jpg",
-            "http://ww4.sinaimg.cn/square/b29e155agw1eyfew1ez6jj20dw0dwjuv.jpg"
+    public final static String[] avatarUrls = new String[]{
+            "http://i2.piimg.com/3aa7ddf4fe26c039.jpg",
+            "http://i2.piimg.com/3fcd5c6b292f12d6.jpg",
+            "http://i2.piimg.com/c67b8af9e3b8faa4.jpg",
+            "http://i2.piimg.com/11d5f7736b03274c.jpg",
+            "http://i4.piimg.com/2e25613d5ecc5892.jpg",
+            "http://i2.piimg.com/9095a3df4918db70.jpg",
+            "http://i2.piimg.com/0916f1757efb77a1.jpg",
+            "http://i2.piimg.com/d7cdf687a94f0387.jpg",
+            "http://i2.piimg.com/0916f1757efb77a1.jpg",
+            "http://i2.piimg.com/8740ab34b90ce823.jpg",
+            "http://i2.piimg.com/f23dcb0af8064150.jpg",
+            "http://i2.piimg.com/29c465301b6d7d99.jpg",
+            "http://i4.piimg.com/bfe33c321472a8e1.jpg",
+            "http://i2.piimg.com/8b619e96a3a4809f.jpg",
+            "http://i2.piimg.com/a3128205876036a0.jpg",
+            "http://i2.piimg.com/f0e6bf048b3b2aaa.jpg",
+            "http://i1.piimg.com/98005a2ef5def8b6.jpg",
+            "http://i4.piimg.com/2e25613d5ecc5892.jpg",
+            "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/82385112.jpg",
+            "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/65272015.jpg",
+            "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/2617784.jpg",
+            "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/26331572.jpg",
+            "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/48260140.jpg",
+            "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/28774205.jpg",
+            "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/64088077.jpg",
+            "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/55141845.jpg",
+            "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/60177585.jpg",
+            "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/64546251.jpg",
+            "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/86513563.jpg",
+            "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/75678264.jpg",
+            "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/89918438.jpg",
+            "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/21059124.jpg",
+            "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/61545022.jpg",
+            "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/7493872.jpg",
+            "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/78252022.jpg",
+            "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/28409200.jpg",
+            "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/26940366.jpg",
+            "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/43930374.jpg",
+            "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/43930374.jpg",
+            "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/98363213.jpg",
+            "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/9408043.jpg",
+            "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/95644103.jpg",
+            "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/4783808.jpg",
+            "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/93786492.jpg",
+            "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/34259100.jpg",
+            "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/85429884.jpg",
+            "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/28693559.jpg",
+            "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/13943362.jpg",
+            "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/90545840.jpg",
+            "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/85353049.jpg",
     };
+    private static final float ANIM_SCALE_FACTOR = 1f;
     private final DrawableRequestBuilder<String> avatarRequest;
     private boolean enterAnimationLocked = false;
     private boolean delayEnterAnimation = true;
@@ -60,7 +99,7 @@ public class CommentsAdapter extends ExtendedRecyclerViewAdapter<String, Comment
         avatarRequest = Glide.with(mContext).fromString()
                 .priority(Priority.IMMEDIATE)
                 .bitmapTransform(new CropCircleTransformation(mContext))
-                .crossFade(1000)
+                .crossFade(400)
                 .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .error(R.drawable.ic_avatar_placeholder);
     }
@@ -75,16 +114,16 @@ public class CommentsAdapter extends ExtendedRecyclerViewAdapter<String, Comment
 
         if (position > lastAnimatedPosition) {
             lastAnimatedPosition = position;
-            view.setTranslationY(ScreenUtils.dpToPx(mContext, 56));
+            view.setTranslationY(ScreenUtils.dpToPx(mContext, 30));
             view.setPivotX(0);
             view.setPivotY(0);
-            view.setRotation(30);
+            view.setRotation(5);
             view.setAlpha(0.f);
             view.animate()
                     .translationY(0).alpha(1.f).rotation(0)
-                    .setStartDelay(delayEnterAnimation ? (long) (ANIM_SCALE_FACTOR * 200 * position) : 0)
+                    .setStartDelay(delayEnterAnimation ? (long) (ANIM_SCALE_FACTOR * 80 * position) : 0)
                     .setInterpolator(new EaseSineOutInterpolator())
-                    .setDuration(AnimUtils.ANIMATION_TIME_MEDIUM)
+                    .setDuration(AnimUtils.ANIMATION_TIME_SHORT)
                     .setListener(new AnimatorListenerAdapter() {
                         @Override
                         public void onAnimationEnd(Animator animation) {
@@ -107,18 +146,23 @@ public class CommentsAdapter extends ExtendedRecyclerViewAdapter<String, Comment
     @Override
     public void onBindDataItemViewHolder(CommentItemViewHolder holder, int position) {
 
-        enterAnimationLocked = getItemCount() <= position + 1;
+//        enterAnimationLocked = getItemCount() <= position + 1;
 
-        holder.userNameTv.setText(mContext.getResources().getStringArray(R.array.user_names)[position]);
+    /*    if (position % 2 != 1) {
+            holder.commentView.setBackgroundColor(mContext.getResources().getColor(R.color.grey_50));
+        } else {
+            holder.commentView.setBackgroundColor(mContext.getResources().getColor(R.color.white));
+        }*/
+
+        holder.userNameTv.setText(NameGenerator.generateName());
 
         holder.pubDateTv.setText(FuzzyDateFormater.getTimeAgo(mContext, new Date(System.currentTimeMillis() - 6000000 * new Random().nextInt(100))));
 
-        holder.contentTv.setMaxLines(new Random().nextInt(5) + 1);
+        holder.contentTv.setMaxLines(new Random().nextInt(4) + (position % 2) * 2);
 
         avatarRequest.load(avatarUrls[position]).into(holder.avatar);
 
         runEnterAnimation(holder.itemView, position);
-
 
     }
 

@@ -367,13 +367,14 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
         commentList.setAdapter(mCommentAdapter);
         commentList.setItemAnimator(new DefaultItemAnimator());
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        layoutManager.setAutoMeasureEnabled(true);
         commentList.setLayoutManager(layoutManager);
     }
 
     @Override
     public void showComments() {
         List<String> comments = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (String ignored : CommentsAdapter.avatarUrls) {
             comments.add("");
         }
         mCommentAdapter.setData(comments);
