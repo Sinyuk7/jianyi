@@ -312,8 +312,6 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
                 + profileData.getName() + JianyiApi.shareById(profileData.getId()));
         //自定义选择框的标题
         startActivity(Intent.createChooser(shareIntent, getString(R.string.details_share_to_hint)));
-        //系统默认标题
-        startActivity(shareIntent);
     }
 
 
