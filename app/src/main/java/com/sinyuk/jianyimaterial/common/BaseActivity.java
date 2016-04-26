@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.events.XEvent;
@@ -67,12 +68,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             if (isNavAsBack()) {
                 setSupportActionBar(toolbar);
                 toolbar.setNavigationIcon(R.drawable.ic_arrow_back_primary_24dp);
-                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onBackPressed();
-                    }
-                });
+                toolbar.setNavigationOnClickListener(v -> onBackPressed());
             }
         }
 

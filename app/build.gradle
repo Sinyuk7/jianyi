@@ -68,5 +68,6 @@ dependencies {
     compile 'com.facebook.shimmer:shimmer:0.1.0@aar'*/
     compile 'com.bigkoo:convenientbanner:2.0.5'
     compile files('libs/ease-interpolator-1.1.jar')
+    compile 'com.daimajia.numberprogressbar:library:1.2@aar'
 //    compile 'com.squareup.leakcanary:leakcanary-android:1.4-beta1' // or 1.4-beta1
 }

@@ -1,0 +1,39 @@
+<android.support.design.widget.CoordinatorLayout
+    style="@style/DefaultCoordinatorLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.design.widget.AppBarLayout
+        style="@style/DefaultAppBarLayout">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/BaseToolbar.Primary"
+            app:navigationIcon="@drawable/ic_arrow_back_white_24dp">
+
+            <TextSwitcher
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+        </android.support.v7.widget.Toolbar>
+
+        <include layout="@layout/toolbar_shadow_compat"/>
+    </android.support.design.widget.AppBarLayout>
+
+    <com.daimajia.numberprogressbar.NumberProgressBar
+        android:id="@+id/progressbar"
+        style="@style/NumberProgressBar_Default"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/toolbar_height"
+        app:progress_reached_bar_height="2dp"
+        app:progress_text_size="0sp"
+        app:progress_text_visibility="invisible"
+        app:progress_unreached_bar_height="2dp"/>
+
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+</android.support.design.widget.CoordinatorLayout>
