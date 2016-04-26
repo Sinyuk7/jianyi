@@ -7,10 +7,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.sinyuk.jianyimaterial.R;
-import com.sinyuk.jianyimaterial.events.BaseEvent;
+import com.sinyuk.jianyimaterial.events.XEvent;
 
 import butterknife.ButterKnife;
 import org.greenrobot.eventbus.EventBus;
@@ -114,7 +113,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract boolean isUsingEventBus();
 
     @Subscribe
-    public void onEvent(BaseEvent event) {
+    public void onEvent(XEvent event) {
     }
 
     protected abstract void initViews();
