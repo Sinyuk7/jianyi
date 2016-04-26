@@ -3,6 +3,7 @@ package com.sinyuk.jianyimaterial.common;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -10,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
@@ -21,6 +24,8 @@ import android.widget.TextView;
 
 import com.daimajia.numberprogressbar.NumberProgressBar;
 import com.sinyuk.jianyimaterial.R;
+import com.sinyuk.jianyimaterial.utils.ImeUtils;
+import com.sinyuk.jianyimaterial.utils.ToastUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -38,7 +43,7 @@ public class WebViewActivity extends AppCompatActivity {
     NumberProgressBar mProgressbar;
     @Bind(R.id.web_view)
     WebView mWebView;
-
+    private String mUrl;
 
 
     /**
@@ -48,7 +53,7 @@ public class WebViewActivity extends AppCompatActivity {
      *
      * @return Intent to start WebActivity
      */
-    public static Intent newIntent(Context context, String extraURL ) {
+    public static Intent newIntent(Context context, String extraURL) {
         Intent intent = new Intent(context, WebViewActivity.class);
         intent.putExtra(EXTRA_URL, extraURL);
 
@@ -63,7 +68,7 @@ public class WebViewActivity extends AppCompatActivity {
         setContentView(R.layout.web_view);
         ButterKnife.bind(this);
 
-        String mUrl = getIntent().getStringExtra(EXTRA_URL);
+        mUrl = getIntent().getStringExtra(EXTRA_URL);
 
         setupToolbar();
 
@@ -111,6 +116,57 @@ public class WebViewActivity extends AppCompatActivity {
 
     private void refresh() {
         mWebView.reload();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.action_bar_web_view, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_share:
+                share(mUrl);
+                break;
+            case R.id.action_copy_url:
+                copyUrl();
+                break;
+            case R.id.action_refresh:
+                refresh();
+                break;
+            case R.id.action_open_url_in_chrome:
+                openInChrome();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void openInChrome() {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        Uri uri = Uri.parse(mUrl);
+        intent.setData(uri);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+        else {
+            ToastUtils.toastSlow(this,R.string.web_view_hint_open_chrome_failed);
+        }
+    }
+
+    private void copyUrl() {
+        String copyDone = getString(R.string.web_view_hint_copy_done);
+        ImeUtils.copyToClipBoard(this, mWebView.getUrl(), copyDone);
+    }
+
+    private void share(String url) {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT,url);
+        //自定义选择框的标题
+        startActivity(Intent.createChooser(shareIntent, getString(R.string.web_view_share_to_hint)));
     }
 
     @Override

@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -213,9 +212,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
                 .map(mBannerItemList::get)
                 .map(Banner::getLink)
                 .doOnError(throwable -> {})
-                .map(Uri::parse)
-                .doOnError(throwable -> {})
-                .map(uri -> new Intent(Intent.ACTION_VIEW, uri))
+                .map(url -> WebViewActivity.newIntent(mContext, url))
                 .subscribe(this::startActivity));
     }
 

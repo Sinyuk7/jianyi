@@ -8,9 +8,9 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
-            style="@style/BaseToolbar.Primary"
+            style="@style/BaseToolbar.Light"
             android:gravity="center_vertical"
-            app:navigationIcon="@drawable/ic_arrow_back_white_24dp">
+            app:navigationIcon="@drawable/ic_arrow_back_primary_24dp">
 
             <TextSwitcher
                 android:id="@+id/toolbar_title"
@@ -27,7 +27,7 @@
         android:id="@+id/progressbar"
         style="@style/NumberProgressBar_Default"
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/toolbar_height"
+        android:layout_marginTop="57dp"
         app:progress_reached_bar_height="2dp"
         app:progress_text_size="0sp"
         app:progress_text_visibility="invisible"

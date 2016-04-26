@@ -320,6 +320,9 @@
     <string name="details_share_to_hint">想把它分享到…</string>
     <string name="unshelf_confirm">确定</string>
     <string name="unshelf_unshelf">已下架</string>
+    <string name="web_view_share_to_hint">分享到…</string>
+    <string name="web_view_hint_copy_done">已复制到剪贴板</string>
+    <string name="web_view_hint_open_chrome_failed">打开链接失败</string>
 
 
 </resources>
