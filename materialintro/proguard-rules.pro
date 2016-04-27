@@ -86,3 +86,7 @@
 -keep class * implements android.os.Parcelable {
   public static final android.os.Parcelable$Creator *;
 }
+
+-keep class co.mobiwise.materialintro.animation.**{*;}
+
+-keep class co.mobiwise.materialintro.view.**{*;}
