@@ -11,6 +11,16 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.1"
+
+        splits {
+            density {
+                enable true
+                include "xxhdpi"
+                compatibleScreens 'large', 'xlarge'
+            }
+        }
+
+        resConfigs "en", "cn"
     }
     buildTypes {
         release {

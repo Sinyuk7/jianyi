@@ -7,6 +7,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.lang.ref.Reference;
+import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 
 import rx.subscriptions.CompositeSubscription;
@@ -26,7 +27,7 @@ import rx.subscriptions.CompositeSubscription;
 
 public abstract class BasePresenter<V> {
 
-    protected Reference<V> mViewRef;
+    protected SoftReference<V> mViewRef;
 
     protected V mView;
 
@@ -35,9 +36,9 @@ public abstract class BasePresenter<V> {
     @CallSuper
     public void attachView(@NonNull V view) {
         detachView();
-        this.mViewRef = new WeakReference<>(view);
-        this.mView = mViewRef.get();
-        this.mCompositeSubscription = new CompositeSubscription();
+        mViewRef = new SoftReference<>(view);
+        mView = mViewRef.get();
+        mCompositeSubscription = new CompositeSubscription();
     }
 
 
