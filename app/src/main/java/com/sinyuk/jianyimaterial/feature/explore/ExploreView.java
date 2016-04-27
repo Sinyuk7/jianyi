@@ -114,8 +114,13 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
 
     @Override
     protected void onFinishInflate() {
-        setupToolbarTitle();
         initFragment();
+        setLazyLoadDelay(2000);
+    }
+
+    @Override
+    protected void lazyLoad() {
+        setupToolbarTitle();
         if (getIntent().getExtras().getBoolean(ENABLE_FILTER, false)) {
             setupBottomSheet();
             setupFlowLayout();

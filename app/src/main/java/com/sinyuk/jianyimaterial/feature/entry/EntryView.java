@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentManager;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.feature.drawer.DrawerView;
 import com.sinyuk.jianyimaterial.feature.home.HomeView;
-import com.sinyuk.jianyimaterial.managers.SnackBarFactory;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;
 
@@ -28,7 +27,6 @@ public class EntryView extends BaseActivity<EntryPresenterImpl> implements IEntr
 
     @Override
     protected void beforeInflate() {
-
     }
 
     @Override
@@ -47,10 +45,16 @@ public class EntryView extends BaseActivity<EntryPresenterImpl> implements IEntr
     }
 
     @Override
-    protected void onFinishInflate() {
+    protected void lazyLoad() {
         FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction().replace(R.id.container_menu, DrawerView.getInstance()).commit();
+    }
+
+    @Override
+    protected void onFinishInflate() {
+        FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction().replace(R.id.home_view, HomeView.getInstance()).commit();
+        setLazyLoadDelay(2000);
     }
 
     @Override
@@ -60,14 +64,12 @@ public class EntryView extends BaseActivity<EntryPresenterImpl> implements IEntr
 
     @Override
     public void onBackPressed() {
-
         if (confirmExit()) { super.onBackPressed(); }
-
     }
 
     private boolean confirmExit() {
         if ((System.currentTimeMillis() - attemptExitTime) > 1000) {
-            ToastUtils.toastFast(this,getString(R.string.common_confirm_exit_application));
+            ToastUtils.toastFast(this, getString(R.string.common_confirm_exit_application));
             attemptExitTime = System.currentTimeMillis();
             return false;
         }

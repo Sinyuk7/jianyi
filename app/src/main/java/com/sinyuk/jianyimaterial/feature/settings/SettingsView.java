@@ -116,6 +116,11 @@ public class SettingsView extends BaseActivity<SettingsPresenterImpl> implements
     }
 
     @Override
+    protected void lazyLoad() {
+
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         mPresenter.queryCurrentUser();

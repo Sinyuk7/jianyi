@@ -202,9 +202,15 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
         setYihuoTitle();
         setupPrice();
         setupViewPager();
+        setLazyLoadDelay(LOAD_COMMENT_DELAY);
+    }
 
-        setupCommentList();
-        myHandler.postDelayed(() -> mPresenter.loadComments(), LOAD_COMMENT_DELAY);
+    @Override
+    protected void lazyLoad() {
+        myHandler.postDelayed(() -> {
+            setupCommentList();
+            mPresenter.loadComments();
+        }, LOAD_COMMENT_DELAY);
     }
 
     private void setupAppBarLayout() {

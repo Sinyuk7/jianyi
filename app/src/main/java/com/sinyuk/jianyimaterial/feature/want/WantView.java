@@ -87,6 +87,11 @@ public class WantView extends BaseActivity<WantPresenterImpl> implements IWantVi
         mPresenter.queryCurrentUser();
     }
 
+    @Override
+    protected void lazyLoad() {
+
+    }
+
     private void setupObservers() {
         mCompositeSubscription.add(RxTextView.editorActions(mWantPriceEt)
                 .map(actionId -> actionId == EditorInfo.IME_ACTION_DONE)

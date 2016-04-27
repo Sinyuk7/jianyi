@@ -86,6 +86,11 @@ public class LoginView extends BaseActivity<LoginPresenterImpl> implements ILogi
     }
 
     @Override
+    protected void lazyLoad() {
+
+    }
+
+    @Override
     protected boolean isNavAsBack() {
         return true;
     }

@@ -19,10 +19,9 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
-
-import com.daimajia.numberprogressbar.NumberProgressBar;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.utils.ImeUtils;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;
@@ -40,7 +39,7 @@ public class WebViewActivity extends AppCompatActivity {
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
     @Bind(R.id.progressbar)
-    NumberProgressBar mProgressbar;
+    ProgressBar mProgressbar;
     @Bind(R.id.web_view)
     WebView mWebView;
     private String mUrl;

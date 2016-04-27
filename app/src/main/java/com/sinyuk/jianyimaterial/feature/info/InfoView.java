@@ -128,11 +128,16 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
         mResRequest.load(R.drawable.girl).bitmapTransform(new CropCircleTransformation(this)).into(mAvatarGirl);
 
         toggleConfirmButton(false);
+        setLazyLoadDelay(200);
+
+    }
+
+    @Override
+    protected void lazyLoad() {
         setObservers();
         showAvatar(mOriginalUrl);
         showSchoolName(mOriginalSchoolName);
         showUserNickname(mOriginalUserName);
-
     }
 
     private void setObservers() {
@@ -328,12 +333,14 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
             sweetAlertDialog.dismissWithAnimation();
             myHandler.postDelayed(this::finish, AnimUtils.ANIMATION_TIME_MEDIUM);
 
-    });
+        });
     }
 
     @Override
     public void showWarningDialog(String message) {
-        if (mDialog == null) { mDialog = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE); }
+        if (mDialog == null) {
+            mDialog = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
+        }
         mDialog.changeAlertType(SweetAlertDialog.WARNING_TYPE);
         mDialog.setTitleText(message).setConfirmText(getString(R.string.info_hint_confirm)).setConfirmClickListener(sweetAlertDialog -> {
             sweetAlertDialog.dismissWithAnimation();
@@ -343,7 +350,9 @@ public class InfoView extends BaseActivity<InfoPresenterImpl> implements IInfoVi
 
     @Override
     public void showSucceedDialog(String message) {
-        if (mDialog == null) { mDialog = new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE); }
+        if (mDialog == null) {
+            mDialog = new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE);
+        }
         mDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
         mDialog.setTitleText(message).setConfirmText(getString(R.string.info_hint_confirm)).setConfirmClickListener(sweetAlertDialog -> {
             sweetAlertDialog.dismissWithAnimation();

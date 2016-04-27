@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class ShelfPresenterImpl extends BasePresenter<ShelfView> implements IShelfPresenter, YihuoModel.RequestYihuoProfileCallback {
     @Override
-    public void loadData(int pageIndex, HashMap<String,String> params) {
+    public void loadData(int pageIndex, HashMap<String, String> params) {
         YihuoModel.getInstance(mView.getContext()).getProfileByParams(pageIndex, params, this);
         mView.showLoadingProgress();
     }
@@ -25,19 +25,25 @@ public class ShelfPresenterImpl extends BasePresenter<ShelfView> implements IShe
 
     @Override
     public void onCompleted(List<YihuoProfile> data, boolean isRefresh) {
-        mView.showList(data, isRefresh);
-        mView.dismissLoadingProgress();
+        if (mView != null) {
+            mView.showList(data, isRefresh);
+            mView.dismissLoadingProgress();
+        }
     }
 
     @Override
     public void onVolleyError(String message) {
-        mView.onVolleyError(message);
-        mView.dismissLoadingProgress();
+        if (mView != null) {
+            mView.onVolleyError(message);
+            mView.dismissLoadingProgress();
+        }
     }
 
     @Override
     public void onParseError(String message) {
-        mView.onParseError(message);
-        mView.dismissLoadingProgress();
+        if (mView != null) {
+            mView.onParseError(message);
+            mView.dismissLoadingProgress();
+        }
     }
 }

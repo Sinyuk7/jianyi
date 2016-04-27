@@ -123,6 +123,11 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
     protected void onFinishInflate() {
         uriList = new ArrayList<>();
         setupRecyclerView();
+        setLazyLoadDelay(1000);
+    }
+
+    @Override
+    protected void lazyLoad() {
         setupBottomSheet();
         setupFlowLayout();
         setupObservers();

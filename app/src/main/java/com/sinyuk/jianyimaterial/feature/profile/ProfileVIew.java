@@ -143,6 +143,11 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
     }
 
     @Override
+    protected void lazyLoad() {
+
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
 

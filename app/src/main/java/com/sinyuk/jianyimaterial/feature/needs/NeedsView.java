@@ -81,6 +81,10 @@ public class NeedsView extends BaseActivity<NeedsPresenterImpl> implements INeed
     protected void onFinishInflate() {
         setupAppBarLayout();
         setupToolbar();
+    }
+
+    @Override
+    protected void lazyLoad() {
         setupSwipeRefreshLayout();
         setupRecyclerView();
         refresh();

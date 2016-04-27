@@ -61,10 +61,13 @@ public abstract class BaseActivity<P extends BasePresenter>
             }
         }
 
-        mUpdateUIRunnable = this::onFinishInflate;
+        onFinishInflate();
+
+        mUpdateUIRunnable = this::lazyLoad;
 
         getWindow().getDecorView().post(() -> myHandler.postDelayed(mUpdateUIRunnable, LAZY_LOAD_DELAY));
 
+        lazyLoad();
     }
 
     protected void setLazyLoadDelay(long delay) {
@@ -84,6 +87,8 @@ public abstract class BaseActivity<P extends BasePresenter>
     protected abstract boolean isNavAsBack();
 
     protected abstract void onFinishInflate();
+
+    protected abstract void lazyLoad();
 
     protected abstract int getContentViewID();
 

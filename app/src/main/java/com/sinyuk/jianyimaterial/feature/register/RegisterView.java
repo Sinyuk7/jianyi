@@ -138,6 +138,11 @@ public class RegisterView extends BaseActivity<RegisterPresenterImpl> implements
         // 还没有验证过
         canGetAuthenticode(false);
 
+
+    }
+
+    @Override
+    protected void lazyLoad() {
         mPresenter.fetchSchools();
     }
 
