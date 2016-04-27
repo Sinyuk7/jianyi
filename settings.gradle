@@ -1,1 +1,1 @@
-include ':app', ':volley', ':ucrop', ':daogenerator', ':library'
+include ':app', ':volley', ':ucrop', ':daogenerator', ':library', ':materialintro'

@@ -20,6 +20,7 @@ import rx.subscriptions.CompositeSubscription;
 public abstract class BaseActivity<P extends BasePresenter>
         extends AppCompatActivity {
 
+    protected long LAZY_LOAD_DELAY = 0;
     protected static String TAG = "";
     protected P mPresenter;
     protected CompositeSubscription mCompositeSubscription;
@@ -62,8 +63,12 @@ public abstract class BaseActivity<P extends BasePresenter>
 
         mUpdateUIRunnable = this::onFinishInflate;
 
-        getWindow().getDecorView().post(() -> myHandler.post(mUpdateUIRunnable));
+        getWindow().getDecorView().post(() -> myHandler.postDelayed(mUpdateUIRunnable, LAZY_LOAD_DELAY));
 
+    }
+
+    protected void setLazyLoadDelay(long delay) {
+        this.LAZY_LOAD_DELAY = delay;
     }
 
     protected abstract boolean isUseEventBus();
