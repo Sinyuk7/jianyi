@@ -11,8 +11,8 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
-            app:navigationIcon="@drawable/ic_arrow_back_primary_24dp"
-            style="@style/BaseToolbar.Light">
+            style="@style/BaseToolbar.Light"
+            app:navigationIcon="@drawable/ic_arrow_back_primary_24dp">
 
             <ImageView
                 android:id="@+id/filter_btn"
@@ -26,10 +26,7 @@
                 android:tint="@color/colorPrimary"/>
         </android.support.v7.widget.Toolbar>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/app_bar_shadow"
-            android:background="@drawable/toolbar_shadow"/>
+        <include layout="@layout/toolbar_shadow_compat"/>
     </android.support.design.widget.AppBarLayout>
 
     <com.flipboard.bottomsheet.BottomSheetLayout

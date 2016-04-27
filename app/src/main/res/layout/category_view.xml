@@ -6,7 +6,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".feature.CategoryView">
 
-    <android.support.design.widget.AppBarLayout style="@style/DefaultAppBarLayout">
+    <android.support.design.widget.AppBarLayout
+        style="@style/DefaultAppBarLayout">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -15,10 +16,7 @@
             app:navigationIcon="@drawable/ic_arrow_back_primary_24dp"
             app:title="@string/activity_category"/>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/app_bar_shadow"
-            android:background="@drawable/toolbar_shadow"/>
+        <include layout="@layout/toolbar_shadow_compat"/>
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.RecyclerView

@@ -18,7 +18,6 @@ import android.support.v7.widget.Toolbar;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.adapters.NeedsListAdapter;
 import com.sinyuk.jianyimaterial.api.JNeed;
-import com.sinyuk.jianyimaterial.feature.offer.OfferView;
 import com.sinyuk.jianyimaterial.feature.want.WantView;
 import com.sinyuk.jianyimaterial.managers.SnackBarFactory;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
@@ -200,10 +199,11 @@ public class NeedsView extends BaseActivity<NeedsPresenterImpl> implements INeed
                         SnackBarFactory.requestLogin(NeedsView.this, mCoordinatorLayout).setCallback(new Snackbar.Callback() {
                             @Override
                             public void onDismissed(Snackbar snackbar, int event) {
-                                super.onDismissed(snackbar, event);
-                                mFab.setClickable(true);
-                                mFab.setX(finalFabX);// for the scroll bug a little tricky
-                                mFab.setY(finalFabY);
+                                if (null != mFab) {
+                                    mFab.setClickable(true);
+                                    mFab.setX(finalFabX);// for the scroll bug a little tricky
+                                    mFab.setY(finalFabY);
+                                }
                             }
                         }).show();
                     }
