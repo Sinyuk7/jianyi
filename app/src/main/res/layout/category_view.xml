@@ -12,6 +12,7 @@
             android:id="@+id/toolbar"
             style="@style/BaseToolbar.Light"
             app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:navigationIcon="@drawable/ic_arrow_back_primary_24dp"
             app:title="@string/activity_category"/>
 
         <View
