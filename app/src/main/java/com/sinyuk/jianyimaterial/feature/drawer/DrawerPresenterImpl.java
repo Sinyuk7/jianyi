@@ -28,19 +28,19 @@ public class DrawerPresenterImpl extends BasePresenter<DrawerView> implements ID
 
     @Override
     public void onQuerySucceed(User currentUser) {
-        mView.onQuerySucceed(currentUser);
-        { LogUtils.simpleLog(DrawerPresenterImpl.class, "onQuerySucceed"); }
+        if (null != mView) { mView.onQuerySucceed(currentUser); }
+        LogUtils.simpleLog(DrawerPresenterImpl.class, "onQuerySucceed");
     }
 
     @Override
     public void onQueryFailed(String message) {
-        mView.onQueryFailed(message);
-        { LogUtils.simpleLog(DrawerPresenterImpl.class, "onQueryFailed"); }
+        if (null != mView) { mView.onQueryFailed(message); }
+        LogUtils.simpleLog(DrawerPresenterImpl.class, "onQueryFailed");
     }
 
     @Override
     public void onUserNotLogged() {
-        mView.onUserNotLogged();
-        { LogUtils.simpleLog(DrawerPresenterImpl.class, "onUserNotLogged"); }
+        if (null != mView) { mView.onUserNotLogged(); }
+        LogUtils.simpleLog(DrawerPresenterImpl.class, "onUserNotLogged");
     }
 }

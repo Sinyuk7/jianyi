@@ -9,12 +9,8 @@
         style="@style/DefaultAppBarLayout">
 
         <android.support.design.widget.CollapsingToolbarLayout
-            style="@style/DefaultCollapsingToolbarLayout.Light"
-            app:collapsedTitleTextAppearance="@style/collapsedTitleText"
-            app:expandedTitleMarginBottom="@dimen/activity_horizontal_margin"
-            app:expandedTitleTextAppearance="@style/expandedTitleText"
-            app:title="@string/app_name"
-            app:titleEnabled="true">
+            style="@style/DefaultCollapsingToolbarLayout"
+            app:titleEnabled="false">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -33,7 +29,24 @@
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
-                style="@style/Toolbar.Home"/>
+                style="@style/Toolbar.Home"
+                app:contentInsetStart="0dp">
+
+                <ImageView
+                    android:id="@+id/hamburger_menu"
+                    style="@style/ToolbarImageButton"
+                    android:src="@drawable/ic_menu_primary_24dp"/>
+
+                <ImageView
+                    android:id="@+id/logo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:paddingBottom="14dp"
+                    android:paddingTop="12dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/logo"/>
+            </android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>
 
         <include layout="@layout/toolbar_shadow_compat"/>

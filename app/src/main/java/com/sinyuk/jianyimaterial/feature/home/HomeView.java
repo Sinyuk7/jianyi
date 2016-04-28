@@ -77,6 +77,7 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Sinyuk on 16.3.27.
@@ -105,6 +106,10 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     TextView mEntryCategory;
     @Bind(R.id.coordinator_layout)
     CoordinatorLayout mCoordinatorLayout;
+    @Bind(R.id.logo)
+    ImageView mLogo;
+    @Bind(R.id.hamburger_menu)
+    ImageView mNavigationIcon;
 
     private boolean mIsRequestDataRefresh;
     private CommonGoodsListAdapter mAdapter;
@@ -113,7 +118,6 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     private List<YihuoProfile> mYihuoProfileList = new ArrayList<>();
     private DrawerLayout mDrawerLayout;
     private List<Banner> mBannerItemList;
-    private int mTouchThreshold;
 
     private Handler mScheduleHandler = new Handler();
     private TextView mSchoolAt;
@@ -133,7 +137,6 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     public void onAttach(Context context) {
         super.onAttach(context);
         mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
-        mTouchThreshold = ScreenUtils.getScrollThreshold(mContext);
     }
 
     @Override
@@ -157,21 +160,29 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
 
 
     private void setupAppBarLayout() {
-        mCompositeSubscription.add(RxAppBarLayout.offsetChanges(mAppBarLayout).subscribeOn(AndroidSchedulers.mainThread())
+        mCompositeSubscription.add(RxAppBarLayout.offsetChanges(mAppBarLayout)
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .map(dy -> 1 - (-dy / (mAppBarLayout.getTotalScrollRange() / 1.f)))
+                .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(dy -> {
-                    if (dy == 0) {
+                .subscribe(fraction -> {
+                    if (fraction == 1) {
                         mBannerView.startTurning(BANNER_SWITCH_INTERVAL);
                         mSwipeRefreshLayout.setEnabled(true);
                     } else {
                         mBannerView.stopTurning();
                         mSwipeRefreshLayout.setEnabled(false);
                     }
+                    mEntryRecommended.setAlpha(fraction);
+                    mEntryFree.setAlpha(fraction);
+                    mEntryCategory.setAlpha(fraction);
+                    mNavigationIcon.setAlpha(1 - fraction);
+                    mLogo.setAlpha(1 - fraction);
                 }));
     }
 
     private void setupToolbar() {
-        mCompositeSubscription.add(RxToolbar.navigationClicks(mToolbar).subscribe(aVoid -> toggleDrawerView()));
+        mCompositeSubscription.add(RxView.clicks(mNavigationIcon).subscribe(aVoid -> toggleDrawerView()));
         final long[] mHits = new long[2];
         mToolbar.setOnClickListener(v -> {
             System.arraycopy(mHits, 1, mHits, 0, mHits.length - 1);
