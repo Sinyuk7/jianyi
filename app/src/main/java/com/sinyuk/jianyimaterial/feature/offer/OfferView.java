@@ -363,6 +363,7 @@ public class OfferView extends BaseActivity<OfferPresenterImpl> implements IOffe
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onListItemDelete(XShotDropEvent event) {
+        LogUtils.simpleLog(OfferView.class, "delete at " + event.getPosition());
         uriList.remove(event.getPosition());
         updateIndicator(uriList.size());
         mAdapter.setData(uriList);

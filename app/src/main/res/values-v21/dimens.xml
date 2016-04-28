@@ -4,4 +4,6 @@
     <dimen name="cardView_default_elevation">0.5dp</dimen>
     <dimen name="cardView_raised_elevation">2dp</dimen>
     <dimen name="cardView_default_margin">0dp</dimen>
+
+    <dimen name="toolbar_shadow_height">0dp</dimen>
 </resources>
