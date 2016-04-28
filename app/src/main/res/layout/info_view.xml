@@ -115,7 +115,7 @@
                 <EditText
                     android:id="@+id/location_et"
                     style="@style/DefaultEditText.ReadOnly"
-                    android:drawableLeft="@drawable/ic_location_on_grey600_24dp"
+                    android:drawableLeft="@drawable/ic_location_on_accent_24dp"
                     android:hint="@string/info_hint_school"/>
             </android.support.design.widget.TextInputLayout>
 
