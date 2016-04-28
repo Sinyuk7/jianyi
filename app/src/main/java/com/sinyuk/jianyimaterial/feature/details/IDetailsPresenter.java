@@ -18,5 +18,5 @@ public interface IDetailsPresenter {
 
     void removeFromLikes(@NonNull YihuoDetails data);
 
-    void loadComments();
+    void loadComments(@NonNull int pageIndex);
 }

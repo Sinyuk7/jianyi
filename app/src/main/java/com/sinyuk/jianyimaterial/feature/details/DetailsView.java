@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,6 +13,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,7 +24,9 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -36,6 +38,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.jakewharton.rxbinding.support.design.widget.RxAppBarLayout;
+import com.jakewharton.rxbinding.view.RxView;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.adapters.CommentsAdapter;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
@@ -47,17 +50,20 @@ import com.sinyuk.jianyimaterial.feature.profile.ProfileView;
 import com.sinyuk.jianyimaterial.glide.CropCircleTransformation;
 import com.sinyuk.jianyimaterial.managers.SnackBarFactory;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
+import com.sinyuk.jianyimaterial.ui.OnLoadMoreListener;
 import com.sinyuk.jianyimaterial.ui.smallbang.SmallBang;
 import com.sinyuk.jianyimaterial.ui.trans.AccordionTransformer;
 import com.sinyuk.jianyimaterial.utils.AnimatorLayerListener;
 import com.sinyuk.jianyimaterial.utils.FormatUtils;
 import com.sinyuk.jianyimaterial.utils.FuzzyDateFormater;
+import com.sinyuk.jianyimaterial.utils.NetWorkUtils;
 import com.sinyuk.jianyimaterial.utils.ScreenUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;
 import com.sinyuk.jianyimaterial.widgets.CheckableImageView;
 import com.sinyuk.jianyimaterial.widgets.ExpandableTextView;
 import com.sinyuk.jianyimaterial.widgets.InkPageIndicator;
+import com.sinyuk.jianyimaterial.widgets.MultiSwipeRefreshLayout;
 import com.sinyuk.jianyimaterial.widgets.MyCircleImageView;
 import com.sinyuk.jianyimaterial.widgets.RatioImageView;
 import com.sinyuk.jianyimaterial.widgets.RoundCornerIndicator;
@@ -78,7 +84,7 @@ import rx.schedulers.Schedulers;
 public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements IDetailsView {
 
     public static final String YihuoProfile = "YihuoProfile";
-    private static final long LOAD_COMMENT_DELAY = 1213;
+    private static final long LOAD_COMMENT_DELAY = 322;
     @Bind(R.id.view_pager)
     ViewPager viewPager;
     @Bind(R.id.scrim)
@@ -103,12 +109,6 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
     TextView userNameTv;
     @Bind(R.id.pub_date_tv)
     TextView pubDateTv;
-    @Bind(R.id.like_btn)
-    CheckableImageView likeBtn;
-    @Bind(R.id.view_count_tv)
-    TextView viewCountTv;
-    @Bind(R.id.share_tv)
-    TextView shareTv;
     @Bind(R.id.recycler_view)
     RecyclerView commentList;
     @Bind(R.id.comment_et)
@@ -123,7 +123,8 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
     AppBarLayout appBarLayout;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-
+    @Bind(R.id.swipe_refresh_layout)
+    MultiSwipeRefreshLayout mSwipeRefreshLayout;
     private YihuoProfile profileData;
 
     private List<YihuoDetails.Pics> shotsList = new ArrayList<>();
@@ -133,8 +134,12 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
     private boolean isEnterActivity = true;
     private DrawableRequestBuilder<String> avatarRequest;
     private BitmapRequestBuilder<String, Bitmap> shotRequest;
-    private Uri mFirstShotUri;
     private CommentsAdapter mCommentAdapter;
+    private int mPageIndex = 1;
+    private ArrayList<String> mCommentList = new ArrayList<>();
+    private boolean mIsRequestDataRefresh;
+    private TextView mViewCountTv;
+    private CheckableImageView likeBtn;
 
     @Override
     protected boolean isUseEventBus() {
@@ -148,7 +153,20 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
     protected void beforeInflate() {
         profileData = getIntent().getExtras().getParcelable(YihuoProfile);
 
+        avatarRequest = Glide.with(this).fromString()
+                .dontAnimate()
+                .placeholder(this.getResources().getDrawable(R.drawable.ic_avatar_placeholder))
+                .error(this.getResources().getDrawable(R.drawable.ic_avatar_placeholder))
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                .priority(Priority.NORMAL)
+                .bitmapTransform(new CropCircleTransformation(this)).thumbnail(0.2f);
 
+        shotRequest = Glide.with(this).fromString()
+                .asBitmap()
+                .placeholder(this.getResources().getDrawable(R.drawable.image_placeholder_black))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .priority(Priority.IMMEDIATE)
+                .thumbnail(0.2f);
     }
 
     @Override
@@ -175,25 +193,18 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
             handleException();
             return;
         }
+
+        setupSwipeRefreshLayout();
+        setupCommentList();
+        setupViewPager();
+        setLazyLoadDelay(LOAD_COMMENT_DELAY);
         // load yihuo details form server
         mPresenter.loadYihuoDetails(profileData.getId());
+    }
 
+    @Override
+    protected void lazyLoad() {
         // glide load request
-        avatarRequest = Glide.with(this).fromString()
-                .dontAnimate()
-                .placeholder(this.getResources().getDrawable(R.drawable.ic_avatar_placeholder))
-                .error(this.getResources().getDrawable(R.drawable.ic_avatar_placeholder))
-                .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                .priority(Priority.NORMAL)
-                .bitmapTransform(new CropCircleTransformation(this)).thumbnail(0.2f);
-
-        shotRequest = Glide.with(this).fromString()
-                .asBitmap()
-                .placeholder(this.getResources().getDrawable(R.drawable.image_placeholder_black))
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .priority(Priority.IMMEDIATE)
-                .thumbnail(0.2f);
-
         setupAppBarLayout();
         setupUsername();
         setupAvatar();
@@ -201,16 +212,7 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
         setupPubdate();
         setYihuoTitle();
         setupPrice();
-        setupViewPager();
-        setLazyLoadDelay(LOAD_COMMENT_DELAY);
-    }
-
-    @Override
-    protected void lazyLoad() {
-        myHandler.postDelayed(() -> {
-            setupCommentList();
-            mPresenter.loadComments();
-        }, LOAD_COMMENT_DELAY);
+        myHandler.postDelayed(this::refreshComment, 1000);
     }
 
     private void setupAppBarLayout() {
@@ -234,8 +236,49 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
                     } else if (fraction > 0.8f) {
                         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
                     }
+                    mSwipeRefreshLayout.setEnabled(fraction == 1);
                 }));
     }
+
+    private void setupSwipeRefreshLayout() {
+        mSwipeRefreshLayout.setColorSchemeResources(
+                R.color.colorAccent,
+                R.color.themeRed,
+                R.color.themeGreen);
+        // do not use lambda!!
+        mSwipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        mIsRequestDataRefresh = true;
+                        setRequestDataRefresh(true);
+                        if (NetWorkUtils.isNetworkConnection(DetailsView.this)) {
+                            refreshComment();
+                        } else {
+                            ToastUtils.toastFast(DetailsView.this, "你的网络好像出了点问题");
+                            setRequestDataRefresh(false);
+                        }
+                    }
+                });
+    }
+
+    public void setRequestDataRefresh(boolean requestDataRefresh) {
+        if (mSwipeRefreshLayout == null) {
+            return;
+        }
+        if (!requestDataRefresh) {
+            mIsRequestDataRefresh = false;
+            // TODO: 防止刷新消失太快，让刷新有点存在感
+            mSwipeRefreshLayout.postDelayed(() -> {
+                if (mSwipeRefreshLayout != null) {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
+            }, 600);
+        } else {
+            mSwipeRefreshLayout.setRefreshing(true);
+        }
+    }
+
 
     private void setYihuoTitle() {
         titleTv.setText(StringUtils.check(this, profileData.getName(), R.string.untable));
@@ -333,7 +376,6 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
         descriptionTv.setText(StringUtils.check(this, description, R.string.untable));
     }
 
-    @OnClick(R.id.like_btn_wrapper)
     public void addToLikes() {
         final SmallBang smallBang = SmallBang.attach2Window(this);
         if (!likeBtn.isChecked()) { // 取消的时候就不要那个动画了
@@ -342,18 +384,9 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
         likeBtn.setChecked(!likeBtn.isChecked());
     }
 
-    @OnClick(R.id.share_tv)
-    public void getShotUri() {
+    public void shareTo() {
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        if (mFirstShotUri != null) {
-            shareIntent.putExtra(Intent.EXTRA_STREAM, mFirstShotUri);
-            shareIntent.setType("image/*");
-            //当用户选择短信时使用sms_body取得文字
-            shareIntent.putExtra("sms_body", getString(R.string.details_share_prefix)
-                    + profileData.getName() + JianyiApi.shareById(profileData.getId()));
-        } else {
-            shareIntent.setType("text/plain");
-        }
+        shareIntent.setType("text/plain");
         shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.details_share_prefix)
                 + profileData.getName() + JianyiApi.shareById(profileData.getId()));
         //自定义选择框的标题
@@ -398,7 +431,7 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
     @Override
     public void showViewCount(@NonNull String count) {
         if (TextUtils.isEmpty(count)) { count = getString(R.string.details_view_count_null); }
-        viewCountTv.setText(String.format(StringUtils.getRes(this, R.string.details_view_count), count));
+        mViewCountTv.setText(String.format(StringUtils.getRes(this, R.string.details_view_count), count));
     }
 
     private void setupCommentList() {
@@ -406,17 +439,44 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
         commentList.setAdapter(mCommentAdapter);
         commentList.setItemAnimator(new DefaultItemAnimator());
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        layoutManager.setAutoMeasureEnabled(true);
+//        layoutManager.setAutoMeasureEnabled(true);
         commentList.setLayoutManager(layoutManager);
+        commentList.addOnScrollListener(new OnLoadMoreListener(layoutManager, mSwipeRefreshLayout) {
+            @Override
+            public void onLoadMore() {
+                mPageIndex++;
+                loadComment(mPageIndex);
+            }
+        });
+
+        final View listHeader = View.inflate(this, R.layout.include_product_details_socials, null);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        listHeader.setLayoutParams(layoutParams);
+        mCommentAdapter.setHeaderView(listHeader);
+
+        mViewCountTv = (TextView) listHeader.findViewById(R.id.view_count_tv);
+        likeBtn = (CheckableImageView) listHeader.findViewById(R.id.like_btn);
+        final TextView shareTv = (TextView) listHeader.findViewById(R.id.share_tv);
+        final FrameLayout likeBtnWrapper = (FrameLayout) listHeader.findViewById(R.id.like_btn_wrapper);
+        mCompositeSubscription.add(RxView.clicks(likeBtn).subscribe(aVoid -> addToLikes()));
+        mCompositeSubscription.add(RxView.clicks(shareTv).subscribe(aVoid -> shareTo()));
+        mCompositeSubscription.add(RxView.clicks(likeBtnWrapper).subscribe(aVoid -> addToLikes()));
+    }
+
+    private void refreshComment() {
+        mPageIndex = 1;
+        mPresenter.loadComments(mPageIndex);
+    }
+
+    private void loadComment(int pageIndex) {
+        mPresenter.loadComments(pageIndex);
     }
 
     @Override
-    public void showComments() {
-        List<String> comments = new ArrayList<>();
-        for (String ignored : CommentsAdapter.avatarUrls) {
-            comments.add("");
-        }
-        mCommentAdapter.setData(comments);
+    public void showComments(List<String> data, boolean isRefresh) {
+        if (!mCommentList.isEmpty() && isRefresh) { mCommentList.clear(); }
+        mCommentList.addAll(data);
+        mCommentAdapter.setData(mCommentList);
         mCommentAdapter.notifyDataSetChanged();
     }
 

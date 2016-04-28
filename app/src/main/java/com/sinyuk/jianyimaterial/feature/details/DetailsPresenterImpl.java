@@ -10,6 +10,9 @@ import com.sinyuk.jianyimaterial.mvp.BasePresenter;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Sinyuk on 16.3.19.
  */
@@ -39,11 +42,18 @@ public class DetailsPresenterImpl extends BasePresenter<DetailsView> implements 
     }
 
     @Override
-    public void loadComments() {
-        if (/*应该在回调里面写*/true){
-            mView.showComments();
-        }else {
+    public void loadComments(@NonNull int pageIndex) {
+        if (/*应该在回调里面写*/true) {
+            final List<String> dummyComments = new ArrayList<>();
+            for (int i = 0; i < 8; i++) {
+                dummyComments.add("");
+            }
+            boolean isRefresh = pageIndex == 1;
+            mView.showComments(dummyComments, isRefresh); // 一次模拟8条
+            mView.setRequestDataRefresh(false);
+        } else {
             mView.hintNoComment();
+            mView.setRequestDataRefresh(false);
         }
     }
 
@@ -77,7 +87,7 @@ public class DetailsPresenterImpl extends BasePresenter<DetailsView> implements 
     //** callbacks for loading Yihuo details **//
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void requestForLogin(XRequestLoginEvent event){
+    public void requestForLogin(XRequestLoginEvent event) {
         mView.hintRequestLogin();
     }
 }

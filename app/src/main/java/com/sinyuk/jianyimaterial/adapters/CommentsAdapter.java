@@ -145,21 +145,18 @@ public class CommentsAdapter extends ExtendedRecyclerViewAdapter<String, Comment
     @Override
     public void onBindDataItemViewHolder(CommentItemViewHolder holder, int position) {
 
-//        enterAnimationLocked = getItemCount() <= position + 1;
-
-    /*    if (position % 2 != 1) {
-            holder.commentView.setBackgroundColor(mContext.getResources().getColor(R.color.grey_50));
-        } else {
-            holder.commentView.setBackgroundColor(mContext.getResources().getColor(R.color.white));
-        }*/
-
         holder.userNameTv.setText(NameGenerator.generateName());
 
-        holder.pubDateTv.setText(FuzzyDateFormater.getTimeAgo(mContext, new Date(System.currentTimeMillis() - 6000000 * new Random().nextInt(100))));
+        holder.pubDateTv.setText(FuzzyDateFormater.getTimeAgo(mContext, new Date(System.currentTimeMillis() - 600000 * new Random().nextInt(position + 1) - position * 6000000)));
 
-        holder.contentTv.setMaxLines(new Random().nextInt(4) + (position % 2) * 2);
+        holder.contentTv.setMaxLines(new Random().nextInt(5) + 1);
 
-        avatarRequest.load(avatarUrls[position]).into(holder.avatar);
+        int index = position % avatarUrls.length;
+        if (index > avatarUrls.length || index < 0) {
+            index = new Random().nextInt(20);
+        }
+
+        avatarRequest.load(avatarUrls[index]).into(holder.avatar);
 
         runEnterAnimation(holder.itemView, position);
 

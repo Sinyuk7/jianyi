@@ -18,7 +18,7 @@ public interface IDetailsView {
 
     void showViewCount(@NonNull String count);
 
-    void showComments();
+    void showComments(List<String> commentList,boolean isRefresh);
 
     void hintNoComment();
 
