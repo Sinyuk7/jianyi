@@ -216,7 +216,6 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
     }
 
     private void setupAppBarLayout() {
-        viewPager.setLayerType(View.LAYER_TYPE_HARDWARE, null);
         newPriceTv.setLayerType(View.LAYER_TYPE_HARDWARE, null);
         titleTv.setLayerType(View.LAYER_TYPE_HARDWARE, null);
         descriptionTv.setLayerType(View.LAYER_TYPE_HARDWARE, null);
@@ -227,7 +226,6 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(fraction -> {
                     if (fraction < 0) { fraction = 0f; }
-                    viewPager.setAlpha(fraction);
                     newPriceTv.setAlpha(fraction);
                     titleTv.setAlpha(fraction);
                     descriptionTv.setAlpha(fraction);
