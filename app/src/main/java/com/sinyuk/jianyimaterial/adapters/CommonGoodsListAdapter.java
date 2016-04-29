@@ -2,7 +2,6 @@ package com.sinyuk.jianyimaterial.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.BitmapRequestBuilder;
 import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
@@ -37,9 +35,9 @@ import butterknife.ButterKnife;
  * Created by Sinyuk on 16.1.20.
  */
 public class CommonGoodsListAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile, CommonGoodsListAdapter.CommonItemViewHolder> {
+    private final DrawableRequestBuilder<String> shotRequest;
     private DrawableRequestBuilder<String> avatarRequest;
 
-    private BitmapRequestBuilder<String, Bitmap> shotRequest;
 
     public CommonGoodsListAdapter(Context context) {
         super(context);
@@ -50,8 +48,8 @@ public class CommonGoodsListAdapter extends ExtendedRecyclerViewAdapter<YihuoPro
                 .bitmapTransform(new CropCircleTransformation(mContext));
 
         shotRequest = Glide.with(mContext).fromString()
-                .asBitmap()
-                .error(mContext.getResources().getDrawable(R.drawable.image_placeholder_icon))
+                .dontAnimate()
+                .error(mContext.getResources().getDrawable(R.drawable.image_placeholder_grey300))
                 .placeholder(mContext.getResources().getDrawable(R.drawable.image_placeholder_grey300))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.IMMEDIATE)

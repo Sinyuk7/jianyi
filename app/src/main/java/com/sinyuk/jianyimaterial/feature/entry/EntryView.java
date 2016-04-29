@@ -1,14 +1,19 @@
 package com.sinyuk.jianyimaterial.feature.entry;
 
-import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
+import android.content.Context;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
+import android.view.ViewStub;
+import android.widget.FrameLayout;
 
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.feature.drawer.DrawerView;
 import com.sinyuk.jianyimaterial.feature.home.HomeView;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
+import com.sinyuk.jianyimaterial.utils.ScreenUtils;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;
+
+import java.lang.ref.WeakReference;
 
 import butterknife.Bind;
 
@@ -16,8 +21,10 @@ import butterknife.Bind;
  * Created by Sinyuk on 16.3.30.
  */
 public class EntryView extends BaseActivity<EntryPresenterImpl> implements IEntryView {
-    @Bind(R.id.home_view)
-    CoordinatorLayout mHomeView;
+    @Bind(R.id.root_view)
+    FrameLayout mRootView;
+    @Bind(R.id.view_stub)
+    ViewStub mViewStub;
     private long attemptExitTime;
 
     @Override
@@ -27,6 +34,7 @@ public class EntryView extends BaseActivity<EntryPresenterImpl> implements IEntr
 
     @Override
     protected void beforeInflate() {
+        ScreenUtils.hideSystemyBar(this);
     }
 
     @Override
@@ -39,22 +47,24 @@ public class EntryView extends BaseActivity<EntryPresenterImpl> implements IEntr
         return false;
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Override
     protected void lazyLoad() {
+        mViewStub.inflate();
+        mViewStub = null;
         FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction().replace(R.id.container_menu, DrawerView.getInstance()).commit();
+        fm.beginTransaction().replace(R.id.home_view, HomeView.getInstance()).commit();
     }
 
     @Override
     protected void onFinishInflate() {
         FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction().replace(R.id.home_view, HomeView.getInstance()).commit();
-        setLazyLoadDelay(2000);
+        final SplashView splashView = new SplashView();
+        fm.beginTransaction().setCustomAnimations(R.anim.slide_right_in, R.anim.slide_right_out, R.anim.slide_right_in, R.anim.slide_right_out).commit();
+        fm.beginTransaction().add(R.id.root_view, splashView).commit();
+        setLazyLoadDelay(1024);
+        myHandler.postDelayed(new RemoveSplashRunnable(this, splashView), 3000);
     }
 
     @Override
@@ -74,5 +84,30 @@ public class EntryView extends BaseActivity<EntryPresenterImpl> implements IEntr
             return false;
         }
         return true;
+    }
+
+    private class RemoveSplashRunnable implements Runnable {
+        private final WeakReference<SplashView> fragmentRef;
+        private final WeakReference<Context> contextRef;
+
+        public RemoveSplashRunnable(Context context, SplashView splashView) {
+            contextRef = new WeakReference<>(context);
+            fragmentRef = new WeakReference<>(splashView);
+        }
+
+        @Override
+        public void run() {
+            AppCompatActivity context = (AppCompatActivity) contextRef.get();
+            try {
+                SplashView splashFragment = fragmentRef.get();
+                context.getSupportFragmentManager().beginTransaction().remove(splashFragment).commit();
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            } finally {
+                ScreenUtils.showSystemyBar(EntryView.this);
+                getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.window_background));
+            }
+
+        }
     }
 }

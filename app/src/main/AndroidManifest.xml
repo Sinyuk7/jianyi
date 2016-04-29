@@ -37,6 +37,7 @@
             android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity
             android:name=".feature.entry.EntryView"
+            android:theme="@style/Jianyi.Splash"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

@@ -96,7 +96,7 @@ public class SearchActivity extends BaseActivity {
 
 
         shotRequest = Glide.with(mContext).fromString().diskCacheStrategy(DiskCacheStrategy.RESULT).priority(Priority.IMMEDIATE)
-                .crossFade().placeholder(R.drawable.image_placeholder_grey300).error(R.drawable.image_placeholder_icon);
+                .crossFade().placeholder(R.drawable.image_placeholder_grey300).error(R.drawable.image_placeholder_grey300);
     }
 
     private void queryEmpty() {

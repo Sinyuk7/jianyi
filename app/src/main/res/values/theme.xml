@@ -58,4 +58,8 @@
         <item name="android:windowBackground">@color/black</item>
     </style>
 
+    <style name="Jianyi.Splash" parent="Jianyi">
+        <item name="android:windowBackground">@drawable/splash_window_background</item>
+    </style>
+
 </resources>

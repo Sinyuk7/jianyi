@@ -50,7 +50,7 @@ public class DeleteGoodsAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile
         super(context);
         colorfulRequest = Glide.with(mContext).fromString()
                 .asBitmap()
-                .error(mContext.getResources().getDrawable(R.drawable.image_placeholder_icon))
+                .error(mContext.getResources().getDrawable(R.drawable.image_placeholder_grey300))
                 .placeholder(mContext.getResources().getDrawable(R.drawable.image_placeholder_grey300))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.IMMEDIATE)
