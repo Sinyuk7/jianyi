@@ -63,8 +63,8 @@ public class EntryView extends BaseActivity<EntryPresenterImpl> implements IEntr
         final SplashView splashView = new SplashView();
         fm.beginTransaction().setCustomAnimations(R.anim.slide_right_in, R.anim.slide_right_out, R.anim.slide_right_in, R.anim.slide_right_out).commit();
         fm.beginTransaction().add(R.id.root_view, splashView).commit();
-        setLazyLoadDelay(1024);
-        myHandler.postDelayed(new RemoveSplashRunnable(this, splashView), 3000);
+        setLazyLoadDelay(800);
+        myHandler.postDelayed(new RemoveSplashRunnable(this, splashView), 1600);
     }
 
     @Override
