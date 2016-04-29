@@ -8,8 +8,6 @@
     </item>
 
     <item
-        android:width="100dp"
-        android:height="400dp"
         android:gravity="center">
         <bitmap
             android:antialias="true"

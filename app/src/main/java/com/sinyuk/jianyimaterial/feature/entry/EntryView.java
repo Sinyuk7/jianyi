@@ -61,10 +61,9 @@ public class EntryView extends BaseActivity<EntryPresenterImpl> implements IEntr
     protected void onFinishInflate() {
         FragmentManager fm = getSupportFragmentManager();
         final SplashView splashView = new SplashView();
-        fm.beginTransaction().setCustomAnimations(R.anim.slide_right_in, R.anim.slide_right_out, R.anim.slide_right_in, R.anim.slide_right_out).commit();
         fm.beginTransaction().add(R.id.root_view, splashView).commit();
         setLazyLoadDelay(800);
-        myHandler.postDelayed(new RemoveSplashRunnable(this, splashView), 1600);
+        myHandler.postDelayed(new RemoveSplashRunnable(this, splashView), 2000);
     }
 
     @Override
@@ -104,8 +103,8 @@ public class EntryView extends BaseActivity<EntryPresenterImpl> implements IEntr
             } catch (NullPointerException e) {
                 e.printStackTrace();
             } finally {
-                ScreenUtils.showSystemyBar(EntryView.this);
                 getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.window_background));
+                ScreenUtils.showSystemyBar(EntryView.this);
             }
 
         }
