@@ -115,7 +115,7 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
     @Override
     protected void onFinishInflate() {
         initFragment();
-        setLazyLoadDelay(2000);
+        setLazyLoadDelay(500);
     }
 
     @Override
