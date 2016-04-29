@@ -139,7 +139,7 @@ public class SearchActivity extends BaseActivity {
 
     @Override
     protected int getContentViewID() {
-        return R.layout.search_view;
+        return R.layout.xsearch_view;
     }
 
     @Override
