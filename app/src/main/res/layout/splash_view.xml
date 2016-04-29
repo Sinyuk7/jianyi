@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:background="@drawable/splash_window_background"
+    tools:background="@drawable/splash_backdrop"
     android:fitsSystemWindows="false">
 </FrameLayout>
