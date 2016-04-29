@@ -10,6 +10,7 @@
 
         <android.support.design.widget.CollapsingToolbarLayout
             style="@style/DefaultCollapsingToolbarLayout"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
             app:titleEnabled="false">
 
             <LinearLayout
