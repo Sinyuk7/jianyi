@@ -45,11 +45,11 @@ public class DetailsPresenterImpl extends BasePresenter<DetailsView> implements 
     public void loadComments(@NonNull int pageIndex) {
         if (/*应该在回调里面写*/true) {
             final List<String> dummyComments = new ArrayList<>();
-            for (int i = 0; i < 8; i++) {
+            for (int i = 0; i < 3; i++) {
                 dummyComments.add("");
             }
             boolean isRefresh = pageIndex == 1;
-            mView.showComments(dummyComments, isRefresh); // 一次模拟8条
+            mView.showComments(dummyComments, isRefresh); // 一次模拟3条
             mView.setRequestDataRefresh(false);
         } else {
             mView.hintNoComment();
