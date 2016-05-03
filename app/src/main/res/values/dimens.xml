@@ -1,6 +1,4 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-
-
     <!-- ============================================== -->
     <!--Default Settings-->
     <!--MD设计原则-->
@@ -111,8 +109,5 @@
 
     <dimen name="details_trapezoid_margin">-32dp</dimen>
     <dimen name="details_trapezoid_triangle_height">32dp</dimen>
-
-
-
-   <dimen name="toolbar_shadow_height">4dp</dimen>
+    <dimen name="toolbar_shadow_height">4dp</dimen>
 </resources>
