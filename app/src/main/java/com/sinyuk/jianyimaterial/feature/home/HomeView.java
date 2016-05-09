@@ -112,8 +112,6 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     ImageView mLogo;
     @Bind(R.id.hamburger_menu)
     ImageView mNavigationIcon;
-    @Bind(R.id.view_state_view_stub)
-    ViewStub mStateViewStub;
 
     private boolean mIsRequestDataRefresh;
     private CommonGoodsListAdapter mAdapter;
@@ -126,7 +124,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     private Handler mScheduleHandler = new Handler();
     private TextView mSchoolAt;
     private String mCurrentSchool;
-    private View mStateView;
+
 
     public static HomeView getInstance() {
         if (null == sInstance) { sInstance = new HomeView(); }
@@ -376,19 +374,6 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
         if (isEmpty) { ToastUtils.toastSlow(mContext, getString(R.string.common_hint_empty_list)); }
     }
 
-/*    private void invalidateEmptyView(boolean isEmpty) {
-        if (isEmpty) {
-            if (mStateView == null) {
-                mStateView = ViewStateHelper.getInstance(mContext).showEmptyState(mStateViewStub);
-            } else {
-                mStateView.setVisibility(View.VISIBLE);
-            }
-        } else {
-            if (mStateView != null) {
-                mStateView.setVisibility(View.GONE);
-            }
-        }
-    }*/
 
     @Override
     public void showListHeader(YihuoDetails data) {

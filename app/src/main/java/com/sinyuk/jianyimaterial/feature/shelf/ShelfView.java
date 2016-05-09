@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewStub;
 
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.adapters.CommonGoodsListAdapter;
@@ -22,6 +23,7 @@ import com.sinyuk.jianyimaterial.adapters.LikeGoodsListAdapter;
 import com.sinyuk.jianyimaterial.api.Index;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
 import com.sinyuk.jianyimaterial.events.XShelfChangeEvent;
+import com.sinyuk.jianyimaterial.managers.ViewStateHelper;
 import com.sinyuk.jianyimaterial.mvp.BaseFragment;
 import com.sinyuk.jianyimaterial.ui.GridItemSpaceDecoration;
 import com.sinyuk.jianyimaterial.ui.OnLoadMoreListener;
@@ -64,8 +66,8 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
     RecyclerView mRecyclerView;
     @Bind(R.id.swipe_refresh_layout)
     MultiSwipeRefreshLayout mSwipeRefreshLayout;
-
-
+    @Bind(R.id.view_state_view_stub)
+    ViewStub mStateViewStub;
     private boolean mIsRequestDataRefresh;
     private ExtendedRecyclerViewAdapter mAdapter;
     private View mListHeader;
@@ -74,7 +76,7 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
     private HashMap<String, String> mParams;
     private String mUid;
     private String mContentType;
-
+    private View mStateView;
 
     public static ShelfView newInstance(Bundle args) {
         ShelfView fragment = new ShelfView();
@@ -315,16 +317,27 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
         mYihuoProfileList.addAll(newPage.getData().getItems());
         mAdapter.setData(mYihuoProfileList);
         mAdapter.notifyDataSetChanged();
+        invalidateEmptyView(mYihuoProfileList.isEmpty());
+
     }
 
-    @Override
-    public void showEmptyView() {
-
+    private void invalidateEmptyView(boolean isEmpty) {
+        if (isEmpty) {
+            if (mStateView == null) {
+                mStateView = ViewStateHelper.getInstance(mContext).showEmptyState(mStateViewStub);
+            } else {
+                mStateView.setVisibility(View.VISIBLE);
+            }
+        } else {
+            if (mStateView != null) {
+                mStateView.setVisibility(View.GONE);
+            }
+        }
     }
 
     @Override
     public void reachLastPage() {
-        ToastUtils.toastFast(mContext,getString(R.string.common_hint_reach_list_bottom));
+        ToastUtils.toastFast(mContext, getString(R.string.common_hint_reach_list_bottom));
     }
 
     @Override

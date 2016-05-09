@@ -21,8 +21,6 @@ public interface IShelfView {
 
     void showList(Index newPage, boolean isRefresh);
 
-    void showEmptyView();
-
     void reachLastPage();
 
     void onVolleyError(@NonNull String message);

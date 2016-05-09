@@ -6,9 +6,22 @@
     android:layout_height="match_parent"
     android:overScrollMode="never">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:overScrollMode="never"/>
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"/>
+
+        <ViewStub
+            android:id="@+id/view_state_view_stub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout="@layout/state_view_empty_list"
+            />
+    </FrameLayout>
+
 </com.sinyuk.jianyimaterial.widgets.MultiSwipeRefreshLayout>

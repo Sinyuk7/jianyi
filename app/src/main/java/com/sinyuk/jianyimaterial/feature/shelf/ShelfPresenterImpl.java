@@ -25,17 +25,11 @@ public class ShelfPresenterImpl extends BasePresenter<ShelfView> implements IShe
     @Override
     public void onCompleted(Index data, boolean isRefresh) {
         if (mView != null) {
-            if (data.getData().getTotal_items() > 0) {
-                mView.showList(data, isRefresh);
-                mView.dismissLoadingProgress();
-                if (data.getData().getTotal_pages() == data.getData().getCurrent()) {
-                    mView.reachLastPage();
-                    mView.dismissLoadingProgress();
-                }
-            }else {
-                mView.showEmptyView();
+            mView.showList(data, isRefresh);
+            if (data.getData().getTotal_pages() == data.getData().getCurrent()) {
+                mView.reachLastPage();
             }
-
+            mView.dismissLoadingProgress();
         }
     }
 
