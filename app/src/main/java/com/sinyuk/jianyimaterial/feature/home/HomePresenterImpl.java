@@ -1,8 +1,10 @@
 package com.sinyuk.jianyimaterial.feature.home;
 
+import android.support.annotation.NonNull;
+
+import com.sinyuk.jianyimaterial.api.Index;
 import com.sinyuk.jianyimaterial.entity.Banner;
 import com.sinyuk.jianyimaterial.entity.YihuoDetails;
-import com.sinyuk.jianyimaterial.entity.YihuoProfile;
 import com.sinyuk.jianyimaterial.model.BannerModel;
 import com.sinyuk.jianyimaterial.model.UserModel;
 import com.sinyuk.jianyimaterial.model.YihuoModel;
@@ -33,8 +35,9 @@ public class HomePresenterImpl extends BasePresenter<HomeView> implements
     }
 
     @Override
-    public void loadData(String schoolIndex,int pageIndex) {
-        YihuoModel.getInstance(mView.getContext()).getGoodsBySchool(schoolIndex,pageIndex, this);
+    public void loadData(@NonNull String schoolIndex, int pageIndex) {
+        YihuoModel.getInstance(mView.getContext()).getGoodsBySchool(schoolIndex, pageIndex, this);
+        if (null != mView) { mView.showLoadingProgress(); }
     }
 
     @Override
@@ -57,9 +60,20 @@ public class HomePresenterImpl extends BasePresenter<HomeView> implements
     }
 
     @Override
-    public void onCompleted(List<YihuoProfile> data, boolean isRefresh) {
-        mView.showList(data, isRefresh);
-        mView.onDataLoaded();
+    public void onCompleted(Index data, boolean isRefresh) {
+        if (mView != null) {
+            if (data.getData().getTotal_items() > 0) {
+                mView.showList(data, isRefresh);
+                mView.dismissLoadingProgress();
+                if (data.getData().getTotal_pages() == data.getData().getCurrent()) {
+                    mView.reachLastPage();
+                    mView.dismissLoadingProgress();
+                }
+            } else {
+                mView.showEmptyView();
+            }
+
+        }
     }
 
     @Override

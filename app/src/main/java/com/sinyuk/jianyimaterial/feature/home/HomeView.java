@@ -40,6 +40,7 @@ import com.jakewharton.rxbinding.support.v7.widget.RxToolbar;
 import com.jakewharton.rxbinding.view.RxView;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.adapters.CommonGoodsListAdapter;
+import com.sinyuk.jianyimaterial.api.Index;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
 import com.sinyuk.jianyimaterial.common.WebViewActivity;
 import com.sinyuk.jianyimaterial.common.spanbuilder.AndroidSpan;
@@ -352,16 +353,22 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
         mPresenter.loadData(mCurrentSchool, pageIndex);
     }
 
+
     @Override
-    public void onDataLoaded() {
-        mSwipeRefreshLayout.setRefreshing(false);
+    public void showEmptyView() {
+
+    }
+
+    @Override
+    public void reachLastPage() {
+
     }
 
 
     @Override
-    public void showList(List<YihuoProfile> newPage, boolean isRefresh) {
+    public void showList(Index newPage, boolean isRefresh) {
         if (!mYihuoProfileList.isEmpty() && isRefresh) { mYihuoProfileList.clear(); }
-        mYihuoProfileList.addAll(newPage);
+        mYihuoProfileList.addAll(newPage.getData().getItems());
         mAdapter.setData(mYihuoProfileList);
         mAdapter.notifyDataSetChanged();
     }
@@ -463,6 +470,16 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
             }
         });
         nopeFab.start();
+    }
+
+    @Override
+    public void dismissLoadingProgress() {
+        setRequestDataRefresh(false);
+    }
+
+    @Override
+    public void showLoadingProgress() {
+        setRequestDataRefresh(true);
     }
 
     @Override

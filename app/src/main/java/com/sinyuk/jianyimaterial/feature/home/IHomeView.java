@@ -2,6 +2,7 @@ package com.sinyuk.jianyimaterial.feature.home;
 
 import android.support.annotation.NonNull;
 
+import com.sinyuk.jianyimaterial.api.Index;
 import com.sinyuk.jianyimaterial.entity.Banner;
 import com.sinyuk.jianyimaterial.entity.YihuoDetails;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
@@ -21,9 +22,11 @@ public interface IHomeView {
 
     void loadData(int pageIndex);
 
-    void onDataLoaded();
+    void showList(Index newPage, boolean isRefresh);
 
-    void showList(List<YihuoProfile> newPage,boolean isRefresh);
+    void showEmptyView();
+
+    void reachLastPage();
 
     void onVolleyError(@NonNull String message);
 
@@ -32,4 +35,8 @@ public interface IHomeView {
     void toPostView();
 
     void toLoginView();
+
+    void dismissLoadingProgress();
+
+    void showLoadingProgress();
 }
