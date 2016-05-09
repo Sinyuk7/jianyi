@@ -163,6 +163,7 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
 
         shotRequest = Glide.with(this).fromString()
                 .asBitmap()
+                .dontAnimate()
                 .placeholder(this.getResources().getDrawable(R.drawable.image_placeholder_black))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.IMMEDIATE)

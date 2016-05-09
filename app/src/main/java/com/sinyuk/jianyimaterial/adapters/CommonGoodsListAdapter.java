@@ -141,7 +141,7 @@ public class CommonGoodsListAdapter extends ExtendedRecyclerViewAdapter<YihuoPro
             mContext.startActivity(intent);
         });
 
-        shotRequest.load(JianyiApi.shotUrl(itemData.getPic())).into(new SinyukTarget(holder.shotIv, 552));
+        shotRequest.load(JianyiApi.shotUrl(itemData.getPic())).into(holder.shotIv);
         holder.shotIv.setTag(R.id.shots_cover_tag, position);
 
     }
