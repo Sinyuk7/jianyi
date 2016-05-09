@@ -71,7 +71,6 @@ public class ViewStateHelper {
         Glide.with(context.getApplicationContext()).load(resId)
                 .dontAnimate()
                 .priority(Priority.IMMEDIATE)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .listener(new RequestListener<Integer, GlideDrawable>() {
                     @Override
                     public boolean onException(Exception e, Integer model, Target<GlideDrawable> target, boolean isFirstResource) {
@@ -81,10 +80,16 @@ public class ViewStateHelper {
                     @Override
                     public boolean onResourceReady(GlideDrawable resource, Integer model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
                         textView.setText(text);
-                        SpringUtils.popOut(100, 10, 300, textView, imageView);
+                        popOut(view);
                         return false;
                     }
                 }).into(imageView);
         return view;
+    }
+
+    public void popOut(View view) {
+        ImageView imageView = (ImageView) view.findViewById(R.id.state_image);
+        TextView textView = (TextView) view.findViewById(R.id.state_hint);
+        SpringUtils.popOut(50, 8, 200, textView, imageView);
     }
 }
