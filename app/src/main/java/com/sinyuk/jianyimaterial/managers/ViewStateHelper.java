@@ -22,6 +22,7 @@ public class ViewStateHelper {
 
     private static ViewStateHelper instance;
     private Context context;
+    public static final String EMPTY_LIST_STATE_IMAGE  ="http://ww2.sinaimg.cn/mw690/b29e155agw1f3pjijpkdtj209l09kdfu.jpg";
 
     public ViewStateHelper(Context context) {
         this.context = context;

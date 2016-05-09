@@ -3,15 +3,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingBottom="56dp"
+    android:paddingLeft="100dp"
+    android:paddingRight="100dp"
+    android:paddingTop="140dp"
+    tools:background="@color/scrim">
 
     <ImageView
         android:id="@+id/state_image"
-        android:layout_width="200dp"
+        android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="140dp"
         android:scaleType="centerInside"
         android:visibility="invisible"
         tools:src="@drawable/empty_list"
@@ -23,10 +26,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/state_image"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="56dp"
-        android:textColor="@color/grey_800"
-        android:textSize="@dimen/material_text_menu"
-        android:textStyle="bold"
+        android:layout_marginTop="@dimen/general_content_space"
+        android:textColor="@color/grey_600"
+        android:textSize="@dimen/material_text_caption1"
         android:visibility="invisible"
         tools:text="@string/common_hint_empty_list"/>
 </RelativeLayout>
