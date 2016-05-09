@@ -19,6 +19,7 @@ import com.sinyuk.jianyimaterial.adapters.CommonGoodsListAdapter;
 import com.sinyuk.jianyimaterial.adapters.DeleteGoodsAdapter;
 import com.sinyuk.jianyimaterial.adapters.ExtendedRecyclerViewAdapter;
 import com.sinyuk.jianyimaterial.adapters.LikeGoodsListAdapter;
+import com.sinyuk.jianyimaterial.api.Index;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
 import com.sinyuk.jianyimaterial.events.XShelfChangeEvent;
 import com.sinyuk.jianyimaterial.mvp.BaseFragment;
@@ -309,11 +310,21 @@ public class ShelfView extends BaseFragment<ShelfPresenterImpl> implements IShel
 
 
     @Override
-    public void showList(List<YihuoProfile> newPage, boolean isRefresh) {
+    public void showList(Index newPage, boolean isRefresh) {
         if (!mYihuoProfileList.isEmpty() && isRefresh) { mYihuoProfileList.clear(); }
-        mYihuoProfileList.addAll(newPage);
+        mYihuoProfileList.addAll(newPage.getData().getItems());
         mAdapter.setData(mYihuoProfileList);
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showEmptyView() {
+
+    }
+
+    @Override
+    public void reachLastPage() {
+        ToastUtils.toastFast(mContext,getString(R.string.common_hint_reach_list_bottom));
     }
 
     @Override

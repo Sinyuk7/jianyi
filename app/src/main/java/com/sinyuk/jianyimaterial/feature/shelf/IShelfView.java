@@ -2,6 +2,7 @@ package com.sinyuk.jianyimaterial.feature.shelf;
 
 import android.support.annotation.NonNull;
 
+import com.sinyuk.jianyimaterial.api.Index;
 import com.sinyuk.jianyimaterial.entity.YihuoProfile;
 
 import java.util.List;
@@ -18,7 +19,11 @@ public interface IShelfView {
 
     void loadData(int pageIndex);
 
-    void showList(List<YihuoProfile> newPage,boolean isRefresh);
+    void showList(Index newPage, boolean isRefresh);
+
+    void showEmptyView();
+
+    void reachLastPage();
 
     void onVolleyError(@NonNull String message);
 

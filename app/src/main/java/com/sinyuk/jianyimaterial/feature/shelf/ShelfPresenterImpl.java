@@ -1,11 +1,10 @@
 package com.sinyuk.jianyimaterial.feature.shelf;
 
-import com.sinyuk.jianyimaterial.entity.YihuoProfile;
+import com.sinyuk.jianyimaterial.api.Index;
 import com.sinyuk.jianyimaterial.model.YihuoModel;
 import com.sinyuk.jianyimaterial.mvp.BasePresenter;
 
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by Sinyuk on 16.4.2.
@@ -24,10 +23,19 @@ public class ShelfPresenterImpl extends BasePresenter<ShelfView> implements IShe
     }
 
     @Override
-    public void onCompleted(List<YihuoProfile> data, boolean isRefresh) {
+    public void onCompleted(Index data, boolean isRefresh) {
         if (mView != null) {
-            mView.showList(data, isRefresh);
-            mView.dismissLoadingProgress();
+            if (data.getData().getTotal_items() > 0) {
+                mView.showList(data, isRefresh);
+                mView.dismissLoadingProgress();
+                if (data.getData().getTotal_pages() == data.getData().getCurrent()) {
+                    mView.reachLastPage();
+                    mView.dismissLoadingProgress();
+                }
+            }else {
+                mView.showEmptyView();
+            }
+
         }
     }
 
