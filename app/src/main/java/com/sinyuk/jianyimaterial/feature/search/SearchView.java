@@ -1,5 +1,8 @@
 package com.sinyuk.jianyimaterial.feature.search;
 
+import android.view.Menu;
+
+import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 
 /**
@@ -18,12 +21,12 @@ public class SearchView extends BaseActivity<SearchPresenterImpl> implements ISe
 
     @Override
     protected SearchPresenterImpl createPresenter() {
-        return null;
+        return new SearchPresenterImpl();
     }
 
     @Override
     protected boolean isNavAsBack() {
-        return false;
+        return true;
     }
 
     @Override
@@ -38,6 +41,12 @@ public class SearchView extends BaseActivity<SearchPresenterImpl> implements ISe
 
     @Override
     protected int getContentViewID() {
-        return 0;
+        return R.layout.xsearch_view;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.action_bar_search, menu);
+        return true;
     }
 }
