@@ -24,8 +24,6 @@ public interface IHomeView {
 
     void showList(Index newPage, boolean isRefresh);
 
-    void showEmptyView();
-
     void reachLastPage();
 
     void onVolleyError(@NonNull String message);
