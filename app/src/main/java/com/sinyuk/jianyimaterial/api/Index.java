@@ -53,6 +53,38 @@ public class Index {
         public int total_items;
         public int limit;
 
+        public int getFirst() {
+            return first;
+        }
+
+        public int getBefore() {
+            return before;
+        }
+
+        public int getNext() {
+            return next;
+        }
+
+        public int getLast() {
+            return last;
+        }
+
+        public int getCurrent() {
+            return current;
+        }
+
+        public int getTotal_pages() {
+            return total_pages;
+        }
+
+        public int getTotal_items() {
+            return total_items;
+        }
+
+        public int getLimit() {
+            return limit;
+        }
+
         public List<YihuoProfile> items;
 
         public List<YihuoProfile> getItems() {

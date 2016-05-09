@@ -99,12 +99,12 @@ public class YihuoModel implements BaseModel {
                 (Request.Method.GET, JianyiApi.goodsByUser(uid, pageIndex), null, response -> {
                     try {
                         Index index = mGson.fromJson(response.toString(), Index.class);
-                        String trans = mGson.toJson(index.getData().getItems());
+                  /*      String trans = mGson.toJson(index.getData().getItems());
                         List<YihuoProfile> data = mGson.fromJson(trans,
                                 new TypeToken<List<YihuoProfile>>() {
-                                }.getType());
+                                }.getType());*/
 
-                        if (data != null) { callback.onCompleted(data, isRefresh); }
+                        if (index != null) { callback.onCompleted(index, isRefresh); }
                     } catch (JsonParseException e) {
                         callback.onParseError(e.getMessage());
                     }
@@ -120,12 +120,12 @@ public class YihuoModel implements BaseModel {
                 (Request.Method.POST, JianyiApi.filterYihuoProfile(pageIndex), response -> {
                     try {
                         Index index = mGson.fromJson(response, Index.class);
-                        String trans = mGson.toJson(index.getData().getItems());
+                     /*   String trans = mGson.toJson(index.getData().getItems());
                         List<YihuoProfile> data = mGson.fromJson(trans,
                                 new TypeToken<List<YihuoProfile>>() {
-                                }.getType());
+                                }.getType());*/
                         // do clear
-                        if (data != null) { callback.onCompleted(data, isRefresh); }
+                        if (index != null) { callback.onCompleted(index, isRefresh); }
                     } catch (JsonParseException e) {
                         callback.onParseError(e.getMessage());
                     }
@@ -144,13 +144,13 @@ public class YihuoModel implements BaseModel {
                 (Request.Method.GET, url, null, response -> {
                     try {
                         Index index = mGson.fromJson(response.toString(), Index.class);
-                        String trans = mGson.toJson(index.getData().getItems());
+                     /*   String trans = mGson.toJson(index.getData().getItems());
                         List<YihuoProfile> data = mGson.fromJson(trans,
                                 new TypeToken<List<YihuoProfile>>() {
-                                }.getType());
+                                }.getType());*/
 
                         // do clear
-                        if (data != null) { callback.onCompleted(data, isRefresh); }
+                        if (index != null) { callback.onCompleted(index, isRefresh); }
                     } catch (JsonParseException e) {
                         callback.onParseError(e.getMessage());
                     }
@@ -240,7 +240,7 @@ public class YihuoModel implements BaseModel {
 
         void onVolleyError(String message);
 
-        void onCompleted(List<YihuoProfile> data, boolean isRefresh);
+        void onCompleted(Index data, boolean isRefresh);
 
         void onParseError(String message);
     }
