@@ -2,6 +2,7 @@ package com.sinyuk.jianyimaterial.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.BitmapRequestBuilder;
 import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
@@ -21,6 +23,7 @@ import com.sinyuk.jianyimaterial.entity.YihuoProfile;
 import com.sinyuk.jianyimaterial.feature.details.DetailsView;
 import com.sinyuk.jianyimaterial.feature.profile.ProfileView;
 import com.sinyuk.jianyimaterial.glide.CropCircleTransformation;
+import com.sinyuk.jianyimaterial.glide.SinyukTarget;
 import com.sinyuk.jianyimaterial.utils.FormatUtils;
 import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
@@ -35,7 +38,8 @@ import butterknife.ButterKnife;
  * Created by Sinyuk on 16.1.20.
  */
 public class CommonGoodsListAdapter extends ExtendedRecyclerViewAdapter<YihuoProfile, CommonGoodsListAdapter.CommonItemViewHolder> {
-    private final DrawableRequestBuilder<String> shotRequest;
+
+    private final BitmapRequestBuilder<String, Bitmap> shotRequest;
     private DrawableRequestBuilder<String> avatarRequest;
 
 
@@ -48,12 +52,14 @@ public class CommonGoodsListAdapter extends ExtendedRecyclerViewAdapter<YihuoPro
                 .bitmapTransform(new CropCircleTransformation(mContext));
 
         shotRequest = Glide.with(mContext).fromString()
+                .asBitmap()
                 .dontAnimate()
                 .error(mContext.getResources().getDrawable(R.drawable.image_placeholder_grey300))
                 .placeholder(mContext.getResources().getDrawable(R.drawable.image_placeholder_grey300))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.IMMEDIATE)
                 .thumbnail(0.2f);
+
     }
 
     @Override
@@ -135,7 +141,7 @@ public class CommonGoodsListAdapter extends ExtendedRecyclerViewAdapter<YihuoPro
             mContext.startActivity(intent);
         });
 
-        shotRequest.load(JianyiApi.shotUrl(itemData.getPic())).into(holder.shotIv);
+        shotRequest.load(JianyiApi.shotUrl(itemData.getPic())).into(new SinyukTarget(holder.shotIv, 552));
         holder.shotIv.setTag(R.id.shots_cover_tag, position);
 
     }
