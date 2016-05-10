@@ -24,7 +24,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -53,6 +52,7 @@ import com.sinyuk.jianyimaterial.feature.CategoryView;
 import com.sinyuk.jianyimaterial.feature.dialog.SchoolDialog;
 import com.sinyuk.jianyimaterial.feature.explore.ExploreView;
 import com.sinyuk.jianyimaterial.feature.offer.OfferView;
+import com.sinyuk.jianyimaterial.feature.search.SearchView;
 import com.sinyuk.jianyimaterial.managers.SnackBarFactory;
 import com.sinyuk.jianyimaterial.mvp.BaseFragment;
 import com.sinyuk.jianyimaterial.ui.HeaderItemSpaceDecoration;
@@ -112,6 +112,8 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     ImageView mLogo;
     @Bind(R.id.hamburger_menu)
     ImageView mNavigationIcon;
+    @Bind(R.id.search_button)
+    ImageView mSearchButton;
 
     private boolean mIsRequestDataRefresh;
     private CommonGoodsListAdapter mAdapter;
@@ -180,6 +182,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
                     mEntryFree.setAlpha(fraction);
                     mEntryCategory.setAlpha(fraction);
                     mNavigationIcon.setAlpha(1 - fraction);
+                    mSearchButton.setAlpha(1 - fraction);
                     mLogo.setAlpha(1 - fraction);
                 }));
     }
@@ -520,6 +523,11 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     public void toCategory(Void v) {
         Intent toCategory = new Intent(getContext(), CategoryView.class);
         startActivity(toCategory);
+    }
+
+    @OnClick(R.id.search_button)
+    public void toSearchView() {
+        startActivity(new Intent(mContext, SearchView.class));
     }
 
     public class BannerItemViewHolder implements Holder<String> {

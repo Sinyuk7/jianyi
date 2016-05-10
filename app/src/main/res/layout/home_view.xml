@@ -32,6 +32,7 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 style="@style/Toolbar.Home"
+                app:contentInsetEnd="4dp"
                 app:contentInsetStart="0dp">
 
                 <ImageView
@@ -48,6 +49,12 @@
                     android:paddingTop="12dp"
                     android:scaleType="centerInside"
                     android:src="@drawable/logo"/>
+
+                <ImageView
+                    android:id="@+id/search_button"
+                    style="@style/ToolbarImageButton"
+                    android:layout_gravity="end"
+                    android:src="@drawable/ic_search_primary_24dp"/>
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>
 
