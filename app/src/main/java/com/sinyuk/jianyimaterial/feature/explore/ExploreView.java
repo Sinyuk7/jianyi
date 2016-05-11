@@ -115,6 +115,7 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
     @Override
     protected void onFinishInflate() {
         initFragment();
+        mFilterBtn.setClickable(false);
         setLazyLoadDelay(500);
     }
 
@@ -127,6 +128,7 @@ public class ExploreView extends BaseActivity<ExplorePresenterImpl> implements O
         } else {
             mFilterBtn.setVisibility(View.GONE);
         }
+        mFilterBtn.setClickable(true);
     }
 
     @Override
