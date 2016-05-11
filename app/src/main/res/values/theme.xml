@@ -59,7 +59,7 @@
     </style>
 
     <style name="Jianyi.Splash" parent="Jianyi">
-        <item name="android:windowBackground">@drawable/splash_backdrop</item>
+        <item name="android:windowBackground">@drawable/splash_view</item>
     </style>
 
 </resources>
