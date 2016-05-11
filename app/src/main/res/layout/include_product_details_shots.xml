@@ -4,8 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    tools:background="@color/red_btn_bg_color"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    tools:background="@color/red_btn_bg_color">
     <!--图片占位-->
     <ImageView
         android:id="@+id/placeholder"
@@ -94,40 +94,26 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/new_price_tv"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:textSize="@dimen/material_text_menu"
             android:layout_marginTop="@dimen/tiny_content_space"
+            android:textSize="@dimen/material_text_menu"
             android:textStyle="bold"
             tools:text="@string/dummy_item_title"/>
 
-        <com.sinyuk.jianyimaterial.widgets.ExpandableTextView
+        <com.sinyuk.jianyimaterial.widgets.ReadMoreTextView
             android:id="@+id/description_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/title_tv"
             android:layout_marginTop="@dimen/extra_tiny_content_space"
-            app:animDuration="200"
-            app:maxCollapsedLines="2">
-
-            <TextView
-                android:id="@id/expandable_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:lineSpacingExtra="2dp"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:background="@android:color/transparent"
-                android:textColor="@color/grey_600"
-                android:textSize="@dimen/material_text_body2"/>
-
-            <ImageButton
-                android:id="@id/expand_collapse"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="start|bottom"
-                android:layout_marginLeft="@dimen/general_content_space"
-                android:background="@color/transparent"
-                android:padding="8dp"/>
-        </com.sinyuk.jianyimaterial.widgets.ExpandableTextView>
+            android:lineSpacingMultiplier="1.2"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:textColor="@color/grey_600"
+            android:textSize="@dimen/material_text_body2"
+            app:colorClickableText="@color/colorAccent"
+            app:trimCollapsedText="展开"
+            app:trimExpandedText="收起"
+            app:trimLength="40"/>
 
     </com.sinyuk.jianyimaterial.widgets.TrapezoidView>
 </RelativeLayout>

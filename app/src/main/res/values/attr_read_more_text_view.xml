@@ -8,6 +8,6 @@
         <attr name="colorClickableText" format="color" />
     </declare-styleable>
 
-    <string name="read_more">显示全文</string>
-    <string name="read_less">折叠</string>
+    <string name="read_more">展开</string>
+    <string name="read_less">收起</string>
 </resources>

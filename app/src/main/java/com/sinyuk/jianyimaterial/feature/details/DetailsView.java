@@ -61,11 +61,11 @@ import com.sinyuk.jianyimaterial.utils.ScreenUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;
 import com.sinyuk.jianyimaterial.widgets.CheckableImageView;
-import com.sinyuk.jianyimaterial.widgets.ExpandableTextView;
 import com.sinyuk.jianyimaterial.widgets.InkPageIndicator;
 import com.sinyuk.jianyimaterial.widgets.MultiSwipeRefreshLayout;
 import com.sinyuk.jianyimaterial.widgets.MyCircleImageView;
 import com.sinyuk.jianyimaterial.widgets.RatioImageView;
+import com.sinyuk.jianyimaterial.widgets.ReadMoreTextView;
 import com.sinyuk.jianyimaterial.widgets.RoundCornerIndicator;
 
 import java.text.ParseException;
@@ -100,7 +100,7 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
     @Bind(R.id.title_tv)
     TextView titleTv;
     @Bind(R.id.description_tv)
-    ExpandableTextView descriptionTv;
+    ReadMoreTextView descriptionTv;
     @Bind(R.id.collapsing_toolbar_layout)
     CollapsingToolbarLayout collapsingToolbarLayout;
     @Bind(R.id.avatar)
