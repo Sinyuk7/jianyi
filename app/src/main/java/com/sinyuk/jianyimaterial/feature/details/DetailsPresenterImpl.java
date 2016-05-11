@@ -65,9 +65,11 @@ public class DetailsPresenterImpl extends BasePresenter<DetailsView> implements 
 
     @Override
     public void onCompleted(YihuoDetails data) {
-        mView.showDescription(data.getDetail());
-        mView.showShots(data.getPics());
-        mView.showViewCount(data.getViewcount());
+        if (mView != null) {
+            mView.showDescription(data.getDetail());
+            mView.showShots(data.getPics());
+            mView.showViewCount(data.getViewcount());
+        }
     }
 
     @Override
