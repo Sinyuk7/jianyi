@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -61,6 +62,7 @@ import com.sinyuk.jianyimaterial.utils.ScreenUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;
 import com.sinyuk.jianyimaterial.widgets.CheckableImageView;
+import com.sinyuk.jianyimaterial.widgets.FloatingToolbar;
 import com.sinyuk.jianyimaterial.widgets.InkPageIndicator;
 import com.sinyuk.jianyimaterial.widgets.MultiSwipeRefreshLayout;
 import com.sinyuk.jianyimaterial.widgets.MyCircleImageView;
@@ -119,6 +121,10 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
     Toolbar toolbar;
     @Bind(R.id.swipe_refresh_layout)
     MultiSwipeRefreshLayout mSwipeRefreshLayout;
+    @Bind(R.id.fab)
+    FloatingActionButton mFab;
+    @Bind(R.id.floating_toolbar)
+    FloatingToolbar mFloatingToolbar;
     private YihuoProfile profileData;
 
     private List<YihuoDetails.Pics> shotsList = new ArrayList<>();
@@ -207,8 +213,12 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
         setupPubdate();
         setYihuoTitle();
         setupPrice();
-        myHandler.postDelayed(this::refreshComment, 1000);
+
+        myHandler.postDelayed(this::refreshComment, 600);
+        myHandler.postDelayed(this::showFab, 1200);
+
     }
+
 
     private void setupAppBarLayout() {
         newPriceTv.setLayerType(View.LAYER_TYPE_HARDWARE, null);
@@ -504,6 +514,35 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
 
     public void hideLoadingProgress() {
         progressBar.setVisibility(View.GONE);
+    }
+
+    private void showFab() {
+        if (mFab != null) { mFab.show(); }
+        setupFloatingToolbar();
+    }
+
+    private void setupFloatingToolbar() {
+        mFloatingToolbar.attachFab(mFab);
+        mFloatingToolbar.attachRecyclerView(commentList);
+        if (mFloatingToolbar.getCustomView() != null) {
+            final View commentView = mFloatingToolbar.getCustomView();
+            final TextInputLayout commentInputLayout = (TextInputLayout) commentView.findViewById(R.id.comment_input_layout);
+            final EditText commentEt = (EditText) commentView.findViewById(R.id.comment_et);
+            final CheckableImageView commentBtn = (CheckableImageView) commentView.findViewById(R.id.comment_btn);
+            commentBtn.setOnClickListener(v -> mFloatingToolbar.hide());
+        }
+    }
+
+    @OnClick(R.id.fab)
+    public void onCommentClick() {}
+
+    @Override
+    public void onBackPressed() {
+        if (null != mFloatingToolbar && mFloatingToolbar.isShowing()) {
+            mFloatingToolbar.hide();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     /**

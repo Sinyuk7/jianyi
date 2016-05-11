@@ -1,20 +1,20 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_gravity="bottom|end|center"
-              android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_gravity="bottom">
 
     <View
+        android:id="@+id/shadow"
         android:layout_width="match_parent"
         android:layout_height="4dp"
         android:background="@drawable/toolbar_shadow_reverse"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:background="@color/colorAccent"
-        android:layout_height="52dp">
+        android:layout_height="56dp"
+        android:layout_below="@+id/shadow"
+        android:background="@color/colorAccent">
 
         <com.sinyuk.jianyimaterial.widgets.MyCircleImageView
             android:id="@+id/fake_avatar"
@@ -55,6 +55,6 @@
             style="@style/ToolbarImageButton"
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_message_text_grey600_24dp"
-            tools:tint="@color/white"/>
+            android:tint="@color/white"/>
     </RelativeLayout>
-</LinearLayout>
+</RelativeLayout>

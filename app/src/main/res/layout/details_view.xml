@@ -54,20 +54,19 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
     </com.sinyuk.jianyimaterial.widgets.MultiSwipeRefreshLayout>
 
+    <com.sinyuk.jianyimaterial.widgets.FloatingToolbar
+        android:id="@+id/floating_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:background="@color/transparent"
+        app:floatingCustomView="@layout/include_product_details_footer"/>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         style="@style/FAB.Large"
         android:layout_gravity="bottom|end"
-        android:src="@drawable/ic_message_text_grey600_24dp"
-        app:layout_behavior="com.sinyuk.jianyimaterial.ui.ScrollAwareFABBehavior"/>
-
-    <com.sinyuk.jianyimaterial.widgets.FloatingToolbar
-        android:id="@+id/floating_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_gravity="bottom"
-        app:floatingCustomView="@layout/include_product_details_footer"/>
-
+        android:src="@drawable/ic_message_text_grey600_24dp"/>
 </android.support.design.widget.CoordinatorLayout>
 
 
