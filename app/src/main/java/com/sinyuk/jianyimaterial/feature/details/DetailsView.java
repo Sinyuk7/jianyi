@@ -111,12 +111,6 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
     TextView pubDateTv;
     @Bind(R.id.recycler_view)
     RecyclerView commentList;
-    @Bind(R.id.comment_et)
-    EditText commentEt;
-    @Bind(R.id.comment_input_layout)
-    TextInputLayout commentInputLayout;
-    @Bind(R.id.comment_btn)
-    CheckableImageView commentBtn;
     @Bind(R.id.coordinator_layout)
     CoordinatorLayout coordinatorLayout;
     @Bind(R.id.app_bar_layout)
