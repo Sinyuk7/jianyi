@@ -37,7 +37,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPropertyAnimatorListenerAdapter;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.view.SupportMenuInflater;
 import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.AppCompatImageButton;
@@ -215,16 +214,24 @@ public class FloatingToolbar extends LinearLayoutCompat implements View.OnClickL
     public void attachRecyclerView(RecyclerView recyclerView) {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy >= dpToPixels(8)) {
                     hide();
+                }
+                if (Math.abs(dy) >= dpToPixels(24)) {
+                    if (!mMorphed && !mMorphing) {
+                        if (dy > 0) {
+                            if (null != mFab && mFab.getVisibility() == VISIBLE) { mFab.hide(); }
+                        } else {
+                            if (null != mFab && mFab.getVisibility() != VISIBLE) { mFab.show(); }
+                        }
+                    }
                 }
             }
         });
     }
 
- 
 
     public void show() {
         if (mFab == null) {
