@@ -68,6 +68,8 @@
         android:layout_gravity="bottom|end"
         android:src="@drawable/ic_message_text_white_24dp"
         android:visibility="gone"/>
+
+    <include layout="@layout/toolbar_shadow_compat"/>
 </android.support.design.widget.CoordinatorLayout>
 
 
