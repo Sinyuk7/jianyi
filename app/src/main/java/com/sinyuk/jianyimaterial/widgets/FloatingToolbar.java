@@ -37,6 +37,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPropertyAnimatorListenerAdapter;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.view.SupportMenuInflater;
 import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.AppCompatImageButton;
@@ -55,6 +56,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 
 import com.sinyuk.jianyimaterial.R;
+import com.sinyuk.jianyimaterial.utils.LogUtils;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -103,15 +105,18 @@ public class FloatingToolbar extends LinearLayoutCompat implements View.OnClickL
 
     public FloatingToolbar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FloatingToolbar, 0, 0);
 
         TypedValue outValue = new TypedValue();
 
         // Set colorAccent as default color
-        if (getBackground() == null) {
+    /*    if (getBackground() == null) {
             getContext().getTheme().resolveAttribute(R.attr.colorAccent, outValue, true);
             setBackgroundResource(outValue.resourceId);
-        }
+        }*/
+
+        setBackgroundColor(getResources().getColor(R.color.transparent));
 
         getContext().getTheme().resolveAttribute(android.R.attr.selectableItemBackground,
                 outValue, true);
@@ -148,9 +153,9 @@ public class FloatingToolbar extends LinearLayoutCompat implements View.OnClickL
         }
 
         // Set elevation to 6dp
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setElevation(dpToPixels(6));
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            setElevation(dpToPixels(6));
+//        }
 
         setOrientation(HORIZONTAL);
     }
@@ -159,7 +164,7 @@ public class FloatingToolbar extends LinearLayoutCompat implements View.OnClickL
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         mRoot = getRootView();
-
+        LogUtils.simpleLog(FloatingToolbar.class, "onMeasure");
         if (mFab != null && mFabOriginalX == 0 && mFabOriginalY == 0) {
             mFabOriginalY = mFab.getY();
             mFabOriginalX = mFab.getX();
@@ -200,12 +205,9 @@ public class FloatingToolbar extends LinearLayoutCompat implements View.OnClickL
 
     public void attachFab(FloatingActionButton fab) {
         mFab = fab;
-        mFab.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!mMorphed) {
-                    show();
-                }
+        mFab.setOnClickListener(v -> {
+            if (!mMorphed) {
+                show();
             }
         });
     }
@@ -221,6 +223,8 @@ public class FloatingToolbar extends LinearLayoutCompat implements View.OnClickL
             }
         });
     }
+
+ 
 
     public void show() {
         if (mFab == null) {
@@ -620,6 +624,60 @@ public class FloatingToolbar extends LinearLayoutCompat implements View.OnClickL
         anim.start();
     }
 
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        Parcelable superState = super.onSaveInstanceState();
+        SavedState state = new SavedState(superState);
+        state.morphed = mMorphed;
+        return state;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        if (!(state instanceof SavedState)) {
+            super.onRestoreInstanceState(state);
+            return;
+        }
+
+        SavedState savedState = (SavedState) state;
+
+        super.onRestoreInstanceState(savedState.getSuperState());
+
+        if (savedState.morphed) {
+            post(new Runnable() {
+                @Override
+                public void run() {
+                    mRoot = getRootView();
+                    mOriginalX = getX();
+                    mFabOriginalY = mFab.getY();
+                    mFabOriginalX = mFab.getX();
+                    show();
+                }
+            });
+        }
+    }
+
+    private float dpToPixels(int dp) {
+        return Resources.getSystem().getDisplayMetrics().densityDpi
+                / DisplayMetrics.DENSITY_DEFAULT * dp;
+    }
+
+    // Generate unique view ids to save state properly
+    private int genViewId() {
+        if (Build.VERSION.SDK_INT < 17) {
+            for (; ; ) {
+                final int result = sNextGeneratedId.get();
+                int newValue = result + 1;
+                if (newValue > 0x00FFFFFF) { newValue = 1; }
+                if (sNextGeneratedId.compareAndSet(result, newValue)) {
+                    return result;
+                }
+            }
+        } else {
+            return View.generateViewId();
+        }
+    }
+
     public interface ItemClickListener {
         void onItemClick(MenuItem item);
 
@@ -696,41 +754,20 @@ public class FloatingToolbar extends LinearLayoutCompat implements View.OnClickL
         }
     }
 
-    @Override
-    protected Parcelable onSaveInstanceState() {
-        Parcelable superState = super.onSaveInstanceState();
-        SavedState state = new SavedState(superState);
-        state.morphed = mMorphed;
-        return state;
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Parcelable state) {
-        if (!(state instanceof SavedState)) {
-            super.onRestoreInstanceState(state);
-            return;
-        }
-
-        SavedState savedState = (SavedState) state;
-
-        super.onRestoreInstanceState(savedState.getSuperState());
-
-        if (savedState.morphed) {
-            post(new Runnable() {
-                @Override
-                public void run() {
-                    mRoot = getRootView();
-                    mOriginalX = getX();
-                    mFabOriginalY = mFab.getY();
-                    mFabOriginalX = mFab.getX();
-                    show();
-                }
-            });
-        }
-    }
-
     static class SavedState extends BaseSavedState {
 
+        public static final Creator<SavedState> CREATOR
+                = new Creator<SavedState>() {
+            @Override
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in);
+            }
+
+            @Override
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
         public boolean morphed;
 
         public SavedState(Parcel source) {
@@ -746,41 +783,6 @@ public class FloatingToolbar extends LinearLayoutCompat implements View.OnClickL
         public void writeToParcel(Parcel out, int flags) {
             super.writeToParcel(out, flags);
             out.writeByte((byte) (morphed ? 0x01 : 0x00));
-        }
-
-        public static final Creator<SavedState> CREATOR
-                = new Creator<SavedState>() {
-            @Override
-            public SavedState createFromParcel(Parcel in) {
-                return new SavedState(in);
-            }
-
-            @Override
-            public SavedState[] newArray(int size) {
-                return new SavedState[size];
-            }
-        };
-    }
-
-    private float dpToPixels(int dp) {
-        return Resources.getSystem().getDisplayMetrics().densityDpi
-                / DisplayMetrics.DENSITY_DEFAULT * dp;
-    }
-
-    // Generate unique view ids to save state properly
-    private int genViewId() {
-        if (Build.VERSION.SDK_INT < 17) {
-            for (; ; ) {
-                final int result = sNextGeneratedId.get();
-                int newValue = result + 1;
-                if (newValue > 0x00FFFFFF)
-                    newValue = 1;
-                if (sNextGeneratedId.compareAndSet(result, newValue)) {
-                    return result;
-                }
-            }
-        } else {
-            return View.generateViewId();
         }
     }
 

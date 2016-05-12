@@ -198,6 +198,7 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
         setupSwipeRefreshLayout();
         setupCommentList();
         setupViewPager();
+        setupFloatingToolbar();
         setLazyLoadDelay(LOAD_COMMENT_DELAY);
         // load yihuo details form server
         mPresenter.loadYihuoDetails(profileData.getId());
@@ -214,8 +215,8 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
         setYihuoTitle();
         setupPrice();
 
-        myHandler.postDelayed(this::refreshComment, 600);
-        myHandler.postDelayed(this::showFab, 1200);
+        myHandler.postDelayed(this::refreshComment, 400);
+        myHandler.postDelayed(this::showFab, 1000);
 
     }
 
@@ -282,6 +283,18 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
         }
     }
 
+
+    private void setupFloatingToolbar() {
+        mFloatingToolbar.attachFab(mFab);
+        mFloatingToolbar.attachRecyclerView(commentList);
+        if (mFloatingToolbar.getCustomView() != null) {
+            final View commentView = mFloatingToolbar.getCustomView();
+            final TextInputLayout commentInputLayout = (TextInputLayout) commentView.findViewById(R.id.comment_input_layout);
+            final EditText commentEt = (EditText) commentView.findViewById(R.id.comment_et);
+            final CheckableImageView commentBtn = (CheckableImageView) commentView.findViewById(R.id.comment_btn);
+            commentBtn.setOnClickListener(v -> mFloatingToolbar.hide());
+        }
+    }
 
     private void setYihuoTitle() {
         titleTv.setText(StringUtils.check(this, profileData.getName(), R.string.untable));
@@ -518,19 +531,7 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
 
     private void showFab() {
         if (mFab != null) { mFab.show(); }
-        setupFloatingToolbar();
-    }
 
-    private void setupFloatingToolbar() {
-        mFloatingToolbar.attachFab(mFab);
-        mFloatingToolbar.attachRecyclerView(commentList);
-        if (mFloatingToolbar.getCustomView() != null) {
-            final View commentView = mFloatingToolbar.getCustomView();
-            final TextInputLayout commentInputLayout = (TextInputLayout) commentView.findViewById(R.id.comment_input_layout);
-            final EditText commentEt = (EditText) commentView.findViewById(R.id.comment_et);
-            final CheckableImageView commentBtn = (CheckableImageView) commentView.findViewById(R.id.comment_btn);
-            commentBtn.setOnClickListener(v -> mFloatingToolbar.hide());
-        }
     }
 
     @OnClick(R.id.fab)

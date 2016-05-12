@@ -57,16 +57,16 @@
     <com.sinyuk.jianyimaterial.widgets.FloatingToolbar
         android:id="@+id/floating_toolbar"
         android:layout_width="match_parent"
+        android:background="@color/transparent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:background="@color/transparent"
         app:floatingCustomView="@layout/include_product_details_footer"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         style="@style/FAB.Large"
         android:layout_gravity="bottom|end"
-        android:src="@drawable/ic_message_text_grey600_24dp"/>
+        android:src="@drawable/ic_message_text_white_24dp"/>
 </android.support.design.widget.CoordinatorLayout>
 
 

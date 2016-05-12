@@ -1,28 +1,25 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_gravity="bottom">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
 
     <View
-        android:id="@+id/shadow"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="4dp"
         android:background="@drawable/toolbar_shadow_reverse"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_below="@+id/shadow"
-        android:background="@color/colorAccent">
+        android:layout_height="wrap_content"
+        android:background="@color/white">
 
         <com.sinyuk.jianyimaterial.widgets.MyCircleImageView
             android:id="@+id/fake_avatar"
             style="@style/Avatar"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:src="@drawable/ic_avatar_placeholder"
-            app:border_color="@color/white_30_pct"/>
+            android:src="@drawable/ic_avatar_placeholder"/>
 
 
         <android.support.design.widget.TextInputLayout
@@ -35,17 +32,16 @@
             android:layout_toRightOf="@+id/fake_avatar"
             android:gravity="bottom"
             android:paddingTop="8dp"
-            android:textColorHint="@color/white">
+            android:textColorHint="@color/colorAccent">
 
             <EditText
                 android:id="@+id/comment_et"
                 style="@style/SingleLineText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
                 android:hint="@string/action_comment"
                 android:paddingTop="0dp"
-                android:textColor="@color/white"
+                android:textColor="@color/grey_600"
                 android:textSize="@dimen/material_text_body1"/>
         </android.support.design.widget.TextInputLayout>
 
@@ -55,6 +51,6 @@
             style="@style/ToolbarImageButton"
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_message_text_grey600_24dp"
-            android:tint="@color/white"/>
+            android:tint="@color/colorAccent"/>
     </RelativeLayout>
-</RelativeLayout>
+</LinearLayout>
