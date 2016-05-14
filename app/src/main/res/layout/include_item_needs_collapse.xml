@@ -34,7 +34,7 @@
         android:layout_marginStart="@dimen/general_content_space"
         android:layout_toRightOf="@+id/user_name_tv"
         android:textColor="@color/grey_600"
-        android:textSize="@dimen/material_text_caption1"
+        android:textSize="@dimen/material_text_caption2"
         tools:text="@string/pubdate" />
 
     <TextView
@@ -45,7 +45,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:gravity="center_vertical"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/themeRed"
         android:textSize="@dimen/material_text_menu"
         android:textStyle="bold"
         tools:text="100" />
@@ -56,12 +56,14 @@
         android:id="@+id/main_body_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:lineSpacingMultiplier="1.2"
         android:layout_below="@+id/user_name_tv"
         android:layout_marginLeft="@dimen/general_content_space"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/general_content_space"
+        android:layout_marginTop="@dimen/tiny_content_space"
         android:layout_toRightOf="@+id/avatar"
         android:textSize="@dimen/material_text_body1"
+        android:textColor="@color/grey_800"
         tools:text="@string/dummy_post_main_body" />
 
     <TextView
@@ -72,7 +74,7 @@
         android:layout_below="@+id/main_body_tv"
         android:layout_marginLeft="@dimen/general_content_space"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/general_content_space"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:layout_toRightOf="@+id/avatar"
         android:drawableLeft="@drawable/ic_call_accent_18dp"
         android:drawablePadding="@dimen/tiny_content_space"
