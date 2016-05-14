@@ -61,8 +61,6 @@
 
     <style name="Jianyi.Splash" parent="Jianyi">
         <item name="android:windowBackground">@drawable/splash_view</item>
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-        <!-- 隐藏状态栏 -->
         <item name="android:windowFullscreen">true</item>
     </style>
 

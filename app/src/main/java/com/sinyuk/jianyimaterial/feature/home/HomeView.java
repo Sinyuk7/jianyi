@@ -162,7 +162,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
         //加载完这个之后在刷新
         mScheduleHandler.postDelayed(this::refresh, 500);
 
-        mScheduleHandler.postDelayed(this::showFab, 1200);
+        mScheduleHandler.postDelayed(this::showFab, 2000);
     }
 
 

@@ -33,6 +33,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.utils.FileUtils;
+import com.sinyuk.jianyimaterial.utils.ScreenUtils;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;
 import com.sinyuk.jianyimaterial.widgets.HackyViewPager;
 import com.sinyuk.jianyimaterial.widgets.InkPageIndicator;
@@ -75,6 +76,7 @@ public class PhotoViewActivity extends BaseActivity {
     @Override
     protected void beforeSetContentView(Bundle savedInstanceState) {
 
+        ScreenUtils.hideSystemyBar(this);
 
         if (savedInstanceState != null) {
             boolean isLocked = savedInstanceState.getBoolean(ISLOCKED_ARG, false);

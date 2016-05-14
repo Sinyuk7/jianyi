@@ -5,16 +5,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.feature.entry.EntryView;
+import com.sinyuk.jianyimaterial.utils.ScreenUtils;
 
 /**
  * Created by Sinyuk on 16.5.15.
  */
 public class SplashActivity extends AppCompatActivity {
-    private static final long LAZY_LOAD_DELAY = 0;
+    private static final long LAZY_LOAD_DELAY = 1000;
     private Handler myHandler = new Handler();
     private Runnable mLazyLoadRunnable;
 
@@ -23,6 +23,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         /*getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);*/
+        ScreenUtils.hindNavBar(this);
         setContentView(R.layout.splash_view);
 
         mLazyLoadRunnable = this::runExitAnimation;
