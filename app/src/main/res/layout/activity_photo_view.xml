@@ -12,8 +12,7 @@
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:overScrollMode="never"
-        tools:background="@color/white"/>
+        android:overScrollMode="never"/>
 
 
     <ProgressBar
@@ -23,35 +22,17 @@
         android:layout_gravity="center"
         android:indeterminate="true"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar_height"
-        android:layout_marginTop="@dimen/status_bar_height"
-        android:background="@drawable/profile_toolbar_scrim"/>
-
-    <ImageView
-        android:id="@+id/back_iv"
-        style="@style/ClickableImageViewBorderless"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_gravity="start"
-        android:layout_marginTop="24dp"
-        android:contentDescription="@string/action_back"
-        android:padding="@dimen/activity_horizontal_margin"
-        android:src="@drawable/ic_arrow_back_white_24dp"
-        android:tint="@color/white_30_pct"/>
-
     <ImageView
         android:id="@+id/save_iv"
-        style="@style/ClickableImageViewBorderless"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_gravity="end|top"
+        android:layout_marginRight="4dp"
         android:layout_marginTop="24dp"
-        android:contentDescription="@string/action_save"
         android:padding="@dimen/activity_horizontal_margin"
         android:src="@drawable/ic_file_download_white_24dp"
-        android:tint="@color/white_30_pct"/>
+        android:tint="@color/white_30_pct"
+        android:visibility="gone"/>
 
 
     <com.sinyuk.jianyimaterial.widgets.InkPageIndicator
