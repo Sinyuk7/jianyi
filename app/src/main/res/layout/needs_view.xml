@@ -43,6 +43,7 @@
         style="@style/FAB.Large"
         android:layout_gravity="bottom|end"
         android:src="@drawable/ic_telegram_white_24dp"
+        android:visibility="gone"
         app:layout_behavior="com.sinyuk.jianyimaterial.ui.ScrollAwareFABBehavior"/>
 
 </android.support.design.widget.CoordinatorLayout>

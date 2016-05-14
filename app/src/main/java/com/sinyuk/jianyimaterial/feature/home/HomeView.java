@@ -161,6 +161,8 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
         mScheduleHandler.postDelayed(() -> mPresenter.loadListHeader(), 200);
         //加载完这个之后在刷新
         mScheduleHandler.postDelayed(this::refresh, 500);
+
+        mScheduleHandler.postDelayed(this::showFab, 1200);
     }
 
 
@@ -435,6 +437,10 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
     @Override
     public void onParseError(@NonNull String message) {
         mSwipeRefreshLayout.setRefreshing(false);
+    }
+
+    private void showFab() {
+        if (null != mFab && mFab.getVisibility() != View.VISIBLE) { mFab.show(); }
     }
 
     @OnClick(R.id.fab)

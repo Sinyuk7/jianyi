@@ -14,6 +14,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.adapters.NeedsListAdapter;
@@ -80,15 +81,20 @@ public class NeedsView extends BaseActivity<NeedsPresenterImpl> implements INeed
     protected void onFinishInflate() {
         setupAppBarLayout();
         setupToolbar();
+        setupSwipeRefreshLayout();
+        setupRecyclerView();
+        setLazyLoadDelay(400);
     }
 
     @Override
     protected void lazyLoad() {
-        setupSwipeRefreshLayout();
-        setupRecyclerView();
         refresh();
+        myHandler.postDelayed(this::showFab, 1500);
     }
 
+    private void showFab() {
+        if (null != mFab && mFab.getVisibility() != View.VISIBLE) { mFab.show(); }
+    }
 
     private void setupAppBarLayout() {
         mAppBarLayout.addOnOffsetChangedListener(this);
