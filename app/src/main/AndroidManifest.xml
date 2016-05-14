@@ -37,13 +37,7 @@
             android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity
             android:name=".feature.entry.EntryView"
-            android:launchMode="singleTop"
-            android:theme="@style/Jianyi.Splash">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+            android:launchMode="singleTop">
         </activity>
         <activity
             android:name=".feature.explore.ExploreView"
@@ -95,6 +89,17 @@
         <!--MVP-->
 
         <!--common-->
+        <activity
+            android:name=".common.SplashActivity"
+            android:theme="@style/Jianyi.Splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:launchMode="singleTop"

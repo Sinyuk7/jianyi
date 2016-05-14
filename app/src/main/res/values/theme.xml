@@ -60,6 +60,8 @@
 
     <style name="Jianyi.Splash" parent="Jianyi">
         <item name="android:windowBackground">@drawable/splash_view</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
 </resources>

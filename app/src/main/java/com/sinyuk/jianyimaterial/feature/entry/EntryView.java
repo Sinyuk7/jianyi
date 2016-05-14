@@ -1,6 +1,7 @@
 package com.sinyuk.jianyimaterial.feature.entry;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ViewStub;
@@ -21,8 +22,6 @@ import butterknife.Bind;
  * Created by Sinyuk on 16.3.30.
  */
 public class EntryView extends BaseActivity<EntryPresenterImpl> implements IEntryView {
-    @Bind(R.id.root_view)
-    FrameLayout mRootView;
     @Bind(R.id.view_stub)
     ViewStub mViewStub;
     private long attemptExitTime;
@@ -34,7 +33,7 @@ public class EntryView extends BaseActivity<EntryPresenterImpl> implements IEntr
 
     @Override
     protected void beforeInflate() {
-        ScreenUtils.hideSystemyBar(this);
+
     }
 
     @Override
@@ -59,11 +58,11 @@ public class EntryView extends BaseActivity<EntryPresenterImpl> implements IEntr
 
     @Override
     protected void onFinishInflate() {
-        FragmentManager fm = getSupportFragmentManager();
-        final SplashView splashView = new SplashView();
-        fm.beginTransaction().add(R.id.root_view, splashView).commit();
-        setLazyLoadDelay(800);
-        myHandler.postDelayed(new RemoveSplashRunnable(this, splashView), 2000);
+//        FragmentManager fm = getSupportFragmentManager();
+//        final SplashView splashView = new SplashView();
+//        fm.beginTransaction().add(R.id.root_view, splashView).commit();
+        setLazyLoadDelay(0);
+//        myHandler.postDelayed(new RemoveSplashRunnable(this, splashView), 2000);
     }
 
     @Override
@@ -103,8 +102,8 @@ public class EntryView extends BaseActivity<EntryPresenterImpl> implements IEntr
             } catch (NullPointerException e) {
                 e.printStackTrace();
             } finally {
-                getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.window_background));
-                ScreenUtils.showSystemyBar(EntryView.this);
+//                getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.window_background));
+//                ScreenUtils.showSystemyBar(EntryView.this);
             }
 
         }

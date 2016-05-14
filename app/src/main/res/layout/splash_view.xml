@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
+    android:id="@+id/splash_view"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:background="@drawable/splash_backdrop"
-    android:fitsSystemWindows="false">
+    android:fitsSystemWindows="false"
+    tools:background="@drawable/splash_backdrop">
 </FrameLayout>
