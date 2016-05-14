@@ -83,13 +83,13 @@ public class NeedsView extends BaseActivity<NeedsPresenterImpl> implements INeed
         setupToolbar();
         setupSwipeRefreshLayout();
         setupRecyclerView();
-        setLazyLoadDelay(400);
+        setLazyLoadDelay(200);
     }
 
     @Override
     protected void lazyLoad() {
         refresh();
-        myHandler.postDelayed(this::showFab, 1500);
+        myHandler.postDelayed(this::showFab, 1000);
     }
 
     private void showFab() {
