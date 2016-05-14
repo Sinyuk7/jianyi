@@ -1,29 +1,17 @@
 package com.sinyuk.jianyimaterial.feature.entry;
 
-import android.content.Context;
-import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
-import android.view.ViewStub;
-import android.widget.FrameLayout;
 
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.feature.drawer.DrawerView;
 import com.sinyuk.jianyimaterial.feature.home.HomeView;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
-import com.sinyuk.jianyimaterial.utils.ScreenUtils;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;
-
-import java.lang.ref.WeakReference;
-
-import butterknife.Bind;
 
 /**
  * Created by Sinyuk on 16.3.30.
  */
 public class EntryView extends BaseActivity<EntryPresenterImpl> implements IEntryView {
-    @Bind(R.id.view_stub)
-    ViewStub mViewStub;
     private long attemptExitTime;
 
     @Override
@@ -49,11 +37,7 @@ public class EntryView extends BaseActivity<EntryPresenterImpl> implements IEntr
 
     @Override
     protected void lazyLoad() {
-        mViewStub.inflate();
-        mViewStub = null;
-        FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction().replace(R.id.container_menu, DrawerView.getInstance()).commit();
-        fm.beginTransaction().replace(R.id.home_view, HomeView.getInstance()).commit();
+
     }
 
     @Override
@@ -61,8 +45,10 @@ public class EntryView extends BaseActivity<EntryPresenterImpl> implements IEntr
 //        FragmentManager fm = getSupportFragmentManager();
 //        final SplashView splashView = new SplashView();
 //        fm.beginTransaction().add(R.id.root_view, splashView).commit();
-        setLazyLoadDelay(0);
 //        myHandler.postDelayed(new RemoveSplashRunnable(this, splashView), 2000);
+        FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction().replace(R.id.container_menu, DrawerView.getInstance()).commit();
+        fm.beginTransaction().replace(R.id.home_view, HomeView.getInstance()).commit();
     }
 
     @Override
@@ -84,7 +70,7 @@ public class EntryView extends BaseActivity<EntryPresenterImpl> implements IEntr
         return true;
     }
 
-    private class RemoveSplashRunnable implements Runnable {
+/*    private class RemoveSplashRunnable implements Runnable {
         private final WeakReference<SplashView> fragmentRef;
         private final WeakReference<Context> contextRef;
 
@@ -107,5 +93,5 @@ public class EntryView extends BaseActivity<EntryPresenterImpl> implements IEntr
             }
 
         }
-    }
+    }*/
 }
