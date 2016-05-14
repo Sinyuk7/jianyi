@@ -7,14 +7,15 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.events.XEvent;
 
-import butterknife.ButterKnife;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import butterknife.ButterKnife;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by Sinyuk on 16.2.3.
@@ -23,21 +24,18 @@ import org.greenrobot.eventbus.Subscribe;
  * try to make it simple
  */
 public abstract class BaseActivity extends AppCompatActivity {
+    protected static final int REQUEST_STORAGE_READ_ACCESS_PERMISSION = 101;
+    protected static final int REQUEST_STORAGE_WRITE_ACCESS_PERMISSION = 102;
     /**
      * Log tag
      */
     protected static String TAG = null;
-
     /**
      * context
      */
     protected Context mContext = null;
-
-    protected static final int REQUEST_STORAGE_READ_ACCESS_PERMISSION = 101;
-    protected static final int REQUEST_STORAGE_WRITE_ACCESS_PERMISSION = 102;
-
+    protected CompositeSubscription mCompositeSubscription;
     private AlertDialog mAlertDialog;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +44,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         mContext = this;
         TAG = this.getClass().getSimpleName();
 
+        mCompositeSubscription = new CompositeSubscription();
 
         beforeSetContentView(savedInstanceState);
 
@@ -96,6 +95,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (isUsingEventBus()) {
             EventBus.getDefault().unregister(this);
         }
+
+        if (!mCompositeSubscription.isUnsubscribed()) { mCompositeSubscription.unsubscribe(); }
+
     }
 
 
@@ -114,8 +116,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract void initViews();
 
     protected abstract void initData();
-
-
 
 
 }
