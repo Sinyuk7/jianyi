@@ -14,7 +14,7 @@ import com.sinyuk.jianyimaterial.utils.ScreenUtils;
  * Created by Sinyuk on 16.5.15.
  */
 public class SplashActivity extends AppCompatActivity {
-    private static final long LAZY_LOAD_DELAY = 500;
+    private static final long LAZY_LOAD_DELAY = 1500;
     private Handler myHandler = new Handler();
     private Runnable mLazyLoadRunnable;
 
