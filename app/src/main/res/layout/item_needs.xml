@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/wrapper"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:clickable="true"
-    android:foreground="?selectableItemBackground"
-    android:paddingTop="@dimen/general_content_space">
+<RelativeLayout android:id="@+id/wrapper"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:foreground="?selectableItemBackground"
+                android:paddingTop="@dimen/general_content_space">
 
     <include
 
-        layout="@layout/include_item_needs_collapse" />
+        layout="@layout/include_item_needs_collapse"/>
 
 
     <LinearLayout
         android:id="@+id/expand_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:layout_below="@+id/location_iv"
         android:orientation="horizontal"
         android:visibility="gone">
@@ -25,20 +25,22 @@
         <android.support.v4.widget.Space
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"/>
 
 
         <ImageView
             android:id="@+id/phone_call_iv"
             style="@style/ToolbarImageButton"
             android:src="@drawable/ic_call_white_24dp"
-            android:tint="@color/colorAccent" />
+            android:tint="@color/colorAccent"
+            android:visibility="invisible"/>
 
         <ImageView
             android:id="@+id/chat_iv"
             style="@style/ToolbarImageButton"
             android:src="@drawable/ic_chat_white_48dp"
-            android:tint="@color/colorAccent" />
+            android:tint="@color/colorAccent"
+            android:visibility="invisible"/>
     </LinearLayout>
 
 </RelativeLayout>

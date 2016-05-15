@@ -26,6 +26,7 @@ import com.sinyuk.jianyimaterial.utils.AnimUtils;
 import com.sinyuk.jianyimaterial.utils.FormatUtils;
 import com.sinyuk.jianyimaterial.utils.FuzzyDateFormater;
 import com.sinyuk.jianyimaterial.utils.ScreenUtils;
+import com.sinyuk.jianyimaterial.utils.SpringUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
 import com.sinyuk.jianyimaterial.widgets.TextDrawable;
 
@@ -190,14 +191,21 @@ public class NeedsListAdapter extends ExtendedRecyclerViewAdapter<JNeed.Data.Nee
 
             wrapper.setOnClickListener(v -> {
                 if (expandView.getVisibility() == View.GONE) {
-                    expandView.setVisibility(View.VISIBLE);
-                    raise(wrapper);
+                    expand();
                 } else {
                     expandView.setVisibility(View.GONE);
+                    phoneCallIv.setVisibility(View.INVISIBLE);
+                    chatIv.setVisibility(View.INVISIBLE);
                     fall(wrapper);
                 }
 
             });
+        }
+
+        private void expand() {
+            expandView.setVisibility(View.VISIBLE);
+            SpringUtils.popOut(50, 6, 300, phoneCallIv, chatIv);
+            raise(wrapper);
         }
 
         private void raise(View view) {
