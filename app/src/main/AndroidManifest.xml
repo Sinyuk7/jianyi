@@ -122,18 +122,6 @@
                 <action android:name="cat.ereza.customactivityoncrash.ERROR"/>
             </intent-filter>
         </activity>
-        <activity
-            android:name=".common.SearchActivity"
-            android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustPan|stateHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH"/>
-            </intent-filter>
-
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable"/>
-        </activity>
 
         <provider
             android:name=".utils.SuggestionProvider"

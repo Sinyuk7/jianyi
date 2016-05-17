@@ -14,7 +14,14 @@
             style="@style/BaseToolbar.Light"
             app:layout_scrollFlags="scroll|enterAlways|snap"
             app:navigationIcon="@drawable/ic_arrow_back_primary_24dp"
-            app:title="@string/activity_category"/>
+            app:title="@string/activity_category">
+
+            <ImageView
+                android:id="@+id/search_button"
+                style="@style/ToolbarImageButton"
+                android:layout_gravity="end"
+                android:src="@drawable/ic_search_primary_24dp"/>
+        </android.support.v7.widget.Toolbar>
 
         <include layout="@layout/toolbar_shadow_compat"/>
     </android.support.design.widget.AppBarLayout>
