@@ -253,7 +253,7 @@
     <string name="register_hint_phone_num_et">手机号</string>
     <string name="register_hint_authenticode_et">验证码</string>
     <string name="register_hint_psw_et">密码</string>
-    <string name="register_hint_get_authenticode">输123456</string>
+    <string name="register_hint_get_authenticode">获取</string>
     <string name="register_hint_wechat">-用同一个号码,就能关联简易微信端啦\n-什么号码啊(⊙o⊙)…\n-去微信端-个人中心里设置啦</string>
     <string name="register_hint_register_processing">正在注册</string>
     <string name="register_hint_register_succeed">注册成功</string>
@@ -324,4 +324,7 @@
 
     <string name="dummy_comment">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
     <string name="common_hint_empty_list">一个空荡的角落</string>
+    <string name="password_hint_input_old_password">旧密码</string>
+    <string name="password_hint_input_new_password">新密码</string>
+    <string name="password_title">修改密码</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.sinyuk.jianyimaterial.feature.settings.account;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -87,8 +88,8 @@ public class AccountView extends BaseFragment<AccountPresenterImpl> implements I
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.password_btn:
-                /*startActivity(new Intent(mContext, RegisterView.class));*/
-                ToastUtils.toastFast(mContext, getString(R.string.common_hint_feature_not_finished));
+                startActivity(new Intent(mContext, PasswordView.class));
+//                ToastUtils.toastFast(mContext, getString(R.string.common_hint_feature_not_finished));
                 break;
             case R.id.school_btn:
                 SchoolDialog dialog = SchoolDialog.getInstance();
