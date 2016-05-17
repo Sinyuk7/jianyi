@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            tools:src="@drawable/backdrop_2" />
+            tools:src="@drawable/boy" />
 
         <com.sinyuk.jianyimaterial.widgets.LabelView
             android:id="@+id/new_price_label_view"

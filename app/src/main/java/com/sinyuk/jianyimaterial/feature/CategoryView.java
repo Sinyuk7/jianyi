@@ -86,7 +86,7 @@ public class CategoryView extends BaseActivity implements CategoryMenuAdapter.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.action_bar_search, menu);
-        // Get the SearchView and set the searchable configuration
+        // Get the SearchingView and set the searchable configuration
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 
         final SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();

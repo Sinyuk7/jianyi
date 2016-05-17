@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
+    android:id="@+id/empty_view"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:paddingBottom="56dp"
-    android:paddingTop="140dp">
+    android:paddingTop="140dp"
+    android:visibility="gone"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <ImageView
         android:id="@+id/state_image"
@@ -26,7 +28,7 @@
         android:layout_below="@+id/state_image"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/general_content_space"
-        android:text="看样子什么也没找到"
+        android:text="什么也没找到"
         android:textColor="@color/grey_600"
         android:textSize="@dimen/material_text_caption1"/>
 </RelativeLayout>

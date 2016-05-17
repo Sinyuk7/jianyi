@@ -52,7 +52,7 @@ import com.sinyuk.jianyimaterial.feature.CategoryView;
 import com.sinyuk.jianyimaterial.feature.dialog.SchoolDialog;
 import com.sinyuk.jianyimaterial.feature.explore.ExploreView;
 import com.sinyuk.jianyimaterial.feature.offer.OfferView;
-import com.sinyuk.jianyimaterial.feature.search.SearchView;
+import com.sinyuk.jianyimaterial.feature.search.SearchingView;
 import com.sinyuk.jianyimaterial.managers.SnackBarFactory;
 import com.sinyuk.jianyimaterial.mvp.BaseFragment;
 import com.sinyuk.jianyimaterial.ui.HeaderItemSpaceDecoration;
@@ -533,7 +533,7 @@ public class HomeView extends BaseFragment<HomePresenterImpl> implements IHomeVi
 
     @OnClick(R.id.search_button)
     public void toSearchView() {
-        startActivity(new Intent(mContext, SearchView.class));
+        startActivity(new Intent(mContext, SearchingView.class));
     }
 
     public class BannerItemViewHolder implements Holder<String> {

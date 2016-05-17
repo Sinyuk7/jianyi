@@ -92,8 +92,8 @@ public class JianyiApi {
         return JIANYI + "/port/sign/register";
     }
 
-    public static String search(int pageIndex, String query) {
-        return JIANYI + "/port/goods/search?page=" + pageIndex + "&content=" + query;
+    public static String search(@NonNull int pageIndex, @NonNull String param) {
+        return JIANYI + "/port/goods/search?page=" + pageIndex + "&content=" + param;
     }
 
     public static String banners() {

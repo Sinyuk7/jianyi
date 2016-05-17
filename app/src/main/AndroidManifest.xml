@@ -75,7 +75,7 @@
             />
 
         <activity
-            android:name=".feature.search.SearchView"
+            android:name=".feature.search.SearchingView"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustPan|stateHidden">
             <intent-filter>

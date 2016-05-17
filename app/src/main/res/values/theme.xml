@@ -16,18 +16,10 @@
         <!-- 设置activity切换动画 -->
         <item name="android:windowAnimationStyle">@null</item>
         <item name="android:alertDialogTheme">@style/MyAlertDialogTheme</item>
-
-        <item name="autoCompleteTextViewStyle">@style/myAutoCompleteTextViewStyle</item>
-        <item name="textAppearanceSearchResultTitle">@style/mySearchResult</item>
+        <item name="textAppearanceSearchResultTitle">@style/SearchResultTitle</item>
     </style>
 
-    <style name="myAutoCompleteTextViewStyle" parent="Widget.AppCompat.Light.AutoCompleteTextView">
-        <item name="android:popupBackground">@color/window_background</item>
-    </style>
 
-    <style name="mySearchResult" parent="TextAppearance.AppCompat.SearchResult.Title">
-        <item name="android:textColor">@color/grey_600</item>
-    </style>
 
 
     <style name="activityAnimation" parent="@android:style/Animation">

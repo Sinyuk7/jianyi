@@ -80,7 +80,6 @@
         <item name="colorAccent">@color/white</item>
     </style>
 
-
     <style name="Toolbar.Home" parent="BaseToolbar.Light">
         <item name="layout_collapseMode">pin</item>
         <item name="android:background">@color/transparent</item>
@@ -97,10 +96,23 @@
         <item name="layout_collapseMode">pin</item>
     </style>
 
-    <style name="Toolbar.Comments" parent="BaseToolbar">
-        <item name="title">@string/activity_comments</item>
-        <item name="navigationIcon">@drawable/ic_arrow_back_primary_24dp</item>
-        <item name="navigationContentDescription">@string/action_back</item>
-        <item name="layout_scrollFlags">scroll|enterAlways|snap</item>
+
+    <style name="SearchToolbar" parent="BaseToolbar.Light">
+        <item name="android:dropDownItemStyle">@style/DropDownItemStyle</item>
     </style>
+
+    <style name="DropDownItemStyle" parent="@style/Widget.AppCompat.DropDownItem.Spinner">
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="SearchDropDownTheme" parent="@style/RtlOverlay.Widget.AppCompat.Search.DropDown">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/white</item>
+    </style>
+
+    <style name="SearchResultTitle" parent="@style/TextAppearance.AppCompat.SearchResult.Title">
+        <item name="android:textColor">@color/grey_800</item>
+    </style>
+
+
 </resources>

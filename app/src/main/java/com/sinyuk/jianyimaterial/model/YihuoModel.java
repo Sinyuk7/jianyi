@@ -6,8 +6,12 @@ import android.text.TextUtils;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.sinyuk.jianyimaterial.api.Index;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
@@ -20,6 +24,7 @@ import com.sinyuk.jianyimaterial.events.XRequestLoginEvent;
 import com.sinyuk.jianyimaterial.greendao.dao.DaoUtils;
 import com.sinyuk.jianyimaterial.greendao.dao.YihuoDetailsService;
 import com.sinyuk.jianyimaterial.mvp.BaseModel;
+import com.sinyuk.jianyimaterial.utils.HtmlUtils;
 import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.PreferencesUtils;
 import com.sinyuk.jianyimaterial.volley.FormDataRequest;
@@ -156,6 +161,25 @@ public class YihuoModel implements BaseModel {
                     }
                 }, error -> callback.onVolleyError(VolleyErrorHelper.getMessage(error)));
         Jianyi.getInstance().addRequest(jsonRequest, INDEX_REQUEST);
+    }
+
+    public void getSearchResult(String param, int pageIndex, RequestYihuoProfileCallback callback) {
+        boolean isRefresh = pageIndex == 1;
+        FormDataRequest formDataRequest = new FormDataRequest
+                (Request.Method.GET, JianyiApi.search(pageIndex, param), str -> {
+                    // the response is already constructed as a JSONObject!
+                    JsonParser parser = new JsonParser();
+                    final JsonObject response = parser.parse(HtmlUtils.removeHtml(str)).getAsJsonObject();
+                    try {
+                        Index index = mGson.fromJson(response, Index.class);
+
+                        if (index != null) { callback.onCompleted(index, isRefresh); }
+                    } catch (JsonParseException e) {
+                        callback.onParseError(e.getMessage());
+                    }
+                }, error -> callback.onVolleyError(VolleyErrorHelper.getMessage(error)));
+
+        Jianyi.getInstance().addRequest(formDataRequest, INDEX_REQUEST);
     }
 
     public void getDetails(@NonNull String yihuoId, RequestYihuoDetailsCallback callback) {
