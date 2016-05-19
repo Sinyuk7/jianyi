@@ -331,4 +331,5 @@
     <string name="profile_confirm_send">发送</string>
     <string name="profile_confirm_cancel">取消</string>
     <string name="profile_send_content_null">内容不能为空</string>
+    <string name="profile_permisstion_denied">请求短信权限失败</string>
 </resources>

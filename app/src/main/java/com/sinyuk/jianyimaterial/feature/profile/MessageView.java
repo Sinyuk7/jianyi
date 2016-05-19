@@ -17,7 +17,10 @@ import android.widget.TextView;
 
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.sinyuk.jianyimaterial.R;
+import com.sinyuk.jianyimaterial.entity.User;
+import com.sinyuk.jianyimaterial.model.UserModel;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
+import com.sinyuk.jianyimaterial.utils.ImeUtils;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;
 import com.sinyuk.jianyimaterial.widgets.morphdialog.MorphDialogToFab;
 import com.sinyuk.jianyimaterial.widgets.morphdialog.MorphFabToDialog;
@@ -30,7 +33,7 @@ import butterknife.OnClick;
 /**
  * Created by Sinyuk on 16.5.19.
  */
-public class MessageView extends BaseActivity<ProfilePresenterImpl> {
+public class MessageView extends BaseActivity<ProfilePresenterImpl> implements UserModel.QueryCurrentUserCallback {
     private static final String USERNAME = "username";
     private static final String TEL = "tel";
     @Bind(R.id.send_to_tv)
@@ -41,6 +44,7 @@ public class MessageView extends BaseActivity<ProfilePresenterImpl> {
     Button mSendBtn;
     @Bind(R.id.container)
     RelativeLayout container;
+    private User mCurrentUser;
 
     public static Intent newIntent(Context activityFrom, String username, String tel) {
         Intent intent = new Intent(activityFrom, MessageView.class);
@@ -76,6 +80,7 @@ public class MessageView extends BaseActivity<ProfilePresenterImpl> {
     protected void onFinishInflate() {
         setupUsername();
         mCompositeSubscription.add(RxTextView.textChanges(mMessageEt).map(TextUtils::isEmpty).subscribe(this::toggleSendButton));
+        setLazyLoadDelay(1000);
     }
 
     private void toggleSendButton(Boolean isEmpty) {
@@ -94,7 +99,7 @@ public class MessageView extends BaseActivity<ProfilePresenterImpl> {
 
     @Override
     protected void lazyLoad() {
-
+        UserModel.getInstance(this).queryCurrentUser(this);
     }
 
     @Override
@@ -138,7 +143,7 @@ public class MessageView extends BaseActivity<ProfilePresenterImpl> {
 
     @OnClick({R.id.container, R.id.cancel_btn})
     public void cancel() {
-        dismiss();
+        delayDismiss();
     }
 
     @OnClick(R.id.send_btn)
@@ -150,10 +155,15 @@ public class MessageView extends BaseActivity<ProfilePresenterImpl> {
             if (!TextUtils.isEmpty(getIntent().getExtras().getString(TEL))) {
                 sendSMS(getIntent().getExtras().getString(TEL), mMessageEt.getText().toString());
             }
-            dismiss();
-            ToastUtils.toastSlow(this, "发送成功");
+            delayDismiss();
+            ToastUtils.toastSlow(MessageView.this, "发送成功");
         }
 
+    }
+
+    private void delayDismiss() {
+        ImeUtils.hideIme(container);
+        myHandler.postDelayed(this::dismiss, 400);
     }
 
 
@@ -164,13 +174,34 @@ public class MessageView extends BaseActivity<ProfilePresenterImpl> {
      * @param message
      */
     public void sendSMS(String phoneNumber, String message) {
-        phoneNumber = "13485032845";
-        // 获取短信管理器
+        // TODO: remove this later
+        phoneNumber = "18094713470";
+        String username = "某个人";
+        if (null != mCurrentUser) {
+            if (!TextUtils.isEmpty(username)) { username = mCurrentUser.getName(); }
+        }
+        message = "来自简易上的 \"" + username + "\":" + message;        // 获取短信管理器
+
         android.telephony.SmsManager smsManager = android.telephony.SmsManager.getDefault();
         // 拆分短信内容（手机短信长度限制）
         List<String> divideContents = smsManager.divideMessage(message);
         for (String text : divideContents) {
             smsManager.sendTextMessage(phoneNumber, null, text, null, null);
         }
+    }
+
+    @Override
+    public void onQuerySucceed(User currentUser) {
+        mCurrentUser = currentUser;
+    }
+
+    @Override
+    public void onQueryFailed(String message) {
+
+    }
+
+    @Override
+    public void onUserNotLogged() {
+
     }
 }

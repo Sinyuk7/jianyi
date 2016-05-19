@@ -1,5 +1,6 @@
 package com.sinyuk.jianyimaterial.feature.profile;
 
+import android.Manifest;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.net.Uri;
@@ -35,6 +36,7 @@ import com.sinyuk.jianyimaterial.sweetalert.SweetAlertDialog;
 import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;
 import com.sinyuk.jianyimaterial.widgets.MyCircleImageView;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -145,21 +147,39 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
         if (mType == OTHER) {
             mFab.setImageResource(R.drawable.ic_chat_white_48dp);
             mAcionIv.setImageResource(R.drawable.ic_chat_white_48dp);
+            mCompositeSubscription.add(
+                    RxView.clicks(mFab).compose(RxPermissions.getInstance(this)
+                            .ensure(Manifest.permission.SEND_SMS))
+                            .subscribe(granted -> {
+                                if (granted) {startMessageDialog();} else {hintPermissionDenied();}
+                            }));
+
+            mCompositeSubscription.add(
+                    RxView.clicks(mAcionIv).compose(RxPermissions.getInstance(this)
+                            .ensure(Manifest.permission.SEND_SMS))
+                            .subscribe(granted -> {
+                                if (granted) {startMessageDialog();} else {hintPermissionDenied();}
+                            }));
         } else if (mType == MINE) {
             mFab.setImageResource(R.drawable.ic_mode_edit_white_24dp);
             mAcionIv.setImageResource(R.drawable.ic_mode_edit_white_24dp);
         }
     }
 
+    private void startMessageDialog() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(ProfileView.this, mFab, "transition_dialog");
+            startActivityForResult(MessageView.newIntent(this, mUsername, mTel), REQUEST_MESSAGE, options.toBundle());
+        }
+    }
+
+    private void hintPermissionDenied() {
+        ToastUtils.toastSlow(this, getString(R.string.profile_permisstion_denied));
+    }
+
     @OnClick({R.id.action_iv, R.id.fab})
     public void onClick() {
-        if (mType == OTHER) {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(ProfileView.this, mFab, "transition_dialog");
-                startActivityForResult(MessageView.newIntent(this, mUsername, mTel), REQUEST_MESSAGE, options.toBundle());
-            }
-
-        } else if (mType == MINE) {
+        if (mType == MINE) {
             Bundle bundle = new Bundle();
             bundle.putString(InfoView.USERNAME, mUsername);
             bundle.putString(InfoView.SCHOOL_NAME, mSchoolName);
