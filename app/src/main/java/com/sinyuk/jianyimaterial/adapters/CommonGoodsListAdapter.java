@@ -23,7 +23,6 @@ import com.sinyuk.jianyimaterial.entity.YihuoProfile;
 import com.sinyuk.jianyimaterial.feature.details.DetailsView;
 import com.sinyuk.jianyimaterial.feature.profile.ProfileView;
 import com.sinyuk.jianyimaterial.glide.CropCircleTransformation;
-import com.sinyuk.jianyimaterial.glide.SinyukTarget;
 import com.sinyuk.jianyimaterial.utils.FormatUtils;
 import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.StringUtils;
@@ -84,7 +83,6 @@ public class CommonGoodsListAdapter extends ExtendedRecyclerViewAdapter<YihuoPro
         }
         if (itemData == null) { return; }
 
-        LogUtils.simpleLog(CommonGoodsListAdapter.class, "UID -> " + itemData.getUid());
         final YihuoProfile finalItemData = itemData;
         holder.cardView.setOnClickListener(v -> {
             holder.cardView.setClickable(false); // prevent fast double tap

@@ -29,7 +29,6 @@ import com.sinyuk.jianyimaterial.events.XUnShelfOptionEvent;
 import com.sinyuk.jianyimaterial.feature.info.InfoView;
 import com.sinyuk.jianyimaterial.feature.shelf.ShelfView;
 import com.sinyuk.jianyimaterial.glide.BlurTransformation;
-import com.sinyuk.jianyimaterial.glide.ColorFilterTransformation;
 import com.sinyuk.jianyimaterial.glide.CropCircleTransformation;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 import com.sinyuk.jianyimaterial.sweetalert.SweetAlertDialog;
@@ -86,6 +85,7 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
     private String mUsername;
     private String mAvatarUrl;
     private SweetAlertDialog mDialog;
+    private String mTel;
 
 
     @Override
@@ -128,6 +128,7 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
             showLocation(extras.getString("location", getString(R.string.untable)));
             showUsername(extras.getString("user_name", getString(R.string.untable)));
             initFragments(extras.getString("uid"));
+            mTel = extras.getString("tel");
         } else if (mType == MINE) {
             mPresenter.queryCurrentUser();
             mPresenter.fetchSchoolList();
@@ -154,9 +155,8 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
     public void onClick() {
         if (mType == OTHER) {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                Intent intent = new Intent(ProfileView.this, MessageView.class);
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(ProfileView.this, mFab, "transition_dialog");
-                startActivityForResult(intent, REQUEST_MESSAGE, options.toBundle());
+                startActivityForResult(MessageView.newIntent(this, mUsername, mTel), REQUEST_MESSAGE, options.toBundle());
             }
 
         } else if (mType == MINE) {
@@ -272,26 +272,16 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
 
     @Override
     public void showBackdrop(@NonNull String url) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            Glide.with(this).load(url)
-                    .crossFade(2000)
-                    .priority(Priority.IMMEDIATE)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .bitmapTransform(new BlurTransformation(this, Constants.BLUR_RADIUS, Constants.BLUR_SAMPLING))
-                    .into(mRevealView);
-        } else {
-            Glide.with(this).load(url)
-                    .crossFade(2000)
-                    .priority(Priority.IMMEDIATE)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .bitmapTransform(new ColorFilterTransformation(this, getResources().getColor(R.color.profile_view_backdrop_scrim)))
-                    .into(mRevealView);
-        }
+        Glide.with(this).load(url)
+                .crossFade(2000)
+                .priority(Priority.IMMEDIATE)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .bitmapTransform(new BlurTransformation(this, Constants.BLUR_RADIUS, Constants.BLUR_SAMPLING))
+                .into(mRevealView);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLogin(XLoginEvent event) {
-        LogUtils.simpleLog(ProfileView.class, "登录登录登录登录登录登录");
         mPresenter.queryCurrentUser();
     }
 
@@ -302,7 +292,6 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
             mLocationTv.setText(nameOrIndex);
             mSchoolName = nameOrIndex;
         } else {
-            LogUtils.simpleLog(ProfileView.class, "showLocation " + nameOrIndex);
             mPresenter.fetchSchoolList();
             mSchoolIndex = Integer.valueOf(nameOrIndex);
         }
@@ -394,6 +383,7 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
     public void dismissDialog() {
         mDialog.dismissWithAnimation();
     }
+
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUnShelfOptionSelect(XUnShelfOptionEvent event) {

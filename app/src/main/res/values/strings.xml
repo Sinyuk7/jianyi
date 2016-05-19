@@ -327,7 +327,8 @@
     <string name="password_hint_input_old_password">旧密码:</string>
     <string name="password_hint_input_new_password">新密码:</string>
     <string name="password_title">修改密码</string>
-    <string name="profile_send_to">To: %1$s</string>
+    <string name="profile_send_to">to: </string>
     <string name="profile_confirm_send">发送</string>
     <string name="profile_confirm_cancel">取消</string>
+    <string name="profile_send_content_null">内容不能为空</string>
 </resources>

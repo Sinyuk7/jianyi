@@ -1,6 +1,7 @@
 <RelativeLayout
     android:id="@+id/container"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
@@ -17,13 +18,26 @@
     android:translationZ="4dp">
 
     <TextView
-        android:id="@+id/send_to_tv"
+        android:id="@+id/send_to_hint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/send_to_tv"
         android:text="@string/profile_send_to"
-        android:textSize="@dimen/material_text_display1"
+        android:textColor="@color/grey_600"
+        android:textSize="@dimen/material_text_title"
         android:textStyle="bold"/>
 
+
+    <TextView
+        android:id="@+id/send_to_tv"
+        style="@style/SingleLineText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/tiny_content_space"
+        android:layout_toRightOf="@+id/send_to_hint"
+        android:textSize="@dimen/material_text_display1"
+        android:textStyle="bold"
+        tools:text="Sinyuk"/>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/message_input_layout"
