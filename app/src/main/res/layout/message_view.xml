@@ -1,0 +1,76 @@
+<RelativeLayout
+    android:id="@+id/container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginEnd="32dp"
+    android:layout_marginLeft="32dp"
+    android:layout_marginRight="32dp"
+    android:layout_marginStart="32dp"
+    android:background="@drawable/rounded_rect_white"
+    android:elevation="4dp"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:padding="@dimen/activity_horizontal_margin"
+    android:transitionName="transition_dialog"
+    android:translationZ="4dp">
+
+    <TextView
+        android:id="@+id/send_to_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/profile_send_to"
+        android:textSize="@dimen/material_text_display1"
+        android:textStyle="bold"/>
+
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/message_input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/send_to_tv"
+        android:gravity="bottom"
+        android:textColorHint="@color/colorAccent">
+
+        <EditText
+            android:id="@+id/message_et"
+            style="@style/SingleLineText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/action_direct_message"
+            android:imeOptions="actionSend"
+            android:inputType="text"
+            android:textColor="@color/grey_600"
+            android:textSize="@dimen/material_text_body1"/>
+    </android.support.design.widget.TextInputLayout>
+
+
+    <Button
+        android:id="@+id/send_btn"
+        style="?borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/message_input_layout"
+        android:layout_marginTop="16dp"
+        android:minWidth="0dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:text="@string/profile_confirm_send"
+        android:textColor="@color/colorAccent"/>
+
+    <Button
+        android:id="@+id/cancel_btn"
+        style="?borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/send_btn"
+        android:layout_toLeftOf="@+id/send_btn"
+        android:minWidth="0dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:text="@string/profile_confirm_cancel"
+        android:textColor="@color/grey_600"/>
+
+</RelativeLayout>

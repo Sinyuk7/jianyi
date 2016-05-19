@@ -51,9 +51,11 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:background="@color/grey_600"/>
 
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         style="@style/FAB.Large"
         android:layout_gravity="bottom|end"
+        android:transitionName="transition_dialog"
         android:visibility="gone"/>
 </android.support.design.widget.CoordinatorLayout>

@@ -1,21 +1,19 @@
 package com.sinyuk.jianyimaterial.feature.profile;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
@@ -57,6 +55,7 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
     public static final String PROFILE_TYPE = "type";
     public static final float MINE = 1;
     public static final float OTHER = 2;
+    public static final int REQUEST_MESSAGE = 0X22;
     private final static String[] sTabTitles = new String[]{"物品", "喜欢"};
     @Bind(R.id.reveal_view)
     ImageView mRevealView;
@@ -70,16 +69,10 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
     TabLayout mTabLayout;
     @Bind(R.id.action_iv)
     ImageView mAcionIv;
-    @Bind(R.id.toolbar)
-    Toolbar mToolbar;
-    @Bind(R.id.collapsing_toolbar_layout)
-    CollapsingToolbarLayout mCollapsingToolbarLayout;
     @Bind(R.id.app_bar_layout)
     AppBarLayout mAppBarLayout;
     @Bind(R.id.view_pager)
     ViewPager mViewPager;
-    @Bind(R.id.profile_header)
-    RelativeLayout mProfileHeader;
     @Bind(R.id.back_iv)
     ImageView mBackIv;
 
@@ -147,12 +140,6 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
-
     private void setupActionBtn() {
         if (mType == OTHER) {
             mFab.setImageResource(R.drawable.ic_chat_white_48dp);
@@ -166,6 +153,11 @@ public class ProfileView extends BaseActivity<ProfilePresenterImpl> implements I
     @OnClick({R.id.action_iv, R.id.fab})
     public void onClick() {
         if (mType == OTHER) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                Intent intent = new Intent(ProfileView.this, MessageView.class);
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(ProfileView.this, mFab, "transition_dialog");
+                startActivityForResult(intent, REQUEST_MESSAGE, options.toBundle());
+            }
 
         } else if (mType == MINE) {
             Bundle bundle = new Bundle();
