@@ -109,7 +109,8 @@
                     android:id="@+id/settings_feedback"
                     style="@style/SettingsItemText"
                     android:drawableLeft="@drawable/ic_email_grey600_24dp"
-                    android:text="@string/settings_feedback"/>
+                    android:text="@string/settings_feedback"
+                    android:transitionName="transition_dialog"/>
 
                 <TextView
                     android:id="@+id/settings_about"

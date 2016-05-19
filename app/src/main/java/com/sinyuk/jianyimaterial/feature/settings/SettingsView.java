@@ -1,5 +1,7 @@
 package com.sinyuk.jianyimaterial.feature.settings;
 
+import android.Manifest;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -11,14 +13,17 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.jakewharton.rxbinding.view.RxView;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.entity.User;
 import com.sinyuk.jianyimaterial.feature.login.LoginView;
+import com.sinyuk.jianyimaterial.feature.profile.MessageView;
 import com.sinyuk.jianyimaterial.feature.settings.account.AccountView;
 import com.sinyuk.jianyimaterial.managers.CacheManager;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 import com.sinyuk.jianyimaterial.sweetalert.SweetAlertDialog;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.util.concurrent.TimeUnit;
 
@@ -34,6 +39,7 @@ import rx.schedulers.Schedulers;
  */
 public class SettingsView extends BaseActivity<SettingsPresenterImpl> implements ISettingsView {
 
+    private static final int REQUEST_FEEDBACK = 0x44;
     @Bind(R.id.icon_iv)
     TextView mIconIv;
     @Bind(R.id.toolbar)
@@ -117,8 +123,28 @@ public class SettingsView extends BaseActivity<SettingsPresenterImpl> implements
 
     @Override
     protected void lazyLoad() {
-
+        mCompositeSubscription.add(
+                RxView.clicks(mSettingsFeedback).compose(RxPermissions.getInstance(this)
+                        .ensure(Manifest.permission.SEND_SMS))
+                        .subscribe(granted -> {
+                            if (granted) {startFeedbackDialog();} else {hintPermissionDenied();}
+                        }));
     }
+
+
+    private void startFeedbackDialog() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(SettingsView.this, mSettingsFeedback, "transition_dialog");
+            startActivityForResult(MessageView.newIntent(this, "你有什么想说的？", "15757161279", true), REQUEST_FEEDBACK, options.toBundle());
+        } else {
+            startActivityForResult(MessageView.newIntent(this, "你有什么想说的？", "15757161279", true), REQUEST_FEEDBACK);
+        }
+    }
+
+    private void hintPermissionDenied() {
+        ToastUtils.toastSlow(this, getString(R.string.settings_feedback_permisstion_denied));
+    }
+
 
     @Override
     protected void onResume() {

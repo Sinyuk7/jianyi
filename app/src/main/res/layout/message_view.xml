@@ -45,6 +45,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/send_to_tv"
         android:gravity="bottom"
+
+        android:hint="@string/action_direct_message"
         android:textColorHint="@color/colorAccent">
 
         <EditText
@@ -52,7 +54,6 @@
             style="@style/SingleLineText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/action_direct_message"
             android:imeOptions="actionSend"
             android:inputType="text"
             android:textColor="@color/grey_600"

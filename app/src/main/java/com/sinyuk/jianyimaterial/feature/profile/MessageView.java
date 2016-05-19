@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
+import android.telephony.SmsManager;
 import android.text.TextUtils;
 import android.transition.ArcMotion;
 import android.view.animation.AnimationUtils;
@@ -22,6 +24,8 @@ import com.sinyuk.jianyimaterial.model.UserModel;
 import com.sinyuk.jianyimaterial.mvp.BaseActivity;
 import com.sinyuk.jianyimaterial.utils.ImeUtils;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;
+import com.sinyuk.jianyimaterial.widgets.morphdialog.MorphButtonToDialog;
+import com.sinyuk.jianyimaterial.widgets.morphdialog.MorphDialogToButton;
 import com.sinyuk.jianyimaterial.widgets.morphdialog.MorphDialogToFab;
 import com.sinyuk.jianyimaterial.widgets.morphdialog.MorphFabToDialog;
 
@@ -36,6 +40,7 @@ import butterknife.OnClick;
 public class MessageView extends BaseActivity<ProfilePresenterImpl> implements UserModel.QueryCurrentUserCallback {
     private static final String USERNAME = "username";
     private static final String TEL = "tel";
+    private static final String IS_MORPH_BUTTON = "is_morph_button";
     @Bind(R.id.send_to_tv)
     TextView mSendToTv;
     @Bind(R.id.message_et)
@@ -44,6 +49,12 @@ public class MessageView extends BaseActivity<ProfilePresenterImpl> implements U
     Button mSendBtn;
     @Bind(R.id.container)
     RelativeLayout container;
+    @Bind(R.id.send_to_hint)
+    TextView mSendToHint;
+    @Bind(R.id.message_input_layout)
+    TextInputLayout mMessageInputLayout;
+    @Bind(R.id.cancel_btn)
+    Button mCancelBtn;
     private User mCurrentUser;
 
     public static Intent newIntent(Context activityFrom, String username, String tel) {
@@ -51,6 +62,16 @@ public class MessageView extends BaseActivity<ProfilePresenterImpl> implements U
         Bundle bundle = new Bundle();
         bundle.putString(USERNAME, username);
         bundle.putString(TEL, tel);
+        intent.putExtras(bundle);
+        return intent;
+    }
+
+    public static Intent newIntent(Context activityFrom, String username, String tel, boolean isMorphButton) {
+        Intent intent = new Intent(activityFrom, MessageView.class);
+        Bundle bundle = new Bundle();
+        bundle.putString(USERNAME, username);
+        bundle.putString(TEL, tel);
+        bundle.putBoolean(IS_MORPH_BUTTON, isMorphButton);
         intent.putExtras(bundle);
         return intent;
     }
@@ -63,7 +84,33 @@ public class MessageView extends BaseActivity<ProfilePresenterImpl> implements U
 
     @Override
     protected void beforeInflate() {
-        setupSharedElementTransitions1();
+
+
+    }
+
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void setupSharedElementTransitions2() {
+        ArcMotion arcMotion = new ArcMotion();
+        arcMotion.setMinimumHorizontalAngle(50f);
+        arcMotion.setMinimumVerticalAngle(50f);
+
+        Interpolator easeInOut = AnimationUtils.loadInterpolator(this, android.R.interpolator.fast_out_slow_in);
+
+        MorphButtonToDialog sharedEnter = new MorphButtonToDialog();
+        sharedEnter.setPathMotion(arcMotion);
+        sharedEnter.setInterpolator(easeInOut);
+
+        MorphDialogToButton sharedReturn = new MorphDialogToButton();
+        sharedReturn.setPathMotion(arcMotion);
+        sharedReturn.setInterpolator(easeInOut);
+
+        if (container != null) {
+            sharedEnter.addTarget(container);
+            sharedReturn.addTarget(container);
+        }
+        getWindow().setSharedElementEnterTransition(sharedEnter);
+        getWindow().setSharedElementReturnTransition(sharedReturn);
     }
 
     @Override
@@ -81,7 +128,19 @@ public class MessageView extends BaseActivity<ProfilePresenterImpl> implements U
         setupUsername();
         mCompositeSubscription.add(RxTextView.textChanges(mMessageEt).map(TextUtils::isEmpty).subscribe(this::toggleSendButton));
         setLazyLoadDelay(1000);
+        if (getIntent().getExtras().getBoolean(IS_MORPH_BUTTON, false)) {
+            setupSharedElementTransitions2();
+            setupTextArea();
+        } else {
+            setupSharedElementTransitions1();
+        }
     }
+
+    private void setupTextArea() {
+        mSendToHint.setText("to 简易");
+        mMessageInputLayout.setHint("反馈");
+    }
+
 
     private void toggleSendButton(Boolean isEmpty) {
         int textColor = isEmpty ? getResources().getColor(R.color.grey_600) : getResources().getColor(R.color.colorAccent);
@@ -174,15 +233,13 @@ public class MessageView extends BaseActivity<ProfilePresenterImpl> implements U
      * @param message
      */
     public void sendSMS(String phoneNumber, String message) {
-        // TODO: remove this later
-        phoneNumber = "18094713470";
         String username = "某个人";
         if (null != mCurrentUser) {
             if (!TextUtils.isEmpty(username)) { username = mCurrentUser.getName(); }
         }
         message = "来自简易上的 \"" + username + "\":" + message;        // 获取短信管理器
 
-        android.telephony.SmsManager smsManager = android.telephony.SmsManager.getDefault();
+        SmsManager smsManager = SmsManager.getDefault();
         // 拆分短信内容（手机短信长度限制）
         List<String> divideContents = smsManager.divideMessage(message);
         for (String text : divideContents) {
