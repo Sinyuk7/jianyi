@@ -92,6 +92,10 @@ public class CommentsAdapter extends ExtendedRecyclerViewAdapter<String, Comment
             "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/85353049.jpg",
     };
     private static final float ANIM_SCALE_FACTOR = 1f;
+    private static String[] fakeComments = new String[]{
+            "哇晒，好看！(⊙ˍ⊙)",
+            "╥﹏╥...好贵",
+    };
     private final DrawableRequestBuilder<String> avatarRequest;
     private boolean enterAnimationLocked = false;
     private boolean delayEnterAnimation = true;
@@ -153,7 +157,14 @@ public class CommentsAdapter extends ExtendedRecyclerViewAdapter<String, Comment
 
         holder.pubDateTv.setText(FuzzyDateFormater.getTimeAgo(mContext, new Date(System.currentTimeMillis() - 600000 * new Random().nextInt(position + 1) - position * 6000000)));
 
-        holder.contentTv.setMaxLines(new Random().nextInt(5) + 1);
+
+//
+
+        if (position < fakeComments.length) {
+            holder.contentTv.setText(fakeComments[position]);
+        } else {
+            holder.contentTv.setMaxLines(new Random().nextInt(5) + 1);
+        }
 
         int index = position % avatarUrls.length;
         if (index > avatarUrls.length || index < 0) {

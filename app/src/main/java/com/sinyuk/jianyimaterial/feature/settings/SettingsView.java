@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.jakewharton.rxbinding.view.RxView;
 import com.sinyuk.jianyimaterial.R;
+import com.sinyuk.jianyimaterial.common.WebViewActivity;
 import com.sinyuk.jianyimaterial.entity.User;
 import com.sinyuk.jianyimaterial.feature.login.LoginView;
 import com.sinyuk.jianyimaterial.feature.profile.MessageView;
@@ -210,7 +211,7 @@ public class SettingsView extends BaseActivity<SettingsPresenterImpl> implements
         dialog.show();
     }
 
-    @OnClick({R.id.settings_push, R.id.settings_cache, R.id.settings_feedback, R.id.settings_about})
+    @OnClick({R.id.settings_push, R.id.settings_cache, R.id.settings_about})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.settings_push:
@@ -218,9 +219,8 @@ public class SettingsView extends BaseActivity<SettingsPresenterImpl> implements
             case R.id.settings_cache:
                 showAlertDialog();
                 break;
-            case R.id.settings_feedback:
-                break;
             case R.id.settings_about:
+                startActivity(WebViewActivity.newIntent(this, "http://wx.i-jianyi.com/#about-us"));
                 break;
         }
     }
