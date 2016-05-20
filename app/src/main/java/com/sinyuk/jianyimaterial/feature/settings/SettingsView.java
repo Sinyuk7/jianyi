@@ -220,7 +220,7 @@ public class SettingsView extends BaseActivity<SettingsPresenterImpl> implements
                 showAlertDialog();
                 break;
             case R.id.settings_about:
-                startActivity(WebViewActivity.newIntent(this, "https://github.com/80998062/jianyi"));
+                startActivity(WebViewActivity.newIntent(this, "https://github.com/80998062/jianyi/blob/master/README.md"));
                 break;
         }
     }
