@@ -12,7 +12,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AlertDialog;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -29,19 +28,14 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
-import com.facebook.rebound.Spring;
-import com.facebook.rebound.SpringSystem;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.utils.FileUtils;
-import com.sinyuk.jianyimaterial.utils.LogUtils;
 import com.sinyuk.jianyimaterial.utils.ScreenUtils;
 import com.sinyuk.jianyimaterial.utils.SpringUtils;
 import com.sinyuk.jianyimaterial.utils.ToastUtils;
 import com.sinyuk.jianyimaterial.widgets.HackyViewPager;
 import com.sinyuk.jianyimaterial.widgets.InkPageIndicator;
 import com.sinyuk.jianyimaterial.widgets.RoundCornerIndicator;
-import com.tumblr.backboard.imitator.ToggleImitator;
-import com.tumblr.backboard.performer.MapPerformer;
 
 import java.util.ArrayList;
 
@@ -121,31 +115,9 @@ public class PhotoViewActivity extends BaseActivity {
         progressBar.setIndeterminate(true);
         progressBar.setInterpolator(new EaseSineInOutInterpolator());
         setupViewPager();
-        setupSaveButton();
-    }
-
-    private void setupSaveButton() {
-
-        final SpringSystem springSystem = SpringSystem.create();
-
-        final Spring spring = springSystem.createSpring();
-
-        spring.addListener(new MapPerformer(saveButton, View.SCALE_X, 1, 1.2f));
-        spring.addListener(new MapPerformer(saveButton, View.SCALE_Y, 1, 1.2f));
-
-        saveButton.setOnTouchListener(new ToggleImitator(spring, 0, 1){
-            @Override
-            public boolean onTouch(View v, @NonNull MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN){
-                    clickSaveButton();
-                    return true;
-                }
-                return super.onTouch(v, event);
-            }
-        });
-
 
     }
+
 
     private void setupViewPager() {
         // can't add this otherwise the photoView will not work
@@ -187,8 +159,8 @@ public class PhotoViewActivity extends BaseActivity {
         super.onSaveInstanceState(outState);
     }
 
-
-    private void clickSaveButton() {
+    @OnClick(R.id.save_iv)
+    public void clickSaveButton() {
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -203,7 +175,7 @@ public class PhotoViewActivity extends BaseActivity {
     }
 
     private void downloadPic() {
-        
+
         // use application context for a persistent download
         downloadRequest.load(shotUrls.get(viewPager.getCurrentItem()))
                 .into(new SimpleTarget<Bitmap>() { // default means the original size

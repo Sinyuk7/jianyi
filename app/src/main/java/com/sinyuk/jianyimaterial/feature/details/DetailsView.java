@@ -3,6 +3,7 @@ package com.sinyuk.jianyimaterial.feature.details;
 import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,7 +12,6 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -40,6 +40,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.jakewharton.rxbinding.support.design.widget.RxAppBarLayout;
 import com.jakewharton.rxbinding.view.RxView;
+import com.jakewharton.rxbinding.widget.RxTextView;
 import com.sinyuk.jianyimaterial.R;
 import com.sinyuk.jianyimaterial.adapters.CommentsAdapter;
 import com.sinyuk.jianyimaterial.api.JianyiApi;
@@ -140,6 +141,8 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
     private boolean mIsRequestDataRefresh;
     private TextView mViewCountTv;
     private CheckableImageView likeBtn;
+    private CheckableImageView mCommentBtn;
+    private EditText mCommentEt;
 
     @Override
     protected boolean isUseEventBus() {
@@ -289,11 +292,39 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
         mFloatingToolbar.attachRecyclerView(commentList);
         if (mFloatingToolbar.getCustomView() != null) {
             final View commentView = mFloatingToolbar.getCustomView();
-            final TextInputLayout commentInputLayout = (TextInputLayout) commentView.findViewById(R.id.comment_input_layout);
-            final EditText commentEt = (EditText) commentView.findViewById(R.id.comment_et);
-            final CheckableImageView commentBtn = (CheckableImageView) commentView.findViewById(R.id.comment_btn);
-            commentBtn.setOnClickListener(v -> mFloatingToolbar.hide());
+            mCommentEt = (EditText) commentView.findViewById(R.id.comment_et);
+            mCommentBtn = (CheckableImageView) commentView.findViewById(R.id.comment_btn);
+            mCommentBtn.setOnClickListener(v ->
+            {
+                addNewComment();
+                mFloatingToolbar.hide();
+            });
+
+            mCompositeSubscription.add(RxTextView.textChanges(mCommentEt).map(TextUtils::isEmpty).subscribe(this::toggleCommentButton));
         }
+    }
+
+    private void addNewComment() {
+        if (null == mCommentEt) { return; }
+        mCommentList.add(mCommentEt.getText().toString());
+        mCommentAdapter.setData(mCommentList);
+        mCommentAdapter.notifyDataSetChanged();
+
+        mCommentEt.setText(null);
+        mCommentEt.setError(null);
+    }
+
+    public void toggleCommentButton(boolean isEmpty) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (isEmpty) {
+                mCommentBtn.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.grey_600)));
+
+            } else {
+                mCommentBtn.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
+            }
+        }
+
+        mCommentBtn.setClickable(!isEmpty);
     }
 
     private void setYihuoTitle() {
@@ -452,6 +483,7 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
 
     private void setupCommentList() {
         mCommentAdapter = new CommentsAdapter(this);
+        mCommentAdapter.useFakeComment(profileData.getId().equals("3134"));
         commentList.setAdapter(mCommentAdapter);
         commentList.setItemAnimator(new DefaultItemAnimator());
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);

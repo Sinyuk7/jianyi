@@ -51,6 +51,6 @@
             style="@style/ToolbarImageButton"
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_message_text_grey600_24dp"
-            android:tint="@color/colorAccent"/>
+            />
     </RelativeLayout>
 </LinearLayout>

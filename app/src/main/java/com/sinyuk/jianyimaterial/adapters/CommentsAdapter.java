@@ -100,6 +100,7 @@ public class CommentsAdapter extends ExtendedRecyclerViewAdapter<String, Comment
     private boolean enterAnimationLocked = false;
     private boolean delayEnterAnimation = true;
     private int lastAnimatedPosition = -1;
+    private boolean useFakeComments = false;
 
     public CommentsAdapter(Context context) {
         super(context);
@@ -160,9 +161,10 @@ public class CommentsAdapter extends ExtendedRecyclerViewAdapter<String, Comment
 
 //
 
-        if (position < fakeComments.length) {
+        if (position < fakeComments.length && useFakeComments) {
             holder.contentTv.setText(fakeComments[position]);
         } else {
+            holder.contentTv.setText(getData().get(position));
             holder.contentTv.setMaxLines(new Random().nextInt(5) + 1);
         }
 
@@ -175,6 +177,10 @@ public class CommentsAdapter extends ExtendedRecyclerViewAdapter<String, Comment
 
         runEnterAnimation(holder.itemView, position);
 
+    }
+
+    public void useFakeComment(boolean bool) {
+        useFakeComments = bool;
     }
 
 

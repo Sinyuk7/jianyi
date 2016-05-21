@@ -6,6 +6,7 @@ import com.sinyuk.jianyimaterial.entity.YihuoDetails;
 import com.sinyuk.jianyimaterial.events.XRequestLoginEvent;
 import com.sinyuk.jianyimaterial.model.YihuoModel;
 import com.sinyuk.jianyimaterial.mvp.BasePresenter;
+import com.sinyuk.jianyimaterial.utils.CommentGenerator;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -46,7 +47,7 @@ public class DetailsPresenterImpl extends BasePresenter<DetailsView> implements 
         if (/*应该在回调里面写*/true) {
             final List<String> dummyComments = new ArrayList<>();
             for (int i = 0; i < 2; i++) {
-                dummyComments.add("");
+                dummyComments.add(CommentGenerator.getComment());
             }
             boolean isRefresh = pageIndex == 1;
             mView.showComments(dummyComments, isRefresh); // 一次模拟3条
