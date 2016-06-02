@@ -161,12 +161,12 @@ public class CommentsAdapter extends ExtendedRecyclerViewAdapter<String, Comment
 
 //
 
-        if (position < fakeComments.length && useFakeComments) {
-            holder.contentTv.setText(fakeComments[position]);
-        } else {
-            holder.contentTv.setText(getData().get(position));
+//        if (position < fakeComments.length && useFakeComments) {
+//            holder.contentTv.setText(fakeComments[position]);
+//        } else {
+//            holder.contentTv.setText(getData().get(position));
             holder.contentTv.setMaxLines(new Random().nextInt(5) + 1);
-        }
+//        }
 
         int index = position % avatarUrls.length;
         if (index > avatarUrls.length || index < 0) {

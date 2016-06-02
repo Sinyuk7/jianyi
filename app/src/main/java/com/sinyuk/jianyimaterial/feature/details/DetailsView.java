@@ -483,7 +483,7 @@ public class DetailsView extends BaseActivity<DetailsPresenterImpl> implements I
 
     private void setupCommentList() {
         mCommentAdapter = new CommentsAdapter(this);
-        mCommentAdapter.useFakeComment(profileData.getId().equals("3134"));
+//        mCommentAdapter.useFakeComment(profileData.getId().equals("3134"));
         commentList.setAdapter(mCommentAdapter);
         commentList.setItemAnimator(new DefaultItemAnimator());
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
