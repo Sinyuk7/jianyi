@@ -1,0 +1,67 @@
+ext {
+    dribbleClient = [
+            id         : "c9a49d76fdded3a1d51a55396268081d12af093401bcc2730453d7a4c0f511b4",
+            secret     : "f31fa45f06cfdd3e447f5d7398e3e1693ae81ee3b2d48d4b3ce88f9134351b95",
+            accessToken: "a860827f0ea38c1db7d5512d93366499d55424dae8be1f1e0b4065ec6fbeb948"
+    ]
+    android = [
+            compileSdkVersion: 24,
+            buildToolsVersion: "24.0.1",
+            applicationId    : "com.sinyuk.yuk",
+            minSdkVersion    : 16,
+            targetSdkVersion : 24,
+            versionCode      : 1,
+            versionName      : "1.0"
+    ]
+
+    //Version
+    supportVersion = '24.2.0'
+
+    retrofitVersion = '2.1.0'
+
+    rxVersion = '1.1.6'
+
+    rxBindingVersion = '0.4.0'
+
+    daggerVersion = '2.5'
+
+    butterknifeVersion = '8.2.1'
+
+    dependencies = [
+            "appcompat-v7"             : "com.android.support:appcompat-v7:${supportVersion}",
+            "support-design"           : "com.android.support:design:${supportVersion}",
+            "recyclerView"             : "com.android.support:recyclerview-v7:${supportVersion}",
+            "cardView"                 : "com.android.support:cardview-v7:${supportVersion}",
+            "palette"                  : "com.android.support:palette-v7:${supportVersion}",
+            "retrofit"                 : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
+            "converter-gson"           : "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
+            "adapter-rxjava"           : "com.squareup.retrofit2:adapter-rxjava:${retrofitVersion}",
+            "logging-interceptor"      : "com.squareup.okhttp3:logging-interceptor:3.3.1",
+            "gson"                     : "com.google.code.gson:gson:2.6.2",
+            "eventbus"                 : "org.greenrobot:eventbus:3.0.0",
+            "timber"                   : "com.jakewharton.timber:timber:4.1.2",
+            "butterknife"              : "com.jakewharton:butterknife:${butterknifeVersion}",
+            "butterknife-compiler"     : "com.jakewharton:butterknife-compiler:${butterknifeVersion}",
+            "rxjava"                   : "io.reactivex:rxjava:${rxVersion}",
+            "rxandroid"                : "io.reactivex:rxandroid:1.2.0",
+            "rxbinding"                : "com.jakewharton.rxbinding:rxbinding:${rxBindingVersion}",
+            "rxbinding-design"         : "com.jakewharton.rxbinding:rxbinding-design:${rxBindingVersion}",
+            "rxbinding-appcompat-v7"   : "com.jakewharton.rxbinding:rxbinding-appcompat-v7:${rxBindingVersion}",
+            "rx-preferences"           : "com.f2prateek.rx.preferences:rx-preferences:1.0.2",
+            "rx-lifecycle"             : "com.trello:rxlifecycle:0.6.1",
+            "dagger"                   : "com.google.dagger:dagger:${daggerVersion}",
+            "dagger-compiler"          : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            "glide"                    : "com.github.bumptech.glide:glide:3.7.0",
+            "glide-okhttp3-integration": "com.github.bumptech.glide:okhttp3-integration:1.4.0@jar",
+            "stetho"                   : "com.facebook.stetho:stetho:1.3.1",
+            "stetho-okhttp3"           : "com.facebook.stetho:stetho-okhttp3:1.3.1",
+            "leakcanary"               : "com.squareup.leakcanary:leakcanary-android:1.4-beta2",
+            "leakcanary-no-op"         : "com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2",
+//            widgets
+            "smooth-progress-bar"      : "com.github.castorflex.smoothprogressbar:library:1.0.0",
+            "rebound"                  : "com.facebook.rebound:rebound:0.3.8",
+
+    ]
+
+
+}

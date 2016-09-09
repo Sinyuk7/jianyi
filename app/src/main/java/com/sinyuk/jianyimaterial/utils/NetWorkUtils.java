@@ -72,6 +72,7 @@ public class NetWorkUtils {
         NetworkInfo networkInfo;
 
         return !(manager == null || (networkInfo = manager.getActiveNetworkInfo()) == null) && networkInfo.isConnected();
+
     }
 
     /**
