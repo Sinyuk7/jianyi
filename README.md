@@ -7,7 +7,7 @@
 
 一开始是个微信服务号,传送门:
 
-![https://github.com/80998062/jianyi/raw/master/pic/WechatIMG101.jpeg](二维码)
+![image](https://github.com/80998062/jianyi/raw/master/pic/WechatIMG101.jpeg)
 
 然后就打算做客户端
 
