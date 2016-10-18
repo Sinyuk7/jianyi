@@ -1,7 +1,25 @@
 # 简易Android客户端 #
 下载地址:[http://fir.im/Sinyuk](http://fir.im/Sinyuk "下载地址")
 
-----------
+##截图
+
+- 首页
+
+![image](https://github.com/80998062/jianyi/raw/master/pic/pic1.jpg)
+
+- 发布二手货
+
+![image](https://github.com/80998062/jianyi/raw/master/pic/pic2.jpg)
+
+
+- 详情页面
+
+![image](https://github.com/80998062/jianyi/raw/master/pic/pic3.jpg)
+
+- 发布你的需求
+
+![image](https://github.com/80998062/jianyi/raw/master/pic/pic4.jpg)
+
 
 之前大二大三的时候几个小伙伴做的一个二手交易平台,叫做简易
 
