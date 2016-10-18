@@ -1,25 +1,7 @@
 # 简易Android客户端 #
 下载地址:[http://fir.im/Sinyuk](http://fir.im/Sinyuk "下载地址")
 
-##截图
-
-- 首页
-
-![image](https://github.com/80998062/jianyi/raw/master/pic/pic1.jpg)
-
-- 发布二手货
-
-![image](https://github.com/80998062/jianyi/raw/master/pic/pic2.jpg)
-
-
-- 详情页面
-
-![image](https://github.com/80998062/jianyi/raw/master/pic/pic3.jpg)
-
-- 发布你的需求
-
-![image](https://github.com/80998062/jianyi/raw/master/pic/pic4.jpg)
-
+---
 
 之前大二大三的时候几个小伙伴做的一个二手交易平台,叫做简易
 
@@ -45,3 +27,23 @@ App是基于Material Ddesign的(这个都被说烂了啊),但是感觉我设计�
 因为又重新写了一个 [传送门](https://github.com/80998062/jianyi2)…也是写着玩玩的
 
 虽然没什么商业价值啦,唯一的意义就是附近几个学校还是有些人在用这个平台的...
+
+
+##截图
+
+- 首页
+
+![image](https://github.com/80998062/jianyi/raw/master/pic/pic1.jpg)
+
+- 发布二手货
+
+![image](https://github.com/80998062/jianyi/raw/master/pic/pic2.jpg)
+
+
+- 详情页面
+
+![image](https://github.com/80998062/jianyi/raw/master/pic/pic3.jpg)
+
+- 发布你的需求
+
+![image](https://github.com/80998062/jianyi/raw/master/pic/pic4.jpg)
